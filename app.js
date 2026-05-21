@@ -317,6 +317,14 @@ function setUnit(data) {
  * 許可タグ以外はタグを外して中身のみ残す（属性は全削除）。
  * @param {string} html
  */
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function sanitizeRichHtml(html) {
   const tpl = document.createElement("template");
   tpl.innerHTML = String(html);
@@ -537,6 +545,36 @@ function renderTestForm() {
 }
 
 /**
+ * 確認テスト結果：選択した答え・正しい答えの表示 HTML
+ * @param {{ labels: string[], answerIndex: number }} item
+ * @param {number|null} sel
+ * @param {boolean} ok
+ */
+function buildTestReviewAnswersHtml(item, sel, ok) {
+  const correctLabel = item.labels[item.answerIndex] ?? "—";
+  if (ok) {
+    return `<div class="test-review-answers">
+      <p class="test-review-answer test-review-answer--correct">
+        <span class="test-review-answer-label">正しい答え</span>
+        <span class="test-review-answer-text">${escapeHtml(correctLabel)}</span>
+      </p>
+    </div>`;
+  }
+  const selectedLabel =
+    sel !== null && sel >= 0 && sel < item.labels.length ? item.labels[sel] : "（未回答）";
+  return `<div class="test-review-answers">
+    <p class="test-review-answer test-review-answer--selected">
+      <span class="test-review-answer-label">あなたの答え</span>
+      <span class="test-review-answer-text">${escapeHtml(selectedLabel)}</span>
+    </p>
+    <p class="test-review-answer test-review-answer--correct">
+      <span class="test-review-answer-label">正しい答え</span>
+      <span class="test-review-answer-text">${escapeHtml(correctLabel)}</span>
+    </p>
+  </div>`;
+}
+
+/**
  * @param {boolean} [fromTimeUp] 制限時間切れによる自動提出（未回答は不正解として採点）
  */
 function submitTest(fromTimeUp = false) {
@@ -606,6 +644,7 @@ function submitTest(fromTimeUp = false) {
           <span class="test-review-label">${headLabel}</span>
         </div>
         <div class="question-text">${sanitizeRichHtml(item.question.question)}</div>
+        ${buildTestReviewAnswersHtml(item, sel, ok)}
         <div class="commentary"><span class="commentary-label">解説</span>${sanitizeRichHtml(item.question.commentary)}</div>
       </div>`,
     );
