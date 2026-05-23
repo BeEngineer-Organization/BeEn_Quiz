@@ -31,7 +31,7 @@ const TEST_COUNT = 10;
 /** 確認テストの制限時間（秒） */
 const TEST_TIME_LIMIT_SEC = 300;
 /** 管理者確認モードの表示可否。ローカル確認時だけ true にする */
-const ENABLE_ADMIN_MODE = false;
+const ENABLE_ADMIN_MODE = true;
 
 /** 10問のとき 8 問以上で合格（問数が少ない単元は 80% 切り上げ） */
 function testPassThreshold(questionCount) {
@@ -312,11 +312,6 @@ function setUnit(data) {
   if (els.btnAdmin) els.btnAdmin.style.display = ENABLE_ADMIN_MODE ? "inline-flex" : "none";
 }
 
-/**
- * 単元JSONの問題文・解説に含まれる &lt;pre&gt;&lt;code&gt; 等を表示用に解釈する。
- * 許可タグ以外はタグを外して中身のみ残す（属性は全削除）。
- * @param {string} html
- */
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")
@@ -325,9 +320,33 @@ function escapeHtml(text) {
     .replace(/"/g, "&quot;");
 }
 
+/**
+ * &lt;pre&gt; ブロック外の HTML 風タグ（例: &lt;span&gt;）を文字として表示する。
+ * 問題文でタグ名を扱う単元向け。&lt;pre&gt; 内のコード表示はそのまま残す。
+ * @param {string} html
+ */
+function escapeLiteralHtmlTagsOutsidePre(html) {
+  const preBlocks = [];
+  let n = 0;
+  const withPlaceholders = String(html).replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/gi, (block) => {
+    const token = `\x00PRE${n++}\x00`;
+    preBlocks.push(block);
+    return token;
+  });
+  const escaped = withPlaceholders.replace(/<[^>]+>/g, (tag) =>
+    tag.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+  );
+  return preBlocks.reduce((s, block, i) => s.replace(`\x00PRE${i}\x00`, block), escaped);
+}
+
+/**
+ * 単元JSONの問題文・解説に含まれる &lt;pre&gt;&lt;code&gt; 等を表示用に解釈する。
+ * 許可タグ以外はタグを外して中身のみ残す（属性は全削除）。
+ * @param {string} html
+ */
 function sanitizeRichHtml(html) {
   const tpl = document.createElement("template");
-  tpl.innerHTML = String(html);
+  tpl.innerHTML = escapeLiteralHtmlTagsOutsidePre(html);
   const allowed = new Set(["PRE", "CODE", "BR", "STRONG", "EM", "B", "I", "SPAN", "P"]);
   function clean(node) {
     const children = [...node.childNodes];
