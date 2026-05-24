@@ -197,7 +197,7 @@
       "id": 25,
       "type": "文法チェック",
       "question": "HTMLタグの開始タグと終了タグの組み合わせとして間違っているものはどれですか？",
-      "options": ["&lt;div&gt;...&lt;/div&gt;", "&lt;p&gt;...&lt;/p&gt;", "&lt;img&gt;...&lt;/img&gt;", "&lt;h1&gt;...&lt;/h1&gt;"],
+      "options": ["<div>...</div>", "<p>...</p>", "<img>...</img>", "<h1>...</h1>;"],
       "answer": 2,
       "commentary": "imgタグは終了タグを持たない「空要素」であり、単独で使用します。"
     },
@@ -221,7 +221,7 @@
       "id": 28,
       "type": "コード穴埋め",
       "question": "HTML5の文書であることを宣言する、ファイルの1行目に書く記述はどれですか？<pre><code>___ \n&lt;html lang=\"ja\"&gt;</code></pre>",
-      "options": ["&lt;html&gt;", "&lt;!DOCTYPE html&gt;", "&lt;meta charset=\"UTF-8\"&gt;", "&lt;body&gt;"],
+      "options": ["<html>", "<!DOCTYPE html>", "<meta charset=\"UTF-8\">", "<body>"],
       "answer": 1,
       "commentary": "<!DOCTYPE html> は、このファイルがHTML5で書かれていることをブラウザに伝えます。"
     },
@@ -261,7 +261,7 @@
       "id": 33,
       "type": "コード穴埋め",
       "question": "ページ内に改行を入れたいときに使用するタグはどれですか？<pre><code>こんにちは。___ さようなら。</code></pre>",
-      "options": ["&lt;p&gt;", "&lt;br&gt;", "&lt;div&gt;", "&lt;hr&gt;"],
+      "options": ["<p>", "<br>", "<div>", "<hr>"],
       "answer": 1,
       "commentary": "<br>タグは、文章を強制的に改行させるために使われます。"
     },
