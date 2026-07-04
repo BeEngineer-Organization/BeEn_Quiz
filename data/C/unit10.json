@@ -1,325 +1,325 @@
 {
-  "unit_title": "コメント投稿画面 - 演習と解説",
+  "unit_title": "レシピデータ編集・削除",
   "questions": [
     {
       "id": 1,
       "type": "用語理解",
-      "question": "特定のレシピ詳細画面に遷移する際、そのレシピの情報を引き渡すために RecipeDetailScreen のコンストラクタで定義したプロパティは何ですか？",
-      "options": ["id", "recipe", "comment", "title"],
-      "answer": 1,
-      "commentary": "RecipeDetailScreen は、表示対象となる Recipe 型のオブジェクトを直接引数（プロパティ）として受け取ります。"
+      "question": "データベースにある既存のレシピデータを書き換えて更新するために、最も適したジェネリックビューはどれですか？",
+      "options": ["CreateView", "ListView", "UpdateView", "DetailView"],
+      "answer": 2,
+      "commentary": "既存のデータを編集・更新（Update）する画面や処理には、Djangoが提供する「UpdateView」を使用するのが最適です。"
     },
     {
       "id": 2,
-      "type": "文法チェック",
-      "question": "freezed ライブラリで作成した Comment モデルにおいて、日時を扱うプロパティに指定したデータ型は何ですか？",
-      "options": ["String", "int", "DateTime", "Time"],
-      "answer": 2,
-      "commentary": "作成日時（createdAt）などは、Dart の標準クラスである DateTime 型を使用して管理します。"
+      "type": "用語理解",
+      "question": "データベースから特定のレシピデータを完全に消去する機能を実装したいとき、継承すべきジェネリックビューはどれですか？",
+      "options": ["DeleteView", "RemoveView", "UpdateView", "TemplateView"],
+      "answer": 0,
+      "commentary": "データの削除（Delete）処理や、その確認画面を作るには「DeleteView」を使用します。"
     },
     {
       "id": 3,
-      "type": "用語理解",
-      "question": "特定の ID に基づいて異なるデータを提供するために使用する Riverpod のプロバイダ修飾子は何ですか？",
-      "options": [".autoDispose", ".family", ".scoped", ".link"],
+      "type": "コード穴埋め",
+      "question": "Recipeモデルに対してUpdateViewを使ってビューを作ったとき、デフォルトで自動的に指定されるテンプレートファイル名はどれですか？<pre><code>class RecipeUpdateView(UpdateView):\n    model = Recipe\n    fields = ['title', 'content']\n    # デフォルトのテンプレート名は 'main/___' となる</code></pre>",
+      "options": ["recipe_edit.html", "recipe_form.html", "recipe_update.html", "recipe_detail.html"],
       "answer": 1,
-      "commentary": "FutureProvider.family を使うと、recipeId などの引数を受け取って動的にデータを取得できます。"
+      "commentary": "CreateViewとUpdateViewは、デフォルトでどちらも「モデル名(小文字)_form.html」という共通のフォーム用テンプレートを使用します。"
     },
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "API エンドポイントのパスを作成する際、レシピIDを動的に埋め込む正しい記述はどれですか？<pre><code>'/api/recipes/$___/comments/'</code></pre>",
-      "options": ["id", "recipeId", "pk", "value"],
+      "question": "DeleteViewを使用するとき、Djangoが標準で用意している削除確認画面のデフォルトテンプレート名はどれですか？<pre><code>class RecipeDeleteView(DeleteView):\n    model = Recipe\n    # デフォルトのテンプレート名は 'main/___' となる</code></pre>",
+      "options": ["recipe_delete.html", "recipe_confirm_delete.html", "recipe_form.html", "recipe_check.html"],
       "answer": 1,
-      "commentary": "fetchAll(int recipeId) メソッドの引数として渡された recipeId を文字列の中に埋め込みます。"
+      "commentary": "DeleteViewでは安全のために確認画面を挟む仕様になっており、「モデル名_confirm_delete.html」がデフォルトになります。"
     },
     {
       "id": 5,
-      "type": "実行結果予測",
-      "question": "API からステータスコード 201 が返ってきた場合、どのような処理が成功したことを意味しますか？",
-      "options": ["データの一覧取得", "データの更新", "リソース（コメント）の新規作成", "データの削除"],
-      "answer": 2,
-      "commentary": "201 Created は、POST リクエストなどによる新しいデータの作成が成功した際に返されます。"
+      "type": "コード穴埋め",
+      "question": "レシピの編集や削除が正常に完了した後に、自動的に移動（リダイレクト）させたいページを指定するクラス変数はどれですか？<pre><code>class RecipeUpdateView(UpdateView):\n    model = Recipe\n    fields = ['title']\n    ___ = reverse_lazy('recipe_list')</code></pre>",
+      "options": ["next_url", "success_url", "redirect_to", "target_path"],
+      "answer": 1,
+      "commentary": "処理が正常に「成功（success）」した後の遷移先URLは、success_url 変数に指定します。"
     },
     {
       "id": 6,
-      "type": "用語理解",
-      "question": "テキスト入力フィールドの右側にアイコン（送信ボタンなど）を表示するために使う InputDecoration のプロパティは何ですか？",
-      "options": ["prefixIcon", "suffixIcon", "rightIcon", "endIcon"],
+      "type": "コード穴埋め",
+      "question": "特定のレシピの編集画面を開くとき、どのレシピかを特定するためにURLパスからビューへ渡すパラメータ名（主キー）は何ですか？<pre><code>path('recipe/&lt;int:___&gt;/edit/', views.RecipeUpdateView.as_view(), name='recipe_edit'),</code></pre>",
+      "options": ["id_num", "pk", "code", "key"],
       "answer": 1,
-      "commentary": "suffixIcon を使うと、入力欄の右端（末尾）にアイコンウィジェットを配置できます。"
+      "commentary": "DetailViewやUpdateView、DeleteViewなどの1件のデータを扱うビューは、URLから「pk（プライマリキー）」という名前でIDを受け取ります。"
     },
     {
       "id": 7,
       "type": "文法チェック",
-      "question": "サーバーから届いた協定世界時（UTC）の日時を、スマホの設定に合わせて表示するために使うメソッドは何ですか？",
-      "options": ["toString()", "toLocal()", "parse()", "format()"],
+      "question": "確認画面で「削除ボタン」を押して実際にデータベースからデータを消すときは、どのHTTPメソッドを使って送信すべきですか？<pre><code>&lt;form method=\"___\" action=\"\"&gt;\n    {% csrf_token %}\n    &lt;button type=\"submit\"&gt;本当に削除する&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "options": ["GET", "POST", "FETCH", "DELETE"],
       "answer": 1,
-      "commentary": "toLocal() メソッドを呼ぶことで、端末のタイムゾーンに合わせた日時に自動変換されます。"
+      "commentary": "データベースのデータを変更・削除する重大なリクエストは、安全のために必ず「POST」メソッドで送信します。"
     },
     {
       "id": 8,
-      "type": "用語理解",
-      "question": "コメント投稿後に `commentController.clear()` を実行する目的は何ですか？",
-      "options": ["サーバーのデータを消す", "入力欄に残っている文字を消して空にする", "アプリを再起動する", "エラーを消去する"],
+      "type": "実行結果予測",
+      "question": "存在しないレシピID（例: /recipe/9999/edit/）に直接アクセスされたとき、DjangoのUpdateViewは標準でどのような反応をしますか？",
+      "options": ["空白のページを表示する", "自動的に404エラー（Page Not Found）を発生させる", "一番最初のレシピデータを代わりに表示する", "サーバーを停止させる"],
       "answer": 1,
-      "commentary": "投稿完了後に古い文字が残っていると不自然なため、クリアして次の入力をしやすくします。"
+      "commentary": "対象のデータが存在しない場合は自動で404エラーを返し、安全に「ページが見つからない」状態をユーザーに知らせます。"
     },
     {
       "id": 9,
-      "type": "コード穴埋め",
-      "question": "投稿が完了した際、画面をリフレッシュして最新のコメントを表示させるための Riverpod のメソッドは何ですか？<pre><code>ref.___(commentProvider(recipeId));</code></pre>",
-      "options": ["watch", "read", "invalidate", "listen"],
-      "answer": 2,
-      "commentary": "invalidate() を呼ぶとキャッシュが破棄され、プロバイダがデータを再取得しに行きます。"
+      "type": "用語理解",
+      "question": "UpdateViewの中で、ユーザーが入力した内容が正しい形式であるかチェック（バリデーション）をするために自動で実行されているメソッドはどれですか？",
+      "options": ["is_valid()", "check_data()", "save()", "form_error()"],
+      "answer": 0,
+      "commentary": "Djangoのフォームやビューは、内部で `is_valid()` を呼び出すことでデータが正しいか（空欄がないかなど）を判定します。"
     },
     {
       "id": 10,
-      "type": "実行結果予測",
-      "question": "<code>comments.isEmpty</code> が true の場合、このアプリではどのような表示になりますか？",
-      "options": ["何も表示されない", "「コメントはまだありません」と中央に表示される", "エラー画面になる", "ローディングが続く"],
-      "answer": 1,
-      "commentary": "データが 0 件の場合のメッセージを表示するよう、if 文で条件分岐を実装しています。"
+      "type": "用語理解",
+      "question": "レシピの編集フォームを送信して保存した直後、render() ではなく redirect() を使って別のページに遷移させる最も重要な理由は何ですか？",
+      "options": ["デザインを綺麗にするため", "画面の表示速度を速くするため", "ブラウザの「再読み込み（リロード）」によるデータの二重送信や重複保存を防群ため", "ログアウトさせるため"],
+      "answer": 2,
+      "commentary": "POST処理の後にリダイレクトを挟む（GETリクエストに変える）ことで、ユーザーがリロードした際に再び同じデータが送信・保存されるのを防げます（二重送信防止）。"
     },
     {
       "id": 11,
-      "type": "文法チェック",
-      "question": "Flutter の Column の中で ListView.builder をそのまま使うとエラーになりますが、それを防ぐために ListView を包むウィジェットは何ですか？",
-      "options": ["Container", "SizedBox", "Expanded", "Center"],
+      "type": "コード穴埋め",
+      "question": "クラスベースビューのクラス変数の設定段階で、URLの解決を遅らせて名前付きURLを取得するために使う関数は何ですか？<pre><code>from django.urls import ___\n\nclass RecipeDeleteView(DeleteView):\n    success_url = ___('recipe_list')</code></pre>",
+      "options": ["reverse", "redirect", "reverse_lazy", "url_for"],
       "answer": 2,
-      "commentary": "Column 内の ListView は高さを確定させる必要があるため、Expanded で残りのスペースを埋めるように指定します。"
+      "commentary": "クラスの定義段階ではまだURL設定が完全に読み込まれていないため、遅延評価される `reverse_lazy` を使う必要があります。"
     },
     {
       "id": 12,
-      "type": "用語理解",
-      "question": "API 通信の結果を待ち、例外が発生した際に `catch (e)` ブロックを実行するための構文は何ですか？",
-      "options": ["if-else", "for-loop", "try-catch", "switch-case"],
+      "type": "文法チェック",
+      "question": "UpdateViewを定義する際、ユーザーに入力・編集させたいモデルの項目を指定する正しいクラス変数名は何ですか？<pre><code>class RecipeUpdateView(UpdateView):\n    model = Recipe\n    ___ = ['title', 'ingredients', 'instructions']</code></pre>",
+      "options": ["columns", "inputs", "fields", "forms"],
       "answer": 2,
-      "commentary": "try-catch 構文を使うことで、ネットワークエラーなどの予期せぬエラーを安全に処理できます。"
+      "commentary": "編集を許可するフィールドのリストは `fields` 変数に指定します。"
     },
     {
       "id": 13,
-      "type": "コード穴埋め",
-      "question": "ListTile ウィジェットで、投稿日時などの補足情報を表示するために使うプロパティは何ですか？<pre><code>ListTile(\n  title: Text(comment.text),\n  ___: Text('投稿日: ...'),\n)</code></pre>",
-      "options": ["subtitle", "header", "footer", "content"],
+      "type": "実行結果予測",
+      "question": "DeleteViewの確認画面（recipe_confirm_delete.html）において、削除しようとしている対象のレシピの名前を画面に表示したい時、使うべき標準の変数名は何ですか？<pre><code>&lt;p&gt;本当に「 {{ ___ }} 」を削除しますか？&lt;/p&gt;</code></pre>",
+      "options": ["object", "item", "data", "deleted_data"],
       "answer": 0,
-      "commentary": "subtitle プロパティを使うと、メインタイトル（title）の下に小さな文字で情報を追加できます。"
+      "commentary": "DetailViewやDeleteViewでは、対象となる1件のデータが自動的に `object`（またはモデル名小文字の `recipe`）という変数名でテンプレートに渡されます。"
     },
     {
       "id": 14,
-      "type": "用語理解",
-      "question": "Dart で Map データを JSON 形式の文字列に変換するために使う、`json.dart` パッケージに含まれる関数は何ですか？",
-      "options": ["jsonDecode", "jsonEncode", "jsonToString", "jsonFormat"],
+      "type": "コード穴埋め",
+      "question": "HTMLのフォームで、UpdateViewやDeleteViewの送信時、セキュリティのために必ず記述しなければならない防衛タグは何ですか？<pre><code>&lt;form method=\"POST\"&gt;\n    ___\n    &lt;input type=\"submit\" value=\"確定\"&gt;\n&lt;/form&gt;</code></pre>",
+      "options": ["{{ token }}", "{% csrf_token %}", "{% protect %}", "[csrf]"],
       "answer": 1,
-      "commentary": "送信データを構築する際は jsonEncode、受信データを解析する際は jsonDecode を使います。"
+      "commentary": "DjangoのPOST送信フォームでは、不正なリクエストを防ぐために `{% csrf_token %}` の記述が必須です。"
     },
     {
       "id": 15,
       "type": "文法チェック",
-      "question": "非同期処理で画面の状態が破棄されていないか確認するためのプロパティ <code>mounted</code> は、どのクラスが持っていますか？",
-      "options": ["BuildContext", "State", "Widget", "Navigator"],
+      "question": "UpdateViewとCreateViewの両方で、自分で特定のテンプレートファイル（例: edit_recipe.html）を指定したい場合に使用する正しいクラス変数名は何ですか？<pre><code>class RecipeUpdateView(UpdateView):\n    model = Recipe\n    ___ = \"main/edit_recipe.html\"</code></pre>",
+      "options": ["html_file", "template_name", "file_path", "view_template"],
       "answer": 1,
-      "commentary": "StatefulWidget の State クラス、または BuildContext（Flutter 3.7以降）が mounted を持っています。"
+      "commentary": "標準のルール（モデル名_form.html）以外のHTMLファイルを使いたい場合は、`template_name` で上書き指定できます。"
     },
     {
       "id": 16,
-      "type": "実行結果予測",
-      "question": "TextField に `controller` を設定しなかった場合、プログラムから入力内容を消去することはできますか？",
-      "options": ["できる", "できない", "自動でできる", "設定次第"],
-      "answer": 1,
-      "commentary": "TextEditingController を紐付けることで、初めてプログラムから文字の取得やクリアが可能になります。"
+      "type": "用語理解",
+      "question": "主キーを表現する「pk」とは、何の略称ですか？",
+      "options": ["Private Key", "Public Key", "Primary Key", "Pass Key"],
+      "answer": 2,
+      "commentary": "データベース内の各レコードを一意に識別するための主キーのことを「Primary Key（pk）」と呼びます。"
     },
     {
       "id": 17,
-      "type": "用語理解",
-      "question": "API リクエストを行う際に、送信するデータの形式（JSONなど）を指定する HTTP ヘッダーの名前は何ですか？",
-      "options": ["Accept", "Authorization", "Content-Type", "Host"],
+      "type": "コード穴埋め",
+      "question": "urls.pyでUpdateViewなどのクラスベースビューを登録する際、忘れずに呼び出さなければならないメソッドは何ですか？<pre><code>path('recipe/&lt;int:pk&gt;/edit/', views.RecipeUpdateView.___(), name='recipe_edit'),</code></pre>",
+      "options": ["run", "start", "as_view", "view"],
       "answer": 2,
-      "commentary": "Content-Type: application/json を指定することで、サーバーに正しくデータを伝えられます。"
+      "commentary": "クラスベースビューをURLパターンに組み込む際は、必ず `.as_view()` を呼び出す必要があります。"
     },
     {
       "id": 18,
-      "type": "コード穴埋め",
-      "question": "Navigator.push で使用する、Material デザイン標準の遷移を定義するクラスは何ですか？<pre><code>MaterialPageRoute(builder: (context) => ___(...))</code></pre>",
-      "options": ["NextPage", "Scaffold", "RecipeDetailScreen", "ListView"],
-      "answer": 2,
-      "commentary": "遷移先の画面クラス（今回はレシピ詳細画面）を builder で返します。"
+      "type": "実行結果予測",
+      "question": "UpdateViewの `fields` に指定しなかったフィールド（例: 作成日時 created_at）は、編集画面でどのように扱われますか？",
+      "options": ["勝手に削除される", "入力欄が表示されず、元の値がそのまま維持される", "空欄（NULL）に書き換わる", "エラーになる"],
+      "answer": 1,
+      "commentary": "fieldsに含めなかったフィールドは入力フォームに生成されないため、ユーザーによって書き換えられることなく安全に保護されます。"
     },
     {
       "id": 19,
-      "type": "用語理解",
-      "question": "Riverpod の AsyncValue において、データの読み込み中を表す状態は何ですか？",
-      "options": ["data", "error", "loading", "waiting"],
-      "answer": 2,
-      "commentary": "loading 状態のときに CircularProgressIndicator などを表示してユーザーに伝えます。"
+      "type": "文法チェック",
+      "question": "レシピの編集画面（recipe_form.html）で、既存の入力内容（タイトルなど）が最初から入力欄に入っているのはなぜですか？",
+      "options": ["ブラウザが記憶しているから", "UpdateViewが対象のデータを自動で取得し、フォームの初期値にセットしてくれているから", "HTMLが自動で読み込んでいるから", "Pythonのバグ"],
+      "answer": 1,
+      "commentary": "UpdateViewはURLのpkからデータを自動取得し、フォームの初期値（instance）として配置してくれるため、最初から文字が入った状態になります。"
     },
     {
       "id": 20,
-      "type": "文法チェック",
-      "question": "ListView.builder の `itemCount` に指定すべき値は何ですか？",
-      "options": ["10", "comments.length", "0", "categoryId"],
+      "type": "用語理解",
+      "question": "モデルの変更を実際のデータベースのテーブル構造に反映・同期させるために最後に実行するコマンドは何ですか？",
+      "options": ["makemigrations", "migrate", "runserver", "startapp"],
       "answer": 1,
-      "commentary": "取得したリスト（comments）の要素数（.length）を指定することで、正しい数だけリストが表示されます。"
+      "commentary": "設計図を作るのが `makemigrations`、それをデータベースに適用して反映させるのが `migrate` コマンドです。"
     },
     {
       "id": 21,
-      "type": "用語理解",
-      "question": "IconButton で送信アイコンとして一般的に使われる Icons クラスの定数はどれですか？",
-      "options": ["Icons.add", "Icons.send", "Icons.input", "Icons.upload"],
+      "type": "コード穴埋め",
+      "question": "編集成功後に遷移する動的なページ（例: 編集したレシピの詳細画面）への移動先を、メソッドで制御したい場合にオーバーライドする関数は何ですか？<pre><code>class RecipeUpdateView(UpdateView):\n    # ...\n    def ___ (self):\n        return reverse_lazy('recipe_detail', kwargs={'pk': self.object.pk})</code></pre>",
+      "options": ["get_redirect_url", "get_success_url", "get_absolute_url", "get_next_path"],
       "answer": 1,
-      "commentary": "Icons.send は紙飛行機のような見た目の送信用アイコンです。"
+      "commentary": "成功後の遷移先をプログラム（メソッド）で柔軟に組み立てたい場合は、`get_success_url()` をオーバーライドします。"
     },
     {
       "id": 22,
       "type": "文法チェック",
-      "question": "Scaffold の body に Padding を適用した際、全方向に 16 ピクセルの余白を作る正しい記述はどれですか？",
-      "options": ["EdgeInsets.only(16)", "EdgeInsets.all(16.0)", "EdgeInsets.symmetric(16)", "EdgeInsets.zero"],
-      "answer": 1,
-      "commentary": "全方向に一律の余白を作るには EdgeInsets.all を使用します。"
+      "question": "DeleteViewの確認画面テンプレート内で、キャンセルして一覧に戻るリンクを作る正しい記述はどれですか？",
+      "options": ["&lt;a href=\"{% url 'recipe_list' %}\"&gt;キャンセル&lt;/a&gt;", "&lt;a href=\"recipe_list\"&gt;キャンセル&lt;/a&gt;", "&lt;a redirect=\"recipe_list\"&gt;キャンセル&lt;/a&gt;", "&lt;a href=\"{{ recipe_list }}\"&gt;キャンセル&lt;/a&gt;"],
+      "answer": 0,
+      "commentary": "URLの逆引きには、テンプレートタグの `{% url 'URL名' %}` 構文を使用します。"
     },
     {
       "id": 23,
-      "type": "用語理解",
-      "question": "Flutter において、ユーザーが入力した情報を監視・制御する役割を持つオブジェクトを何と呼びますか？",
-      "options": ["Controller", "Manager", "State", "Listener"],
-      "answer": 0,
-      "commentary": "TextEditingController のように、入力フィールドの状態を制御するものを Controller と呼びます。"
+      "type": "実行結果予測",
+      "question": "UpdateViewの `success_url` を設定し忘れて編集を完了させようとした場合、Djangoはどう反応しますか？",
+      "options": ["勝手にトップページに戻る", "ImproperlyConfigured という設定エラーが発生する", "データが保存されずに消える", "画面が真っ白になる"],
+      "answer": 1,
+      "commentary": "完了後にどこへ進むべきか指示がないため、Djangoは「不適切な設定」としてエラーを出します。"
     },
     {
       "id": 24,
-      "type": "実行結果予測",
-      "question": "<code>comment.createdAt.toLocal()</code> を行わなかった場合、表示される時間はどうなる可能性がありますか？",
-      "options": ["表示されない", "エラーになる", "サーバーの標準時（多くはUTC）のまま表示される", "自動でローカルになる"],
-      "answer": 2,
-      "commentary": "明示的に変換しない限り、データとして送られてきたタイムゾーンのまま表示されます。"
+      "type": "コード穴埋め",
+      "question": "編集画面のテンプレート内で、Djangoが自動生成したフォーム（各入力欄）をテーブル形式で手軽に表示するための記述は何ですか？<pre><code>&lt;form method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;table&gt;\n        {{ ___\n    &lt;/table&gt;\n    &lt;button type=\"submit\"&gt;保存&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "options": ["form.as_p", "form.as_table", "form.all", "form.inputs"],
+      "answer": 1,
+      "commentary": "フォームをHTMLのtr・tdタグ形式で展開するには、`{{ form.as_table }}` を使用します。"
     },
     {
       "id": 25,
-      "type": "コード穴埋め",
-      "question": "AppBar の左側に表示される「戻る」ボタンのタイトルバーに表示する文字を設定するプロパティは何ですか？<pre><code>AppBar(title: ___( 'レシピ詳細' ))</code></pre>",
-      "options": ["Label", "String", "Text", "Header"],
-      "answer": 2,
-      "commentary": "Flutter の多くのプロパティと同様に、文字は Text ウィジェットで渡す必要があります。"
+      "type": "用語理解",
+      "question": "DjangoのUpdateViewやDeleteViewが正常にデータを操作するために、内部で裏側で動いているデータベースを操作する仕組み（ORM）のメソッドはどれですか？",
+      "options": ["save() や delete()", "create() や remove()", "add() や drop()", "insert() や clear()"],
+      "answer": 0,
+      "commentary": "Djangoのモデルインスタンスは、保存（更新）には `.save()`、削除には `.delete()` メソッドを内部で呼び出しています。"
     },
     {
       "id": 26,
-      "type": "用語理解",
-      "question": "アプリ全体で Provider を使えるようにするために、main.dart でラップする必要があるウィジェットは何ですか？",
-      "options": ["ProviderScope", "RiverpodProvider", "AppScope", "Consumer"],
-      "answer": 0,
-      "commentary": "ProviderScope でアプリ全体を囲むことで、Riverpod の機能が有効になります。"
+      "type": "文法チェック",
+      "question": "DeleteViewクラスの中で `model = Recipe` と指定した場合、このビューが削除対象とするのは次のうちどれですか？",
+      "options": ["Recipeテーブルのデータすべて", "URLのpkで指定された、Recipeテーブルの中の特定の1件", "Recipeテーブルそのもの", "ログインしているユーザーのデータすべて"],
+      "answer": 1,
+      "commentary": "汎用クラスベースビューのDeleteViewは、指定されたモデルの中から「URLパスに含まれるpk」に合致する1件だけを削除対象にします。"
     },
     {
       "id": 27,
-      "type": "文法チェック",
-      "question": "<code>final commentAsyncValue = ref.watch(commentProvider(recipeId));</code> において `ref.watch` を使う理由は何ですか？",
-      "options": ["一度だけ読み込むため", "状態の変化を監視し、変わった時にUIを自動で再描画するため", "データを削除するため", "エラーを防ぐため"],
-      "answer": 1,
-      "commentary": "watch はプロバイダを監視し、その値が変わるたびに build メソッドを走らせるために使います。"
+      "type": "コード穴埋め",
+      "question": "UpdateViewを定義するために、最初にインポートすべき正しいモジュールパスはどれですか？<pre><code>from django.views.generic.edit import ___</code></pre>",
+      "options": ["ListView", "DetailView", "UpdateView", "TemplateView"],
+      "answer": 2,
+      "commentary": "UpdateViewやCreateView、DeleteViewなどの「編集・変更」系のジェネリックビューは `django.views.generic.edit` に含まれています。"
     },
     {
       "id": 28,
-      "type": "用語理解",
-      "question": "ListView.builder の `itemBuilder` 関数の中で、リストの各要素を返すためのキーワードは何ですか？",
-      "options": ["show", "print", "return", "display"],
-      "answer": 2,
-      "commentary": "ビルド関数と同様に、生成したウィジェットを return する必要があります。"
+      "type": "実行結果予測",
+      "question": "DeleteViewの確認画面で、<code>{{ object }}</code> とだけ書いた時、画面には何が表示されますか？",
+      "options": ["「object」という文字", "モデルクラスの `__str__` メソッドで定義した返り値（レシピ名など）", "データのID番号のみ", "何も表示されない"],
+      "answer": 1,
+      "commentary": "オブジェクトが文字列として評価されるときは、モデルに定義した `__str__` の戻り値が表示されます。"
     },
     {
       "id": 29,
-      "type": "実行結果予測",
-      "question": "TextField の `onPressed` が存在しない場合、代わりに何を使って送信ボタンを実装しましたか？",
-      "options": ["decoration の suffixIcon 内の IconButton", "画面下の大きなボタン", "ジェスチャー検出", "キーボードの確定ボタンのみ"],
-      "answer": 0,
-      "commentary": "TextField 自体にボタン機能はないため、装飾（decoration）の一部としてボタンを配置しました。"
+      "type": "用語理解",
+      "question": "「一度設定した成功後の遷移先URLを、後から条件によって書き換えたい」という場合、どのように実装するのが適切ですか？",
+      "options": ["success_url 変数を2回書く", "get_success_url() メソッドをオーバーライドする", "urls.py を書き換える", "新しいHTMLをもう1枚作る"],
+      "answer": 1,
+      "commentary": "メソッド（関数）として記述（オーバーライド）することで、ログインユーザーやデータの状態に応じた動的な遷移先変更が可能になります。"
     },
     {
       "id": 30,
-      "type": "用語理解",
-      "question": "API 連携において、非同期処理を扱う際にメソッド名の前、または戻り値の型として使われるキーワードは何ですか？",
-      "options": ["Stream", "Async", "Future", "Wait"],
-      "answer": 2,
-      "commentary": "「将来的に値が返ってくる」ことを表す Future 型を使用します。"
+      "type": "コード穴埋め",
+      "question": "フォームにエラーがある場合（文字数オーバーなど）、テンプレート側で個別のエラーメッセージを表示する正しいループの書き方はどれですか？<pre><code>{% if form.errors %}\n    {% for field in form %}\n        {% for error in ___ %}\n            &lt;p&gt;{{ error }}&lt;/p&gt;\n        {% endfor %}\n    {% endfor %}\n{% endif %}</code></pre>",
+      "options": ["form.errors", "field.errors", "errors.list", "field.msg"],
+      "answer": 1,
+      "commentary": "各入力欄（field）が持っているエラーのリストは、`field.errors` で取得できます。"
     },
     {
       "id": 31,
       "type": "文法チェック",
-      "question": "SnackBar を表示する際に `ScaffoldMessenger.of(context)` を使うのは、どのウィジェットツリーの状態を参照するためですか？",
-      "options": ["ThemeData", "Navigator", "BuildContext", "AppController"],
-      "answer": 2,
-      "commentary": "BuildContext（context）を介して、現在の画面情報を参照します。"
+      "question": "レシピデータが削除されたら、それに紐づく「コメントデータ」も連鎖して自動的に削除されるようにモデルで設定する外部キーの引数はどれですか？",
+      "options": ["on_delete=models.SET_NULL", "on_delete=models.CASCADE", "on_delete=models.PROTECT", "on_delete=models.RESTRICT"],
+      "answer": 1,
+      "commentary": "CASCADE（連鎖削除）を指定すると、親のデータ（レシピ）が消えた時に子（コメント）も自動で消去されます。"
     },
     {
       "id": 32,
-      "type": "用語理解",
-      "question": "Dart の <code>json.decode(utf8.decode(response.bodyBytes))</code> において `utf8.decode` を使う主な理由は何ですか？",
-      "options": ["速度を上げるため", "日本語などの文字化けを防ぐため", "暗号化するため", "圧縮するため"],
-      "answer": 1,
-      "commentary": "バイトデータを正しい文字コード（UTF-8）で解釈することで、日本語を正しく扱えるようになります。"
+      "type": "実行結果予測",
+      "question": "UpdateViewやDeleteViewクラスの中で、自分で <code>def get()</code> メソッドを一から書き直して中身を空（pass）にした場合、どうなりますか？",
+      "options": ["標準の画面表示が動かなくなる（エラーになるか真っ白になる）", "問題なく動く", "自動的に保存される", "速度が速くなる"],
+      "answer": 0,
+      "commentary": "Djangoがあらかじめ用意してくれている画面表示のロジック（get処理）を消してしまうことになるため、動かなくなります。"
     },
     {
       "id": 33,
-      "type": "実行結果予測",
-      "question": "<code>Expanded</code> ウィジェットを使用しなかった Column 内の ListView は、通常どのような状態になりますか？",
-      "options": ["画面いっぱいに広がる", "エラー（無限の高さによるクラッシュなど）になる", "最小サイズになる", "自動で縮小される"],
+      "type": "コード穴埋め",
+      "question": "フォームデータを送信するためのボタンウィジェット（HTMLタグ）に設定すべき正しい「type」は何ですか？<pre><code>&lt;button type=\"___\"&gt;変更を保存&lt;/button&gt;</code></pre>",
+      "options": ["button", "submit", "reset", "send"],
       "answer": 1,
-      "commentary": "ListView は高さをすべて使おうとするため、Column 内では Expanded 等で制限しないとエラーになります。"
+      "commentary": "フォームデータをサーバー（ビュー）へ送信するには、`type=\"submit\"` を指定する必要があります。"
     },
     {
       "id": 34,
       "type": "用語理解",
-      "question": "Riverpod において、StatelessWidget の代わりに ref にアクセスしやすくするために継承するクラスは何ですか？",
-      "options": ["ConsumerWidget", "ProviderWidget", "RiverpodWidget", "StatefulWidget"],
+      "question": "プログラムを変更したわけではないのに、ブラウザの「戻る」ボタンを押した後の画面で「送信」するとエラーが出ることがある原因の多くは何ですか？",
+      "options": ["CSRFトークンの有効期限切れやセッションの不一致", "Pythonのバグ", "データベースの容量不足", "HTMLの記述ミス"],
       "answer": 0,
-      "commentary": "ConsumerWidget を継承することで、build メソッドの引数に WidgetRef ref が追加されます。"
+      "commentary": "ブラウザの履歴による古い画面からの送信は、セキュリティ保護（CSRFトークンの不一致）により拒否されることがあります。"
     },
     {
       "id": 35,
-      "type": "コード穴埋め",
-      "question": "TextField のラベルテキストを設定するプロパティを完成させてください。<pre><code>InputDecoration( ___: 'コメントを入力' )</code></pre>",
-      "options": ["titleText", "hintText", "labelText", "placeholder"],
-      "answer": 2,
-      "commentary": "labelText を指定すると、入力前はフィールド内にあり、フォーカスすると上部に移動するラベルになります。"
+      "type": "文法チェック",
+      "question": "UpdateViewやDeleteViewなどの汎用ビュークラスを「継承」して自作のクラスを作る、Pythonの正しい構文はどれですか？",
+      "options": ["class RecipeUpdateView(UpdateView):", "def RecipeUpdateView(UpdateView):", "RecipeUpdateView = UpdateView()", "class RecipeUpdateView extends UpdateView {"],
+      "answer": 0,
+      "commentary": "Pythonでクラスを定義し、既存のクラスを継承するには `class クラス名(親クラス):` と記述します。"
     },
     {
       "id": 36,
-      "type": "文法チェック",
-      "question": "freezed アノテーション <code>@freezed</code> をクラスの上に記述する際、必須となる factory メソッドのコンストラクタ名の形式はどれですか？",
-      "options": ["factory ClassName(...) = _ClassName;", "const factory ClassName(...) = _ClassName;", "factory ClassName.create(...) = _ClassName;", "ClassName(...)"],
-      "answer": 1,
-      "commentary": "freezed の標準的な書き方として <code>const factory</code> を使用します。"
+      "type": "実行結果予測",
+      "question": "UpdateViewのフォーム送信が「バリデーションエラー（入力不備）」になった場合、画面はどうなりますか？",
+      "options": ["エラー画面（500エラー）が表示される", "自動的に前のページに戻る", "同じ入力画面が再表示され、不備のある場所にエラー文が出る", "データが壊れる"],
+      "answer": 2,
+      "commentary": "Djangoは親切に入力フォームの画面をエラー文付きで再表示してくれるため、ユーザーはどこを直すべきか分かります。"
     },
     {
       "id": 37,
-      "type": "用語理解",
-      "question": "API 設計における HTTP メソッド「GET」と「POST」の使い分けとして正しいのはどれですか？",
-      "options": ["GETは削除、POSTは更新", "GETは取得、POSTは作成", "GETは作成、POSTは取得", "違いはない"],
-      "answer": 1,
-      "commentary": "情報の「取得」は GET、情報の「送信・作成」は POST を使用するのが Web の原則です。"
+      "type": "コード穴埋め",
+      "question": "動的なリダイレクト先を組み立てる際、名前付きURLのパラメータ（pk）を辞書形式で渡す引数名は何ですか？<pre><code>return reverse_lazy('recipe_detail', ___={'pk': self.object.pk})</code></pre>",
+      "options": ["args", "params", "kwargs", "data"],
+      "answer": 2,
+      "commentary": "キーワード引数の辞書を渡すパラメータ名は `kwargs` です。"
     },
     {
       "id": 38,
-      "type": "実行結果予測",
-      "question": "ListView.builder の `index` は、最初の要素のときにいくつから始まりますか？",
-      "options": ["-1", "0", "1", "ランダム"],
+      "type": "用語理解",
+      "question": "「一度作成した編集画面のHTML（recipe_form.html）を、新規作成画面（CreateView）でも使い回す」ことはDjangoの仕様上可能ですか？",
+      "options": ["不可能（別々に作る必要がある）", "可能（どちらもデフォルトで同じ _form.html を探すため、共通化できる）", "特別な設定（ライブラリ）を入れれば可能", "HTMLの名前を変えれば不可能"],
       "answer": 1,
-      "commentary": "プログラミングの配列やリストのインデックスと同様、0 から始まります。"
+      "commentary": "Djangoのジェネリックビューは、CreateViewとUpdateViewで同じテンプレート名を標準とするため、1枚のファイルを綺麗に使い回せます。"
     },
     {
       "id": 39,
-      "type": "用語理解",
-      "question": "非同期処理で結果が返ってくるまで処理を一時停止（待機）させるために使うキーワードは何ですか？",
-      "options": ["wait", "stop", "hold", "await"],
-      "answer": 3,
-      "commentary": "await キーワードを付けることで、その処理が終わるまで次の行の実行を待ってくれます。"
+      "type": "文法チェック",
+      "question": "DeleteViewの確認画面で、データの「価格」を「￥1,000」のように加工して表示する正しい記述はどれですか？",
+      "options": ["￥{{ object.price }}", "￥{% object.price %}", "{{ ￥ + object.price }}", "￥object.price"],
+      "answer": 0,
+      "commentary": "変数の表示を表す `{{ }}` の外側に、通常の文字として「￥」を記述します。"
     },
     {
       "id": 40,
-      "type": "用語理解",
-      "question": "このユニットで作成した、レシピ詳細画面の下部にコメントが並び、その上で投稿できるようなUI構成を何と呼びますか？",
-      "options": ["マスター詳細ビュー", "親子リレーションUI", "シングルページレイアウト", "スタックUI"],
+      "type": "実行結果予測",
+      "question": "DeleteViewによる削除（POSTリクエスト）が完全に成功した後、ブラウザは最終的にどのような動きをしますか？",
+      "options": ["その場で画面が止まる", "success_url で指定されたURLへ自動的に移動（リダレクト）する", "勝手に前のページにバックする", "一度ログアウトされる"],
       "answer": 1,
-      "commentary": "1つのメインリソースに対して、関連する子リソースを操作する一般的なUIパターンです。"
+      "commentary": "削除完了後は、ユーザーを迷わせないために `success_url`（一覧画面など）へ安全にリダイレクト移動します。"
     }
   ]
 }
