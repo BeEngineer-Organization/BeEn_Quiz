@@ -168,7 +168,11 @@
             { "id": "B1-u29", "title": "メールアドレス認証の実装", "jsonPath": "data/B1/unit29.json" },
             { "id": "B1-u30", "title": "パスワードリセット機能の実装", "jsonPath": "data/B1/unit30.json" },
             { "id": "B1-u31", "title": "コメント機能の実装", "jsonPath": "data/B1/unit31.json" },
-            { "id": "B1-u32", "title": "プロフィールページの実装", "jsonPath": "data/B1/unit32.json" }
+            { "id": "B1-u32", "title": "プロフィールページの実装", "jsonPath": "data/B1/unit32.json" },
+            { "id": "B1-u33", "title": "フォローリストページの実装", "jsonPath": "data/B1/unit33.json" },
+            { "id": "B1-u34", "title": "フォロー機能の実装", "jsonPath": "data/B1/unit34.json" },
+            { "id": "B1-u35", "title": "禁止ワード機能とテストコードの実装", "jsonPath": "data/B1/unit35.json" },
+            { "id": "B1-u36", "title": "SNS アプリのデプロイ", "jsonPath": "data/B1/unit36.json" }
           ]
         }
       ]
