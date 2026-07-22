@@ -4,122 +4,522 @@
     {
       "id": 1,
       "type": "用語理解",
-      "question": "複数の入力項目をまとめて、フォーム全体の土台を作る動的ウィジェットは何ですか？",
-      "options": ["Column", "Form", "SizedBox", "TextFormField"],
-      "answer": 1,
-      "commentary": "Formウィジェットは、複数の入力項目（TextFormFieldなど）をグループ化し、一括でバリデーションや保存を行うための土台となります。"
+      "question": "複数の入力項目をまとめて、フォーム全体の土台を作るウィジェットはどれですか？",
+      "options": [
+        "Form",
+        "TextFormField",
+        "InputDecoration",
+        "Scaffold"
+      ],
+      "answer": 0,
+      "commentary": "Formウィジェットは、複数の入力項目をまとめて管理するための土台となるウィジェットです。"
     },
     {
       "id": 2,
-      "type": "用語理解",
-      "question": "実際にテキスト入力欄を表示し、ユーザーが文字を入力できるようにするウィジェットは何ですか？",
-      "options": ["InputDecoration", "TextFormField", "ElevatedButton", "GlobalKey"],
+      "type": "コード穴埋め",
+      "question": "FormウィジェットのStateにアクセスし、バリデーションや保存を行うためにキーを設定します。空欄に入る適切なコードはどれですか？<br><pre><code>final _formKey = ___&lt;FormState&gt;();</code></pre>",
+      "options": [
+        "UniqueKey",
+        "GlobalKey",
+        "ValueKey",
+        "WidgetKey"
+      ],
       "answer": 1,
-      "commentary": "TextFormFieldは、テキスト入力のためのインターフェースを提供し、Formウィジェットと連携して動作します。"
+      "commentary": "Formの状態（State）に外部からアクセスするには `GlobalKey<FormState>()` を使用します。"
     },
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "Formウィジェットの状態にアクセスし、バリデーションや保存を実行するために必要なキーを指定してください。<pre><code>final _formKey = ___&lt;FormState&gt;();\n// ...\nForm(\n  key: _formKey,\n  child: ...\n)</code></pre>",
-      "options": ["LocalKey", "UniqueKey", "GlobalKey", "StateKey"],
-      "answer": 2,
-      "commentary": "GlobalKeyを使うことで、ウィジェットツリーの離れた場所からFormState（フォームの状態）を操作できるようになります。"
+      "question": "TextFormField内で、入力欄のラベルや枠線などを装飾・カスタマイズするために使うプロパティはどれですか？<br><pre><code>TextFormField(\n  ___: const InputDecoration(\n    labelText: '何を投稿する？',\n  ),\n)</code></pre>",
+      "options": [
+        "style",
+        "decoration",
+        "theme",
+        "border"
+      ],
+      "answer": 1,
+      "commentary": "TextFormFieldの見た目を変更するには `decoration` プロパティに `InputDecoration` を設定します。"
     },
     {
       "id": 4,
-      "type": "用語理解",
-      "question": "TextFormFieldにおいて、入力欄のラベルや枠線の見た目をカスタマイズするために使うプロパティは何ですか？",
-      "options": ["style", "decoration", "validator", "onSaved"],
-      "answer": 1,
-      "commentary": "decorationプロパティにInputDecorationウィジェットを設定することで、ラベル、ヒント、枠線などの外見を変更できます。"
+      "type": "文法チェック",
+      "question": "TextFormFieldで入力値のチェック（バリデーション）を行うプロパティとして正しいものはどれですか？",
+      "options": [
+        "validator",
+        "check",
+        "validate",
+        "onValidate"
+      ],
+      "answer": 0,
+      "commentary": "入力内容の検証を行うプロパティ名は `validator` です。"
     },
     {
       "id": 5,
-      "type": "用語理解",
-      "question": "「空欄ではないか？」といった入力内容の検証（バリデーション）を行うために設定するプロパティは何ですか？",
-      "options": ["onChanged", "onSaved", "validator", "decoration"],
-      "answer": 2,
-      "commentary": "validatorプロパティに関数を設定することで、入力値が条件を満たしているかをチェックし、エラーがあればメッセージを表示できます。"
+      "type": "コード穴埋め",
+      "question": "フォーム内のすべての入力項目に対してバリデーションを実行するコードです。空欄に入る適切なメソッドはどれですか？<br><pre><code>if (_formKey.currentState!.____()) {\n  // 成功時の処理\n}</code></pre>",
+      "options": [
+        "check",
+        "validate",
+        "save",
+        "reset"
+      ],
+      "answer": 1,
+      "commentary": "`_formKey.currentState!.validate()` を呼び出すことで、フォーム内の各入力欄の validator が実行されます。"
     },
     {
       "id": 6,
-      "type": "コード穴埋め",
-      "question": "フォームの内容が正しく入力されているか検証を実行するコードを完成させてください。<pre><code>if (_formKey.currentState!. ___ ()) {\n  // 成功時の処理\n}</code></pre>",
-      "options": ["save", "validate", "reset", "check"],
+      "type": "実行結果予測",
+      "question": "以下のvalidator関数において、入力値 `value` が空文字（\"\"）の場合、この関数は何を返しますか？<br><pre><code>validator: (value) {\n  if (value == null || value.trim().isEmpty) {\n    return '内容を入力してください。';\n  }\n  return null;\n}</code></pre>",
+      "options": [
+        "null",
+        "'内容を入力してください。'",
+        "true",
+        "エラーを出さずに中断する"
+      ],
       "answer": 1,
-      "commentary": "currentState!.validate()を実行すると、配下のすべてのTextFormFieldのvalidatorが呼び出されます。"
+      "commentary": "入力値が空文字の場合、条件が成立するため文字列 `'内容を入力してください。'` が返され、画面にエラーが表示されます。"
     },
     {
       "id": 7,
-      "type": "コード穴埋め",
-      "question": "バリデーション成功後、入力内容を保存するために実行するメソッドは何ですか？<pre><code>if (_formKey.currentState!.validate()) {\n  _formKey.currentState!. ___ ();\n}</code></pre>",
-      "options": ["update", "refresh", "save", "commit"],
-      "answer": 2,
-      "commentary": "save()メソッドを実行すると、配下のすべてのTextFormFieldのonSavedプロパティに設定した関数が呼び出されます。"
+      "type": "実行結果予測",
+      "question": "以下のvalidator関数において、ユーザーが「こんにちは」と入力した場合、この関数は何を返しますか？<br><pre><code>validator: (value) {\n  if (value == null || value.trim().isEmpty) {\n    return '内容を入力してください。';\n  }\n  return null;\n}</code></pre>",
+      "options": [
+        "null",
+        "'内容を入力してください。'",
+        "'こんにちは'",
+        "false"
+      ],
+      "answer": 0,
+      "commentary": "正しく入力されている場合は `null` を返します。Flutterでは `null` はエラーが無いことを意味します。"
     },
     {
       "id": 8,
-      "type": "用語理解",
-      "question": "フォームの保存時に呼び出され、入力された値を変数に格納するために使うプロパティは何ですか？",
-      "options": ["validator", "onSaved", "initialValue", "controller"],
+      "type": "コード穴埋め",
+      "question": "フォームの内容を保存する際に各入力欄の `onSaved` を呼び出すメソッドはどれですか？<br><pre><code>if (_formKey.currentState!.validate()) {\n  _formKey.currentState!.____();\n}</code></pre>",
+      "options": [
+        "submit",
+        "save",
+        "store",
+        "send"
+      ],
       "answer": 1,
-      "commentary": "onSavedプロパティに関数を定義することで、フォーム確定時に入力値をプログラム内の変数へ渡すことができます。"
+      "commentary": "`_formKey.currentState!.save()` を呼ぶことで、各入力欄の `onSaved` コールバックが実行されます。"
     },
     {
       "id": 9,
-      "type": "実行結果予測",
-      "question": "validatorで '内容を入力してください。' という文字列を返した場合、画面上ではどうなりますか？",
-      "options": ["何も起きない", "入力欄が赤くなり、その文字列がエラーメッセージとして表示される", "アプリが強制終了する", "入力欄の文字が消える"],
+      "type": "用語理解",
+      "question": "日付の表示形式（フォーマット）を「2026年04月01日」のように整えるために使用したFlutter/Dartパッケージはどれですか？",
+      "options": [
+        "http",
+        "intl",
+        "path",
+        "flutter_test"
+      ],
       "answer": 1,
-      "commentary": "validatorがnull以外の文字列を返すと、Flutterはそれをエラーメッセージとみなし、警告表示を行います。"
+      "commentary": "日付や数値のフォーマットを扱う標準的なパッケージは `intl` です。"
     },
     {
       "id": 10,
-      "type": "文法チェック",
-      "question": "時刻の表示形式を整えるために追加したパッケージの名前は何ですか？",
-      "options": ["time_format", "intl", "date_picker", "flutter_datetime"],
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、ターミナルに表示される文字列はどれですか？<br><pre><code>final date = DateTime(2026, 4, 1);\nfinal displayDate = DateFormat('yyyy/MM/dd').format(date);\nprint(displayDate);</code></pre>",
+      "options": [
+        "2026年04月01日",
+        "2026/04/01",
+        "2026/4/1",
+        "04/01/2026"
+      ],
       "answer": 1,
-      "commentary": "intlパッケージは、日付のフォーマット（DateFormat）や多言語対応に使用される標準的なライブラリです。"
+      "commentary": "`yyyy/MM/dd` というフォーマットを指定しているため、`2026/04/01` と出力されます。"
     },
     {
       "id": 11,
       "type": "コード穴埋め",
-      "question": "新しい投稿をリストの「一番最初（先頭）」に追加するためのメソッドは何ですか？<pre><code>postList. ___ (0, newPost);</code></pre>",
-      "options": ["add", "push", "insert", "append"],
-      "answer": 2,
-      "commentary": "insert(インデックス, 要素)を使うことで、リストの任意の場所に要素を追加できます。0を指定すると先頭になります。"
+      "question": "画面遷移時に渡された引数（引数で渡された関数）を取得するコードです。空欄に入る適切なクラス・メソッドはどれですか？<br><pre><code>final addPost = ____.of(context)!.settings.arguments as Function(String);</code></pre>",
+      "options": [
+        "Navigator",
+        "ModalRoute",
+        "MaterialApp",
+        "BuildContext"
+      ],
+      "answer": 1,
+      "commentary": "遷移先の画面で `ModalRoute.of(context)!.settings.arguments` を使うことで、遷移時に渡された arguments を取得できます。"
     },
     {
       "id": 12,
-      "type": "用語理解",
-      "question": "現在表示されている画面をスタックから取り除き、前の画面に戻るためのコードはどれですか？",
-      "options": ["Navigator.of(context).pushNamed('/')", "Navigator.of(context).pop()", "Navigator.of(context).back()", "setState(() {})"],
+      "type": "コード穴埋め",
+      "question": "前の画面に戻るためのコードです。空欄に入る適切なメソッドはどれですか？<br><pre><code>Navigator.of(context).____();</code></pre>",
+      "options": [
+        "push",
+        "pop",
+        "remove",
+        "back"
+      ],
       "answer": 1,
-      "commentary": "pop()を呼び出すことで、現在の画面（投稿作成ページ）を閉じ、遷移元の画面（投稿一覧ページ）に戻ります。"
+      "commentary": "現在の画面を閉じて前の画面に戻るには `Navigator.of(context).pop()` を使用します。"
     },
     {
       "id": 13,
-      "type": "文法チェック",
-      "question": "投稿内容を保存する際、値が空だった場合に備えて空文字を代入する記述はどれですか？",
-      "options": ["_content = value || '';", "_content = value ?? '';", "_content = value if null '';", "_content = value == '';"],
+      "type": "コード穴埋め",
+      "question": "リストの先頭（インデックス 0）に要素を追加するためのメソッドはどれですか？<br><pre><code>postList.____(\n  0,\n  Post(username: 'test', content: content),\n);</code></pre>",
+      "options": [
+        "add",
+        "insert",
+        "push",
+        "append"
+      ],
       "answer": 1,
-      "commentary": "??（null合体演算子）は、左辺がnullの場合に右辺の値を返します。"
+      "commentary": "指定した位置に要素を挿入するには `insert(index, element)` メソッドを使います。"
     },
     {
       "id": 14,
-      "type": "実行結果予測",
-      "question": "DateFormat('MM/dd HH:mm').format(DateTime.now()) を実行したときの結果として正しい形式はどれですか？",
-      "options": ["2026年4月1日", "04/25 01:00", "01:00", "Saturday, April 25"],
-      "answer": 1,
-      "commentary": "MMは月、ddは日、HHは24時間制の時、mmは分を表します。"
+      "type": "文法チェック",
+      "question": "名前付きルートを使って画面遷移を行い、同時に引数（arguments）を渡す正しい書き方はどれですか？",
+      "options": [
+        "Navigator.of(context).pushNamed('/post_form', arguments: addPost);",
+        "Navigator.of(context).openNamed('/post_form', data: addPost);",
+        "Navigator.of(context).send('/post_form', addPost);",
+        "Navigator.of(context).push('/post_form', arguments: addPost);"
+      ],
+      "answer": 0,
+      "commentary": "`pushNamed` メソッドの第2引数オプション `arguments:` に渡したいデータを指定します。"
     },
     {
       "id": 15,
-      "type": "用語理解",
-      "question": "投稿作成ページから投稿一覧ページのリストにデータを追加できない問題を解決するために取った手法はどれですか？",
-      "options": ["データベースを新しく作る", "投稿一覧ページで作った関数（addPost）を画面遷移時に渡す", "すべての変数をグローバル変数にする", "スマホのメモリを増やす"],
+      "type": "コード穴埋め",
+      "question": "画面遷移の定義を行っている `main.dart` の一部です。空欄に入るプロパティ名はどれですか？<br><pre><code>MaterialApp(\n  initialRoute: '/',\n  ___: {\n    '/': (context) => const MyHomePage(),\n    '/post_form': (context) => const PostFormPage(),\n  },\n)</code></pre>",
+      "options": [
+        "pages",
+        "routes",
+        "screens",
+        "home"
+      ],
       "answer": 1,
-      "commentary": "親（一覧ページ）の状態を更新する関数を、引数として子（作成ページ）に渡すことで連携を実現しています。"
+      "commentary": "名前付きルートとその対応画面をマップ形式で指定するプロパティは `routes` です。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "テキスト入力欄で複数行の入力を可能にし、最大行数を指定するプロパティはどれですか？",
+      "options": [
+        "maxLength",
+        "maxLines",
+        "lines",
+        "height"
+      ],
+      "answer": 1,
+      "commentary": "TextFormFieldの最大行数を指定するには `maxLines` プロパティを使います。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "TextFormFieldの枠線を四角い枠線にするために設定するオブジェクトはどれですか？<br><pre><code>decoration: const InputDecoration(\n  border: ___(),\n)</code></pre>",
+      "options": [
+        "InputBorder",
+        "OutlineInputBorder",
+        "UnderlineInputBorder",
+        "BoxBorder"
+      ],
+      "answer": 1,
+      "commentary": "入力欄の周囲に枠線を表示するには `OutlineInputBorder()` を指定します。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "変数 `_content` が null の場合、次のコードを実行すると `_content` には何が代入されますか？<br><pre><code>_content = value ?? '';</code></pre>",
+      "options": [
+        "null",
+        "''（空文字）",
+        "'null'",
+        "エラーが発生する"
+      ],
+      "answer": 1,
+      "commentary": "`??` はヌル合体演算子で、左辺が null の場合に右辺（ここでは `''`）を返します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "入力欄のラベルテキストを上端に揃えるプロパティの正しい記述はどれですか？<br><pre><code>decoration: const InputDecoration(\n  labelText: '何を投稿する？',\n  ___: true,\n)</code></pre>",
+      "options": [
+        "alignLabelWithHint",
+        "labelAlignTop",
+        "alignTop",
+        "labelTextTop"
+      ],
+      "answer": 0,
+      "commentary": "複数行入力欄などでラベルを上端に揃えるには `alignLabelWithHint: true` を設定します。"
+    },
+    {
+      "id": 20,
+      "type": "用語理解",
+      "question": "Flutterで画面右下に丸いボタン（画面遷移などの主アクションに使われる）を配置するウィジェットはどれですか？",
+      "options": [
+        "ElevatedButton",
+        "FloatingActionButton",
+        "IconButton",
+        "TextButton"
+      ],
+      "answer": 1,
+      "commentary": "画面の最前面右下などに浮いた丸型ボタンを設置するには `FloatingActionButton` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "Dartで『文字列がnullか、または空白文字だけであるか』を判定する正しい条件式はどれですか？",
+      "options": [
+        "value == null || value.trim().isEmpty",
+        "value.isNull || value.isEmpty",
+        "value == '' && value == null",
+        "value.trim() == null"
+      ],
+      "answer": 0,
+      "commentary": "null参照エラーを防ぐために先に `value == null` をチェックし、その後 `value.trim().isEmpty` を確認します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "端末のログ（ターミナル）にメッセージを出力するために使われるFlutterの関数はどれですか？<br><pre><code>if (_formKey.currentState!.validate()) {\n  _formKey.currentState!.save();\n  ___(_content);\n}</code></pre>",
+      "options": [
+        "printLog",
+        "debugPrint",
+        "console.log",
+        "systemOut"
+      ],
+      "answer": 1,
+      "commentary": "Flutterでデバッグ出力を行うには `debugPrint()` 関数をよく使用します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されたとき、`postList` の先頭（インデックス0）に入る投稿の `username` は何になりますか？<br><pre><code>void addPost(String content) {\n  setState(() {\n    postList.insert(\n      0,\n      Post(\n        username: 'test',\n        postDate: '04/01 12:00',\n        content: content,\n      ),\n    );\n  });\n}</code></pre>",
+      "options": [
+        "美香",
+        "test",
+        "Haruto",
+        "null"
+      ],
+      "answer": 1,
+      "commentary": "`insert(0, ...)` で追加された新しい `Post` オブジェクトの `username` は `'test'` に固定されています。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "画面の状態を変更して再描画を呼び出すために使う関数はどれですか？<br><pre><code>void addPost(String content) {\n  ___(() {\n    postList.insert(0, Post(...));\n  });\n}</code></pre>",
+      "options": [
+        "refresh",
+        "setState",
+        "updateState",
+        "rebuild"
+      ],
+      "answer": 1,
+      "commentary": "StatefulWidget 内で状態を更新し、UIを再描画するには `setState()` を呼び出します。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "パス名（例: '/post_form'）を指定して画面遷移を行うFlutterの機能を何と呼びますか？",
+      "options": [
+        "ダイレクトルート",
+        "名前付きルート（Named Routes）",
+        "匿名ルート",
+        "スタックナビゲーション"
+      ],
+      "answer": 1,
+      "commentary": "文字列のパス名を使って画面を管理・遷移する仕組みを「名前付きルート（Named Routes）」と呼びます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "標準的な押し込みボタンを作成するウィジェットはどれですか？<br><pre><code>___(\n  onPressed: () {\n    // 処理\n  },\n  child: const Text('投稿'),\n)</code></pre>",
+      "options": [
+        "ElevatedButton",
+        "FlatButton",
+        "ClickButton",
+        "InputButton"
+      ],
+      "answer": 0,
+      "commentary": "立体的なボタンを作成する代表的なウィジェットは `ElevatedButton` です。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "以下のボタンが押されたとき、バリデーションが失敗（エラーあり）した場合に実行される処理はどれですか？<br><pre><code>onPressed: () {\n  if (_formKey.currentState!.validate()) {\n    _formKey.currentState!.save();\n    Navigator.of(context).pop();\n  }\n}</code></pre>",
+      "options": [
+        "_formKey.currentState!.save() が実行される",
+        "Navigator.of(context).pop() が実行される",
+        "if文の中身は実行されず、画面遷移も発生しない",
+        "アプリが強制終了する"
+      ],
+      "answer": 2,
+      "commentary": "`validate()` が false を返すため、if文の中の処理（保存や画面遷移）は一切実行されません。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "パッケージ（intlパッケージなど）をDartファイル内で使用するために、ファイルの先頭に記述する正しいキーワードはどれですか？",
+      "options": [
+        "using",
+        "import",
+        "require",
+        "include"
+      ],
+      "answer": 1,
+      "commentary": "Dartで外部パッケージや他ファイルを読み込む際は `import` を使用します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "パッケージをプロジェクトに追加するためにターミナルで実行するコマンドの空欄に入る語句はどれですか？<br><pre><code>flutter ___ add intl</code></pre>",
+      "options": [
+        "get",
+        "pub",
+        "package",
+        "install"
+      ],
+      "answer": 1,
+      "commentary": "Flutterのパッケージ管理コマンドは `flutter pub add <パッケージ名>` です。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "ユーザーが入力した内容が正しく入力されているかどうか（空欄でないか等）を検証する仕組みを何と呼びますか？",
+      "options": [
+        "コンパイル",
+        "バリデーション",
+        "レンダリング",
+        "リファクタリング"
+      ],
+      "answer": 1,
+      "commentary": "入力値が仕様に沿っているか検証する処理を「バリデーション」と呼びます。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "入力値が null でないことを保証して関数を呼び出す（Null Safetyの強制参照）記法はどれですか？<br><pre><code>addPost(_content___);</code></pre>",
+      "options": [
+        "?",
+        "!",
+        "!!",
+        "#"
+      ],
+      "answer": 1,
+      "commentary": "`_content!` のように `!`（Null assertion operator）を付けることで、nullではないとコンパイラに伝えます。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "以下のコードで、`notificationCount` が 0 のときにボタンを押すと、`notificationCount` の値はどうなりますか？<br><pre><code>onPressed: () {\n  setState(() {\n    if (notificationCount > 0) {\n      notificationCount--;\n    }\n  });\n}</code></pre>",
+      "options": [
+        "-1 になる",
+        "0 のまま変化しない",
+        "5 にリセットされる",
+        "エラーになる"
+      ],
+      "answer": 1,
+      "commentary": "if文の条件 `notificationCount > 0` が false になるため、デクリメントは実行されず 0 のままです。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "新規作成するファイルを設置するフォルダー構成として、教科書で使われている画面用フォルダー名はどれですか？",
+      "options": [
+        "views",
+        "screens",
+        "pages",
+        "components"
+      ],
+      "answer": 1,
+      "commentary": "教科書のプロジェクト構成では、画面用ファイルは `lib/screens/` フォルダーに配置されています。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "現在の日時を取得するためのDartの標準クラスとプロパティの組み合わせはどれですか？<br><pre><code>DateTime.____()</code></pre>",
+      "options": [
+        "today",
+        "now",
+        "current",
+        "present"
+      ],
+      "answer": 1,
+      "commentary": "現在の日時を取得するには `DateTime.now()` を使用します。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "別画面（投稿一覧）で管理されているリストに、投稿作成画面からデータを追加するために使った手法はどれですか？",
+      "options": [
+        "グローバル変数を作成してどこからでも書き換える",
+        "データ追加用の関数を作成し、画面遷移時に引数として渡す",
+        "データベースを新しく作成する",
+        "アプリを再起動する"
+      ],
+      "answer": 1,
+      "commentary": "親画面（投稿一覧）でデータ追加関数を作成し、それを子画面（投稿作成）へ渡して実行してもらう手法をとっています。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "フォーム入力欄と送信ボタンの間に余白（隙間）を作るために使われているウィジェットはどれですか？<br><pre><code>const ____(height: 32),</code></pre>",
+      "options": [
+        "Padding",
+        "SizedBox",
+        "Margin",
+        "Spacer"
+      ],
+      "answer": 1,
+      "commentary": "固定の縦幅・横幅の隙間を作るには `SizedBox(height: ...)` や `SizedBox(width: ...)` が手軽によく使われます。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "以下のコードにおいて、`post.icon` が `null` の場合に表示される画像はどれですか？<br><pre><code>if (post.icon != null)\n  Image.asset(post.icon!)\nelse\n  Image.asset('images/user/user_default.png')</code></pre>",
+      "options": [
+        "post.icon の画像",
+        "images/user/user_default.png の画像",
+        "何も表示されない",
+        "エラーが表示される"
+      ],
+      "answer": 1,
+      "commentary": "`post.icon` が `null` の場合は else 側の処理が走り、デフォルト画像 `'images/user/user_default.png'` が表示されます。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "文字列の中に変数の値を埋め込む（文字列補間）正しい書き方はどれですか？",
+      "options": [
+        "Text('通知 (' + notificationCount + ')')",
+        "Text('通知 ($notificationCount)')",
+        "Text('通知 ({notificationCount})')",
+        "Text('通知 (%notificationCount)')"
+      ],
+      "answer": 1,
+      "commentary": "Dartの文字列内では `$変数名` または `${式}` を使うことで変数を埋め込むことができます。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "リストの要素を一覧表示するために使われているウィジェットはどれですか？<br><pre><code>body: ____.builder(\n  itemCount: postList.length,\n  itemBuilder: (context, index) {\n    return PostCard(post: postList[index]);\n  },\n)</code></pre>",
+      "options": [
+        "Column",
+        "ListView",
+        "GridView",
+        "Stack"
+      ],
+      "answer": 1,
+      "commentary": "スクロール可能なリストを効率よく作成するには `ListView.builder` を使用します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "Flutterで、ユーザーの入力に応じて画面の表示内容（状態）が変化するウィジェットのベースとなるクラスはどれですか？",
+      "options": [
+        "StatelessWidget",
+        "StatefulWidget",
+        "InheritedWidget",
+        "SingleChildRenderObjectWidget"
+      ],
+      "answer": 1,
+      "commentary": "フォームの入力やデータの追加など、状態の更新（再描画）を伴う画面を作る場合は `StatefulWidget` を継承します。"
     }
   ]
 }
