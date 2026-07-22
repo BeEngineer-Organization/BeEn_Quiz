@@ -2,22 +2,524 @@
   "unit_title": "Django Webアプリ開発コース — Django で掲示板アプリ作成 — 投稿機能作成",
   "questions": [
     {
-      "question": "ユーザーが本文を入力して新規投稿するフォームを作るとき、Model に対応したフォームクラスとして代表的なのはどれですか？",
-      "options": ["forms.ModelForm", "forms.JSONForm", "models.Form", "HttpForm"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "データベース操作において、データの作成・参照・更新・削除の4つの基本操作を総称した言葉は何ですか？",
+      "options": [
+        "CRUD",
+        "REST",
+        "HTTP",
+        "ACID"
+      ],
       "answer": 0,
-      "commentary": "ModelForm でモデルと連携したフォームを定義できます。"
+      "commentary": "Create（作成）、Read（参照）、Update（更新）、Delete（削除）の頭文字をとってCRUD（クラッド）と呼びます。"
     },
     {
-      "question": "POST でフォームを送信するとき、テンプレートに含めるべきものはどれですか？",
-      "options": ["{% csrf_token %}", "{% post_token %}", "{{ csrf }} だけ", "不要"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoのフォームでクロスサイトリクエストフォージェリ（CSRF）対策を行うために含める必須のテンプレートタグは何ですか？<br><pre><code>&lt;form action=\"{% url 'forum' topic.id %}\" method=\"POST\"&gt;\n    ___\n    &lt;input type=\"text\" name=\"message\"&gt;\n    &lt;input type=\"submit\" value=\"投稿\"&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "{% csrf_token %}",
+        "{{ csrf_token }}",
+        "{% csrf_input %}",
+        "{% secret_token %}"
+      ],
       "answer": 0,
-      "commentary": "CSRF トークンをフォームに含めます。"
+      "commentary": "DjangoでPOST送信を行うフォームにはセキュリティのため `{% csrf_token %}` が必須です。"
     },
     {
-      "question": "フォームのバリデーションが通ったあと DB に保存する典型的なメソッドはどれですか？",
-      "options": ["form.save()", "form.store()", "model.push()", "db.commit()"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "フォームデータを送信する際のHTTPメソッドとして、データベースへの登録処理等に適しているものはどれですか？<br><pre><code>&lt;form action=\"{% url 'forum' topic.id %}\" method=\"___\"&gt;</code></pre>",
+      "options": [
+        "POST",
+        "GET",
+        "PUT",
+        "FETCH"
+      ],
       "answer": 0,
-      "commentary": "ModelForm なら save() でモデルインスタンスを保存できます。"
+      "commentary": "データの追加や更新などサーバー上の状態を変更する通信には `POST` メソッドを使用します。"
+    },
+    {
+      "id": 4,
+      "type": "文法チェック",
+      "question": "HTMLでテキスト入力欄を作成するための `<input>` タグの `type` 属性の正しい指定はどれですか？",
+      "options": [
+        "<input type=\"text\" name=\"message\">",
+        "<input type=\"string\" name=\"message\">",
+        "<input type=\"input\" name=\"message\">",
+        "<input type=\"textbox\" name=\"message\">"
+      ],
+      "answer": 0,
+      "commentary": "1行のテキスト入力欄を作成する場合は `type=\"text\"` と指定します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "フォームの送信ボタンを作成するための `<input>` タグの `type` 属性は何ですか？<br><pre><code>&lt;input type=\"___\" value=\"投稿\"&gt;</code></pre>",
+      "options": [
+        "submit",
+        "button",
+        "send",
+        "post"
+      ],
+      "answer": 0,
+      "commentary": "フォームを送信するボタンは `type=\"submit\"` を指定して作成します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "リクエストがPOST送信で届いたかどうかを判定するための条件式です。空欄に入る適切な記述はどれですか？<br><pre><code>def forum(request, topic_id):\n    if request.____ == \"POST\":\n        message = request.POST[\"message\"]</code></pre>",
+      "options": [
+        "method",
+        "type",
+        "action",
+        "mode"
+      ],
+      "answer": 0,
+      "commentary": "HTTPリクエストの種別は `request.method` で確認できます。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "POST送信されたフォームの値（`name=\"message\"` の入力値）をビュー関数で取り出すための正しいコードはどれですか？<br><pre><code>if request.method == \"POST\":\n    message = ____[\"message\"]</code></pre>",
+      "options": [
+        "request.POST",
+        "request.GET",
+        "request.FORM",
+        "request.BODY"
+      ],
+      "answer": 0,
+      "commentary": "POST送信されたデータは辞書形式の `request.POST` からキー名（属性の `name`）で取り出します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "フォームタグで `name=\"message\"` と指定した場合、ビュー関数で送信内容を取得する正しい記法はどれですか？<br><pre><code>&lt;input type=\"text\" name=\"message\"&gt;</code></pre>",
+      "options": [
+        "request.POST[\"message\"]",
+        "request.POST[\"text\"]",
+        "request.POST[\"input\"]",
+        "request.POST[0]"
+      ],
+      "answer": 0,
+      "commentary": "`request.POST` から値を取得する際は、HTMLの `name` 属性に指定した文字列をキーとして渡します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "データベースに新しいレコードを直接作成・保存するORMメソッドは何ですか？<br><pre><code>Message.objects.___(\n    topic=topic,\n    content=message,\n)</code></pre>",
+      "options": [
+        "create",
+        "add",
+        "insert",
+        "new"
+      ],
+      "answer": 0,
+      "commentary": "`Model.objects.create(...)` を使用すると、インスタンスの作成とデータベースへの保存が同時に行われます。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "`Message` モデルの `created_at` フィールドに `auto_now_add=True` が設定されている場合、`create()` メソッド実行時に `created_at` の値を引数に指定しないとどうなりますか？",
+      "options": [
+        "自動的に実行時の現在日時が保存される",
+        "エラーが発生してレコードが作られない",
+        "null が保存される",
+        "空文字が保存される"
+      ],
+      "answer": 0,
+      "commentary": "`auto_now_add=True` が設定されているフィールドは作成時に自動設定されるため、`create()` の引数で手動指定する必要はありません。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "フォームの送信先（アクションURL）を名前付きURLパターン `forum`（引数 `topic.id`）で動的に指定する記述です。空欄に入るタグは何ですか？<br><pre><code>&lt;form action=\"___\" method=\"POST\"&gt;</code></pre>",
+      "options": [
+        "{% url 'forum' topic.id %}",
+        "{{ url 'forum' topic.id }}",
+        "{% path 'forum' topic.id %}",
+        "{% link 'forum' topic.id %}"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのテンプレートでURLを動的に生成するには `{% url 'URL名' 引数 %}` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "用語理解",
+      "question": "Webアプリケーションにおける不正なリクエスト攻撃を防ぐため、Djangoが標準で備えている安全対策機能は何ですか？",
+      "options": [
+        "CSRF（クロスサイトリクエストフォージェリ）対策",
+        "SQLインジェクション対策",
+        "XSS対策",
+        "DDoS対策"
+      ],
+      "answer": 0,
+      "commentary": "`{% csrf_token %}` を使用することで、不正なサイトからの送信（CSRF攻撃）を防止します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "フォームに `{% csrf_token %}` を記述せずに POST 送信を行った場合、Djangoはどう対応しますか？",
+      "options": [
+        "403 Forbidden エラー（CSRF検証失敗）を返す",
+        "自動的にGETリクエストに切り替えて処理する",
+        "警告を出さずに正常処理する",
+        "500 Server Error を返す"
+      ],
+      "answer": 0,
+      "commentary": "POST送信時にCSRFトークンが無い・不正な場合は、セキュリティ機能により403 Forbiddenエラーが発生します。"
+    },
+    {
+      "id": 14,
+      "type": "文法チェック",
+      "question": "HTTPのGETリクエストとPOSTリクエストに関する説明として最も適切なものはどれですか？",
+      "options": [
+        "GETはページの表示やデータ取得に使い、POSTはデータ送信や保存等に使う",
+        "GETはデータ保存に使い、POSTはページ表示だけに使う",
+        "GETとPOSTの動作や役割は完全に同じである",
+        "DjangoではPOSTリクエストは使用できない"
+      ],
+      "answer": 0,
+      "commentary": "GETはデータ読み取り（参照）、POSTはサーバーへデータ送信・変更を行う用途で使い分けます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "受け取った `message` を特定の `topic` に紐づけてメッセージを保存するコードです。空欄に入る適切な引数はどれですか？<br><pre><code>Message.objects.create(\n    ___=topic,\n    content=message,\n)</code></pre>",
+      "options": [
+        "topic",
+        "topic_id",
+        "parent",
+        "category"
+      ],
+      "answer": 0,
+      "commentary": "MessageモデルのForeignKeyフィールド名が `topic` なので、`topic=topic`（または `topic_id=topic.id`）と指定します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "ユーザーがテキストボックスに「こんにちは」と入力して送信ボタンを押した時、`request.POST[\"message\"]` に取得される文字列は何ですか？<br><pre><code>&lt;input type=\"text\" name=\"message\"&gt;</code></pre>",
+      "options": [
+        "\"こんにちは\"",
+        "\"message\"",
+        "\"text\"",
+        "\"POST\""
+      ],
+      "answer": 0,
+      "commentary": "フォームの入力フィールドに入力された値（\"こんにちは\"）がそのまま取得されます。"
+    },
+    {
+      "id": 17,
+      "type": "文法チェック",
+      "question": "HTMLの `<form>` タグにおいて、送信先のURLを指定する属性名はどれですか？",
+      "options": [
+        "action",
+        "href",
+        "src",
+        "target"
+      ],
+      "answer": 0,
+      "commentary": "フォームデータを送信する先のURLは `action` 属性に指定します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "送信ボタンの表示テキストを「送信」から「投稿」に変更するために指定する属性は何ですか？<br><pre><code>&lt;input type=\"submit\" ___=\"投稿\"&gt;</code></pre>",
+      "options": [
+        "value",
+        "text",
+        "label",
+        "name"
+      ],
+      "answer": 0,
+      "commentary": "`type=\"submit\"` のボタンに表示する文字は `value` 属性で指定します。"
+    },
+    {
+      "id": 19,
+      "type": "文法チェック",
+      "question": "Djangoのビュー関数で `request.POST` に存在しないキー（例: `request.POST[\"unknown\"]`）を参照しようとした場合、どうなりますか？",
+      "options": [
+        "KeyError 例外が発生する",
+        "None が返される",
+        "空文字（\"\"）が返される",
+        "エラーにならず自動的にキーが作成される"
+      ],
+      "answer": 0,
+      "commentary": "辞書オブジェクトに存在しないキーを指定してアクセスすると `KeyError` が発生します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "投稿完了後にデータベースに保存されたメッセージオブジェクトをテンプレートへ引き渡す辞書の名前は何ですか？<br><pre><code>context = {\n    \"messages\": messages,\n    \"topic\": topic\n}\nreturn render(request, \"main/forum.html\", ___)</code></pre>",
+      "options": [
+        "context",
+        "data",
+        "params",
+        "objects"
+      ],
+      "answer": 0,
+      "commentary": "`render()` 関数の第3引数にコンテキスト辞書 `context` を渡します。"
+    },
+    {
+      "id": 21,
+      "type": "用語理解",
+      "question": "Webサイトのフォーム画面でユーザーからの入力を受け取った後、新規作成や表示処理を行うファイルはどれですか？",
+      "options": [
+        "views.py",
+        "models.py",
+        "admin.py",
+        "apps.py"
+      ],
+      "answer": 0,
+      "commentary": "リクエストを受け取り、データベース操作などのロジックを実行するのは `views.py` のビュー関数です。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "以下の処理を実行した後、データベースの `Message` テーブルのレコード数はどう変化しますか？<br><pre><code>if request.method == \"POST\":\n    message = request.POST[\"message\"]\n    Message.objects.create(topic=topic, content=message)</code></pre>",
+      "options": [
+        "レコードが1件追加される",
+        "既存のレコードが上書きされる",
+        "すべてのレコードが削除される",
+        "変化しない"
+      ],
+      "answer": 0,
+      "commentary": "`create()` メソッドが正しく呼ばれることで、新しいレコードが1件作成・追加されます。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "メッセージ本文をモデルのどの属性（フィールド）に代入して作成していますか？<br><pre><code>Message.objects.create(\n    topic=topic,\n    ___=message,\n)</code></pre>",
+      "options": [
+        "content",
+        "text",
+        "body",
+        "message"
+      ],
+      "answer": 0,
+      "commentary": "Messageモデルの本文用フィールドとして定義した属性名は `content` です。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "CRUD操作の各頭文字と内容の組み合わせとして誤っているものはどれですか？",
+      "options": [
+        "C - Clear（削除）",
+        "R - Read（参照）",
+        "U - Update（更新）",
+        "D - Delete（削除）"
+      ],
+      "answer": 0,
+      "commentary": "Cは「Create（作成）」の略です。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "HTMLのフォームタグの開始タグと終了タグの構成として正しいものはどれですか？<br><pre><code>&lt;___ action=\"...\" method=\"POST\"&gt;\n    &lt;input type=\"text\" name=\"message\"&gt;\n&lt;/___&gt;</code></pre>",
+      "options": [
+        "form",
+        "input",
+        "post",
+        "group"
+      ],
+      "answer": 0,
+      "commentary": "フォーム領域全体を囲むタグは `<form>` と `</form>` です。"
+    },
+    {
+      "id": 26,
+      "type": "用語理解",
+      "question": "Djangoの `request.POST` データ型の種類は何ですか？",
+      "options": [
+        "辞書（QueryDict）に似たデータ構造",
+        "単一の文字列",
+        "数値（整数）",
+        "配列（リスト）"
+      ],
+      "answer": 0,
+      "commentary": "`request.POST` はキーと値のペアでデータを保持する辞書ライクなオブジェクト（`QueryDict`）です。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "ページを開いた最初の状態（ブラウザから通常アクセスしたGETリクエスト時）で `if request.method == \"POST\":` 内の処理はどうなりますか？",
+      "options": [
+        "条件が成立せず、if文の中の処理はスキップされる",
+        "条件が成立し、`Message.objects.create()` が実行される",
+        "エラーが発生する",
+        "自動的にPOSTリクエストに変化する"
+      ],
+      "answer": 0,
+      "commentary": "通常のページ閲覧（GETリクエスト）時は `request.method == \"POST\"` が `False` になるため、保存処理は実行されません。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "投稿ページ用のビュー関数内で、特定トピックに紐づく既存メッセージ一覧を取得・並び替えるコードです。空欄に入るメソッドは何ですか？<br><pre><code>messages = Message.objects.filter(topic=topic).___(\"created_at\")</code></pre>",
+      "options": [
+        "order_by",
+        "sort",
+        "arrange",
+        "group_by"
+      ],
+      "answer": 0,
+      "commentary": "メッセージを作成日時順に並び替えて取得するには `order_by(\"created_at\")` を使います。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "Djangoテンプレート内で変数を表示するタグ `{{ ... }}` と、制御構文を書くタグ `{% ... %}` の使い分けとして正しいものはどれですか？",
+      "options": [
+        "値の表示には `{{ }}` を使い、`url` や `csrf_token` などの命令には `{% %}` を使う",
+        "値の表示には `{% %}` を使い、命令には `{{ }}` を使う",
+        "どちらも全く同じ意味で交互に使える",
+        "Djangoでは `{% %}` は使用禁止されている"
+      ],
+      "answer": 0,
+      "commentary": "変数出力には二重波括弧 `{{ }}`、制御タグ・テンプレートタグには波括弧とパーセント `{% %}` を使用します。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "メッセージ入力用のテキストボックスに設定する `name` 属性の役割は何ですか？<br><pre><code>&lt;input type=\"text\" name=\"message\"&gt;</code></pre>",
+      "options": [
+        "POST送信時にサーバー側で値を取り出すためのキー（識別名）となる",
+        "テキストボックスに初期値として表示される文字",
+        "CSSでスタイルを適用するためのID名",
+        "データベースのテーブル名"
+      ],
+      "answer": 0,
+      "commentary": "`name` 属性で指定した名前（ここでは \"message\"）が、サーバー側（`request.POST[\"message\"]`）で取得するキーになります。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "ユーザーが掲示板に投稿した内容を安全に送信・保存するために、フォームのプロパティとして指定するパラメータの組み合わせはどれですか？",
+      "options": [
+        "method=\"POST\" と {% csrf_token %}",
+        "method=\"GET\" と {% url %}",
+        "action=\"save\" と type=\"text\"",
+        "method=\"PUT\" と name=\"csrf\""
+      ],
+      "answer": 0,
+      "commentary": "データを新規投稿（保存）する場合は、`method=\"POST\"` とセキュリティ用の `{% csrf_token %}` を組み合わせるのがDjangoの標準です。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "次のHTMLコードが表示された画面で、「投稿」ボタンをクリックしたときに実行される処理はどれですか？<br><pre><code>&lt;form action=\"{% url 'forum' topic.id %}\" method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;input type=\"text\" name=\"message\"&gt;\n    &lt;input type=\"submit\" value=\"投稿\"&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "フォームに入力されたデータを `forum` のURLへPOSTリクエストとして送信する",
+        "入力されたテキストを消去する（リセットする）",
+        "トップページへ即座に移動する",
+        "JavaScriptでアラートを表示する"
+      ],
+      "answer": 0,
+      "commentary": "`type=\"submit\"` ボタンを押すと、`<form>` タグの `action` で指定されたURLにデータがPOST送信されます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "データベースから該当トピックのオブジェクトを1つだけ取得する処理です。空欄に入るメソッドは何ですか？<br><pre><code>topic = Topic.objects.___(id=topic_id)</code></pre>",
+      "options": [
+        "get",
+        "filter",
+        "all",
+        "fetch"
+      ],
+      "answer": 0,
+      "commentary": "1つのレコード（ID指定など）を取得する場合は `get()` メソッドを使用します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Djangoのビュー関数における `request` オブジェクトの説明として正しいものはどれですか？",
+      "options": [
+        "クライアント（ブラウザ）から送信されたリクエスト情報（送信データやメソッド等）を持つ",
+        "データベースのテーブル一覧を直接保持している",
+        "HTMLの文字サイズや色などのスタイル情報を管理する",
+        "Pythonのインストールバージョン情報が入っている"
+      ],
+      "answer": 0,
+      "commentary": "`request`（HttpRequestオブジェクト）には、ユーザーの操作や送信データ、HTTPメソッドなどの情報が含まれます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "テンプレートファイル `forum.html` 内でホームへ戻るリンクを作成する記述です。空欄に入るタグを選んでください。<br><pre><code>&lt;a href=\"___\"&gt;ホームへ&lt;/a&gt;</code></pre>",
+      "options": [
+        "{% url 'index' %}",
+        "{{ url 'index' }}",
+        "{% route 'index' %}",
+        "/index.html"
+      ],
+      "answer": 0,
+      "commentary": "名前付きURL `index` へのリンクは `{% url 'index' %}` と記述します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "新規投稿を行った後、ビュー関数の最後で `render(request, \"main/forum.html\", context)` を実行すると画面はどうなりますか？",
+      "options": [
+        "追加された新メッセージも含めた更新後の掲示板画面が再描画される",
+        "真っ白な画面になる",
+        "管理画面に移動する",
+        "自動的にログアウトされる"
+      ],
+      "answer": 0,
+      "commentary": "`Message.objects.create()` でデータを追加した後、最新のメッセージリストを含む `context` でテンプレートを再レンダリングするため、画面上に新しい投稿が反映されます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "フォーム要素を囲むHTMLの終了タグはどれですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\"&gt;\n    ...\n&lt;/___&gt;</code></pre>",
+      "options": [
+        "form",
+        "input",
+        "html",
+        "body"
+      ],
+      "answer": 0,
+      "commentary": "`<form>` で始めたフォーム要素は `</form>` で閉じます。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "Web開発において、HTMLで入力画面を作り、送信されたデータをサーバーで保存・処理する一連の仕組みを何と呼びますか？",
+      "options": [
+        "フォーム処理",
+        "マイグレーション",
+        "ルーティング",
+        "レンダリング"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーからの入力をフォームで受け取り、サーバー側で処理することをフォーム処理と呼びます。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "ビュー関数内で `Message.objects.create()` を呼ぶ際に、モデルクラス `Message` が使えるようにするためのインポート文として正しいものはどれですか？",
+      "options": [
+        "from .models import Topic, Message",
+        "import Message from models",
+        "from models import Message",
+        "include .models.Message"
+      ],
+      "answer": 0,
+      "commentary": "同じアプリの `models.py` から参照するため `from .models import Topic, Message` と記述します。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "フォームの `<input type=\"text\" name=\"message\">` に何も入力せずに投稿ボタンを押し、そのまま `Message.objects.create(content=\"\")` が実行された場合、どうなりますか？",
+      "options": [
+        "空文字（\"\"）のメッセージとしてレコードが作成される",
+        "自動的にエラーとなりアプリが強制停止する",
+        "投稿日付だけが保存され、メッセージ自体は消滅する",
+        "自動的に「名無し」という文字が補完される"
+      ],
+      "answer": 0,
+      "commentary": "バリデーション（入力チェック）を挟んでいない場合、空文字のままデータベースに新規保存されます。"
     }
   ]
 }

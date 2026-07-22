@@ -2,22 +2,524 @@
   "unit_title": "Django Webアプリ開発コース — Django で掲示板アプリ作成 — 投稿削除機能作成",
   "questions": [
     {
-      "question": "投稿を削除するビューで、GET ではなく POST を推奨する主な理由はどれですか？",
-      "options": ["GET はキャッシュされやすく、誤操作・CSRF で削除が起きやすいため", "GET の方が速いから", "POST は使えないから", "ブラウザの制限で GET しかないから"],
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "投稿削除用のURLパターンを定義するコードです。空欄に入る正しいパラメータの型指定は何ですか？<br><pre><code>path(\"&lt;___:topic_id&gt;/message/&lt;___:message_id&gt;/delete/\", views.delete_message, name=\"delete_message\"),</code></pre>",
+      "options": [
+        "int",
+        "str",
+        "num",
+        "pk"
+      ],
       "answer": 0,
-      "commentary": "副作用のある削除は POST（や DELETE）で行うのが安全です。"
+      "commentary": "Djangoのパスコンバーターで整数値（ID）を受け取る場合は `<int:変数名>` と記述します。"
     },
     {
-      "question": "モデルインスタンスを削除する ORM のメソッドはどれですか？",
-      "options": ["instance.delete()", "instance.remove()", "Model.drop()", "delete(instance) だけ"],
-      "answer": 0,
-      "commentary": "QuerySet.delete() や モデルインスタンスの delete() です。"
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "データベースからモデルのインスタンスを削除するためのメソッドはどれですか？<br><pre><code>message = get_object_or_404(Message, id=message_id)\nmessage.____()</code></pre>",
+      "options": [
+        "remove",
+        "delete",
+        "destroy",
+        "clear"
+      ],
+      "answer": 1,
+      "commentary": "取得したモデルインスタンスをデータベースから削除するには `.delete()` メソッドを使用します。"
     },
     {
-      "question": "削除前に「本当に削除しますか？」と確認する UI を出すのは主にどこで行うことが多いですか？",
-      "options": ["テンプレート（フォーム）や JavaScript の確認", "settings.py", "migrate", "admin のみ"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "指定された条件のオブジェクトを取得し、存在しない場合は404エラー（Page Not Found）を発生させるショートカット関数は何ですか？<br><pre><code>from django.shortcuts import ____\n\nmessage = ____(Message, id=message_id)</code></pre>",
+      "options": [
+        "get_object_or_404",
+        "get_or_404",
+        "find_or_404",
+        "fetch_object_or_404"
+      ],
       "answer": 0,
-      "commentary": "ユーザー確認は画面側で行い、サーバー側でも権限・対象の検証をします。"
+      "commentary": "指定したデータが見つからない時に自動で404ページを表示させるには `get_object_or_404()` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "削除処理の完了後に指定したページ（投稿詳細画面など）へユーザーを移動させる関数は何ですか？<br><pre><code>from django.shortcuts import ____\n\nreturn ____('forum', topic_id)</code></pre>",
+      "options": [
+        "render",
+        "redirect",
+        "navigate",
+        "forward"
+      ],
+      "answer": 1,
+      "commentary": "特定のURLやビュー名へ転送（リダイレクト）させるには `redirect()` 関数を使用します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "安全な削除処理を行うため、POSTリクエストの場合のみ処理を実行する条件式です。空欄に入るプロパティ名は何ですか？<br><pre><code>def delete_message(request, topic_id, message_id):\n    if request.____ == \"POST\":\n        message = get_object_or_404(Message, id=message_id)\n        message.delete()\n    return redirect('forum', topic_id)</code></pre>",
+      "options": [
+        "method",
+        "type",
+        "action",
+        "mode"
+      ],
+      "answer": 0,
+      "commentary": "HTTPリクエストの種類（GETかPOSTかなど）を判定するには `request.method` を確認します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で、2つの引数（`topic.id` と `message.id`）をとる削除用URLパターンを動的に呼び出す正しい記述はどれですか？<br><pre><code>&lt;form action=\"{% url 'delete_message' ___ ___ %}\" method=\"POST\"&gt;</code></pre>",
+      "options": [
+        "topic.id message.id",
+        "topic.id, message.id",
+        "topic_id=topic.id message_id=message.id",
+        "topic.id/message.id"
+      ],
+      "answer": 0,
+      "commentary": "`{% url %}` タグに複数の引数を渡す場合は、カンマを付けずに半角スペースで区切って指定します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "削除用のフォーム送信を行う際、CSRF攻撃を防止するためにフォーム内に必ず記述するテンプレートタグは何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\"&gt;\n    ___\n    &lt;input type=\"submit\" value=\"削除\"&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "{% csrf_token %}",
+        "{{ csrf_token }}",
+        "{% csrf_input %}",
+        "{% secret_key %}"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのPOSTフォームにはセキュリティ対策として `{% csrf_token %}` が必須です。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "取得済みのモデルインスタンスのフィールド（`content`）を書き換えてデータベースに更新反映するコードです。空欄に入るメソッドは何ですか？<br><pre><code>message.content = string\nmessage.____()</code></pre>",
+      "options": [
+        "save",
+        "update",
+        "commit",
+        "push"
+      ],
+      "answer": 0,
+      "commentary": "インスタンスの属性を変更した後、`.save()` を実行することでデータベース上のデータが更新されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "クエリセットに対して直接データベースの更新クエリを実行するメソッドは何ですか？<br><pre><code>Message.objects.filter(id=id).____(content=string)</code></pre>",
+      "options": [
+        "update",
+        "save",
+        "modify",
+        "edit"
+      ],
+      "answer": 0,
+      "commentary": "`filter()` などで取得したクエリセットに対して `.update(...)` を使うと、`save()` を呼ばずに一括更新ができます。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "以下の `delete_message` ビュー関数に対し、Webブラウザのアドレスバーから直接GETリクエスト（通常アクセス）でアクセスした場合、どうなりますか？<br><pre><code>def delete_message(request, topic_id, message_id):\n    if request.method == \"POST\":\n        message = get_object_or_404(Message, id=message_id)\n        message.delete()\n    return redirect('forum', topic_id)</code></pre>",
+      "options": [
+        "削除処理は実行されず、そのまま投稿詳細画面（'forum'）にリダイレクトされる",
+        "メッセージが削除されてリダイレクトされる",
+        "404エラーが発生する",
+        "500サーバーエラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "GETアクセスの場合は `if request.method == \"POST\":` 内を通らないため、削除は行われずにリダイレクトのみ実行されます。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "データベースに `id=5` のメッセージが存在しない状態で、POSTリクエストにより `get_object_or_404(Message, id=5)` が実行された場合どうなりますか？",
+      "options": [
+        "Http404 エラー（Page Not Found）が発生する",
+        "None が返される",
+        "DoesNotExist エラーでアプリが停止する",
+        "空のメッセージオブジェクトが自動作成される"
+      ],
+      "answer": 0,
+      "commentary": "`get_object_or_404` は対象が存在しない場合に 404 Httpエラーを自動で送出します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行した場合の動作として適切なものはどれですか？<br><pre><code>Message.objects.filter(id=10).update(content=\"更新テキスト\")</code></pre>",
+      "options": [
+        "`save()` を呼ばなくても、データベース上の該当レコードが直接「更新テキスト」に更新される",
+        "`save()` を呼んでいないため、データベースには反映されない",
+        "id=10 のデータが削除される",
+        "新しいレコードが1件追加される"
+      ],
+      "answer": 0,
+      "commentary": "QuerySetの `update()` メソッドはデータベースに直接UPDATE文を発行するため、`save()` の呼び出しは不要です。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "次のコードを実行してレコードの内容を変更する際、正しい手順（順序）はどれですか？<br><pre><code>message = Message.objects.get(id=1)\n# 手順1\n# 手順2</code></pre>",
+      "options": [
+        "手順1: `message.content = \"新しい内容\"`<br>手順2: `message.save()`",
+        "手順1: `message.save()`<br>手順2: `message.content = \"新しい内容\"`",
+        "手順1: `message.update(\"新しい内容\")`<br>手順2: `message.save()`",
+        "手順1: `message.content(\"新しい内容\")`<br>手順2: `message.delete()`"
+      ],
+      "answer": 0,
+      "commentary": "モデルインスタンスのプロパティ（属性）を変更した後に、`.save()` メソッドを呼ぶことでデータベースが更新されます。"
+    },
+    {
+      "id": 14,
+      "type": "文法チェック",
+      "question": "Djangoのビュー関数でリダイレクトを行う際、`redirect('forum', topic_id)` の第2引数（`topic_id`）の役割は何ですか？",
+      "options": [
+        "URLパターン `forum`（例: `<int:topic_id>/`）に埋め込む変数（パス引数）",
+        "リダイレクトにかかる秒数（タイマー）",
+        "レスポンスのステータスコード",
+        "ユーザーに表示するアラートメッセージ"
+      ],
+      "answer": 0,
+      "commentary": "名前付きURLパターンが変数を受け取る定義になっている場合、`redirect()` の第2引数以降にその変数を指定します。"
+    },
+    {
+      "id": 15,
+      "type": "文法チェック",
+      "question": "データの削除（Delete）処理を行う際のHTTPメソッドおよびフォーム設定のベストプラクティスとして最も適切なものはどれですか？",
+      "options": [
+        "不正な削除を防ぐため、GETではなくPOSTメソッドを使用する",
+        "URLに直接アクセスさせるため、必ずGETメソッドを使用する",
+        "フォームは使わず、ハイパーリンク（<a>タグ）のみで実行する",
+        "method属性を空白にして送信する"
+      ],
+      "answer": 0,
+      "commentary": "GETアクセスによる誤削除や悪質なスクリプトからの自動実行を防ぐため、削除や更新などの処理にはPOSTメソッドを使用するのが一般的です。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "データ操作の基本である「CRUD」において、データの削除を表す「D」は何の略ですか？",
+      "options": [
+        "Delete",
+        "Drop",
+        "Destroy",
+        "Discard"
+      ],
+      "answer": 0,
+      "commentary": "CRUDの「D」は Delete（削除）の略です。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "データ操作の基本である「CRUD」において、データの更新を表す「U」は何の略ですか？",
+      "options": [
+        "Update",
+        "Upload",
+        "Upgrade",
+        "Union"
+      ],
+      "answer": 0,
+      "commentary": "CRUDの「U」は Update（更新）の略です。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "削除ボタンを作成するための `<input>` タグの記述です。空欄に入る適切な属性値を選んでください。<br><pre><code>&lt;input type=\"___\" value=\"削除\"&gt;</code></pre>",
+      "options": [
+        "submit",
+        "button",
+        "delete",
+        "action"
+      ],
+      "answer": 0,
+      "commentary": "フォームを送信（POST）するボタンを作成するには `type=\"submit\"` を使用します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "Djangoのショートカット関数をまとめてインポートする記述です。空欄に入るモジュール名は何ですか？<br><pre><code>from django.___ import get_object_or_404, redirect, render</code></pre>",
+      "options": [
+        "shortcuts",
+        "helpers",
+        "urls",
+        "views"
+      ],
+      "answer": 0,
+      "commentary": "`render` や `redirect`、`get_object_or_404` などのよく使われる便利関数は `django.shortcuts` にまとめられています。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "URLパターンが `path(\"<int:topic_id>/message/<int:message_id>/delete/\", views.delete_message, name=\"delete_message\")` と定義されているとき、`topic.id` が `1`、`message.id` が `5` の場合、`{% url 'delete_message' topic.id message.id %}` が生成するURLはどれですか？",
+      "options": [
+        "1/message/5/delete/",
+        "delete_message/1/5/",
+        "topic.id/message/message.id/delete/",
+        "1/5/delete/"
+      ],
+      "answer": 0,
+      "commentary": "指定されたパスコンバーターの位置に数値が埋め込まれ `1/message/5/delete/` というURLが生成されます。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "Djangoの `path()` 関数で、ビュー関数 `views.delete_message` を登録する際、対応する引数の順序として正しいものはどれですか？",
+      "options": [
+        "path('URLパターン', ビュー関数, name='名前')",
+        "path(ビュー関数, 'URLパターン', name='名前')",
+        "path('URLパターン', name='名前', ビュー関数)",
+        "path(name='名前', 'URLパターン', ビュー関数)"
+      ],
+      "answer": 0,
+      "commentary": "第1引数にURL文字列パターン、第2引数に呼び出すビュー関数、第3引数以降に `name=` などのオプションを指定します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "`delete_message` ビュー関数の定義部分です。URLパターンから渡される引数を正しく受け取るためのコードです。<br><pre><code>def delete_message(request, ___, ___):\n    # 削除処理</code></pre>",
+      "options": [
+        "topic_id, message_id",
+        "id1, id2",
+        "topic, message",
+        "pk1, pk2"
+      ],
+      "answer": 0,
+      "commentary": "`urls.py` で指定したパス変数名（`<int:topic_id>` と `<int:message_id>`）と同じ引数名でビュー関数で受け取ります。"
+    },
+    {
+      "id": 23,
+      "type": "用語理解",
+      "question": "ユーザーがアクセスしてきた際に、本来とは別のURLへ自動的に転送・移動させる処理を何と呼びますか？",
+      "options": [
+        "リダイレクト",
+        "ルーティング",
+        "フォワーディング",
+        "レンダリング"
+      ],
+      "answer": 0,
+      "commentary": "処理完了後などに別ページへ自動転送することを「リダイレクト（Redirect）」と呼びます。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "次のコードを実行して `message` インスタンスを取得・更新しようとした際、`message.save()` を呼び忘れるとどうなりますか？<br><pre><code>message = Message.objects.get(id=1)\nmessage.content = \"変更後の文章\"</code></pre>",
+      "options": [
+        "データベース内のレコードは更新されず、元の状態のまま残る",
+        "画面上のみ更新され、データベースは更新される",
+        "エラーが発生してプログラムが強制終了する",
+        "自動的に `save()` が内部で呼ばれて更新される"
+      ],
+      "answer": 0,
+      "commentary": "インスタンスの属性を変更しただけではメモリ上の変数が書き換わっただけなので、`.save()` を呼ばないとDBには反映されません。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "メッセージテーブル（`Message`）から特定の `id` を持った1つのレコードを取得する正しい記法はどれですか？<br><pre><code>message = Message.objects.____(id=message_id)</code></pre>",
+      "options": [
+        "get",
+        "filter",
+        "find",
+        "select"
+      ],
+      "answer": 0,
+      "commentary": "1件のみのオブジェクトを取得したい場合は `get()` メソッドを使用します（存在確認も含め404を出したい場合は `get_object_or_404` を使用）。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "HTMLの `<form>` タグにおける `action` 属性の役割は何ですか？",
+      "options": [
+        "フォームの送信先となるURLを指定する",
+        "フォーム送信時の通信方式（GET/POSTなど）を指定する",
+        "ボタンをクリックした時のJavaScript処理を指定する",
+        "送信するデータの形式を指定する"
+      ],
+      "answer": 0,
+      "commentary": "`action` 属性には、フォーム送信されたデータを受け取る送信先URLを指定します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "投稿一覧ループの中で、各メッセージの横に削除ボタンを配置するためのテンプレート記述の一部です。<br><pre><code>{% for message in messages %}\n  &lt;tr&gt;\n    &lt;td&gt;{{ message.content }}&lt;/td&gt;\n    &lt;td&gt;\n      &lt;form action=\"{% url 'delete_message' topic.id message.id %}\" method=\"___\"&gt;\n        {% csrf_token %}\n        &lt;input type=\"submit\" value=\"削除\"&gt;\n      &lt;/form&gt;\n    &lt;/td&gt;\n  &lt;/tr&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "POST",
+        "GET",
+        "DELETE",
+        "PUT"
+      ],
+      "answer": 0,
+      "commentary": "HTMLフォームの標準的な安全な削除要求の送信には `method=\"POST\"` を指定します。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "以下のように `delete()` が実行された場合、データベースにどのような変化が起きますか？<br><pre><code>message = get_object_or_404(Message, id=message_id)\nmessage.delete()</code></pre>",
+      "options": [
+        "該当する `id` の Message レコードがデータベースから永久に削除される",
+        "該当レコードの `content` が空文字に上書きされる",
+        "レコードに「削除フラグ」が付くだけで物理削除はされない",
+        "メッセージに関連する Topic も一緒に削除される"
+      ],
+      "answer": 0,
+      "commentary": "`delete()` メソッドを実行すると、対象のレコードがデータベースから物理的に削除されます。"
+    },
+    {
+      "id": 29,
+      "type": "用語理解",
+      "question": "DjangoのORMにおいて、複数レコードをまとめて扱う検索結果のオブジェクト群（リストのようなデータ構造）を何と呼びますか？",
+      "options": [
+        "QuerySet（クエリセット）",
+        "ModelList（モデルリスト）",
+        "RecordSet（レコードセット）",
+        "DataSet（データセット）"
+      ],
+      "answer": 0,
+      "commentary": "`filter()` や `all()` などの実行結果として返されるオブジェクトの集合を「QuerySet」と呼びます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "ビュー関数内でPOSTリクエストを受けたとき、特定の処理を行う条件文の書き方として正しいものはどれですか？<br><pre><code>if ____ == \"POST\":\n    # 送信時の処理</code></pre>",
+      "options": [
+        "request.method",
+        "request.POST.method",
+        "request.type",
+        "request.action"
+      ],
+      "answer": 0,
+      "commentary": "リクエストオブジェクトの `method` 属性を文字列 `\"POST\"` と比較します。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "Djangoでモデルインスタンスを更新する2つの方法（`save()` と `update()`）の違いについて、正しい説明はどれですか？",
+      "options": [
+        "`save()` は単一のインスタンスを更新し、`update()` はQuerySetに対して一括更新を行う",
+        "`save()` はQuerySetを一括更新し、`update()` は単一インスタンスのみ更新できる",
+        "両者とも完全に同じ機能であり違いはない",
+        "`update()` を使う際は必ず直後に `save()` を呼ぶ必要がある"
+      ],
+      "answer": 0,
+      "commentary": "個別のインスタンスを書き換える場合は属性変更＋`save()` を行い、条件に合う複数レコードを一括で変える場合は `QuerySet.update()` を使います。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "HTMLの表（table）に見出し列「操作」を追加する正しい要素タグはどれですか？<br><pre><code>&lt;tr class=\"message-title\"&gt;\n    &lt;th&gt;投稿内容&lt;/th&gt;\n    &lt;th&gt;投稿日時&lt;/th&gt;\n    &lt;___&gt;操作&lt;/___&gt;\n&lt;/tr&gt;</code></pre>",
+      "options": [
+        "th",
+        "td",
+        "tr",
+        "header"
+      ],
+      "answer": 0,
+      "commentary": "表の見出し（Table Header）セルには `<th>` タグを使用します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "次のHTMLコードが表示された画面でユーザーが「削除」ボタンをクリックした時、ブラウザが行う動作はどれですか？<br><pre><code>&lt;form action=\"{% url 'delete_message' topic.id message.id %}\" method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;input type=\"submit\" value=\"削除\"&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "指定された削除用URLへPOSTリクエストを送信する",
+        "画面の入力内容をリセットする",
+        "何も処理を行わずに前ページへ戻る",
+        "JavaScriptのアラートダイアログを出して確認する"
+      ],
+      "answer": 0,
+      "commentary": "`type=\"submit\"` ボタンが押されると、フォームの `action` 属性で指定されたURLに対してPOSTデータが送信されます。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "特定トピックの掲示板ページへリダイレクトするコードです。`'forum'` は何を表していますか？<br><pre><code>return redirect('forum', topic_id)</code></pre>",
+      "options": [
+        "urls.py で定義された URLパターンの名前（name='forum'）",
+        "HTMLファイルの名前（forum.html）",
+        "データベースのテーブル名",
+        "アプリのフォルダー名"
+      ],
+      "answer": 0,
+      "commentary": "`redirect()` の第1引数には、`urls.py` で設定した `name='forum'` という名前付きURLを指定できます。"
+    },
+    {
+      "id": 35,
+      "type": "文法チェック",
+      "question": "Djangoでフォームタグ内に `{% csrf_token %}` を書き忘れてPOST送信を実行した場合、どのようなエラー結果になりますか？",
+      "options": [
+        "403 Forbidden エラーが発生する",
+        "404 Not Found エラーが発生する",
+        "200 OK で正常処理される",
+        "500 Internal Server Error が発生する"
+      ],
+      "answer": 0,
+      "commentary": "CSRFトークンが無い場合、不正なアクセスとみなされセキュリティ検証（403 Forbidden）でブロックされます。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "Djangoのビュー関数において、クライアントから送信された全リクエスト情報（MethodやPOSTデータ等）を保持している第1引数のオブジェクト名は何ですか？",
+      "options": [
+        "request",
+        "response",
+        "context",
+        "params"
+      ],
+      "answer": 0,
+      "commentary": "ビュー関数の第1引数には常に `HttpRequest` オブジェクト（慣例的に `request`）が渡されます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "単一のオブジェクトを削除する処理の正しい流れを完成させてください。<br><pre><code>message = get_object_or_404(Message, id=message_id)\nmessage.____()\nreturn redirect('forum', topic_id)</code></pre>",
+      "options": [
+        "delete",
+        "remove",
+        "erase",
+        "drop"
+      ],
+      "answer": 0,
+      "commentary": "対象オブジェクトを取得後、`.delete()` を呼んで削除し、最後に `redirect()` で画面遷移します。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "以下のビュー関数で削除処理が成功した後、ブラウザに表示される画面はどれになりますか？<br><pre><code>def delete_message(request, topic_id, message_id):\n    if request.method == \"POST\":\n        message = get_object_or_404(Message, id=message_id)\n        message.delete()\n    return redirect('forum', topic_id)</code></pre>",
+      "options": [
+        "削除を実行した元の投稿詳細画面（'forum'）",
+        "トップページ（'index'）",
+        "Django管理者画面",
+        "真っ白な空白ページ"
+      ],
+      "answer": 0,
+      "commentary": "`redirect('forum', topic_id)` により、該当トピックの投稿一覧（詳細）画面へ転送されます。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "Djangoのルーティング（`urls.py`）において、名前付きパラメータ `<int:message_id>` を設定した場合、ビュー関数側でどのように受け取りますか？",
+      "options": [
+        "ビュー関数の同名引数（`message_id`）として受け取る",
+        "`request.GET['message_id']` で取得する",
+        "`request.POST['message_id']` で取得する",
+        "受け取ることはできず、グローバル変数になる"
+      ],
+      "answer": 0,
+      "commentary": "URLパターンで定義した `<int:変数名>` は、ビュー関数の引数としてそのまま渡されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "Webアプリケーションにおいて、データベースの作成・参照・更新・削除機能をすべて備えたシステムのことを何と呼びますか？",
+      "options": [
+        "CRUD アプリケーション",
+        "REST アプリケーション",
+        "SPA アプリケーション",
+        "Static Web アプリケーション"
+      ],
+      "answer": 0,
+      "commentary": "データの基本操作（Create, Read, Update, Delete）を一通り備えたアプリケーションを「CRUDアプリ」と呼びます。"
     }
   ]
 }

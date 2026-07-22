@@ -2,22 +2,524 @@
   "unit_title": "Django Webアプリ開発コース — Django で掲示板アプリ作成 — 見た目を改善する",
   "questions": [
     {
-      "question": "Django で CSS をテンプレートに読み込むとき、静的ファイルのパスを生成するタグとして正しい組み合わせはどれですか？",
-      "options": ["{% load static %} と {% static 'app/style.css' %}", "{% css 'style.css' %}", "{{ static_path }}", "<link href=\"/always/fixed/\">"],
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "DjangoテンプレートでCSSや画像などの静的ファイルを読み込むために、ファイルの先頭付近で呼び出す必須のタグはどれですか？<br><pre><code>&lt;!DOCTYPE html&gt;\n{% ___ static %}\n&lt;html lang=\"ja\"&gt;</code></pre>",
+      "options": [
+        "load",
+        "import",
+        "include",
+        "require"
+      ],
       "answer": 0,
-      "commentary": "load static のあと static タグで URL を生成します。"
+      "commentary": "静的ファイルを扱うテンプレートタグを使用するには、最初に `{% load static %}` を記述する必要があります。"
     },
     {
-      "question": "一覧やフォームの余白・幅を整えるのに、モダンなレイアウトでよく使う指定はどれですか？",
-      "options": ["display: flex や grid、margin/padding", "table レイアウトのみ", "font-size だけ", "position: fixed だけ"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoの静的ファイル（CSS）をテンプレートに正しいパスで読み込ませるためのタグの書き方はどれですか？<br><pre><code>&lt;link rel=\"stylesheet\" href=\"{% ___ 'main/css/index.css' %}\"&gt;</code></pre>",
+      "options": [
+        "static",
+        "url",
+        "file",
+        "css"
+      ],
       "answer": 0,
-      "commentary": "flex / grid と余白で読みやすいレイアウトにします。"
+      "commentary": "静的ファイルのURLを生成するには `{% static 'ファイルパス' %}` を使用します。"
     },
     {
-      "question": "スマホでも見やすくするための基本的な考え方として適切なのはどれですか？",
-      "options": ["viewport の設定と、狭い幅でも崩れないスタイル", "PC 専用の固定幅だけ使う", "画像を使わない", "メディアクエリは不要"],
+      "id": 3,
+      "type": "用語理解",
+      "question": "Djangoにおいて、CSSやJavaScript、画像などの静的ファイルを配置するために各アプリ内に作成するフォルダー名は何ですか？",
+      "options": [
+        "static",
+        "public",
+        "assets",
+        "files"
+      ],
       "answer": 0,
-      "commentary": "レスポンシブ対応（viewport、ブレークポイント等）が一般的です。"
+      "commentary": "Djangoのデフォルト構成では、アプリ配下の `static` ディレクトリ内に静的ファイルを配置します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "表（table）の隣接するセルの枠線を1つにまとめるためのCSSプロパティは何ですか？<br><pre><code>.message-list {\n    width: 100%;\n    border-collapse: ___\n}</code></pre>",
+      "options": [
+        "collapse",
+        "separate",
+        "none",
+        "join"
+      ],
+      "answer": 0,
+      "commentary": "`border-collapse: collapse;` を指定することで、隣り合うテーブルセルの二重線を1つに結合できます。"
+    },
+    {
+      "id": 5,
+      "type": "文法チェック",
+      "question": "テーブルセル内のコンテンツを垂直方向（上下）の中央に揃える正しいCSSプロパティと値の組み合わせはどれですか？",
+      "options": [
+        "vertical-align: middle;",
+        "text-align: center;",
+        "align-items: center;",
+        "content-align: middle;"
+      ],
+      "answer": 0,
+      "commentary": "テーブルセル（td/th）内の上下方向の揃え位置を指定するには `vertical-align: middle;` を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "Flexboxレイアウト内で、子要素同士の隙間（余白）を10pxに設定するプロパティは何ですか？<br><pre><code>.message-form {\n    display: flex;\n    ___: 10px;\n}</code></pre>",
+      "options": [
+        "gap",
+        "space",
+        "margin-gap",
+        "padding-between"
+      ],
+      "answer": 0,
+      "commentary": "FlexboxやGridの要素間余白を指定するには `gap` プロパティを使用します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "Flexboxのアイテムが余ったスペースを自動的に占有（伸縮）するように指定するプロパティは何ですか？<br><pre><code>.message-input {\n    ___: 1;\n    padding: 10px 12px;\n}</code></pre>",
+      "options": [
+        "flex",
+        "flex-grow-only",
+        "width-auto",
+        "span"
+      ],
+      "answer": 0,
+      "commentary": "`flex: 1;` を指定すると、Flexbox内の利用可能な余白を自動的に埋めるように要素が広がります。"
+    },
+    {
+      "id": 8,
+      "type": "文法チェック",
+      "question": "HTMLの `<input>` 要素で、入力欄が空のときに表示される薄いヒントテキストを指定する属性は何ですか？",
+      "options": [
+        "placeholder",
+        "hint",
+        "value",
+        "label"
+      ],
+      "answer": 0,
+      "commentary": "入力候補や補足説明を表示するヒントテキストには `placeholder` 属性を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "要素にマウスポインターを乗せたとき、カーソルの形を指差しマーク（リンク表示用）に変更するCSS記述はどれですか？<br><pre><code>.btn-submit {\n    cursor: ___\n}</code></pre>",
+      "options": [
+        "pointer",
+        "hand",
+        "click",
+        "default"
+      ],
+      "answer": 0,
+      "commentary": "カーソルを指差しアイコンにするには `cursor: pointer;` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "以下のHTMLに対してCSS `.message-data:nth-child(odd)` を適用した場合、どの要素にスタイルが適用されますか？（ヘッダー行が1番目の子要素だとします）<br><pre><code>&lt;table class=\"message-list\"&gt;\n  &lt;tr class=\"message-header\"&gt;...&lt;/tr&gt; &lt;!-- 1番目 --&gt;\n  &lt;tr class=\"message-data\"&gt;...&lt;/tr&gt;   &lt;!-- 2番目 --&gt;\n  &lt;tr class=\"message-data\"&gt;...&lt;/tr&gt;   &lt;!-- 3番目 --&gt;\n&lt;/table&gt;</code></pre>",
+      "options": [
+        "3番目の `tr`（親要素から見て奇数番目の `.message-data`）",
+        "2番目の `tr`（データ行の中での奇数番目）",
+        "1番目の `tr`（メッセージヘッダー）",
+        "すべての `tr`"
+      ],
+      "answer": 0,
+      "commentary": "`:nth-child()` は「親要素から見た全体の順番」でカウントするため、3番目の `tr`（奇数番目かつ `.message-data` クラスを持つ要素）にのみ適用されます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "コンテナ要素を画面の中央に配置（左右の外側余白を自動計算）するための一般的な指定方法はどれですか？<br><pre><code>.container {\n    max-width: 800px;\n    margin: 40px ___\n}</code></pre>",
+      "options": [
+        "auto",
+        "center",
+        "middle",
+        "zero"
+      ],
+      "answer": 0,
+      "commentary": "横幅（width / max-width）が指定されているブロック要素の左右余白を `auto` にすると中央揃えになります。"
+    },
+    {
+      "id": 12,
+      "type": "用語理解",
+      "question": "要素の特定の状態（ホバー時や特定の順番の子要素など）を指定するために使う `:hover` や `:nth-child()` などのCSS記法を何と呼びますか？",
+      "options": [
+        "擬似クラス",
+        "擬似要素",
+        "メディアクエリ",
+        "属性セレクター"
+      ],
+      "answer": 0,
+      "commentary": "要素の状態や順番に基づいてスタイルを適用する仕組みを「擬似クラス（Pseudo-class）」と呼びます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "要素の四角い角を丸く丸めるためのCSSプロパティは何ですか？<br><pre><code>.container {\n    border-radius: ___\n}</code></pre>",
+      "options": [
+        "8px;",
+        "corner-round: 8px;",
+        "box-radius: 8px;",
+        "border-style: round;"
+      ],
+      "answer": 0,
+      "commentary": "角を丸めるには `border-radius` プロパティを使用します。"
+    },
+    {
+      "id": 14,
+      "type": "文法チェック",
+      "question": "要素に軽い影を落とすドロップシャドウ効果をつける正しいCSSプロパティはどれですか？",
+      "options": [
+        "box-shadow: 0 4px 12px rgba(0,0,0,0.1);",
+        "text-shadow: 0 4px 12px rgba(0,0,0,0.1);",
+        "element-shadow: 0 4px 12px rgba(0,0,0,0.1);",
+        "border-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+      ],
+      "answer": 0,
+      "commentary": "要素（ボックス）全体に影をつけるには `box-shadow` プロパティを使用します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "リンクの下線（アンダーライン）を消すためのCSSプロパティと値の組み合わせはどれですか？<br><pre><code>.topic-link {\n    text-decoration: ___\n}</code></pre>",
+      "options": [
+        "none;",
+        "hidden;",
+        "off;",
+        "no-underline;"
+      ],
+      "answer": 0,
+      "commentary": "リンクの下線を消すには `text-decoration: none;` を指定します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "以下のCSSが適用されたインライン要素（`<a>` タグなど）の表示はどう変化しますか？<br><pre><code>.home-link {\n    display: inline-block;\n    margin-top: 20px;\n}</code></pre>",
+      "options": [
+        "インラインの性質を保ちつつ、`margin-top`（上余白）が正しく適用されるようになる",
+        "完全に改行され、画面全体の幅いっぱいに広がる",
+        "要素が非表示（消える）になる",
+        "何も変化しない"
+      ],
+      "answer": 0,
+      "commentary": "`display: inline-block;` を指定すると、インライン要素でも上下の `margin` や `padding`、`width` / `height` が正しく効くようになります。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "Webページ上の要素を簡単に横並びや縦並びに配置し、自動で配分や整列を行えるCSSのレイアウトモードは何ですか？",
+      "options": [
+        "Flexbox",
+        "Table",
+        "Float",
+        "Position"
+      ],
+      "answer": 0,
+      "commentary": "`display: flex;` で指定するレイアウト手法を Flexbox（フレックスボックス）と呼びます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "要素の枠線（ボーダー）を「太さ1pxの灰色実線」にする設定として正しいものはどれですか？<br><pre><code>.message-input {\n    border: 1px ___ #ccc;\n}</code></pre>",
+      "options": [
+        "solid",
+        "dashed",
+        "line",
+        "border"
+      ],
+      "answer": 0,
+      "commentary": "実線の枠線を指定するスタイル指定は `solid` です。"
+    },
+    {
+      "id": 19,
+      "type": "文法チェック",
+      "question": "文字テキストを中央揃えにするCSSの記述として正しいものはどれですか？",
+      "options": [
+        "text-align: center;",
+        "align-text: center;",
+        "content-align: center;",
+        "horizontal-align: center;"
+      ],
+      "answer": 0,
+      "commentary": "テキストの水平方向の配置を指定するには `text-align` プロパティを使います。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "Djangoで作成するCSSファイルの適切な配置パス構成として正しいものはどれですか？<br><pre><code>forum/\n  main/\n    static/\n      main/\n        css/\n          ___</code></pre>",
+      "options": [
+        "index.css",
+        "index.html",
+        "views.py",
+        "settings.css"
+      ],
+      "answer": 0,
+      "commentary": "各アプリの静的ファイルは `static/アプリ名/css/ファイル名` の構造で配置するのが標準的です。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "HTML内で `{% load static %}` を記述せずに `{% static 'main/css/index.css' %}` を使った場合、何が起きますか？",
+      "options": [
+        "TemplateSyntaxError（静的ファイル用タグが認識できないエラー）が発生する",
+        "Djangoが自動的にCSSをインポートする",
+        "CSSが適用されないだけでエラーは起きない",
+        "ブラウザが空のページを表示する"
+      ],
+      "answer": 0,
+      "commentary": "`static` タグを使う前に `{% load static %}` を読み込まないと、テンプレートエンジンが構文エラーを出します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "HTML要素の内側の余白（パディング）を設定するCSSプロパティは何ですか？<br><pre><code>.container {\n    ___: 30px;\n}</code></pre>",
+      "options": [
+        "padding",
+        "margin",
+        "spacing",
+        "border-space"
+      ],
+      "answer": 0,
+      "commentary": "要素の内側の余白を指定するプロパティは `padding` です。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "HTML要素の外側の余白（マージン）を設定するCSSプロパティは何ですか？<br><pre><code>.container {\n    ___: 40px auto;\n}</code></pre>",
+      "options": [
+        "margin",
+        "padding",
+        "outer-space",
+        "gap"
+      ],
+      "answer": 0,
+      "commentary": "要素の外側の余白を指定するプロパティは `margin` です。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "CSSでフォントを太字にする正しい記述はどれですか？",
+      "options": [
+        "font-weight: bold;",
+        "font-style: bold;",
+        "font-bold: true;",
+        "text-weight: bold;"
+      ],
+      "answer": 0,
+      "commentary": "文字の太さを変更するには `font-weight: bold;` を使用します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "リスト要素の文頭の箇条書き記号（●など）を非表示にする設定はどれですか？<br><pre><code>.topic-list {\n    list-style: ___\n}</code></pre>",
+      "options": [
+        "none;",
+        "off;",
+        "clear;",
+        "hidden;"
+      ],
+      "answer": 0,
+      "commentary": "リストのポインター（黒丸など）を消すには `list-style: none;` を指定します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "以下のCSSが適用された `<input type=\"text\">` の横幅はどうなりますか？<br><pre><code>.message-form {\n    display: flex;\n}\n.message-input {\n    flex: 1;\n}</code></pre>",
+      "options": [
+        "Flexコンテナ内の利用可能な空きスペースに合わせて横幅が自動的に伸び縮みする",
+        "文字数に応じた最小の幅に固定される",
+        "画面全体の1%の幅になる",
+        "ボタンの下に回り込んで表示される"
+      ],
+      "answer": 0,
+      "commentary": "`flex: 1;` により、Flexコンテナ（`.message-form`）の余剰スペースをすべて使って可変幅で広がります。"
+    },
+    {
+      "id": 27,
+      "type": "用語理解",
+      "question": "HTMLの `<link>` タグにおいて、読み込むファイルがスタイルシートであることを示す属性と値のペアはどれですか？",
+      "options": [
+        "rel=\"stylesheet\"",
+        "type=\"css\"",
+        "media=\"style\"",
+        "href=\"css\""
+      ],
+      "answer": 0,
+      "commentary": "外部CSSファイルを指定する際は `rel=\"stylesheet\"` を属性として渡します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "CSSで要素の文字色を変更するために使用するプロパティは何ですか？<br><pre><code>.subtitle {\n    ___: #666;\n}</code></pre>",
+      "options": [
+        "color",
+        "font-color",
+        "text-color",
+        "style-color"
+      ],
+      "answer": 0,
+      "commentary": "テキストの色を設定するCSSプロパティは `color` です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "CSSで背景色を変更するために使用するプロパティは何ですか？<br><pre><code>body {\n    ___: #f5f5f5;\n}</code></pre>",
+      "options": [
+        "background-color",
+        "color-background",
+        "bg-color",
+        "body-color"
+      ],
+      "answer": 0,
+      "commentary": "背景色を設定するCSSプロパティは `background-color` です。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "CSSにおいて、16進数カラーコード `#ffffff`（白）の短縮形の記述として正しいものはどれですか？",
+      "options": [
+        "#fff",
+        "#white",
+        "#f",
+        "#ffff"
+      ],
+      "answer": 0,
+      "commentary": "同じ文字が続く16進数カラーコード（例: `#ffffff`）は `#fff` のように3桁に短縮できます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "次のHTMLコードに `border-collapse: collapse;` が設定されていない場合、表の見映えはどうなりますか？<br><pre><code>&lt;table class=\"message-list\"&gt;\n  &lt;tr&gt;&lt;td&gt;データ1&lt;/td&gt;&lt;td&gt;データ2&lt;/td&gt;&lt;/tr&gt;\n&lt;/table&gt;</code></pre>",
+      "options": [
+        "各セルの境界線（枠線）が二重線のように分離して表示される",
+        "セル同士の境界線が完全に消去される",
+        "セルが縦並びに変化する",
+        "何も影響しない"
+      ],
+      "answer": 0,
+      "commentary": "デフォルトのテーブル表示ではセル同士の枠線が分離しているため、隙間が空いた二重線のように見えます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "親要素から見て「奇数番目」の子要素を選択する `:nth-child()` 擬似クラスのキーワードは何ですか？<br><pre><code>.message-data:nth-child(___) {\n    background-color: #fafafa;\n}</code></pre>",
+      "options": [
+        "odd",
+        "even",
+        "number",
+        "first"
+      ],
+      "answer": 0,
+      "commentary": "奇数指定には `odd` を指定します。（偶数の場合は `even`）"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "親要素から見て「偶数番目」の子要素を選択する `:nth-child()` 擬似クラスのキーワードは何ですか？<br><pre><code>.item:nth-child(___) {\n    color: red;\n}</code></pre>",
+      "options": [
+        "even",
+        "odd",
+        "double",
+        "pair"
+      ],
+      "answer": 0,
+      "commentary": "偶数指定には `even` を指定します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "HTMLファイル内で外部CSSファイルを読み込むタグが配置される正しい親要素はどれですか？",
+      "options": [
+        "<head>",
+        "<body>",
+        "<footer>",
+        "<script>"
+      ],
+      "answer": 0,
+      "commentary": "CSSファイルを読み込む `<link>` タグは `<head>` 要素内に記述します。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "CSSで要素の幅の最大値を制限し、それ以上広がらないようにするプロパティは何ですか？",
+      "options": [
+        "max-width",
+        "limit-width",
+        "bound-width",
+        "fixed-width"
+      ],
+      "answer": 0,
+      "commentary": "要素の最大幅を決定するプロパティは `max-width` です。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "ボタンなどの枠線（ボーダー）を消去するためのCSS記述はどれですか？<br><pre><code>.btn-submit {\n    border: ___\n}</code></pre>",
+      "options": [
+        "none;",
+        "zero;",
+        "clear;",
+        "hidden;"
+      ],
+      "answer": 0,
+      "commentary": "デフォルトの枠線を消すには `border: none;` を指定します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "以下のフォーム内で `placeholder=\"メッセージを入力\"` を指定した場合、画面上の入力欄はどう表示されますか？<br><pre><code>&lt;input type=\"text\" class=\"message-input\" placeholder=\"メッセージを入力\"&gt;</code></pre>",
+      "options": [
+        "入力欄が空のときに薄いグレーの文字で「メッセージを入力」と表示され、入力し始めると消える",
+        "入力欄に消せない固定文字列として「メッセージを入力」が残る",
+        "入力欄の隣に「メッセージを入力」というラベルテキストが追加される",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`placeholder` は入力前のガイド用テキストであり、ユーザーが文字を入力し始めると非表示になります。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "フォントサイズを設定する際の相対単位 `rem` の説明として正しいものはどれですか？",
+      "options": [
+        "ルート要素（html要素）のフォントサイズを基準とした相対単位",
+        "親要素のフォントサイズを基準とした相対単位",
+        "画面の幅（ピクセル数）に依存した固定単位",
+        "プリンター出力時のインチ単位"
+      ],
+      "answer": 0,
+      "commentary": "`rem`（root em）はルート要素（`<html>`）のフォントサイズを基準にする単位です。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "要素を横並び（Flexレイアウト）にするための基本的なCSS指定はどれですか？<br><pre><code>.message-form {\n    display: ___\n}</code></pre>",
+      "options": [
+        "flex;",
+        "block;",
+        "inline;",
+        "grid-inline;"
+      ],
+      "answer": 0,
+      "commentary": "Flexコンテナを作成するには `display: flex;` を設定します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "テーブルの行要素を表すHTMLタグはどれですか？",
+      "options": [
+        "<tr>",
+        "<td>",
+        "<th>",
+        "<table>"
+      ],
+      "answer": 0,
+      "commentary": "行（Table Row）を定義するタグは `<tr>` です。"
     }
   ]
 }
