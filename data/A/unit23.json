@@ -2,22 +2,524 @@
   "unit_title": "Django Webアプリ開発コース — Django で掲示板アプリ作成 — 一覧画面作成",
   "questions": [
     {
-      "question": "掲示板のスレッド一覧を表示するビューで、複数件をテンプレートに渡すとき、よく使うのはどれですか？",
-      "options": ["QuerySet をそのままコンテキストに含める", "1件だけ get() する", "HTML に直接 SQL を書く", "リストを JSON にせず渡せない"],
-      "answer": 0,
-      "commentary": "一覧は objects.all() などの QuerySet をループ表示します。"
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "プロジェクトの `urls.py` からアプリの `urls.py` を読み込むために使用する関数は何ですか？<br><pre><code>from django.urls import ___, path\n\nurlpatterns = [\n    path('forum/', include('main.urls')),\n]</code></pre>",
+      "options": [
+        "import_urls",
+        "include",
+        "route",
+        "load"
+      ],
+      "answer": 1,
+      "commentary": "他のURLパターンを組み込む（インクルードする）には `django.urls` の `include` 関数を使用します。"
     },
     {
-      "question": "テンプレートで投稿一覧を表示するとき、よく使うタグの組み合わせはどれですか？",
-      "options": ["{% for post in posts %} ... {% endfor %}", "{% list posts %}", "{{ posts.loop }}", "{% each posts %}"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "アプリ内の `urls.py` で、トップページへのルーティングを設定するコードです。空欄に入る適切な関数は何ですか？<br><pre><code>from django.urls import path\nfrom . import views\n\nurlpatterns = [\n    path('', views.index, ___='index'),\n]</code></pre>",
+      "options": [
+        "name",
+        "alias",
+        "title",
+        "id"
+      ],
       "answer": 0,
-      "commentary": "for タグでリストや QuerySet を反復します。"
+      "commentary": "URLパターンに名前を付けることでテンプレート等から参照しやすくするには、`name` 引数を使用します。"
     },
     {
-      "question": "一覧から詳細へリンクするため、テンプレートでよく使うのはどれですか？",
-      "options": ["<a href=\"{% url 'name' pk %}\">", "<a href=\"{{ id }}\"> だけ", "window.open のみ", "form の GET のみ"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "ビュー関数でHTMLテンプレートをレンダリングして返却するための関数は何ですか？<br><pre><code>from django.shortcuts import ___\n\ndef index(request):\n    return render(request, \"main/index.html\")</code></pre>",
+      "options": [
+        "redirect",
+        "render",
+        "display",
+        "show"
+      ],
+      "answer": 1,
+      "commentary": "テンプレートにコンテキストデータを渡してHTMLを生成・返却するには `render` 関数を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Topicモデルの全レコードをデータベースから取得する正しいコードはどれですか？<br><pre><code>def index(request):\n    TOPIC_LIST = Topic.objects.___()\n    context = {\"topics\": TOPIC_LIST}\n    return render(request, \"main/index.html\", context)</code></pre>",
+      "options": [
+        "get_all",
+        "all",
+        "select_all",
+        "fetch"
+      ],
+      "answer": 1,
+      "commentary": "モデルの全てのオブジェクト（レコード）を取得するには `ModelName.objects.all()` を使用します。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "`Topic.objects.all()` のようにデータベースから取得したデータが保持される、forループなどで繰り返し処理が可能なDjango独自のデータ型は何ですか？",
+      "options": [
+        "QuerySet",
+        "DataList",
+        "ModelDict",
+        "ObjectArray"
+      ],
       "answer": 0,
-      "commentary": "url タグで名前付き URL にパラメータを渡します。"
+      "commentary": "DjangoのORMにおいて、データベースクエリの結果として返されるオブジェクトのリストを表すデータ型は `QuerySet` です。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "Djangoテンプレートで、渡された `topics` リストを順番に処理するためのタグは何ですか？<br><pre><code>{% ___ topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "foreach",
+        "for",
+        "loop",
+        "each"
+      ],
+      "answer": 1,
+      "commentary": "Djangoテンプレート構文で繰り返し処理を行うには `{% for 変数 in コレクション %}` を使用します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "Djangoテンプレートで、変数の値（例: topicのnameフィールド）を画面に出力するための正しい記法はどれですか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;___の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "{% topic.name %}",
+        "{{ topic.name }}",
+        "[[ topic.name ]]",
+        "<%= topic.name %>"
+      ],
+      "answer": 1,
+      "commentary": "Djangoテンプレートで変数を出力・表示する場合は二重波括弧 `{{ 変数名 }}` を使用します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "`TOPIC_LIST` に2つのオブジェクト（Python, Java）が入っている場合、次のテンプレート文が生成するリンク（<a>タグ）の数はいくつですか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "1個",
+        "2個",
+        "3個",
+        "0個"
+      ],
+      "answer": 1,
+      "commentary": "`topics` 内の要素数（2個）だけ `for` ループが繰り返されるため、<a>タグも2個生成されます。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "Pythonのクラスにおいて、`__str__()` や `__init__()` のように前後にダブルアンダースコアが付いた特殊なメソッドを何と呼びますか？",
+      "options": [
+        "プライベートメソッド",
+        "特殊メソッド（マジックメソッド）",
+        "システム関数",
+        "静的メソッド"
+      ],
+      "answer": 1,
+      "commentary": "前後に `__` が付くPython組み込みの特殊な振る舞いを定義するメソッドを「特殊メソッド」と呼びます。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "Topicモデルで `def __str__(self): return self.name` が定義されているとき、テンプレートで `{{ topic }}` と書いた場合表示される内容は何ですか？",
+      "options": [
+        "\"Topic object (1)\"",
+        "topicオブジェクトの `name` フィールドの値",
+        "何も表示されない（空文字）",
+        "エラーが発生する"
+      ],
+      "answer": 1,
+      "commentary": "オブジェクトが文字列として評価される際、`__str__()` の戻り値である `self.name` の値が表示されます。"
+    },
+    {
+      "id": 11,
+      "type": "文法チェック",
+      "question": "新規作成したアプリのテンプレートファイルを配置する、Django標準の推奨ディレクトリ構造として正しいものはどれですか？",
+      "options": [
+        "main/views/index.html",
+        "main/templates/main/index.html",
+        "main/html/index.html",
+        "main/public/index.html"
+      ],
+      "answer": 1,
+      "commentary": "アプリ内でテンプレートを管理する場合は `アプリ名/templates/アプリ名/ファイル名` の階層構造にするのが標準的です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "ビュー関数でテンプレートにデータを渡す際、辞書型データとして定義する変数の一般的な名前は何ですか？<br><pre><code>def index(request):\n    TOPIC_LIST = Topic.objects.all()\n    ___ = {\n        \"topics\": TOPIC_LIST,\n    }\n    return render(request, \"main/index.html\", context)</code></pre>",
+      "options": [
+        "data",
+        "context",
+        "params",
+        "objects"
+      ],
+      "answer": 1,
+      "commentary": "Djangoではテンプレートに渡す辞書型データを `context` と命名するのが一般的です。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "アプリ `main` 内の `views.py` を `urls.py` から参照するためのインポート構文です。空欄に入る記号は何ですか？<br><pre><code>from django.urls import path\nfrom ___ import views\n\nurlpatterns = [\n    path('', views.index, name='index'),\n]</code></pre>",
+      "options": [
+        "main",
+        ".",
+        "..",
+        "app"
+      ],
+      "answer": 1,
+      "commentary": "同じディレクトリ内にあるモジュールを読み込む相対インポートでは `.` （ピリオド）を使用します。"
+    },
+    {
+      "id": 14,
+      "type": "文法チェック",
+      "question": "Djangoのテンプレートファイル内でコメントを書く際の正しい構文はどれですか？",
+      "options": [
+        "<!-- コメント -->",
+        "{# コメント #}",
+        "// コメント",
+        "/* コメント */"
+      ],
+      "answer": 1,
+      "commentary": "Djangoテンプレート構文における単一行コメントは `{# コメント #}` を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "以下のビュー関数を実行した際、レンダリングされるHTMLテンプレートのパスはどれですか？<br><pre><code>def index(request):\n    return render(request, \"main/index.html\")</code></pre>",
+      "options": [
+        "main/index.html",
+        "templates/index.html",
+        "main/templates/main/index.html",
+        "forum/index.html"
+      ],
+      "answer": 2,
+      "commentary": "Djangoは各アプリの `templates/` フォルダー配下を探索するため、実ファイルは `main/templates/main/index.html` が読み込まれます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "`forum/urls.py` で `include` 関数を使って `/forum/` 以下のリクエストを `main` アプリに振り分ける正しい書き方はどれですか？<br><pre><code>urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('forum/', ___('main.urls')),\n]</code></pre>",
+      "options": [
+        "import",
+        "include",
+        "load",
+        "attach"
+      ],
+      "answer": 1,
+      "commentary": "アプリごとのURL定義（`urls.py`）を全体プロジェクトのURL構造に取り込むには `include` 関数を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "Djangoにおいて、クライアントからのリクエストを受け取り、データベース処理などを行ってレスポンス（HTML等）を返す関数やクラスを何と呼びますか？",
+      "options": [
+        "モデル",
+        "ビュー",
+        "テンプレート",
+        "ルーティング"
+      ],
+      "answer": 1,
+      "commentary": "ロジックを処理してレスポンスを組み立てる役割を担うのは「ビュー（View）」です。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "ビュー関数 `index(request)` の第一引数 `request` に渡されるオブジェクトの主な役割は何ですか？<br><pre><code>def index(____):\n    return render(request, \"main/index.html\")</code></pre>",
+      "options": [
+        "HTTPリクエストに関する情報（パラメータやヘッダーなど）を保持する",
+        "データベースへの接続情報を保持する",
+        "HTMLのスタイル設定を保持する",
+        "テンプレートのパス情報を保持する"
+      ],
+      "answer": 0,
+      "commentary": "ビュー関数の第一引数には、クライアントからのHTTPリクエスト情報を含む `HttpRequest` オブジェクトが渡されます。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "`Topic` モデルにレコードが1つも登録されていない状態で、以下のテンプレートを実行した場合に表示される結果はどうなりますか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "エラーが発生して画面が停止する",
+        "リンクは何も出力されず、画面がそのまま表示される",
+        "「undefined」と表示される",
+        "画面上に「null」と表示される"
+      ],
+      "answer": 1,
+      "commentary": "`topics` が空のQuerySetの場合、`for` ループは実行されずエラーも出ずに空の状態で通過します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "Djangoの `for` ループタグを閉じるために必要なタグは何ですか？<br><pre><code>{% for topic in topics %}\n    &lt;p&gt;{{ topic.name }}&lt;/p&gt;\n{% ___ %}</code></pre>",
+      "options": [
+        "endfor",
+        "next",
+        "closefor",
+        "done"
+      ],
+      "answer": 0,
+      "commentary": "Djangoテンプレート構文の `{% for %}` ブロックは `{% endfor %}` で閉じる必要があります。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "Djangoのビュー関数が必ず戻り値（return）として返さなければならないオブジェクトのタイプは何ですか？",
+      "options": [
+        "HTTPレスポンスオブジェクト（HttpResponseなど）",
+        "JSONオブジェクト",
+        "テキスト文字列",
+        "データベースオブジェクト"
+      ],
+      "answer": 0,
+      "commentary": "ビュー関数は最終的に `HttpResponse` オブジェクト（`render` 関数も内部でこれを返します）を返す必要があります。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "Djangoにおいて、URLパターンと対応するビュー関数を関連付ける仕組みやファイルを何と呼びますか？",
+      "options": [
+        "ルーティング（urls.py）",
+        "マイグレーション",
+        "コンテキスト",
+        "ミドルウェア"
+      ],
+      "answer": 0,
+      "commentary": "どのURLにアクセスしたときにどのビューを呼び出すかを指定する仕組みをルーティング（`urls.py`）と呼びます。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "`main` アプリ内のモデル `Topic` を `views.py` で使用するために読み込む正しいインポート文はどれですか？<br><pre><code>from django.shortcuts import render\nfrom ___ import Topic</code></pre>",
+      "options": [
+        ".models",
+        "models",
+        "main.models.py",
+        "database"
+      ],
+      "answer": 0,
+      "commentary": "同じアプリ内の `models.py` からモデルをインポートする場合は `from .models import Topic` と記述します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "以下のビュー関数でテンプレートに渡された変数名を指定して、HTML側で参照する際の正しい記法はどれですか？<br><pre><code>def index(request):\n    TOPIC_LIST = Topic.objects.all()\n    context = {\"topics\": TOPIC_LIST}\n    return render(request, \"main/index.html\", context)</code></pre>",
+      "options": [
+        "{{ TOPIC_LIST }}",
+        "{{ topics }}",
+        "{{ context.topics }}",
+        "{{ Topic }}"
+      ],
+      "answer": 1,
+      "commentary": "テンプレート内では `context` 辞書のキー名（ここでは `\"topics\"`）を指定してデータにアクセスします。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "Djangoプロジェクトを作成した直後、各アプリ用の `urls.py` は自動作成されないため、自分で手動作成するファイル名はどれですか？",
+      "options": [
+        "routes.py",
+        "urls.py",
+        "app_urls.py",
+        "index.py"
+      ],
+      "answer": 1,
+      "commentary": "アプリ新規作成時には `urls.py` が存在しないため、アプリディレクトリ直下に `urls.py` を作成してルーティングを定義します。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "Djangoテンプレート構文において、制御構文（for文やif文など）を記述する際に使用する記号はどれですか？",
+      "options": [
+        "{{ ... }}",
+        "{% ... %}",
+        "{# ... #}",
+        "[[ ... ]]"
+      ],
+      "answer": 1,
+      "commentary": "変数出力には `{{ }}`、コメントには `{# #}`、forやifなどのタグ（制御構文）には `{% %}` を使用します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "ルートパス（トップページ）にマッチさせるための `path` 関数の第一引数の書き方はどれですか？<br><pre><code>urlpatterns = [\n    path('___', views.index, name='index'),\n]</code></pre>",
+      "options": [
+        "'/'",
+        "''",
+        "'index'",
+        "'*'"
+      ],
+      "answer": 1,
+      "commentary": "ルート（空のパス）にマッチさせるには第一引数に空文字 `''` を渡します。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "DjangoでHTMLファイルを動的に生成するための枠組みや構文規則を何と呼びますか？",
+      "options": [
+        "Django テンプレートエンジン",
+        "Django レンダラー",
+        "Django ビューポート",
+        "Django コンポーネント"
+      ],
+      "answer": 0,
+      "commentary": "HTMLに変数を埋め込んだり繰り返し処理を行って動的Webページを作る仕組みをテンプレートエンジンと呼びます。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "以下のURL定義があるとき、ブラウザで `http://127.0.0.1:8000/forum/` にアクセスした場合に実行されるビュー関数はどれですか？<br><pre><code># forum/urls.py\npath('forum/', include('main.urls'))\n\n# main/urls.py\npath('', views.index, name='index')</code></pre>",
+      "options": [
+        "views.forum",
+        "views.index",
+        "views.home",
+        "エラーになり呼び出されない"
+      ],
+      "answer": 1,
+      "commentary": "`/forum/` のリクエストは `main.urls` に移動し、空パス `''` にマッチして `views.index` が呼び出されます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "モデルクラスのインスタンス属性にアクセスしてトピック名を取得する文法として、空欄に入る記述はどれですか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.___ }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "name",
+        "get_name()",
+        "title",
+        "text"
+      ],
+      "answer": 0,
+      "commentary": "Topicモデルで定義したフィールド名が `name` の場合、`topic.name` でその値を取得します。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "`render()` 関数の基本的な引数の順番として正しいものはどれですか？",
+      "options": [
+        "render(request, テンプレートのパス, コンテキスト辞書)",
+        "render(テンプレートのパス, request, コンテキスト辞書)",
+        "render(コンテキスト辞書, request, テンプレートのパス)",
+        "render(request, コンテキスト辞書, テンプレートのパス)"
+      ],
+      "answer": 0,
+      "commentary": "`render` 関数は第1引数に `request`、第2引数に `テンプレートパス`、第3引数に `context（辞書）` を取ります。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "Pythonクラスに定義することで、オブジェクトを文字列として評価した際の出力を決定する特殊メソッドはどれですか？<br><pre><code>class Topic(models.Model):\n    name = models.CharField(max_length=20)\n\n    def ____(self):\n        return self.name</code></pre>",
+      "options": [
+        "__init__",
+        "__str__",
+        "__toString__",
+        "__repr__"
+      ],
+      "answer": 1,
+      "commentary": "オブジェクトの文字列表現を返す特殊メソッドは `__str__(self)` です。"
+    },
+    {
+      "id": 33,
+      "type": "用語理解",
+      "question": "ビュー関数からテンプレートへ受け渡される、変数名とデータのペアを管理する辞書形式のデータを何と呼びますか？",
+      "options": [
+        "セッション",
+        "コンテキスト（context）",
+        "クエリ",
+        "パラメータ"
+      ],
+      "answer": 1,
+      "commentary": "テンプレートで使う変数を渡すための辞書データを「コンテキスト（context）」と呼びます。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "次のコードで `context` を指定せずに `render` を実行した場合、テンプレート内で `{{ topics }}` はどのように表示されますか？<br><pre><code>def index(request):\n    return render(request, \"main/index.html\")</code></pre>",
+      "options": [
+        "何も表示されない（空文字）",
+        "エラー画面（VariableDoesNotExist）が表示される",
+        "\"null\" と表示される",
+        "\"Undefined\" と表示される"
+      ],
+      "answer": 0,
+      "commentary": "Djangoテンプレートは渡されていない変数を参照してもエラーにはならず、空文字として処理されます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "Djangoの `path` 関数をインポートするために必要なモジュールはどれですか？<br><pre><code>from django.___ import path</code></pre>",
+      "options": [
+        "urls",
+        "routes",
+        "views",
+        "http"
+      ],
+      "answer": 0,
+      "commentary": "`path` 関数や `include` 関数は `django.urls` モジュールからインポートします。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "ビュー関数 `index` の定義として正しい書き方はどれですか？",
+      "options": [
+        "def index(request):",
+        "function index(request):",
+        "def index():",
+        "class index(Request):"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの関数ベースビューは第一引数に `request` オブジェクトを受け取るように定義します。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "Webブラウザで特定のアドレス（URL）を入力したときに、画面に適切なページを表示する処理の流れを制御する仕組みは何ですか？",
+      "options": [
+        "ルーティング",
+        "コンパイル",
+        "マイグレーション",
+        "シリアライズ"
+      ],
+      "answer": 0,
+      "commentary": "URLに応じてどの処理（ビュー）を実行するかを決める仕組みをルーティングと呼びます。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "HTML内で文字化けを防ぐために指定する文字コード設定タグの一般的な記述はどれですか？<br><pre><code>&lt;head&gt;\n    &lt;meta charset=\"___\"&gt;\n&lt;/head&gt;</code></pre>",
+      "options": [
+        "UTF-8",
+        "Shift_JIS",
+        "EUC-JP",
+        "ASCII"
+      ],
+      "answer": 0,
+      "commentary": "現代のWeb標準およびDjango開発では標準的に `UTF-8` 文字コードを使用します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "次のビュー関数が実行されたときにブラウザに返される処理は何ですか？<br><pre><code>def index(request):\n    return render(request, \"main/index.html\")</code></pre>",
+      "options": [
+        "`main/index.html` の内容がレンダリングされてレスポンスとして返される",
+        "`main/index.html` という文字列テキストが直接そのまま画面に出力される",
+        "別のURLへリダイレクトされる",
+        "データベースに新しいレコードが挿入される"
+      ],
+      "answer": 0,
+      "commentary": "`render` 関数により指定したHTMLテンプレートが読み込まれ、処理された結果のHTML画面がユーザーに返されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "DjangoのQuerySetオブジェクトの最大の特徴として正しい説明はどれですか？",
+      "options": [
+        "forループなどで1つずつ要素を取り出すことができる（イテラブルである）",
+        "1つの文字列データしか保持できない",
+        "変更が不可能な定数データである",
+        "HTMLファイルそのものを表すオブジェクトである"
+      ],
+      "answer": 0,
+      "commentary": "QuerySetはイテラブルなオブジェクトであり、`for` ループを使用することで内部のモデルインスタンスを順番に取り出すことができます。"
     }
   ]
 }

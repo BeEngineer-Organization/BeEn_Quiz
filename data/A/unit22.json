@@ -2,22 +2,524 @@
   "unit_title": "Django Webアプリ開発コース — Django で掲示板アプリ作成 — 環境構築",
   "questions": [
     {
-      "question": "Django プロジェクトにアプリを追加したあと、settings.py で必ず行う設定はどれですか？",
-      "options": ["DEBUG を False にするだけ", "INSTALLED_APPS にアプリを登録する", "urls.py を削除する", "manage.py をリネームする"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "Pythonの標準的なパッケージ管理システムであり、パッケージのインストールや管理を行うツールは何ですか？",
+      "options": [
+        "npm",
+        "pip",
+        "brew",
+        "apt"
+      ],
       "answer": 1,
-      "commentary": "作成したアプリを INSTALLED_APPS に追加して認識させます。"
+      "commentary": "pipは、Python Package Index（PyPI）などからパッケージをインストールするための標準ツールです。"
     },
     {
-      "question": "仮想環境を使う主な理由として適切なのはどれですか？",
-      "options": ["PC のメモリを増やす", "プロジェクトごとにパッケージのバージョンを分離する", "ブラウザを速くする", "Git を不要にする"],
-      "answer": 1,
-      "commentary": "venv 等で依存関係をプロジェクト単位で管理しやすくなります。"
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Pythonで仮想環境を作成するための標準コマンドです。空欄に入る適切なキーワードは何ですか？<br><pre><code>python3 -m ___ .venv</code></pre>",
+      "options": [
+        "env",
+        "virtualenv",
+        "venv",
+        "pip"
+      ],
+      "answer": 2,
+      "commentary": "Pythonの標準機能で仮想環境を作成するモジュール名は `venv` です。"
     },
     {
-      "question": "開発用サーバーを起動するコマンドはどれですか？",
-      "options": ["python manage.py runserver", "django start", "python server.py", "npm run dev"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "Djangoの新規プロジェクトを作成するコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>django-admin ___ project_name .</code></pre>",
+      "options": [
+        "createproject",
+        "startproject",
+        "newproject",
+        "init"
+      ],
+      "answer": 1,
+      "commentary": "Djangoで新しいプロジェクトを作成するときは `django-admin startproject` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Djangoプロジェクト内で新しいアプリケーションを作成するコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>python manage.py ___ main</code></pre>",
+      "options": [
+        "startapp",
+        "createapp",
+        "newapp",
+        "initapp"
+      ],
       "answer": 0,
-      "commentary": "プロジェクト直下で manage.py runserver を実行します。"
+      "commentary": "新しいアプリを作成するコマンドは `python manage.py startapp <アプリ名>` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "Djangoの開発用ローカルサーバーを起動するコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "startserver",
+        "runserver",
+        "serve",
+        "host"
+      ],
+      "answer": 1,
+      "commentary": "開発用サーバーを立ち上げるコマンドは `python manage.py runserver` です。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "Djangoのモデル定義で、文字数の短いテキストフィールドを定義するクラスは何ですか？<br><pre><code>class Topic(models.Model):\n    name = models.___(\"トピック名\", max_length=20)</code></pre>",
+      "options": [
+        "TextField",
+        "CharField",
+        "StringField",
+        "LabelField"
+      ],
+      "answer": 1,
+      "commentary": "短い文字列を保存するには `models.CharField` を使用し、`max_length` オプションを一緒に指定します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "Djangoのモデルで「1対多」のリレーション（関連付け）を定義する際に使うフィールドは何ですか？<br><pre><code>class Message(models.Model):\n    topic = models.___(Topic, on_delete=models.CASCADE)</code></pre>",
+      "options": [
+        "OneToOneField",
+        "ManyToManyField",
+        "ForeignKey",
+        "RelatedField"
+      ],
+      "answer": 2,
+      "commentary": "1対多の関係を作る場合は、「多」側のモデルに `models.ForeignKey` を指定します。"
+    },
+    {
+      "id": 8,
+      "type": "用語理解",
+      "question": "ForeignKeyの指定において、親データ（例: Topic）が削除されたときに、関連する子データ（例: Message）も一緒に削除する設定は何ですか？",
+      "options": [
+        "on_delete=models.CASCADE",
+        "on_delete=models.PROTECT",
+        "on_delete=models.SET_NULL",
+        "on_delete=models.RESTRICT"
+      ],
+      "answer": 0,
+      "commentary": "`on_delete=models.CASCADE` を指定すると、親オブジェクトが削除された際に紐づく子オブジェクトも連動して削除されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "Djangoでレコードが作成（挿入）された日時を自動的に保存するフィールドオプションは何ですか？<br><pre><code>created_at = models.DateTimeField(\"投稿日時\", ___=True)</code></pre>",
+      "options": [
+        "auto_now",
+        "auto_now_add",
+        "default_now",
+        "auto_add"
+      ],
+      "answer": 1,
+      "commentary": "レコードの新規作成時の日時を自動保存するには `auto_now_add=True` を設定します。（更新ごとに日時を変える場合は `auto_now=True`）"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "モデルの変更内容を検出し、マイグレーションファイルを作成するコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>python manage.py ___ main</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "createmigration",
+        "dbupdate"
+      ],
+      "answer": 1,
+      "commentary": "モデルの差分を検出してマイグレーションファイルを作成するコマンドは `makemigrations` です。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "作成されたマイグレーションファイルをデータベースに適用・反映させるコマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "dbapply",
+        "syncdb"
+      ],
+      "answer": 0,
+      "commentary": "マイグレーションファイルをデータベースに反映させるコマンドは `migrate` です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "Djangoで作成したアプリをプロジェクトに認識させるため、`settings.py` 内のどの設定リストにアプリ名を追加しますか？<br><pre><code>___ = [\n    \"django.contrib.admin\",\n    ...\n    \"main\",\n]</code></pre>",
+      "options": [
+        "INSTALLED_APPS",
+        "MY_APPLICATIONS",
+        "ALLOWED_APPS",
+        "PROJECT_APPS"
+      ],
+      "answer": 0,
+      "commentary": "作成したアプリを有効にするには `settings.py` の `INSTALLED_APPS` にアプリ名（文字列）を追加します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "管理者サイトにログインできるスーパーユーザー（管理者アカウント）を作成するコマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "createadmin",
+        "createsuperuser",
+        "addadmin",
+        "newuser"
+      ],
+      "answer": 1,
+      "commentary": "管理者アカウント作成用のコマンドは `createsuperuser` です。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "管理者サイトにモデルを表示・管理できるように登録する関数は何ですか？<br><pre><code>from django.contrib import admin\nfrom .models import Topic\n\nadmin.site.___(Topic)</code></pre>",
+      "options": [
+        "add",
+        "register",
+        "connect",
+        "show"
+      ],
+      "answer": 1,
+      "commentary": "`admin.py` で `admin.site.register(モデル名)` を呼び出すことで、管理者画面から操作可能になります。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "Pythonの特殊メソッドで、オブジェクトを文字列形式で表現（管理者サイトでの表示名などに利用）するために定義するものはどれですか？<br><pre><code>class Topic(models.Model):\n    name = models.CharField(max_length=20)\n\n    def ___(self):\n        return self.name</code></pre>",
+      "options": [
+        "__name__",
+        "__str__",
+        "__text__",
+        "__toString__"
+      ],
+      "answer": 1,
+      "commentary": "`__str__()` メソッドを定義することで、管理画面やシェル上でのオブジェクトの表示名をわかりやすくカスタマイズできます。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "次のモデル定義があるとき、管理者サイトでTopicオブジェクトを表示した場合に返される文字列は何ですか？<br><pre><code>class Topic(models.Model):\n    name = models.CharField(\"トピック名\", max_length=20)\n\n    def __str__(self):\n        return self.name</code></pre>",
+      "options": [
+        "\"Topic object (1)\" のようなデフォルト文字列",
+        "フィールド `name` に設定された文字列（例: \"Python\"）",
+        "\"トピック名\"",
+        "エラーが発生する"
+      ],
+      "answer": 1,
+      "commentary": "`__str__` メソッドで `self.name` を返しているため、そのオブジェクトの `name` フィールドの値が表示されます。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "次のモデル定義で `__str__` が定義されていない場合、管理者サイトのリストには通常どのように表示されますか？<br><pre><code>class Topic(models.Model):\n    name = models.CharField(\"トピック名\", max_length=20)</code></pre>",
+      "options": [
+        "`Topic object (1)` のような表示名",
+        "自動的に `name` の値が表示される",
+        "何も表示されない（空白）",
+        "画面全体がエラーになる"
+      ],
+      "answer": 0,
+      "commentary": "`__str__` を定義しない場合、Djangoはデフォルトの `モデル名 object (id)` 形式で表示します。"
+    },
+    {
+      "id": 18,
+      "type": "文法チェック",
+      "question": "Djangoプロジェクトのルーティングや構成ファイルが含まれるディレクトリ内（同階層）でプロジェクトを作成する際、正しく末尾に付ける記号は何ですか？<br><pre><code>django-admin startproject forum ___</code></pre>",
+      "options": [
+        ";",
+        ".",
+        "/",
+        "*"
+      ],
+      "answer": 1,
+      "commentary": "カレントディレクトリに直接プロジェクトを展開したい場合、コマンドの末尾に `.` （ピリオド）を付けます。"
+    },
+    {
+      "id": 19,
+      "type": "用語理解",
+      "question": "Djangoにおいて、データベースの構造（モデル）の変更履歴を記録し、実際のDBに反映するための準備ファイルのファイル群を何と呼びますか？",
+      "options": [
+        "コントローラー",
+        "マイグレーションファイル",
+        "テンプレート",
+        "シリアライザー"
+      ],
+      "answer": 1,
+      "commentary": "モデルの差分をデータベースに適用するための操作が記述されたファイルを「マイグレーションファイル」と呼びます。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "Djangoの開発サーバーをデフォルトの状態で立ち上げた場合、ブラウザからアクセスするURL（IPアドレスとポート番号）はどれですか？",
+      "options": [
+        "http://localhost:3000/",
+        "http://127.0.0.1:8000/",
+        "http://127.0.0.1:5000/",
+        "http://0.0.0.0:80"
+      ],
+      "answer": 1,
+      "commentary": "Djangoの `runserver` で起動するデフォルトアドレスは `http://127.0.0.1:8000/` （または `http://localhost:8000/`）です。"
+    },
+    {
+      "id": 21,
+      "type": "用語理解",
+      "question": "デフォルトのDjango設定において、管理者サイトへアクセスするための基本パス（URL）はどれですか？",
+      "options": [
+        "/login",
+        "/admin",
+        "/dashboard",
+        "/system"
+      ],
+      "answer": 1,
+      "commentary": "Django管理者サイトの標準パスは `/admin` です。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "インストールされているDjangoのバージョンを確認するためのコマンドです。空欄に入るオプションは何ですか？<br><pre><code>python -m django ___</code></pre>",
+      "options": [
+        "--version",
+        "-v",
+        "--info",
+        "check"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのバージョン確認は `python -m django --version` を実行します。"
+    },
+    {
+      "id": 23,
+      "type": "文法チェック",
+      "question": "1つのTopicに対して複数のMessageが存在する関係をデータベース設計用語で何と呼びますか？",
+      "options": [
+        "1対1の関係",
+        "1対多の関係",
+        "多対多の関係",
+        "無関係"
+      ],
+      "answer": 1,
+      "commentary": "1つの掲示板トピックに対して複数のメッセージが投稿されるため、「1対多」の関係となります。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "次のモデル定義でメッセージを作成・保存した際、`created_at` にはどのような値が自動的に格納されますか？<br><pre><code>class Message(models.Model):\n    content = models.CharField(max_length=200)\n    created_at = models.DateTimeField(\"投稿日時\", auto_now_add=True)</code></pre>",
+      "options": [
+        "常に 1970-01-01 00:00:00",
+        "データベースにレコードが作成（挿入）された瞬間の現在時刻",
+        "null（空の値）",
+        "ユーザーが手動で入力した時刻"
+      ],
+      "answer": 1,
+      "commentary": "`auto_now_add=True` を指定しているため、レコードが作成された日時のタイムスタンプが自動的に保存されます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "Djangoのモデルを作成・定義する際、基本クラスとして継承するクラスは何ですか？<br><pre><code>from django.db import models\n\nclass Topic(models.___):\n    name = models.CharField(max_length=20)</code></pre>",
+      "options": [
+        "BaseModel",
+        "Model",
+        "Schema",
+        "Entity"
+      ],
+      "answer": 1,
+      "commentary": "Djangoのモデルクラスは `models.Model` を継承して作成します。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "`models.CharField` の第一引数に `\"トピック名\"` のような文字列を渡した場合、この文字列はDjangoでどのように扱われますか？",
+      "options": [
+        "データベースのテーブル名",
+        "フィールドの表示名（ラベル）",
+        "デフォルト値",
+        "バリデーションエラー時のメッセージ"
+      ],
+      "answer": 1,
+      "commentary": "CharFieldなどの第1引数に渡す文字列は、管理画面等で使われる「フィールドの表示名（verbose_name）」になります。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "`main` アプリ内のモデルを `admin.py` で使用するためにインポートする正しい記述はどれですか？<br><pre><code>from django.contrib import admin\nfrom ___ import Topic, Message</code></pre>",
+      "options": [
+        ".models",
+        "models",
+        "main.models.py",
+        "db.models"
+      ],
+      "answer": 0,
+      "commentary": "同じアプリ内の `models.py` からモデルを読み込む場合は `from .models import ...` と記述します。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "作成したDjangoプロジェクトに含まれる、設定（データベース接続やインストール済みアプリなど）を保持するメインファイル名はどれですか？",
+      "options": [
+        "urls.py",
+        "views.py",
+        "settings.py",
+        "wsgi.py"
+      ],
+      "answer": 2,
+      "commentary": "プロジェクト全体の設定は `settings.py` に記述します。"
+    },
+    {
+      "id": 29,
+      "type": "用語理解",
+      "question": "作成したDjangoアプリに含まれる、データベースの構造（テーブル）をPythonコードで定義するためのファイル名はどれですか？",
+      "options": [
+        "views.py",
+        "models.py",
+        "admin.py",
+        "apps.py"
+      ],
+      "answer": 1,
+      "commentary": "データベース構造（モデル）は `models.py` 内にクラスとして定義します。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "文字数の上限が最大200文字であるテキストフィールドを定義するオプションパラメータは何ですか？<br><pre><code>content = models.CharField(\"内容\", ___=200)</code></pre>",
+      "options": [
+        "max_length",
+        "length",
+        "limit",
+        "max_size"
+      ],
+      "answer": 0,
+      "commentary": "`CharField` で最大文字数を指定するパラメータは `max_length` です。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`INSTALLED_APPS` に `main` アプリを追加せずに `python manage.py makemigrations` を実行した場合、どうなりますか？",
+      "options": [
+        "mainアプリの変更が検出されず、マイグレーションファイルが作成されない",
+        "Djangoが自動検出してsettings.pyを書き換える",
+        "データベースが初期化される",
+        "全ファイルが削除される"
+      ],
+      "answer": 0,
+      "commentary": "`INSTALLED_APPS` に登録されていないアプリはプロジェクトに認識されないため、モデル変更の検出が行われません。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "Djangoのプロジェクト作成コマンド `django-admin startproject forum .` において、`forum` は何を表していますか？",
+      "options": [
+        "プロジェクト名",
+        "アプリ名",
+        "データベース名",
+        "ユーザー名"
+      ],
+      "answer": 0,
+      "commentary": "`startproject` の直後に指定する文字列は作成するプロジェクト名です。"
+    },
+    {
+      "id": 33,
+      "type": "用語理解",
+      "question": "Djangoアプリケーションで、管理者用の画面設定を行うためのファイル名はどれですか？",
+      "options": [
+        "models.py",
+        "views.py",
+        "admin.py",
+        "urls.py"
+      ],
+      "answer": 2,
+      "commentary": "管理者サイトへのモデルの登録などは `admin.py` で行います。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "新規パッケージ「Django」をpipでインストールする正しいコマンドは何ですか？<br><pre><code>___ install Django</code></pre>",
+      "options": [
+        "python",
+        "pip",
+        "django-admin",
+        "npm"
+      ],
+      "answer": 1,
+      "commentary": "Pythonパッケージのインストールには `pip install <パッケージ名>` を使用します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "1対多のリレーションが設定されたモデルで、多（Child）のモデル側だけに `ForeignKey` を記述するのはなぜですか？",
+      "options": [
+        "Djangoの仕様で「多」側（子）がどの「1」側（親）に紐づいているかを保持するため",
+        "「1」側に記述するとエラーになるため",
+        "データベースのメモリを削減するため",
+        "特に意味はなくどちらに書いてもよい"
+      ],
+      "answer": 0,
+      "commentary": "リレーショナルデータベースでは、子要素（多）が親のID（外部キー）を保有することで関係を管理するためです。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "モデルのフィールドに `DateTimeField` を使用する場合、Pythonのどの標準型でデータが扱われますか？",
+      "options": [
+        "str型",
+        "int型",
+        "datetime型",
+        "timestamp型"
+      ],
+      "answer": 2,
+      "commentary": "`DateTimeField` は内部でPythonの `datetime.datetime` 型オブジェクトとして処理されます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "Django管理画面でモデルを登録するコードです。正しい記述を選んでください。<br><pre><code>from django.contrib import admin\nfrom .models import Topic\n\n___</code></pre>",
+      "options": [
+        "admin.site.register(Topic)",
+        "admin.register(Topic)",
+        "admin.models.add(Topic)",
+        "admin.site.add_model(Topic)"
+      ],
+      "answer": 0,
+      "commentary": "管理画面へモデルを登録する基本文法は `admin.site.register(モデルクラス)` です。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "Djangoにおいてコマンド操作を実行するための、プロジェクトルートに存在するエントリーポイントファイルは何ですか？",
+      "options": [
+        "settings.py",
+        "manage.py",
+        "wsgi.py",
+        "asgi.py"
+      ],
+      "answer": 1,
+      "commentary": "`manage.py` は、開発用サーバーの起動やマイグレーションの実行など、様々なコマンド操作を行うスクリプトです。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "`createsuperuser` コマンドで作成したユーザー情報で http://127.0.0.1:8000/admin にログインした場合、何を行うことができますか？",
+      "options": [
+        "データベースに登録されたモデルデータの閲覧・追加・編集・削除",
+        "サーバーの再起動",
+        "Pythonコードの自動生成",
+        "OSのユーザーアカウントの管理"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの管理者サイトでは、登録されたモデルデータの閲覧や変更、新規作成、削除などのCRUD操作がブラウザ上で行えます。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "マイグレーションの実行順序として正しい流れはどれですか？",
+      "options": [
+        "1. migrate → 2. makemigrations",
+        "1. models.py を編集 → 2. makemigrations → 3. migrate",
+        "1. migrate → 2. models.py を編集 → 3. makemigrations",
+        "1. makemigrations → 2. models.py を編集 → 3. migrate"
+      ],
+      "answer": 1,
+      "commentary": "モデル（models.py）を編集した後、`makemigrations` でマイグレーションファイルを作成し、最後に `migrate` でDBへ反映します。"
     }
   ]
 }

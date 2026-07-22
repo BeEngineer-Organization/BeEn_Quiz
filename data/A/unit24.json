@@ -2,22 +2,524 @@
   "unit_title": "Django Webアプリ開発コース — Django で掲示板アプリ作成 — 詳細画面作成",
   "questions": [
     {
-      "question": "1件の投稿を主キーで取得するビューで、存在しない ID にアクセスされたとき返す例外として適切なのはどれですか？",
-      "options": ["Http404", "ValueError", "KeyError", "PermissionDenied だけ"],
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "URLパスの中で整数型の変数 `topic_id` を受け取るための記述です。空欄に入る型指定は何ですか？<br><pre><code>path('___:topic_id/', views.forum, name='forum')</code></pre>",
+      "options": [
+        "int",
+        "str",
+        "num",
+        "integer"
+      ],
       "answer": 0,
-      "commentary": "get_object_or_404 や get() + Http404 などで 404 を返します。"
+      "commentary": "DjangoのPathコンバーターで整数値を受け取る場合は `<int:変数名>` と指定します。"
     },
     {
-      "question": "URL から投稿 ID を受け取る path の例として適切なのはどれですか？",
-      "options": ["path('posts/<int:pk>/', ...)", "path('posts/<str:name>/', ...) のみ", "path('posts/only/')", "query だけで受け取る"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で名前付きURLに引数（IDなど）を渡す正しい記法はどれですか？<br><pre><code>&lt;a href=\"{% url 'forum' ___ %}\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;</code></pre>",
+      "options": [
+        "topic.id",
+        "id=topic.id",
+        "topic_id: topic.id",
+        "topic_id=topic.id"
+      ],
       "answer": 0,
-      "commentary": "整数 ID なら <int:pk> が一般的です。"
+      "commentary": "`{% url '名前' 引数 %}` の形式でスペース区切りで変数を渡します。ここでは `topic.id` を指定します。"
     },
     {
-      "question": "詳細テンプレートで「投稿オブジェクト」を表示するとき、ビューから渡すキー名として例として自然なのはどれですか？",
-      "options": ["post や object", "だけ True", "rows", "sql"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "URLパラメータから渡された `topic_id` を受け取るビュー関数の定義です。空欄に入る適切な引数はどれですか？<br><pre><code>def forum(request, ___):\n    context = {\"topic_id\": topic_id}\n    return render(request, \"main/forum.html\", context)</code></pre>",
+      "options": [
+        "topic_id",
+        "id",
+        "pk",
+        "*args"
+      ],
       "answer": 0,
-      "commentary": "context に { 'post': post } や DetailView の object など。"
+      "commentary": "`urls.py` で指定したパス変数名（`<int:topic_id>`）と同じ名前の引数をビュー関数で受け取ります。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "データベースから条件に一致する単一のオブジェクトを取得するメソッドは何ですか？<br><pre><code>topic = Topic.objects.___(id=topic_id)</code></pre>",
+      "options": [
+        "find",
+        "get",
+        "filter",
+        "select"
+      ],
+      "answer": 1,
+      "commentary": "指定した条件に一致する1つのオブジェクトを取得するには `get()` を使用します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "特定の条件に一致する複数のオブジェクトを取得（フィルタリング）するメソッドは何ですか？<br><pre><code>messages = Message.objects.___(topic=topic)</code></pre>",
+      "options": [
+        "filter",
+        "get",
+        "fetch",
+        "search"
+      ],
+      "answer": 0,
+      "commentary": "条件に当てはまるオブジェクト群をQuerySetとして一覧取得するには `filter()` を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "取得したQuerySetの並び順（ソート）を指定するメソッドは何ですか？<br><pre><code>messages = Message.objects.filter(topic=topic).___('created_at')</code></pre>",
+      "options": [
+        "sort",
+        "order_by",
+        "arrange",
+        "sort_by"
+      ],
+      "answer": 1,
+      "commentary": "並び替えを指定するには `order_by('フィールド名')` を使用します。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "次のコードを実行した場合、取得される `messages` の並び順はどうなりますか？<br><pre><code>messages = Message.objects.filter(topic=topic).order_by('created_at')</code></pre>",
+      "options": [
+        "created_at の昇順（投稿日時が古い順）",
+        "created_at の降順（投稿日時が新しい順）",
+        "ランダムな順序",
+        "id の降順"
+      ],
+      "answer": 0,
+      "commentary": "フィールド名をそのまま指定した場合、昇順（小さい値・古い日時が先）で並び替えられます。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "フィールド名の前に `-`（マイナス）を付けた場合のソート順はどうなりますか？<br><pre><code>messages = Message.objects.filter(topic=topic).order_by('-created_at')</code></pre>",
+      "options": [
+        "created_at の昇順（投稿日時が古い順）",
+        "created_at の降順（投稿日時が新しい順）",
+        "エラーになる",
+        "アルファベット順"
+      ],
+      "answer": 1,
+      "commentary": "フィールド名の頭に `-` を付けると降順（大きい値・新しい日時が先）になります。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "ForeignKeyフィールド `topic` に対し、指定した `Topic` インスタンスに紐づく `Message` をフィルタリングする正しいコードはどれですか？<br><pre><code>topic = Topic.objects.get(id=topic_id)\nmessages = Message.objects.filter(___=topic)</code></pre>",
+      "options": [
+        "topic",
+        "topic_id",
+        "id",
+        "parent"
+      ],
+      "answer": 0,
+      "commentary": "MessageモデルのForeignKey属性名が `topic` の場合、`topic=topicインスタンス` としてフィルタリングできます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で各メッセージの内容と投稿日時をテーブルに表示する処理です。空欄に入るタグは何ですか？<br><pre><code>{% for message in messages %}\n  &lt;tr&gt;\n    &lt;td&gt;{{ message.content }}&lt;/td&gt;\n    &lt;td&gt;{{ message.___ }}&lt;/td&gt;\n  &lt;/tr&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "created_at",
+        "post_date",
+        "time",
+        "date"
+      ],
+      "answer": 0,
+      "commentary": "Messageモデルに定義した投稿日時のフィールド名は `created_at` です。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "Djangoで日時表示を日本時間に変更したい場合、`settings.py` の `TIME_ZONE` に設定する文字列は何ですか？",
+      "options": [
+        "\"Asia/Tokyo\"",
+        "\"Japan/Tokyo\"",
+        "\"JST\"",
+        "\"Tokyo/Asia\""
+      ],
+      "answer": 0,
+      "commentary": "日本の標準時を設定するタイムゾーン指定子は `\"Asia/Tokyo\"` です。"
+    },
+    {
+      "id": 12,
+      "type": "文法チェック",
+      "question": "Djangoテンプレートで、引数のない静的URL（名前付きURL 'index'）へリンクを作成する正しい書き方はどれですか？",
+      "options": [
+        "href=\"{% url 'index' %}\"",
+        "href=\"{{ url 'index' }}\"",
+        "href=\"{% link 'index' %}\"",
+        "href=\"{% route 'index' %}\""
+      ],
+      "answer": 0,
+      "commentary": "引数のない名前付きURLを呼び出す場合は `{% url 'URLパターン名' %}` と書きます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "ビュー関数内でモデルを利用するためにインポートする正しい構文を選んでください。<br><pre><code>from .models import Topic, ___</code></pre>",
+      "options": [
+        "Message",
+        "message",
+        "Messages",
+        "Post"
+      ],
+      "answer": 0,
+      "commentary": "同じアプリの `models.py` から `Message` クラスを呼び出すため `Message` をインポートします。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "次のテンプレートタグを実行した際、`topic.id` が `3` の場合に出力されるHTML属性はどれですか？<br><pre><code>&lt;a href=\"{% url 'forum' topic.id %}\"&gt;掲示板へ&lt;/a&gt;</code></pre>",
+      "options": [
+        "href=\"/forum/3/\"（設定されたパスに変換される）",
+        "href=\"{% url 'forum' 3 %}\"",
+        "href=\"topic.id\"",
+        "href=\"/forum/topic.id/\""
+      ],
+      "answer": 0,
+      "commentary": "`{% url %}` タグは指定された名前付きURLパターンと引数を結合し、実際のURLパス文字列（例: `/forum/3/` など）に展開されます。"
+    },
+    {
+      "id": 15,
+      "type": "文法チェック",
+      "question": "`urls.py` で `<int:topic_id>` のようにURLパターン内で指定する可変パラメータを何と呼びますか？",
+      "options": [
+        "URLパターン変数（パスコンバーター）",
+        "クエリ文字列",
+        "フォームデータ",
+        "セッション変数"
+      ],
+      "answer": 0,
+      "commentary": "URLの一部を動的な変数として取り出す仕組みをパスコンバーター（Path Converters）やパス変数と呼びます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "ビュー関数からテンプレートへ受け渡す文脈データをまとめた辞書のキー名を「messages」とした場合、テンプレートでの参照の仕方はどれですか？<br><pre><code>context = {\n    \"messages\": messages,\n}\nreturn render(request, \"main/forum.html\", context)</code></pre>",
+      "options": [
+        "{% for message in messages %}",
+        "{% for message in context.messages %}",
+        "{% for message in Message %}",
+        "{% for message in messages.all %}"
+      ],
+      "answer": 0,
+      "commentary": "contextで渡した辞書のキー名（`messages`）を使って直接テンプレート内でループ処理できます。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "存在しない `id`（例: id=999）を `Topic.objects.get(id=999)` で取得しようとした場合、どのような結果になりますか？",
+      "options": [
+        "DoesNotExist エラーが発生する",
+        "None が返される",
+        "空のリストが返される",
+        "0 が返される"
+      ],
+      "answer": 0,
+      "commentary": "`get()` は条件に一致するデータが存在しない場合、`DoesNotExist` 例外（エラー）を発生させます。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "存在しない `id` の条件で `Message.objects.filter(topic_id=999)` を実行した場合、どのような結果になりますか？",
+      "options": [
+        "DoesNotExist エラーが発生する",
+        "空のQuerySet（データなし）が返される",
+        "None が返される",
+        "アプリがクラッシュする"
+      ],
+      "answer": 1,
+      "commentary": "`filter()` は一致するデータがない場合、エラーにはならず空の QuerySet（`[]` のような状態）を返します。"
+    },
+    {
+      "id": 19,
+      "type": "用語理解",
+      "question": "DjangoのORMにおいて、1つのオブジェクトだけを取得する `get()` と、複数オブジェクトを取得する `filter()` の違いとして正しいものはどれですか？",
+      "options": [
+        "`get()` は単一のインスタンスを返し、`filter()` は QuerySet を返す",
+        "`get()` は QuerySet を返し、`filter()` は単一のインスタンスを返す",
+        "どちらも全く同じ動作をする",
+        "`get()` はデータベースを変更し、`filter()` は参照のみ行う"
+      ],
+      "answer": 0,
+      "commentary": "`get()` は1つのモデルインスタンスそのものを返し、`filter()` は条件に合う要素をまとめた `QuerySet` を返します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "ビュー関数で `topic` オブジェクトをテンプレートへ渡し、その名前を表示させるテンプレート記述はどれですか？<br><pre><code>&lt;h2&gt;{{ ___ }}&lt;/h2&gt;</code></pre>",
+      "options": [
+        "topic.name",
+        "topic_id",
+        "Topic.name",
+        "topic.title"
+      ],
+      "answer": 0,
+      "commentary": "contextで渡された `topic` インスタンスの `name` 属性を表示するため `topic.name` と書きます。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "Djangoの `path()` 関数で、複数の引数（ルート・ビュー・名前）を指定する正しい順序はどれですか？",
+      "options": [
+        "path('URLパターン', ビュー関数, name='名前')",
+        "path(ビュー関数, 'URLパターン', name='名前')",
+        "path(name='名前', 'URLパターン', ビュー関数)",
+        "path('URLパターン', name='名前', ビュー関数)"
+      ],
+      "answer": 0,
+      "commentary": "第一引数にURLパターン文字列、第二引数にビュー関数、オプショナルで `name=` を指定します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "以下の `urls.py` の定義に対応する、URLパターンの例として正しいものはどれですか？<br><pre><code>path('&lt;int:topic_id&gt;/', views.forum, name='forum')</code></pre>",
+      "options": [
+        "/1/",
+        "/topic_id/",
+        "/forum/1/",
+        "/int/1/"
+      ],
+      "answer": 0,
+      "commentary": "この記述はドメイン直下の整数値（例: `/1/` や `/2/` など）にマッチします。"
+    },
+    {
+      "id": 23,
+      "type": "用語理解",
+      "question": "データベースのレコードごとに自動的に付与される、一意な識別番号フィールドの名前は何ですか？",
+      "options": [
+        "id",
+        "key",
+        "num",
+        "index"
+      ],
+      "answer": 0,
+      "commentary": "Djangoでは明示的に指定しない場合、主キー（Primary Key）として自動的に `id` フィールドが作成されます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "HTMLのテーブル（表）の行を定義するタグは何ですか？<br><pre><code>&lt;table&gt;\n  &lt;___&gt;\n    &lt;th&gt;投稿内容&lt;/th&gt;\n    &lt;th&gt;投稿日時&lt;/th&gt;\n  &lt;/___&gt;\n&lt;/table&gt;</code></pre>",
+      "options": [
+        "tr",
+        "td",
+        "row",
+        "table-row"
+      ],
+      "answer": 0,
+      "commentary": "HTMLの表の行を作成するには `<tr>`（Table Row）タグを使用します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "HTMLのテーブル（表）のデータセルを定義するタグは何ですか？<br><pre><code>&lt;tr&gt;\n  &lt;___&gt;{{ message.content }}&lt;/___&gt;\n  &lt;___&gt;{{ message.created_at }}&lt;/___&gt;\n&lt;/tr&gt;</code></pre>",
+      "options": [
+        "td",
+        "th",
+        "cell",
+        "data"
+      ],
+      "answer": 0,
+      "commentary": "表の通常セルを作成するには `<td>`（Table Data）タグを使用します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "HTMLのテーブル（表）の見出しセルを定義するタグは何ですか？<br><pre><code>&lt;tr&gt;\n  &lt;___&gt;投稿内容&lt;/___&gt;\n  &lt;___&gt;投稿日時&lt;/___&gt;\n&lt;/tr&gt;</code></pre>",
+      "options": [
+        "th",
+        "td",
+        "header",
+        "top"
+      ],
+      "answer": 0,
+      "commentary": "表の見出しセルを作成するには `<th>`（Table Header）タグを使用します。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "ビュー関数から `topic` インスタンスを取得せずに、`topic_id`（整数）のみをテンプレートに渡した場合、`{{ topic.name }}` を実行するとどうなりますか？",
+      "options": [
+        "何も表示されない（空文字になる）",
+        "エラーが発生して画面が止まる",
+        "数値の ID がそのまま表示される",
+        "\"undefined\" と出力される"
+      ],
+      "answer": 0,
+      "commentary": "Djangoテンプレートは渡されていない変数のプロパティを参照した場合、エラーを出さず空文字を表示します。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "Djangoでクエリセットの条件検索とソートを組み合わせる際の正しい繋げ方はどれですか？",
+      "options": [
+        "Model.objects.filter(条件).order_by('フィールド')",
+        "Model.objects.order_by('フィールド').filter(条件)",
+        "両方とも正しい（どちらでも動作する）",
+        "Model.objects.filter(条件, order_by='フィールド')"
+      ],
+      "answer": 2,
+      "commentary": "DjangoのQuerySetメソッドはチェーン（数珠繋ぎ）が可能であり、`filter().order_by()` でも `order_by().filter()` でも正しく機能します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "詳細画面用のテンプレートファイル `forum.html` を配置する正しいパスはどれですか？<br><pre><code>main/\n  templates/\n    main/\n      ___</code></pre>",
+      "options": [
+        "forum.html",
+        "index.html",
+        "views.html",
+        "detail.html"
+      ],
+      "answer": 0,
+      "commentary": "本演習では `main/templates/main/forum.html` にテンプレートを作成・配置します。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "Pythonの `datetime` 型において、古い日時と新しい日時を大小比較した場合の正しい関係はどれですか？",
+      "options": [
+        "過去の日時（古い時間）の方が値が小さい",
+        "未来の日時（新しい時間）の方の値が小さい",
+        "日時の大小関係は比較できない",
+        "常に同じ大きさになる"
+      ],
+      "answer": 0,
+      "commentary": "日時オブジェクトは過去であればあるほど数値的に小さくなります。そのため昇順ソート（`order_by('created_at')`）にすると古いものが上になります。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でトップページ（'index'）へ戻るハイパーリンクの記述です。空欄に入る適切なタグを選んでください。<br><pre><code>&lt;a href=\"___\"&gt;ホームへ&lt;/a&gt;</code></pre>",
+      "options": [
+        "{% url 'index' %}",
+        "{{ url 'index' }}",
+        "{% link 'index' %}",
+        "/index"
+      ],
+      "answer": 0,
+      "commentary": "トップページのURL名 'index' を指定して `{% url 'index' %}` と記述します。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "次のコードで `context` 内に `messages` が正しく設定されているとき、メッセージが1件も存在しない場合、テンプレートの `for` ループはどう処理されますか？<br><pre><code>{% for message in messages %}\n  &lt;tr&gt;&lt;td&gt;{{ message.content }}&lt;/td&gt;&lt;/tr&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "ループ内のHTMLは描画されず、エラーも起きずにスキップされる",
+        "エラーが発生する",
+        "空の `<tr>` が1つ生成される",
+        "\"No messages\" と自動で表示される"
+      ],
+      "answer": 0,
+      "commentary": "要素が空のQuerySetの場合、`{% for %}` ブロックの中身は描画されずスムーズにスキップされます。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "Djangoの `render` 関数を使ってコンテキスト（辞書データ）をテンプレートに渡す正しい引数の指定はどれですか？",
+      "options": [
+        "render(request, \"テンプレートパス\", context)",
+        "render(context, request, \"テンプレートパス\")",
+        "render(\"テンプレートパス\", context)",
+        "render(request, context)"
+      ],
+      "answer": 0,
+      "commentary": "`render()` の基本的な引数順は `(request, template_name, context)` です。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "URLパターン名 `forum` に対して、`topic.id` の値が `5` のときにテンプレートタグ `{% url 'forum' topic.id %}` が出力する結果はどれですか？<br><pre><code># urls.py\npath('&lt;int:topic_id&gt;/', views.forum, name='forum')</code></pre>",
+      "options": [
+        "5/",
+        "forum/5",
+        "topic_id=5",
+        "forum?id=5"
+      ],
+      "answer": 0,
+      "commentary": "`path('<int:topic_id>/', ...)` というパターンの場合、`5/` という相対パス（または `/5/` などの絶対パス）が生成されます。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "Djangoにおいて、データベースのテーブル間の関連（リレーション）を表す `ForeignKey` の参照先オブジェクトに直接アクセスできる機能を何と呼びますか？",
+      "options": [
+        "ORM（オブジェクト関係マッピング）によるリレーションアクセス",
+        "ダイレクトSQL",
+        "セッションストレージ",
+        "コンパイル機能"
+      ],
+      "answer": 0,
+      "commentary": "Django ORMの機能により、`message.topic` のように書くだけで関連する `Topic` インスタンスへ直接アクセスできます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "ビュー関数 `forum` で `topic` と `messages` の両方をテンプレートへ渡す正しい `context` の書き方はどれですか？<br><pre><code>context = {\n    \"messages\": messages,\n    ___: topic,\n}</code></pre>",
+      "options": [
+        "\"topic\"",
+        "topic",
+        "Topic",
+        "\"topic_name\""
+      ],
+      "answer": 0,
+      "commentary": "テンプレート側で `topic` という変数名でアクセスするため、辞書のキーを `\"topic\"` と指定します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されたとき、変数 `topic` に入るデータ型は何ですか？<br><pre><code>topic = Topic.objects.get(id=1)</code></pre>",
+      "options": [
+        "Topic モデルのインスタンス（1つのオブジェクト）",
+        "QuerySet（リストのようなオブジェクト）",
+        "int型",
+        "str型"
+      ],
+      "answer": 0,
+      "commentary": "`get()` は QuerySet ではなく、該当するモデルの単一インスタンス（オブジェクト）を返します。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されたとき、変数 `messages` に入るデータ型は何ですか？<br><pre><code>messages = Message.objects.filter(topic=topic)</code></pre>",
+      "options": [
+        "QuerySet（Messageオブジェクトの集合）",
+        "Message モデルの単一インスタンス",
+        "Dict（辞書型）",
+        "bool型"
+      ],
+      "answer": 0,
+      "commentary": "`filter()` は該当するオブジェクトがまとめられた `QuerySet` 型を返します。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "Djangoのテンプレートファイル内で変数を表示する際の波括弧記法として正しいものはどれですか？",
+      "options": [
+        "{{ 変数名 }}",
+        "{% 変数名 %}",
+        "{# 変数名 #}",
+        "$(変数名)"
+      ],
+      "answer": 0,
+      "commentary": "変数の値を出力するには二重の波括弧 `{{ }}` を使用します。"
+    },
+    {
+      "id": 40,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でメッセージオブジェクトの本文を表示する属性アクセスとして適切なものはどれですか？<br><pre><code>&lt;td&gt;{{ message.___ }}&lt;/td&gt;</code></pre>",
+      "options": [
+        "content",
+        "text",
+        "body",
+        "message"
+      ],
+      "answer": 0,
+      "commentary": "Messageモデルで本文用に定義したフィールド名は `content` です。"
     }
   ]
 }
