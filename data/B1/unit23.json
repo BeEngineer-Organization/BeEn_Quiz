@@ -1,4 +1,525 @@
 {
   "unit_title": "ロギング - 基礎",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "プログラムの動作状態やエラー発生時の記録（履歴）を残す仕組みを何と呼びますか？",
+      "options": [
+        "ロギング",
+        "デバッグ",
+        "リファクタリング",
+        "コンパイル"
+      ],
+      "answer": 0,
+      "commentary": "プログラムの実行状態やエラーなどを記録して残す仕組みを「ロギング（ログ出力）」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "Pythonのログレベルを重要度が「低い順（緊急性が低い順）」に並べた正しい順番はどれですか？",
+      "options": [
+        "DEBUG → INFO → WARNING → ERROR → CRITICAL",
+        "CRITICAL → ERROR → WARNING → INFO → DEBUG",
+        "INFO → DEBUG → WARNING → ERROR → CRITICAL",
+        "WARNING → DEBUG → INFO → ERROR → CRITICAL"
+      ],
+      "answer": 0,
+      "commentary": "ログレベルは重要度の低い順に DEBUG → INFO → WARNING → ERROR → CRITICAL の5段階に分かれています。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "Pythonで標準提供されているロギング用モジュールをインポートする記述です。空欄に入るキーワードは何ですか？<br><pre><code>import ___</code></pre>",
+      "options": [
+        "logging",
+        "logger",
+        "log",
+        "syslog"
+      ],
+      "answer": 0,
+      "commentary": "Pythonでロギング機能を使用するには標準ライブラリの `logging` モジュールをインポートします。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "デフォルト設定のPythonで次のコードを実行したとき、ターミナルに出力されるログはどれですか？<br><pre><code>import logging\nlogging.info(\"info-level log\")\nlogging.warning(\"warning-level log\")</code></pre>",
+      "options": [
+        "WARNING:root:warning-level log のみ出力される",
+        "INFO:root:info-level log のみ出力される",
+        "両方のログが出力される",
+        "どちらのログも出力されない"
+      ],
+      "answer": 0,
+      "commentary": "Pythonのデフォルトのログレベルは WARNING 以上に設定されているため、INFO レベルのログは出力されず WARNING レベルのみ出力されます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "出力するログのレベルやフォーマットなどの基本設定を変更するために呼び出す関数は何ですか？<br><pre><code>import logging\nlogging.___(level=logging.INFO)</code></pre>",
+      "options": [
+        "basicConfig",
+        "setConfig",
+        "initLogger",
+        "setLogLevel"
+      ],
+      "answer": 0,
+      "commentary": "ロギングのルート設定を行うには `logging.basicConfig()` 関数を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、ターミナルに出力されるログメッセージはどれですか？<br><pre><code>import logging\nlogging.basicConfig(level=logging.INFO)\nlogging.info(\"info-level log\")</code></pre>",
+      "options": [
+        "INFO:root:info-level log",
+        "DEBUG:root:info-level log",
+        "何も表示されない",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "`basicConfig` でレベルを INFO 以上に変更したため、`logging.info()` の出力が行われます。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "ログの出力フォーマット（時刻やメッセージの並び順など）を指定するために `basicConfig` に渡す引数名は何ですか？<br><pre><code>logging.basicConfig(___=\"%(asctime)s %(levelname)s:%(message)s\")</code></pre>",
+      "options": [
+        "format",
+        "style",
+        "template",
+        "layout"
+      ],
+      "answer": 0,
+      "commentary": "出力フォーマットを指定するためのパラメータ名は `format` です。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "ログフォーマット内で「ログが生成された時刻（文字列）」を出力するための属性指定は何ですか？<br><pre><code>logging.basicConfig(format=\"%(___)s %(message)s\")</code></pre>",
+      "options": [
+        "asctime",
+        "time",
+        "timestamp",
+        "created_time"
+      ],
+      "answer": 0,
+      "commentary": "ログの生成時刻を読みやすい文字列形式で出力する属性名は `asctime`（`%(asctime)s`）です。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "ログフォーマット内で「ログレベルの名称（INFOやERRORなど）」を出力するための属性指定は何ですか？<br><pre><code>logging.basicConfig(format=\"%(___)s: %(message)s\")</code></pre>",
+      "options": [
+        "levelname",
+        "level",
+        "log_type",
+        "severity"
+      ],
+      "answer": 0,
+      "commentary": "ログレベル文字列（\"INFO\"、\"WARNING\"など）を出力する属性名は `levelname`（`%(levelname)s`）です。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "ログフォーマット内で「ロギングが呼び出された行番号（整数）」を出力するための正しい記述はどれですか？<br><pre><code>logging.basicConfig(format=\"line %(___)d: %(message)s\")</code></pre>",
+      "options": [
+        "lineno",
+        "line",
+        "row",
+        "number"
+      ],
+      "answer": 0,
+      "commentary": "行番号（整数型）を出力する属性名は `lineno` であり、整数型なので `%d`（`%(lineno)d`）で受け取ります。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "ログフォーマット内で「呼び出し元のファイル名」を出力するための属性指定は何ですか？<br><pre><code>logging.basicConfig(format=\"[%(___)s] %(message)s\")</code></pre>",
+      "options": [
+        "filename",
+        "filepath",
+        "file",
+        "module_name"
+      ],
+      "answer": 0,
+      "commentary": "呼び出し元ファイル名を出力する属性名は `filename`（`%(filename)s`）です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "ログフォーマット内で「出力したいログメッセージ本文」を出力するための属性指定は何ですか？<br><pre><code>logging.basicConfig(format=\"%(levelname)s: %(___)s\")</code></pre>",
+      "options": [
+        "message",
+        "msg",
+        "text",
+        "content"
+      ],
+      "answer": 0,
+      "commentary": "ログメッセージ本文を出力する属性名は `message`（`%(message)s`）です。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "ロギングの構成要素のうち、いつ・どこで・どんな内容が発生したかという「ログの情報（材料）を集めて生成する」役割を持つものはどれですか？",
+      "options": [
+        "ロガー（Logger）",
+        "フォーマッタ（Formatter）",
+        "ハンドラ（Handler）",
+        "フィルター（Filter）"
+      ],
+      "answer": 0,
+      "commentary": "ロガーはログの情報を収集してログイベントを生成する「工場」のような役割を果たします。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "ファイルごとに固有の名前を持つロガーを取得・生成するための正しいコードはどれですか？<br><pre><code>import logging\nlogger = logging.getLogger(___)</code></pre>",
+      "options": [
+        "__name__",
+        "__file__",
+        "__main__",
+        "\"root\""
+      ],
+      "answer": 0,
+      "commentary": "Pythonの特殊変数 `__name__` を渡すことで、実行中のモジュール/ファイル名に基づいた独立したロガーを生成できます。"
+    },
+    {
+      "id": 15,
+      "type": "用語理解",
+      "question": "Pythonにおいて、現在実行されているファイルやモジュールの名前が自動的に格納されている特殊なグローバル変数はどれですか？",
+      "options": [
+        "__name__",
+        "__file__",
+        "__path__",
+        "__doc__"
+      ],
+      "answer": 0,
+      "commentary": "`__name__` 変数には実行中ファイルのモジュール名が格納されています。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "ロギングの構成要素のうち、収集されたログの情報を決められた表示形式（レイアウト）に整える役割を持つものはどれですか？",
+      "options": [
+        "フォーマッタ（Formatter）",
+        "ロガー（Logger）",
+        "ハンドラ（Handler）",
+        "ストリーム（Stream）"
+      ],
+      "answer": 0,
+      "commentary": "フォーマッタは、ロガーが集めた情報を指定された文字列形式に加工・整形する役割を持ちます。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "ロギングの構成要素のうち、生成・整形されたログを「ターミナル画面に出力する」や「ファイルに書き込む」といった実際の出力先へ送り出す役割を持つものはどれですか？",
+      "options": [
+        "ハンドラ（Handler）",
+        "フォーマッタ（Formatter）",
+        "ロガー（Logger）",
+        "レシーバー（Receiver）"
+      ],
+      "answer": 0,
+      "commentary": "ハンドラはログの出力先（コンソール、ログファイルなど）を決定してログを出力する「販売店」のような役割を持ちます。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "ロガー、フォーマッタ、ハンドラの関係性についての説明として正しいものはどれですか？",
+      "options": [
+        "1つのロガーには複数のハンドラを紐付けることができる",
+        "1つのハンドラには複数のフォーマッタを同時に設定しなければならない",
+        "1つのロガーには1つのハンドラしか設定できない",
+        "フォーマッタはロガーに直接紐付けられ、ハンドラは使用しない"
+      ],
+      "answer": 0,
+      "commentary": "1つのロガーに対して複数のハンドラ（ターミナル出力用とファイル出力用など）を紐付けることが可能です。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "Djangoの `settings.py` 内で、プロジェクト全体のロギング設定をまとめて保持する辞書型のグローバル変数名は何ですか？<br><pre><code>___ = {\n    \"version\": 1,\n    \"disable_existing_loggers\": False,\n    ...\n}</code></pre>",
+      "options": [
+        "LOGGING",
+        "LOG_CONFIG",
+        "DJANGO_LOGS",
+        "LOGGER_SETTINGS"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのロギング設定は `settings.py` の `LOGGING` という変数に辞書形式で定義します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "`settings.py` の `LOGGING` 設定辞書で、設定フォーマットのバージョン（現在は `1` に固定）を指定する必須のキーは何ですか？<br><pre><code>LOGGING = {\n    \"___\": 1,\n    \"disable_existing_loggers\": False,\n}</code></pre>",
+      "options": [
+        "version",
+        "revision",
+        "format_version",
+        "setting_ver"
+      ],
+      "answer": 0,
+      "commentary": "Dictionary Schemaの仕様上、`\"version\": 1` は必須のキーとなります。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "`LOGGING` 設定内で `\"disable_existing_loggers\": False` と指定した際の効果として正しいものはどれですか？",
+      "options": [
+        "Djangoにあらかじめ用意されているデフォルトのロガー設定が無効化されずに残る",
+        "既存のすべてのログファイルが自動削除される",
+        "ログの出力が全面的に禁止（停止）される",
+        "ログがターミナルにしか出力されなくなる"
+      ],
+      "answer": 0,
+      "commentary": "`False` に設定することで、Django標準の有用な既存ロガーを破棄せずに活かしたまま追加設定ができます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "Djangoの設定で、ログを「ファイル」へ書き出すためのハンドラオブジェクトクラスを指定するコードです。空欄に入るクラス名は何ですか？<br><pre><code>\"handlers\": {\n    \"file\": {\n        \"class\": \"logging.___\",\n        \"filename\": \"/path/to/debug.log\",\n    }\n}</code></pre>",
+      "options": [
+        "FileHandler",
+        "StreamHandler",
+        "LogFileWriter",
+        "TextFileHandler"
+      ],
+      "answer": 0,
+      "commentary": "ファイルへの出力を行うハンドラクラスは `logging.FileHandler` です。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "Djangoの設定で、ログを「ターミナル（コンソール標準出力）」へ書き出すためのハンドラオブジェクトクラスは何ですか？<br><pre><code>\"handlers\": {\n    \"stream\": {\n        \"class\": \"logging.___\",\n    }\n}</code></pre>",
+      "options": [
+        "StreamHandler",
+        "FileHandler",
+        "ConsoleHandler",
+        "TerminalHandler"
+      ],
+      "answer": 0,
+      "commentary": "ターミナル（標準出力・標準エラー）へログを出力するハンドラクラスは `logging.StreamHandler` です。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "ハンドラやロガーの設定内で、出力対象とするログレベルの最低基準（下限）を指定するキーは何ですか？<br><pre><code>\"handlers\": {\n    \"stream\": {\n        \"___\": \"INFO\",\n        \"class\": \"logging.StreamHandler\",\n    }\n}</code></pre>",
+      "options": [
+        "level",
+        "min_level",
+        "log_level",
+        "priority"
+      ],
+      "answer": 0,
+      "commentary": "出力するログレベルの下限閾値を指定する設定キーは `\"level\"` です。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "次の設定を持つロガー `\"main\"` がログを発生させた場合、ログはどのハンドラに渡されますか？<br><pre><code>\"loggers\": {\n    \"main\": {\n        \"handlers\": [\"stream\"],\n        \"level\": \"INFO\",\n    }\n}</code></pre>",
+      "options": [
+        "\"stream\" という名前で定義されたハンドラへ渡される",
+        "すべてのハンドラへ無条件で渡される",
+        "どのハンドラにも渡されず破棄される",
+        "\"file\" という名前のハンドラに自動的にリダイレクトされる"
+      ],
+      "answer": 0,
+      "commentary": "`\"handlers\": [\"stream\"]` と指定されているため、`stream` ハンドラにのみログが転送されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "Djangoのビューファイル等で、現在のファイル用のロガーオブジェクトを取得する正しい記述はどれですか？<br><pre><code>import logging\nlogger = logging.___(__name__)</code></pre>",
+      "options": [
+        "getLogger",
+        "createLogger",
+        "fetchLogger",
+        "setLogger"
+      ],
+      "answer": 0,
+      "commentary": "ロガーインスタンスの取得・生成には `logging.getLogger(...)` を呼び出します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "ビュー関数内でINFOレベルのログを出力するメソッド呼び出しです。空欄に入るメソッド名は何ですか？<br><pre><code>logger.___(\"A message has been sent: %s to %s\", sender_name, receiver_name)</code></pre>",
+      "options": [
+        "info",
+        "debug",
+        "warning",
+        "error"
+      ],
+      "answer": 0,
+      "commentary": "INFOレベルのログを出力するには `logger.info(...)` メソッドを使います。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "フォーマッタが `\"%(levelname)s: %(message)s\"` と設定されている環境で、`logger.info(\"Hello World\")` が実行された際のターミナル出力結果はどれですか？",
+      "options": [
+        "INFO: Hello World",
+        "DEBUG: Hello World",
+        "INFO:root:Hello World",
+        "Hello World"
+      ],
+      "answer": 0,
+      "commentary": "`%(levelname)s`（INFO）と `%(message)s`（Hello World）がコロンで接続されて `INFO: Hello World` と出力されます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "ユーザー登録ビューで、フォームの入力検証を通過した安全なデータから `email` を取り出す記述です。<br><pre><code>if form.is_valid():\n    email = form.___[\"email\"]</code></pre>",
+      "options": [
+        "cleaned_data",
+        "post_data",
+        "input_data",
+        "validated_data"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのFormでは、`form.is_valid()` 成功後にバリデーション済みのデータが `form.cleaned_data` 辞書に格納されます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "ユーザー登録完了時に、ユーザー名とメールアドレスをログ出力するコードの一部です。<br><pre><code>logger.info(\"username : %s, email : %s has registered\", username, ___)</code></pre>",
+      "options": [
+        "email",
+        "user_email",
+        "mail",
+        "password"
+      ],
+      "answer": 0,
+      "commentary": "フォーマット文字列の2つ目の `%s` に埋め込む変数として `email` を渡します。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "次のロギングコードが実行されたとき、ターミナルに出力される文字列はどれですか？<br><pre><code>username = \"test\"\nemail = \"test@example.com\"\nlogger.info(\"username : %s, email : %s has registered\", username, email)</code></pre>",
+      "options": [
+        "INFO: username : test, email : test@example.com has registered",
+        "INFO: username : %s, email : %s has registered",
+        "username : test, email : test@example.com has registered",
+        "WARNING: test test@example.com has registered"
+      ],
+      "answer": 0,
+      "commentary": "`%s` の位置にそれぞれ `username`（test）と `email`（test@example.com）が順番に埋め込まれて出力されます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "ユーザー名変更機能で、ログイン中ユーザーの「変更前のユーザー名」を取得・保持するコードです。<br><pre><code>user = request.user\nold_username = user.___</code></pre>",
+      "options": [
+        "username",
+        "name",
+        "user_id",
+        "get_name()"
+      ],
+      "answer": 0,
+      "commentary": "Userオブジェクトから現在のユーザー名を取り出す属性は `user.username` です。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "ユーザー名変更フォームから「変更後の新しいユーザー名」を取得するコードです。<br><pre><code>new_username = form.cleaned_data[\"___\"]</code></pre>",
+      "options": [
+        "username",
+        "new_name",
+        "user_name",
+        "name"
+      ],
+      "answer": 0,
+      "commentary": "フォームのフィールド名 `\"username\"` を指定してクリーン済みデータを取り出します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "ユーザー名変更のログ出力で、変更前と変更後のユーザー名をログメッセージに埋め込むコードです。<br><pre><code>logger.info(\n    \"username has been changed from %s to %s\", old_username, ___\n)</code></pre>",
+      "options": [
+        "new_username",
+        "username",
+        "user.username",
+        "updated_name"
+      ],
+      "answer": 0,
+      "commentary": "2つ目の `%s` に変更後のユーザー名が入るため `new_username` 変数を渡します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "`old_username` が \"test\"、`new_username` が \"tester\" のとき、次のロギングコードの出力結果はどうなりますか？<br><pre><code>logger.info(\"username has been changed from %s to %s\", old_username, new_username)</code></pre>",
+      "options": [
+        "INFO: username has been changed from test to tester",
+        "INFO: username has been changed from tester to test",
+        "INFO: username has been changed from %s to %s",
+        "ERROR: username has been changed"
+      ],
+      "answer": 0,
+      "commentary": "第1引数の文字列フォーマットに従って `from test to tester` の順で展開出力されます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "メールアドレス変更機能において、変更前のメールアドレスを取得する記述です。<br><pre><code>old_email = user.___</code></pre>",
+      "options": [
+        "email",
+        "mail",
+        "user_email",
+        "email_address"
+      ],
+      "answer": 0,
+      "commentary": "Userモデルのメールアドレス属性名は `email` です。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "メールアドレス変更のログ出力で、変更前のメールアドレス（`old_email`）と変更後のメールアドレス（`new_email`）を渡すコードです。<br><pre><code>logger.info(\"email has been changed from %s to %s\", ___, new_email)</code></pre>",
+      "options": [
+        "old_email",
+        "user.email",
+        "email",
+        "previous_email"
+      ],
+      "answer": 0,
+      "commentary": "最初の `%s` に対応する変数として `old_email` を指定します。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "ロギング出力で変数の値をフォーマットして埋め込む際、Pythonの `logging` モジュールで推奨される正しい書き方はどれですか？",
+      "options": [
+        "logger.info(\"User: %s\", username)",
+        "logger.info(\"User: \" + username)",
+        "logger.info(f\"User: {username}\")",
+        "logger.info(\"User: {}\".format(username))"
+      ],
+      "answer": 0,
+      "commentary": "ロギング機能では、ログレベル条件を満たさなかった場合の文字列結合コストを避けるため `logger.info(\"メッセージ %s\", 変数)` のようにカンマ区切りで渡すスタイルが標準推奨されています。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "5つのログレベルのうち、「極めて重大な問題により、プログラムの続行そのものが不可能になった」ことを報告する最上位のログレベルは何ですか？",
+      "options": [
+        "CRITICAL",
+        "ERROR",
+        "WARNING",
+        "FATAL_ERROR"
+      ],
+      "answer": 0,
+      "commentary": "プログラムが停止するような最悪レベルの障害メッセージには `CRITICAL` レベルが使用されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "5つのログレベルのうち、「プログラムのデバッグ（開発中の動作確認）の際のみ利用する詳細な情報」を出力するための最低レベルは何ですか？",
+      "options": [
+        "DEBUG",
+        "INFO",
+        "TRACE",
+        "DETAIL"
+      ],
+      "answer": 0,
+      "commentary": "開発中の変数確認や詳細なステップ追跡用のログレベルは `DEBUG` です。"
+    }
+  ]
 }

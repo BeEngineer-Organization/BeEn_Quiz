@@ -1,4 +1,525 @@
 {
   "unit_title": "クエリ最適化 2 - 演習",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "トピックに紐づくメッセージの中で最も新しい投稿日時を取得し、`latest_message_time` という名前でクエリセットに追加するコードです。空欄に入る集計関数を選んでください。<br><pre><code>Topic.objects.all().annotate(\n    latest_message_time=___(\"topic_message__created_at\"),\n)</code></pre>",
+      "options": [
+        "Max",
+        "Min",
+        "Sum",
+        "Count"
+      ],
+      "answer": 0,
+      "commentary": "最も新しい投稿日時（最大の数値・日時）を取得するには `Max` 関数を使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "最終更新日時（`latest_message_time`）が新しい順（降順）にトピックを並び替えるコードです。空欄に入る適切な記述を選んでください。<br><pre><code>Topic.objects.all().annotate(\n    latest_message_time=Max(\"topic_message__created_at\"),\n).___(\"-latest_message_time\")</code></pre>",
+      "options": [
+        "order_by",
+        "sort_by",
+        "group_by",
+        "filter"
+      ],
+      "answer": 0,
+      "commentary": "取得したデータを並び替えるには `order_by()` メソッドを使用します。降順にするため先頭に `-` を付けます。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "閲覧ユーザーがログインしているかどうかを判定する条件文です。空欄に入るプロパティ名を選んでください。<br><pre><code>if self.request.user.___:\n    # ログイン時の処理\nelse:\n    # 未ログイン時の処理</code></pre>",
+      "options": [
+        "is_authenticated",
+        "is_active",
+        "is_logged_in",
+        "is_user"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーが認証（ログイン）されているか確認するには `user.is_authenticated` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Topicモデルから関連するメッセージの作成日時を参照する際、Djangoのリレーションを辿るための記法として正しいものはどれですか？<br><pre><code>latest_message_time=Max(\"topic_message___created_at\")</code></pre>",
+      "options": [
+        "__",
+        ".",
+        "->",
+        ":"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのORMでモデル間の関連フィールドを辿る際は、アンダースコア2つ（`__`）で繋ぎます。"
+    },
+    {
+      "id": 5,
+      "type": "実行結果予測",
+      "question": "次のテンプレートコードで、トピックにまだメッセージが1件も投稿されておらず `latest_message_time` が `None` の場合、画面には何が表示されますか？<br><pre><code>&lt;a class=\"topic-link\" href=\"...\"&gt;\n    {{ topic.name }}の掲示板へ\n    {% if topic.latest_message_time %}\n        最終更新: {{ topic.latest_message_time }}\n    {% endif %}\n&lt;/a&gt;</code></pre>",
+      "options": [
+        "「（トピック名）の掲示板へ」のみが表示され、「最終更新:」の部分は表示されない",
+        "「（トピック名）の掲示板へ 最終更新: None」と表示される",
+        "エラーが発生して画面全体が白くなる",
+        "トピック自体が非表示になる"
+      ],
+      "answer": 0,
+      "commentary": "`latest_message_time` が `None`（偽）の場合、`{% if %}` 条件が不成立となり「最終更新:」テキストは出力されません。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "「返信元のメッセージ作成者が自分（閲覧ユーザー）であるもの」だけに絞り込むためのフィルター条件です。空欄に入る記述を選んでください。<br><pre><code>filter=Q(\n    topic_message__reply_from_child_message__parent_message__user=___\n)</code></pre>",
+      "options": [
+        "self.request.user",
+        "request.user",
+        "user.self",
+        "User.objects.get()"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビュー（`ListView`）内で現在リクエストを送っているユーザーを参照するには `self.request.user` を使用します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`order_by()` メソッドに複数の引数を指定するコードです。空欄に入る記述を選んでください。<br><pre><code>.order_by(\"-latest_reply_time\", \"___\")</code></pre>",
+      "options": [
+        "-latest_message_time",
+        "latest_message_time",
+        "created_at",
+        "-created_at"
+      ],
+      "answer": 0,
+      "commentary": "返信日時が等しい（またはNoneである）場合、次に最終更新日時が新しい順で並べ替えるため `\"-latest_message_time\"` を第2引数に指定します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "以下の `order_by` 設定を行ったとき、並び替えの優先順位として正しいものはどれですか？<br><pre><code>.order_by(\"-latest_reply_time\", \"-latest_message_time\")</code></pre>",
+      "options": [
+        "まず返信日時が新しい順で並び、返信日時が同じ（または無しの）トピック同士は最終更新日時が新しい順で並ぶ",
+        "まず最終更新日時が新しい順で並び、その後に返信日時で並ぶ",
+        "返信日時と最終更新日時の合計値が大きい順で並ぶ",
+        "ランダムな順序で並ぶ"
+      ],
+      "answer": 0,
+      "commentary": "`order_by` に複数引数を指定すると、第1引数で並び替えられ、第1引数の値が等しいもの同士が第2引数で並び替えられます。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "2つ以上の値（フィールドなど）を比較し、その中で「最も大きい値（最新の日時など）」を返すデータベース機能関数は何ですか？",
+      "options": [
+        "Greatest",
+        "NullIf",
+        "Coalesce",
+        "Max"
+      ],
+      "answer": 0,
+      "commentary": "複数のカラムや値を比較して最大のものを返すデータベース関数は `Greatest` です。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "2つの引数を比較し、それらの値が「等しい場合」には `None`（NULL）を返し、異なる場合には「第1引数の値」を返すデータベース機能関数は何ですか？",
+      "options": [
+        "NullIf",
+        "Greatest",
+        "Coalesce",
+        "Equals"
+      ],
+      "answer": 0,
+      "commentary": "2つの値が等しいときに `None` を返したい場合は `NullIf` 関数を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "以下の `NullIf` 関数を実行したとき、`newest` と `my_latest_message_time` の値が全く同じである場合、返される値は何ですか？<br><pre><code>untouched_reply_time=NullIf(\"newest\", \"my_latest_message_time\")</code></pre>",
+      "options": [
+        "None",
+        "newest の値",
+        "my_latest_message_time の値",
+        "True"
+      ],
+      "answer": 0,
+      "commentary": "`NullIf(A, B)` は A と B が等しい場合に `None`（NULL）を返します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "以下の `NullIf` 関数を実行したとき、`newest` が「12:00」、`my_latest_message_time` が「10:00」と異なる値である場合、返される値は何ですか？<br><pre><code>untouched_reply_time=NullIf(\"newest\", \"my_latest_message_time\")</code></pre>",
+      "options": [
+        "「12:00」（第1引数である newest の値）",
+        "None",
+        "「10:00」（第2引数である my_latest_message_time の値）",
+        "False"
+      ],
+      "answer": 0,
+      "commentary": "`NullIf(A, B)` は A と B が等しくない場合、第1引数である A の値をそのまま返します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "閲覧ユーザーがそのトピック内で投稿した最新のメッセージ日時を取得するコードです。空欄に入る条件指定を選んでください。<br><pre><code>my_latest_message_time=Max(\n    \"topic_message__created_at\",\n    filter=Q(___)\n)</code></pre>",
+      "options": [
+        "topic_message__user=self.request.user",
+        "user=self.request.user",
+        "topic_message=self.request.user",
+        "sender=self.request.user"
+      ],
+      "answer": 0,
+      "commentary": "トピックに紐づくメッセージ（`topic_message`）の作成者（`user`）が自分自身であるものを指定します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "`latest_reply_time` と `my_latest_message_time` のうち、より新しい方の日時を取得するコードです。空欄に入る関数名を選んでください。<br><pre><code>newest=___(\n    \"latest_reply_time\",\n    \"my_latest_message_time\"\n)</code></pre>",
+      "options": [
+        "Greatest",
+        "Max",
+        "NullIf",
+        "Coalesce"
+      ],
+      "answer": 0,
+      "commentary": "複数の注釈フィールドの値を比較して大きい方を取るには `Greatest` 関数を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "「未対応の返信日時」を取得するために `NullIf` を使うコードです。空欄に入る引数の組み合わせを選んでください。<br><pre><code>untouched_reply_time=NullIf(\"newest\", \"___\")</code></pre>",
+      "options": [
+        "my_latest_message_time",
+        "latest_reply_time",
+        "latest_message_time",
+        "created_at"
+      ],
+      "answer": 0,
+      "commentary": "`newest`（最も新しい日時）と `my_latest_message_time`（自分の最新送信日時）が等しければ返信に対応済み（＝未対応ではない）と判定するため、`my_latest_message_time` と比較します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "未対応の返信があるトピックを優先し、それ以外は最終更新日時順で並び替える最終的なソートコードです。空欄に入るフィールド名を選んでください。<br><pre><code>.order_by(\"-___\", \"-latest_message_time\")</code></pre>",
+      "options": [
+        "untouched_reply_time",
+        "latest_reply_time",
+        "newest",
+        "my_latest_message_time"
+      ],
+      "answer": 0,
+      "commentary": "未対応の返信日時である `untouched_reply_time` を最優先で降順ソートします。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "ユーザーが自分宛ての返信に対してメッセージを返した場合（対応した場合）、そのトピックの `untouched_reply_time` の値はどう変化しますか？",
+      "options": [
+        "`my_latest_message_time` が `latest_reply_time` 以上になり、`NullIf` によって `None` になる",
+        "自動的に現在時刻に書き換わる",
+        "0 になる",
+        "変化せず元の返信日時のまま残る"
+      ],
+      "answer": 0,
+      "commentary": "返信したことで `my_latest_message_time` が最新となり、`newest` と等しくなるため `NullIf` が `None` を返します。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "`untouched_reply_time` が `None` になったトピックは、`order_by(\"-untouched_reply_time\", \"-latest_message_time\")` によってどう並び替えられますか？",
+      "options": [
+        "優先表示が解除され、通常の「最終更新日時（latest_message_time）が新しい順」で並び替えられる",
+        "画面の一番上に強制固定される",
+        "一覧画面から非表示になって消える",
+        "エラーが発生して並び替えができなくなる"
+      ],
+      "answer": 0,
+      "commentary": "`untouched_reply_time` が `None` になると優先度が下がり、第2引数の `latest_message_time` 順に並びます。"
+    },
+    {
+      "id": 19,
+      "type": "文法チェック",
+      "question": "Djangoのデータベース関数 `NullIf` をインポートするための正しいコードはどれですか？",
+      "options": [
+        "from django.db.models.functions import NullIf",
+        "from django.db.models import NullIf",
+        "from django.utils import NullIf",
+        "from django.core.exceptions import NullIf"
+      ],
+      "answer": 0,
+      "commentary": "`NullIf` や `Greatest` などのDB関数は `django.db.models.functions` からインポートします。"
+    },
+    {
+      "id": 20,
+      "type": "文法チェック",
+      "question": "Djangoの集計関数 `Max` や検索条件用クラス `Q` をインポートするための正しいコードはどれですか？",
+      "options": [
+        "from django.db.models import Max, Q",
+        "from django.db.models.functions import Max, Q",
+        "from django.shortcuts import Max, Q",
+        "from django.urls import Max, Q"
+      ],
+      "answer": 0,
+      "commentary": "`Max` や `Q` オブジェクトは `django.db.models` 直下からインポートします。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "テンプレートで「未対応の返信がある場合は『返信されました:』を表示し、そうでない場合は『最終更新:』を表示する」条件分岐のコードです。<br><pre><code>{% if topic.untouched_reply_time %}\n    返信されました: {{ topic.untouched_reply_time }}\n{% ___ %}\n    {% if topic.latest_message_time %}\n        最終更新: {{ topic.latest_message_time }}\n    {% endif %}\n{% endif %}</code></pre>",
+      "options": [
+        "else",
+        "elif",
+        "otherwise",
+        "when"
+      ],
+      "answer": 0,
+      "commentary": "条件が成り立たない場合の分岐は `{% else %}` を使用します。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "教科書内の教科書例にある「Studentモデル」のコードを実行したとき、一人暮らしの生徒（`parents_address` と `address` が異なる）の `vacation_address` に入る値は何ですか？<br><pre><code>Student.objects.all().annotate(\n    vacation_address=NullIf(\"parents_address\", \"address\"),\n)</code></pre>",
+      "options": [
+        "parents_address の値（実家の住所）",
+        "address の値（現在の住所）",
+        "None",
+        "空文字"
+      ],
+      "answer": 0,
+      "commentary": "両方の値が異なるため、`NullIf` は第1引数である `parents_address` の値を返します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "教科書内の「Studentモデル」のコードを実行したとき、実家暮らしの生徒（`parents_address` と `address` が同じ）の `vacation_address` に入る値は何ですか？<br><pre><code>Student.objects.all().annotate(\n    vacation_address=NullIf(\"parents_address\", \"address\"),\n)</code></pre>",
+      "options": [
+        "None",
+        "parents_address の値",
+        "address の値",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "両方の値が等しいため、`NullIf` は `None` を返します。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "Djangoのクラスベースビュー `ListView` において、一覧表示するためのデータ（クエリセット）を取得・加工する際にオーバーライドするメソッド名はどれですか？",
+      "options": [
+        "get_queryset",
+        "get_context_data",
+        "get_object",
+        "get_data"
+      ],
+      "answer": 0,
+      "commentary": "表示する一覧データの取得ロジックを変更する場合は `get_queryset(self)` をオーバーライドします。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "クエリセットに対して注釈（計算結果や関連集計値）を追加するためのORMメソッドはどれですか？<br><pre><code>Topic.objects.all().___(\n    latest_message_time=Max(\"topic_message__created_at\"),\n)</code></pre>",
+      "options": [
+        "annotate",
+        "aggregate",
+        "add_field",
+        "append"
+      ],
+      "answer": 0,
+      "commentary": "クエリセットの各要素に動的フィールドを付与・追加するには `annotate()` を使用します。"
+    },
+    {
+      "id": 26,
+      "type": "用語理解",
+      "question": "一度返信がついたトピックをいつまでも常に優先表示し続けると、どのような問題が発生しますか？",
+      "options": [
+        "返信済みトピックが常に上に残り続け、新着情報が埋もれてユーザー体験（UX）が悪くなる",
+        "データベースの容量が溢れてパンクする",
+        "サーバーの電気代が何倍にも高くなる",
+        "Pythonのプログラムがコンパイルエラーを起こす"
+      ],
+      "answer": 0,
+      "commentary": "対応済みのトピックまで上に残り続けると画面が見づらくなり、利便性（UX）が低下してしまいます。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "未ログイン状態の閲覧ユーザーに対して最終更新順でトピックを取得するクエリの一部です。空欄に入るキーワードを選んでください。<br><pre><code>if self.request.user.is_authenticated:\n    queryset = ...\n___:\n    queryset = (\n        Topic.objects.all()\n        .annotate(latest_message_time=Max(\"topic_message__created_at\"))\n        .order_by(\"-latest_message_time\")\n    )</code></pre>",
+      "options": [
+        "else",
+        "elif",
+        "except",
+        "finally"
+      ],
+      "answer": 0,
+      "commentary": "if文の条件（ログイン中）に該当しない場合の処理ブロックは `else:` です。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "ログインしていない一般ユーザーが掲示板トップページにアクセスした場合、トピック一覧はどのように並び替えられて表示されますか？",
+      "options": [
+        "それぞれのトピックの「最終更新日時（最新メッセージの投稿日時）」が新しい順",
+        "自分宛ての返信が新しい順",
+        "トピックのタイトル五十音順",
+        "何も表示されない（空の画面になる）"
+      ],
+      "answer": 0,
+      "commentary": "未ログイン時は `else` ブロックが実行され、`latest_message_time` の降順で並び替わります。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "トピック詳細ページへの動的URLを生成するDjangoテンプレートタグの記述です。空欄に入るタグ名を選んでください。<br><pre><code>&lt;a class=\"topic-link\" href=\"{% ___ 'forum' topic.id %}\"&gt;</code></pre>",
+      "options": [
+        "url",
+        "path",
+        "link",
+        "href"
+      ],
+      "answer": 0,
+      "commentary": "名前付きURLパターンからリンク文字列を作るテンプレートタグは `{% url %}` です。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "Djangoテンプレート構文において、`{% if %}` タグを閉じる正しい構文はどれですか？",
+      "options": [
+        "{% endif %}",
+        "{% end %}",
+        "{% closeif %}",
+        "{% endifblock %}"
+      ],
+      "answer": 0,
+      "commentary": "IF文ブロックの終了は `{% endif %}` で閉じます。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "Web開発において「ユーザー体験」を意味する略称はどれですか？",
+      "options": [
+        "UX",
+        "UI",
+        "DX",
+        "DB"
+      ],
+      "answer": 0,
+      "commentary": "ユーザー体験（User Experience）は「UX」と略されます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "メッセージの絞り込み条件（Qオブジェクト）の中で、特定のユーザーを直接比較指定しているコードです。空欄に入る記述を選んでください。<br><pre><code>filter=Q(topic_message__user=___)</code></pre>",
+      "options": [
+        "self.request.user",
+        "request.user.id",
+        "User.objects.all()",
+        "user_name"
+      ],
+      "answer": 0,
+      "commentary": "ログイン中のUserオブジェクトと比較するため `self.request.user` を指定します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "トピック内にメッセージが1件も存在しない場合、`Max(\"topic_message__created_at\")` が返す値は何になりますか？",
+      "options": [
+        "None",
+        "0",
+        "現在時刻",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "対象となるレコードが存在しない場合、集計関数 `Max` は `None` を返します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "Djangoのクエリで「降順（新しい順・大きい順）」を指定するためにソートフィールド名の先頭に付ける記号は何ですか？<br><pre><code>.order_by(\"___untouched_reply_time\")</code></pre>",
+      "options": [
+        "-",
+        "+",
+        "!",
+        "~"
+      ],
+      "answer": 0,
+      "commentary": "降順ソートを行うには、フィールド名の頭に `-` （マイナス/ハイフン）を付けます。"
+    },
+    {
+      "id": 35,
+      "type": "文法チェック",
+      "question": "複数の条件を組み合わせて高度な集計を行う際、`Max` 関数の引数としてフィルタ条件を渡す正しい文法はどれですか？",
+      "options": [
+        "Max(\"フィールド名\", filter=Q(条件))",
+        "Max(\"フィールド名\", where=Q(条件))",
+        "Max(Q(条件), \"フィールド名\")",
+        "Max(\"フィールド名\").filter(Q(条件))"
+      ],
+      "answer": 0,
+      "commentary": "集計対象を絞り込む場合、`Max(\"フィールド名\", filter=Q(...))` の形式で渡します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "自分宛ての返信が投稿されているJavaScript掲示板があり、まだ自分が返信・投稿を行っていないとき、その掲示板の `untouched_reply_time` に入る値はどうなりますか？",
+      "options": [
+        "返信メッセージが投稿された日時（`latest_reply_time` の値）",
+        "None",
+        "自分の過去の投稿日時",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "自分の最新送信日時より返信日時の方が新しいため、`newest` と `my_latest_message_time` が一致せず、`NullIf` は `latest_reply_time` を返します。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "テンプレートのリスト繰り返し処理で、各トピックオブジェクトを取り出すループタグの記述です。<br><pre><code>{% ___ topic in topics %}\n    &lt;li class=\"topic-item\"&gt;...&lt;/li&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "for",
+        "foreach",
+        "loop",
+        "while"
+      ],
+      "answer": 0,
+      "commentary": "繰り返し処理を行うには `{% for 変数 in リスト %}` を使用します。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "データベースへの無駄なアクセス回数を減らしたり、高度な機能関数を使ってサーバー側の処理効率を高める取り組みを何と呼びますか？",
+      "options": [
+        "クエリ最適化",
+        "データ移行",
+        "正規化",
+        "コンパイル"
+      ],
+      "answer": 0,
+      "commentary": "データベースの問い合わせ（クエリ）の書き方を工夫してパフォーマンスを上げることを「クエリ最適化」と呼びます。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "次のように `order_by` の順番を逆に書き換えてしまった場合、どのような表示順になりますか？<br><pre><code>.order_by(\"-latest_message_time\", \"-untouched_reply_time\")</code></pre>",
+      "options": [
+        "返信の有無に関わらず、常に全体の最終更新日時が新しい順で並んでしまう",
+        "未対応の返信があるトピックが常に最優先される",
+        "五十音順に並び替えられる",
+        "エラーで画面が表示されなくなる"
+      ],
+      "answer": 0,
+      "commentary": "第1引数が `-latest_message_time` になるため、未対応の返信の有無にかかわらず常に全体更新日時順が最優先されてしまいます。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "Pythonの `annotate()` 内で複数の計算フィールド（例: `latest_message_time` と `latest_reply_time`）を一度に追加定義する際の正しい区切り記号は何ですか？",
+      "options": [
+        ", （カンマ）",
+        "; （セミコロン）",
+        "& （アンド）",
+        "+ （プラス）"
+      ],
+      "answer": 0,
+      "commentary": "`annotate` の引数に複数キーワード引数を渡す際はカンマ（`,`）で区切ります。"
+    }
+  ]
 }

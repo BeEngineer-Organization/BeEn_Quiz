@@ -1,4 +1,525 @@
 {
   "unit_title": "ロギング - 応用",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "Djangoで1通だけメールを簡単におくるのにもっとも適した関数はどれですか？",
+      "options": [
+        "send_mail()",
+        "send_mass_mail()",
+        "EmailMessage()",
+        "post_mail()"
+      ],
+      "answer": 0,
+      "commentary": "1通のメールをシンプルにおくりたいときは send_mail() 関数を使います。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "メールをおくるための `send_mail` 関数をインポートする正しいコードはどれですか？<br><pre><code>from django.core.mail import ___</code></pre>",
+      "options": [
+        "send_mail",
+        "mail",
+        "mailer",
+        "email"
+      ],
+      "answer": 0,
+      "commentary": "メール送信機能を使うために `from django.core.mail import send_mail` と書いてインポートします。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "send_mail関数の引数の順番として正しいものはどれですか？<br><pre><code>send_mail(件名, 本文, 送信者, ___)</code></pre>",
+      "options": [
+        "受信者リスト",
+        "添付ファイル",
+        "送信日時",
+        "パスワード"
+      ],
+      "answer": 0,
+      "commentary": "send_mail関数は第1引数に件名(subject)、第2引数に本文(message)、第3引数に送信者(from_email)、第4引数に受信者リスト(recipient_list)を指定します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "send_mail関数で「メールの件名（タイトル）」を設定する変数名はどれですか？<br><pre><code>___ = \"回答がありました\"</code></pre>",
+      "options": [
+        "subject",
+        "title",
+        "header",
+        "topic"
+      ],
+      "answer": 0,
+      "commentary": "メールの件名（タイトル）には `subject` という変数名がよく使われます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "send_mail関数で「メールの本文」を設定する変数名はどれですか？<br><pre><code>___ = \"内容が入ります\"</code></pre>",
+      "options": [
+        "message",
+        "body",
+        "content",
+        "text"
+      ],
+      "answer": 0,
+      "commentary": "メールの本文には `message` という変数名が使われます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "send_mail関数で「送信者のメールアドレス」を設定する引数名はどれですか？<br><pre><code>send_mail(subject, message, ___, recipient_list)</code></pre>",
+      "options": [
+        "from_email",
+        "sender",
+        "from_address",
+        "user_email"
+      ],
+      "answer": 0,
+      "commentary": "送信元のアドレスを指定するパラメータ名は `from_email` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "send_mail関数で「受信者のメールアドレスリスト」を設定する引数名はどれですか？<br><pre><code>send_mail(subject, message, from_email, ___)</code></pre>",
+      "options": [
+        "recipient_list",
+        "to_list",
+        "receivers",
+        "destinations"
+      ],
+      "answer": 0,
+      "commentary": "送信先アドレスをリスト形式で渡すパラメータ名は `recipient_list` です。"
+    },
+    {
+      "id": 8,
+      "type": "用語理解",
+      "question": "開発中に実際にはメールを送信せず、ターミナル（コンソール）画面に表示させる設定項目は何ですか？",
+      "options": [
+        "EMAIL_BACKEND",
+        "MAIL_MODE",
+        "DEBUG_EMAIL",
+        "TERMINAL_MAIL"
+      ],
+      "answer": 0,
+      "commentary": "`settings.py` の `EMAIL_BACKEND` をコンソール用に設定すると、送信内容がターミナルに出力されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "メールをターミナル上に出力させるための `settings.py` の設定コードです。空欄に入る記述はどれですか？<br><pre><code>EMAIL_BACKEND = 'django.core.mail.backends.console.___ '</code></pre>",
+      "options": [
+        "EmailBackend",
+        "ConsoleBackend",
+        "TestBackend",
+        "DebugBackend"
+      ],
+      "answer": 0,
+      "commentary": "コンソール出力用のバックエンドクラスは `django.core.mail.backends.console.EmailBackend` です。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、メールが届く対象（受信者）のアドレスはどれですか？<br><pre><code>email = \"receiver@example.com\"\nrecipient_list = [email]\nsend_mail(\"件名\", \"本文\", \"sender@example.com\", recipient_list)</code></pre>",
+      "options": [
+        "receiver@example.com",
+        "sender@example.com",
+        "admin@example.com",
+        "メールはどこにも届かない"
+      ],
+      "answer": 0,
+      "commentary": "`recipient_list` に入れられた `receiver@example.com` あてにメールが送信されます。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "Djangoのログをターミナル画面（標準出力）に出力したいとき、`settings.py` のハンドラクラスに指定するものはどれですか？",
+      "options": [
+        "logging.StreamHandler",
+        "logging.FileHandler",
+        "logging.TerminalHandler",
+        "logging.ConsoleHandler"
+      ],
+      "answer": 0,
+      "commentary": "ターミナルなどのストリームにログを出力するには `logging.StreamHandler` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "`main` アプリケーション用のロガー設定を `settings.py` に記述するコードです。空欄に入るロガー名は何ですか？<br><pre><code>\"loggers\": {\n    \"___\": {\n        \"handlers\": [\"stream\"],\n        \"level\": \"INFO\",\n        \"propagate\": True,\n    },\n}</code></pre>",
+      "options": [
+        "main",
+        "app",
+        "default",
+        "root"
+      ],
+      "answer": 0,
+      "commentary": "`main` アプリのコードから呼び出すため、ロガーの名前を `\"main\"` に設定します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "Pythonの標準ロギングモジュールをインポートする正しいキーワードはどれですか？<br><pre><code>import ___</code></pre>",
+      "options": [
+        "logging",
+        "logger",
+        "syslog",
+        "log"
+      ],
+      "answer": 0,
+      "commentary": "Pythonでロギング機能を使うには `import logging` と書きます。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "現在のファイル名からロガーオブジェクトを取得する正しい記述を選んでください。<br><pre><code>logger = logging.getLogger(___)</code></pre>",
+      "options": [
+        "__name__",
+        "__file__",
+        "__main__",
+        "__doc__"
+      ],
+      "answer": 0,
+      "commentary": "現在のモジュール名が入っている特殊変数 `__name__` を渡してロガーを取得します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "INFOレベルのログを出力する正しいメソッド呼び出しはどれですか？<br><pre><code>logger.___(\"メッセージ\")</code></pre>",
+      "options": [
+        "info",
+        "log",
+        "write",
+        "print"
+      ],
+      "answer": 0,
+      "commentary": "INFOレベルのログを出力する場合は `logger.info()` メソッドを使用します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "次のロギングコードを実行したとき、ターミナルに出力されるログメッセージとして正しいものはどれですか？<br><pre><code>question_text = \"好きなお茶はなんですか\"\nselected_choice_text = \"緑茶\"\nlogger.info(\"「%s」 という質問に対して「%s」という回答がありました。\", question_text, selected_choice_text)</code></pre>",
+      "options": [
+        "INFO: 「好きなお茶はなんですか」 という質問に対して「緑茶」という回答がありました。",
+        "INFO: 「%s」 という質問に対して「%s」という回答がありました。",
+        "「好きなお茶はなんですか」 「緑茶」",
+        "ERROR: 回答がありました。"
+      ],
+      "answer": 0,
+      "commentary": "1つ目の `%s` に質問文、2つ目の `%s` に回答文が代入されて出力されます。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "フォームで送信された `message` フィールドの値をチェック・検証するために `forms.py` 内に定義する関数名はどれですか？",
+      "options": [
+        "clean_message",
+        "check_message",
+        "validate_message",
+        "get_message"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのフォームクラスで特定フィールドの検証を行う場合、`clean_<フィールド名>()` という関数を作成します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "フォームのクリーン済みデータ（入力チェック済みの値）から `message` を取り出すコードです。<br><pre><code>def clean_message(self):\n    message = self.___[\"message\"]</code></pre>",
+      "options": [
+        "cleaned_data",
+        "POST",
+        "data",
+        "valid_data"
+      ],
+      "answer": 0,
+      "commentary": "検証済みのきれいなフォームデータは `self.cleaned_data` 辞書に入っています。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "メッセージの中に禁止ワード（`TABOO_WORDS`）が含まれているかを調べる内包表記です。空欄に入る演算子はどれですか？<br><pre><code>matched = [w for w in TABOO_WORDS if w ___ message]</code></pre>",
+      "options": [
+        "in",
+        "==",
+        "has",
+        "contains"
+      ],
+      "answer": 0,
+      "commentary": "文字列中に特定の文字が含まれるか確認するには `in` 演算子を使います。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "`message` が \"ばか\" のとき、次のコードを実行するとターミナルにどう表示されますか？<br><pre><code>logger.info(\"%sという禁止語が入力されました。\", message)</code></pre>",
+      "options": [
+        "INFO: ばかという禁止語が入力されました。",
+        "INFO: %sという禁止語が入力されました。",
+        "WARNING: ばか",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`%s` に `message` の値（ばか）が埋め込まれて出力されます。"
+    },
+    {
+      "id": 21,
+      "type": "用語理解",
+      "question": "フォームの入力チェックで違反があったときに、エラーを呼び出し元に伝えるため発生させる例外クラスは何ですか？",
+      "options": [
+        "ValidationError",
+        "FormError",
+        "InputError",
+        "ValueError"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのフォームバリデーションでエラーを出すには `forms.ValidationError`（または `django.core.exceptions.ValidationError`）を raise します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "バリデーションエラーを発生させて処理を中断・警告するキーワードはどれですか？<br><pre><code>if matched:\n    ___ ValidationError(\"禁止ワードが含まれています\")</code></pre>",
+      "options": [
+        "raise",
+        "throw",
+        "return",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "Pythonで例外（エラー）を発生させるには `raise` を使います。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`', '.join(matched)` が返す文字列はどれですか？<br><pre><code>matched = [\"ばか\", \"あほ\"]\nprint(', '.join(matched))</code></pre>",
+      "options": [
+        "ばか, あほ",
+        "[\"ばか\", \"あほ\"]",
+        "ばかあほ",
+        "ばか , あほ"
+      ],
+      "answer": 0,
+      "commentary": "リストの要素が `', '` （カンマと半角スペース）で接続されてひとつの文字列になります。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "リストの要素をカンマで区切って1つの文字列に結合するメソッドを選んでください。<br><pre><code>email_message = \"%sという禁止語が入力されました。\" % (', '.___ (matched))</code></pre>",
+      "options": [
+        "join",
+        "concat",
+        "append",
+        "merge"
+      ],
+      "answer": 0,
+      "commentary": "文字列リストをつなぎ合わせるには `'区切り文字'.join(リスト)` を使います。"
+    },
+    {
+      "id": 25,
+      "type": "文法チェック",
+      "question": "send_mail関数の `recipient_list`（送信先）のデータ型として正しいものはどれですか？",
+      "options": [
+        "メールアドレスの文字列が入ったリスト `['admin@example.com']`",
+        "単一の文字列 `'admin@example.com'`",
+        "数値 `100`",
+        "辞書型 `{'to': 'admin@example.com'}`"
+      ],
+      "answer": 0,
+      "commentary": "`recipient_list` は複数の送信先を指定できるように「文字列のリスト」で渡す必要があります。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "Questionオブジェクトから質問本文のテキストを取得するプロパティはどれですか？<br><pre><code>question_text = question.___</code></pre>",
+      "options": [
+        "question_text",
+        "text",
+        "title",
+        "content"
+      ],
+      "answer": 0,
+      "commentary": "pollsアプリのQuestionモデルのテキスト用フィールド名は `question_text` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "Choiceオブジェクトから選択肢のテキストを取得するプロパティはどれですか？<br><pre><code>selected_choice_text = selected_choice.___</code></pre>",
+      "options": [
+        "choice_text",
+        "text",
+        "name",
+        "label"
+      ],
+      "answer": 0,
+      "commentary": "Choiceモデルの選択肢テキスト用フィールド名は `choice_text` です。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "Djangoで、大量のメールを効率よく一括送信したいときに使用する関数はどれですか？",
+      "options": [
+        "send_mass_mail()",
+        "send_mail()",
+        "send_all_mails()",
+        "bulk_send_mail()"
+      ],
+      "answer": 0,
+      "commentary": "複数通のメールを1回の接続処理でまとめて送信するには `send_mass_mail()` を使います。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "選択された選択肢の得票数（votes）を1つ増やすコードです。空欄に入る演算子はどれですか？<br><pre><code>selected_choice.votes ___ 1</code></pre>",
+      "options": [
+        "+=",
+        "=",
+        "==",
+        "++"
+      ],
+      "answer": 0,
+      "commentary": "元の値に1を足して再代入するには `+=` 演算子を使います。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "変更した得票数をデータベースに保存（反映）する正しいメソッドはどれですか？<br><pre><code>selected_choice.____()</code></pre>",
+      "options": [
+        "save",
+        "update",
+        "commit",
+        "push"
+      ],
+      "answer": 0,
+      "commentary": "モデルインスタンスの変更内容をDBに保存するには `.save()` を実行します。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "次のコードで禁止語が検出された場合、管理者の通知メール送信先（recipient_list）になるアドレスはどれですか？<br><pre><code>email = \"admin@example.com\"\nfrom_email = \"test@example.com\"\nrecipient_list = [email]\nsend_mail(subject, email_message, from_email, recipient_list)</code></pre>",
+      "options": [
+        "admin@example.com",
+        "test@example.com",
+        "both@example.com",
+        "送信されない"
+      ],
+      "answer": 0,
+      "commentary": "`recipient_list` に指定された `admin@example.com` へメールが送られます。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "`send_mail` を使うためにインポートするモジュールパスとして正しいものはどれですか？",
+      "options": [
+        "from django.core.mail import send_mail",
+        "from django.mail import send_mail",
+        "from django.utils.mail import send_mail",
+        "import django.send_mail"
+      ],
+      "answer": 0,
+      "commentary": "`send_mail` は `django.core.mail` からインポートして使用します。"
+    },
+    {
+      "id": 33,
+      "type": "用語理解",
+      "question": "ロギングのフォーマット指定で `%(levelname)s` が表しているものは何ですか？",
+      "options": [
+        "ログレベルの名称（INFO, WARNINGなど）",
+        "ログメッセージ本文",
+        "ログが送られた時間",
+        "実行しているファイル名"
+      ],
+      "answer": 0,
+      "commentary": "`%(levelname)s` は「INFO」や「ERROR」といったログレベルの文字列を表します。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "ロギングのフォーマット指定で `%(message)s` が表しているものは何ですか？",
+      "options": [
+        "ログメッセージ本文",
+        "ログレベルの名称",
+        "エラーの発生した行番号",
+        "ユーザーの名前"
+      ],
+      "answer": 0,
+      "commentary": "`%(message)s` はログ出力時に入力した本文メッセージを表します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "処理完了後に結果画面（results）へリダイレクト（画面移動）させるコードです。空欄に入る関数は何ですか？<br><pre><code>return ___(\"results\", question.id)</code></pre>",
+      "options": [
+        "redirect",
+        "render",
+        "forward",
+        "goto"
+      ],
+      "answer": 0,
+      "commentary": "別のページへ転送（リダイレクト）するには `redirect()` を使用します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "`matched = [\"ばか\"]` のとき、次のメール本文作成コードを実行した結果の文字列はどれですか？<br><pre><code>email_message = \"%sという禁止語が入力されました。\" % (', '.join(matched))</code></pre>",
+      "options": [
+        "ばかという禁止語が入力されました。",
+        "matchedという禁止語が入力されました。",
+        "%sという禁止語が入力されました。",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "文字列フォーマット `%` により `ばか` が埋め込まれ、「ばかという禁止語が入力されました。」となります。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "`settings.py` の `LOGGING` 辞書設定で、`\"version\"` キーに設定する正しい数値はどれですか？",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの辞書型ロギング設定スキーマのバージョンは現在 `1` に固定されています。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "Djangoにあらかじめ用意されているデフォルトのロガー設定を消さずに残す（無効化しない）ための設定値を選んでください。<br><pre><code>\"disable_existing_loggers\": ___</code></pre>",
+      "options": [
+        "False",
+        "True",
+        "None",
+        "\"off\""
+      ],
+      "answer": 0,
+      "commentary": "既存ロガーを無効化（disable）させないために `False` を指定します。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "ロガー設定の `\"propagate\": True` という設定の役割は何ですか？",
+      "options": [
+        "発生したログを上位（親）のロガーへも伝達・伝播（でんぱ）させる",
+        "ログメッセージを暗号化して保存する",
+        "エラーが起きたときに自動でサーバーを再起動する",
+        "ログをデータベースに書き込む"
+      ],
+      "answer": 0,
+      "commentary": "`propagate: True` とすると、該当ロガーで発生したログイベントが親階層のロガーへも伝えられます。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "次のように `send_mail` を呼び出したとき、送信者（from_email）として設定されるアドレスはどれですか？<br><pre><code>from_email = \"test@example.com\"\nrecipient_list = [\"admin@example.com\"]\nsend_mail(\"件名\", \"本文\", from_email, recipient_list)</code></pre>",
+      "options": [
+        "test@example.com",
+        "admin@example.com",
+        "root@localhost",
+        "設定されていない"
+      ],
+      "answer": 0,
+      "commentary": "第3引数 `from_email` に渡された `test@example.com` が差出人アドレスになります。"
+    }
+  ]
 }

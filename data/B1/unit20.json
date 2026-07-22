@@ -1,4 +1,525 @@
 {
   "unit_title": "クエリ最適化 3",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "データベース操作において、「クエリ（問い合わせ文）の中に埋め込まれた別のクエリ」のことを何と呼びますか？",
+      "options": [
+        "サブクエリ（副問合せ）",
+        "メインクエリ",
+        "マルチクエリ",
+        "インデックス"
+      ],
+      "answer": 0,
+      "commentary": "大きなクエリの内部で別のデータを検索・抽出して利用する仕組みを「サブクエリ」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "トーク同士の返信関係を表すモデル定義です。外部キー（`ForeignKey`）を設定するプロパティの空欄に入るクラスは何ですか？<br><pre><code>class Reply(models.Model):\n    child_talk = models.___(Talk, related_name=\"reply_from_child_talk\", on_delete=models.CASCADE)</code></pre>",
+      "options": [
+        "ForeignKey",
+        "OneToOneField",
+        "ManyToManyField",
+        "CharField"
+      ],
+      "answer": 0,
+      "commentary": "他のモデルとの関連付け（1対多）を定義するには `models.ForeignKey` を使用します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`Talk` モデルから `Reply` モデルを参照する際、返信元と返信先を区別するために設定する属性は何ですか？<br><pre><code>child_talk = models.ForeignKey(Talk, ___=\"reply_from_child_talk\", on_delete=models.CASCADE)</code></pre>",
+      "options": [
+        "related_name",
+        "foreign_key_name",
+        "connect_name",
+        "alias"
+      ],
+      "answer": 0,
+      "commentary": "逆参照時の名前をカスタマイズ・区別するには `related_name` 属性を指定します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "参照先の `Talk` オブジェクトが削除された場合、紐づく `Reply` オブジェクトも一緒に自動削除する設定は何ですか？<br><pre><code>parent_talk = models.ForeignKey(Talk, related_name=\"reply_from_parent_talk\", ___=models.CASCADE)</code></pre>",
+      "options": [
+        "on_delete",
+        "auto_delete",
+        "delete_rule",
+        "cascade"
+      ],
+      "answer": 0,
+      "commentary": "参照元削除時の挙動を指定するパラメータは `on_delete` であり、連動削除には `models.CASCADE` を渡します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "モデルの変更内容（`Reply` モデル追加など）を検出してマイグレーションファイルを作成するコマンドは何ですか？<br><pre><code>python manage.py ___ main</code></pre>",
+      "options": [
+        "makemigrations",
+        "migrate",
+        "create_model",
+        "db_update"
+      ],
+      "answer": 0,
+      "commentary": "モデル定義の差分からマイグレーションファイルを作るには `python manage.py makemigrations` を実行します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "作成したマイグレーションファイルをデータベースへ反映（適用）させるコマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "runserver",
+        "apply"
+      ],
+      "answer": 0,
+      "commentary": "マイグレーションファイルをデータベース構造へ反映させるコマンドは `migrate` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "管理者画面で `Reply` オブジェクトを操作できるように登録するコードです。空欄に入るメソッドは何ですか？<br><pre><code>from django.contrib import admin\nfrom .models import Reply\n\nadmin.site.___(Reply)</code></pre>",
+      "options": [
+        "register",
+        "add",
+        "connect",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "モデルを管理サイトに表示登録するには `admin.site.register(モデル名)` を呼び出します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "画面上に表示せず、フォーム送信時に裏で返信対象のIDをサーバーへ渡すためのHTML `<input>` タグの `type` 属性は何ですか？<br><pre><code>&lt;input type=\"___\" name=\"parent_talk_id\" value=\"{{ parent_talk.id }}\"&gt;</code></pre>",
+      "options": [
+        "hidden",
+        "text",
+        "none",
+        "secret"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーに見せない非表示の入力要素を作成するには `type=\"hidden\"` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "HTML内で `<input type=\"hidden\" name=\"parent_talk_id\" value=\"5\">` と書かれたフォームを送信した際、画面上の表示はどうなりますか？",
+      "options": [
+        "入力ボックスは画面に一切表示されず、裏側でデータ（5）だけが送信される",
+        "「5」という大きな文字が画面中央に固定表示される",
+        "灰色で編集不可能なテキストボックスが表示される",
+        "「parent_talk_id」というラベルが表示される"
+      ],
+      "answer": 0,
+      "commentary": "`type=\"hidden\"` はブラウザ上で完全に非表示となり、値のみを安全にPOST送信します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "フォームでPOST送信された `parent_talk_id` の値をビュー関数で取得するコードです。空欄に入る記述はどれですか？<br><pre><code>parent_talk_id = self.request.POST.____(\"parent_talk_id\")</code></pre>",
+      "options": [
+        "get",
+        "fetch",
+        "find",
+        "value"
+      ],
+      "answer": 0,
+      "commentary": "POSTデータ辞書から安全にキーの値を取り出すには `.get(\"キー名\")` を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "返信情報（`Reply` オブジェクト）を新しくデータベースに1件作成して保存する処理です。空欄に入るORMメソッドは何ですか？<br><pre><code>Reply.objects.___(\n    parent_talk=parent_talk,\n    child_talk=new_talk\n)</code></pre>",
+      "options": [
+        "create",
+        "add",
+        "insert",
+        "save"
+      ],
+      "answer": 0,
+      "commentary": "新しいインスタンスを作成してDBに保存するには `create()` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "用語理解",
+      "question": "サブクエリ内部から「外側の親クエリセットの各レコードのフィールド（例: Talkのid）」を参照・結合するために使用するDjangoのクラスは何ですか？",
+      "options": [
+        "OuterRef",
+        "Subquery",
+        "F",
+        "Q"
+      ],
+      "answer": 0,
+      "commentary": "外部の親クエリの特定カラムの値を参照するためのDjangoツールは `OuterRef` です。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "定義したサブクエリの検索結果を、メインクエリの `annotate()` 内で動的な計算フィールドとして埋め込むためのDjangoクラスは何ですか？",
+      "options": [
+        "Subquery",
+        "OuterRef",
+        "Value",
+        "Aggregate"
+      ],
+      "answer": 0,
+      "commentary": "サブクエリで得られた単一の値をカラムとして結合・埋め込むには `Subquery` を使います。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "サブクエリの定義に必要なクラス群を Django からインポートする記述です。空欄に入る組み合わせはどれですか？<br><pre><code>from django.db.models import Max, Q, ___, ___, ___</code></pre>",
+      "options": [
+        "OuterRef, Subquery, CharField",
+        "OuterQuery, SubRef, StringField",
+        "ParentRef, ChildQuery, TextField",
+        "ExternalRef, InnerQuery, ModelField"
+      ],
+      "answer": 0,
+      "commentary": "外部参照・サブクエリ・データ型指定に必要な `OuterRef`, `Subquery`, `CharField` をインポートします。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "親クエリ（Talk）の `id` と一致する `Reply` の `child_talk` を絞り込むサブクエリコードです。<br><pre><code>subquery_for_sender_username = Reply.objects.filter(\n    child_talk=___(\"id\")\n).values(\"parent_talk__sender__username\")</code></pre>",
+      "options": [
+        "OuterRef",
+        "Subquery",
+        "F",
+        "Ref"
+      ],
+      "answer": 0,
+      "commentary": "外部クエリ（`Talk`）の `id` を渡すために `OuterRef(\"id\")` を指定します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "サブクエリで返信元の送信者名（`parent_talk__sender__username`）の「文字列だけ」を取り出すためのメソッド指定はどれですか？<br><pre><code>Reply.objects.filter(child_talk=OuterRef(\"id\")).___(\"parent_talk__sender__username\")</code></pre>",
+      "options": [
+        "values",
+        "only",
+        "select",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "サブクエリが単一の値を返すように特定の属性だけを抽出するには `values()` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "クエリセット `talks` に対し、サブクエリの結果を `parent_talk_sender_username` という新フィールドとして追加するメソッドは何ですか？<br><pre><code>Talk.objects.filter(...).___(\n    parent_talk_sender_username=Subquery(subquery_for_sender_username, output_field=CharField(), null=True),\n)</code></pre>",
+      "options": [
+        "annotate",
+        "aggregate",
+        "add_field",
+        "extra"
+      ],
+      "answer": 0,
+      "commentary": "動的な計算フィールドを追加するには `annotate()` を使用します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`Subquery` を定義する際、返ってくる値の型（文字列型）を明示的に指定する引数はどれですか？<br><pre><code>Subquery(subquery_for_sender_username, ___=CharField(), null=True)</code></pre>",
+      "options": [
+        "output_field",
+        "field_type",
+        "return_type",
+        "target_field"
+      ],
+      "answer": 0,
+      "commentary": "サブクエリの返り値のデータ型を指定するには `output_field` 引数を使用します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "返信元がない（普通のトークの）場合に、追加フィールドへ `None` が入ることを許可するための引数指定は何ですか？<br><pre><code>Subquery(subquery_for_sender_username, output_field=CharField(), ___=True)</code></pre>",
+      "options": [
+        "null",
+        "blank",
+        "allow_none",
+        "optional"
+      ],
+      "answer": 0,
+      "commentary": "データベース・クエリ上で `NULL` 値（`None`）を許容するには `null=True` を設定します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "次のサブクエリで、返信元トークの本文メッセージを取得するために `values()` に指定するパラメータとして正しいものはどれですか？<br><pre><code>subquery_for_message = Reply.objects.filter(\n    child_talk=OuterRef(\"id\")\n).values(___)</code></pre>",
+      "options": [
+        "\"parent_talk__message\"",
+        "\"parent_talk.message\"",
+        "\"message\"",
+        "\"reply_message\""
+      ],
+      "answer": 0,
+      "commentary": "`Reply` から `parent_talk`（リレーション）をたどって本文を取るため `\"parent_talk__message\"` と書きます。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "あるトークが「返信（Reply）ではない通常の投稿」である場合、`Subquery` によって追加された `parent_talk_sender_username` に入る値は何になりますか？",
+      "options": [
+        "None",
+        "\"\"",
+        "\"名無し\"",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "一致する `Reply` が存在しないため、`null=True` の設定に従って `None` が入ります。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で、返信元の「送信者名」と「本文」が両方存在するときだけ表示する条件タグの空欄に入る論理演算子は何ですか？<br><pre><code>{% if talk.parent_talk_sender_username ___ talk.parent_talk_message %}\n    &gt;&gt; {{ talk.parent_talk_sender_username }}: {{ talk.parent_talk_message }}&lt;br&gt;\n{% endif %}</code></pre>",
+      "options": [
+        "and",
+        "or",
+        "&&",
+        "with"
+      ],
+      "answer": 0,
+      "commentary": "2つの条件が両方真（`None` でない）であることを確認するには `and` を使用します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "返信元の情報を持つトークについて、テンプレートで `>> {{ talk.parent_talk_sender_username }}: {{ talk.parent_talk_message }}` が実行された際の出力例として正しいものはどれですか？",
+      "options": [
+        ">> mikako: 宿題教えて",
+        ">> parent_talk_sender_username: parent_talk_message",
+        ">> Talk object (1): Reply object (1)",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "サブクエリで取得した返信元のユーザー名（例: mikako）とメッセージ本文（例: 宿題教えて）が組み合わされて表示されます。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "`Subquery` に渡す内部クエリで `values()` 等を使わずに複数カラム・複数行が返る状態のまま実行した場合、何が起こりますか？",
+      "options": [
+        "データベースエラー（1行1列の値として定まらないため）が発生する",
+        "自動的に最初の1文字だけが切り取られて動く",
+        "全カラムがカンマ区切りで自動結合される",
+        "警告が出つつ正常終了する"
+      ],
+      "answer": 0,
+      "commentary": "`Subquery` は1つのフィールド（列）の値として埋め込むため、返り値が「1行1列（単一の値）」に定まるように指定する必要があります。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "ビュー関数内でPOST送信された `parent_talk_id` が存在する場合に、元の `Talk` インスタンスを取得する記述を選んでください。<br><pre><code>if parent_talk_id:\n    parent_talk = Talk.objects.____(id=parent_talk_id)</code></pre>",
+      "options": [
+        "get",
+        "filter",
+        "fetch",
+        "find"
+      ],
+      "answer": 0,
+      "commentary": "特定のIDから単一の `Talk` オブジェクトを得るには `get(id=...)` を使います。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "Djangoの `models.ForeignKey` において、自分自身と同じモデル（例: `Talk` から `Talk`）を二重に参照する代わりに、本教材で取られた設計手法はどれですか？",
+      "options": [
+        "2つのトークの組み合わせ（親と子）を管理する専用の `Reply` モデルを新規作成した",
+        "Talkモデルに文字列でIDをカンマ区切りで保存した",
+        "データベースのテーブルを作成せずメモリ上に保存した",
+        "返信機能はデータベースを使わずにCSSで表現した"
+      ],
+      "answer": 0,
+      "commentary": "返信元（`parent_talk`）と返信先（`child_talk`）の関係性を明確にするため、独立した `Reply` モデルを作成して管理しました。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "ユーザーがトーク入力フォームから送信した際、`parent_talk_id` が送信されなかった（通常投稿の）場合、`Reply` オブジェクトは作成されますか？",
+      "options": [
+        "作成されない（`if parent_talk_id:` が False となるため）",
+        "空の `Reply` レコードが自動作成される",
+        "エラーになって送信に失敗する",
+        "親と子が同じトークとして作成される"
+      ],
+      "answer": 0,
+      "commentary": "`if parent_talk_id:` の分岐を通らないため、`Reply.objects.create()` は実行されず通常トークのみ保存されます。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "テンプレート内で `<input type=\"hidden\" name=\"parent_talk_id\" value=\"{{ parent_talk.id }}\">` を配置する正しい場所はどこですか？",
+      "options": [
+        "`<form>` タグの内部",
+        "`<head>` タグの内部",
+        "HTMLファイルの最下部（</html>の外側）",
+        "CSSファイルの中"
+      ],
+      "answer": 0,
+      "commentary": "フォームデータとして送信するため、`<form>` ～ `</form>` の中に配置する必要があります。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "1回のクエリで関連するモデル（`sender`, `receiver`）を事前にJOIN取得して効率化するメソッドです。<br><pre><code>Talk.objects.filter(...).____(\"sender\", \"receiver\")</code></pre>",
+      "options": [
+        "select_related",
+        "prefetch_related",
+        "join_models",
+        "load_related"
+      ],
+      "answer": 0,
+      "commentary": "ForeignKey関係をまとめて一括取得するには `select_related()` を使います。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "サブクエリを使うことで得られる利点・効果として最も適切なものはどれですか？",
+      "options": [
+        "別テーブルの関連データを複雑な条件で抽出しつつ、メインのクエリセットのフィールドとして統合取得できる",
+        "Pythonコードを書かなくても自動的にアプリが完成する",
+        "データベースのファイルサイズが半分に圧縮される",
+        "HTMLの書き方がシンプルになる"
+      ],
+      "answer": 0,
+      "commentary": "サブクエリを使えば、複雑に関連する別テーブルの集計値や関連情報をメインクエリの1つのカラムのように効率よく付与できます。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "`form.save(commit=False)` で作成した仮オブジェクトに、送信者と受信者をセットしてデータベースに本保存するメソッドはどれですか？<br><pre><code>new_talk.sender = self.request.user\nnew_talk.receiver = friend\nnew_talk.____()</code></pre>",
+      "options": [
+        "save",
+        "create",
+        "commit",
+        "push"
+      ],
+      "answer": 0,
+      "commentary": "インスタンスの属性を変更した後、`.save()` を呼ぶことでDBに反映されます。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "次のように `Reply` モデルで `related_name` を個別に指定しない場合、どのような問題が発生しますか？<br><pre><code>child_talk = models.ForeignKey(Talk, on_delete=models.CASCADE)\nparent_talk = models.ForeignKey(Talk, on_delete=models.CASCADE)</code></pre>",
+      "options": [
+        "Talkモデルからの逆参照名（`reply_set` 等）が衝突してエラーになる",
+        "データベースが自動的に削除される",
+        "プログラムの実行スピードが100倍遅くなる",
+        "特に問題なく動作する"
+      ],
+      "answer": 0,
+      "commentary": "同じモデル（`Talk`）へのForeignKeyが複数ある場合、デフォルトの逆参照名（`reply_set`）が重複して衝突エラーになります。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "取得したトーク一覧を作成時間順（古い順）にソートするメソッドの記述はどれですか？<br><pre><code>Talk.objects.filter(...).order_by(\"___\")</code></pre>",
+      "options": [
+        "time",
+        "-time",
+        "created_at",
+        "id"
+      ],
+      "answer": 0,
+      "commentary": "時間昇順（古いものから順）に並べ替えるため `order_by(\"time\")` と指定します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Djangoのモデルクラスで、文字列型フィールドのサブクエリ出力型として渡す `CharField()` の正しいインポート元はどれですか？",
+      "options": [
+        "from django.db.models import CharField",
+        "from django.forms import CharField",
+        "from django.text import CharField",
+        "from django.types import CharField"
+      ],
+      "answer": 0,
+      "commentary": "モデルの型定義や `Subquery` の `output_field` に渡す `CharField` は `django.db.models` からインポートします。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "新しい `Reply` モデルを `models.py` に追加後、`makemigrations` と `migrate` を実行せずにアプリを動かした場合どうなりますか？",
+      "options": [
+        "OperationalError（`Reply` テーブルが存在しないというエラー）が発生する",
+        "自動的にデータベースが更新されるため問題なく動く",
+        "画面の背景色が赤色に変わる",
+        "何事もなく静かに無視される"
+      ],
+      "answer": 0,
+      "commentary": "マイグレーションを実行して実際のDBにテーブルを作らないと、テーブル不所持エラーが発生します。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "テンプレートの `for` ループ内でトークのIDをパラメータに渡すリンクタグの記述です。<br><pre><code>&lt;a href=\"?parent_talk_id={{ ___ }}\" class=\"chatboard__message\"&gt;</code></pre>",
+      "options": [
+        "talk.id",
+        "parent_talk.id",
+        "talk.pk_name",
+        "id"
+      ],
+      "answer": 0,
+      "commentary": "ループ中の各トークのIDを参照するには `talk.id` と書きます。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "Djangoの `OuterRef` を使用する際の説明として正しいものはどれですか？",
+      "options": [
+        "サブクエリ内部で、外側の親クエリのフィールド名（例: \"id\"）を指定して参照する",
+        "HTMLテンプレートからビュー関数の変数を参照する",
+        "外部の別Webサーバーのデータベースに接続する",
+        "プロジェクト外のPythonファイルをインポートする"
+      ],
+      "answer": 0,
+      "commentary": "`OuterRef` はサブクエリから外部（親）クエリのフィールド（主キーなど）を参照・代入するために使用されます。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "以下のテンプレート記述で `talk.parent_talk_sender_username` が `None` の場合、`{% if %}` 条件の判定はどうなりますか？<br><pre><code>{% if talk.parent_talk_sender_username and talk.parent_talk_message %}\n    &gt;&gt; {{ talk.parent_talk_sender_username }}: {{ talk.parent_talk_message }}&lt;br&gt;\n{% endif %}</code></pre>",
+      "options": [
+        "False（偽）となり、返信元ヘッダー（>> ...）は画面に描画されない",
+        "True（真）となり、空の矢印だけが表示される",
+        "エラーになって画面全体が止まる",
+        "\"None\" という文字列が表示される"
+      ],
+      "answer": 0,
+      "commentary": "`None` はテンプレートの `if`文で `False` と評価されるため、返信元テキストは非表示になります。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "クラスベースビューの `form_valid` メソッド内で、ログインユーザーを送信者（`sender`）に指定する正しい記述はどれですか？<br><pre><code>def form_valid(self, form):\n    new_talk = form.save(commit=False)\n    new_talk.sender = ___\n    new_talk.save()</code></pre>",
+      "options": [
+        "self.request.user",
+        "request.user",
+        "User.objects.get_current()",
+        "self.user"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビュー内で現在ログイン中のユーザーを取得するには `self.request.user` を使用します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本教材において、特定のトークに対する返信機能を実装したことで得られたUX（ユーザー体験）上のメリットは何ですか？",
+      "options": [
+        "どの発言に対する返事なのか（返信元）が明示され、会話の文脈がわかりやすくなった",
+        "トークの送信速度が100倍速くなった",
+        "文字入力なしで会話ができるようになった",
+        "サーバーの電気代が半分になった"
+      ],
+      "answer": 0,
+      "commentary": "返信元メッセージと送信者名を紐づけて表示することで、誰のどの発言への返信かが明確になりコミュニケーションが円滑になります。"
+    }
+  ]
 }

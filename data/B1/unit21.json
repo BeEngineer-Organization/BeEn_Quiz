@@ -1,4 +1,525 @@
 {
   "unit_title": "クエリ最適化 1 - 演習",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "メッセージが閲覧している自分自身のものであるかどうかを判定する条件式です。空欄に入る記述を選んでください。<br><pre><code>{% if message.user == ___ %}</code></pre>",
+      "options": [
+        "request.user",
+        "current.user",
+        "user.self",
+        "login.user"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのテンプレートでは、`request.user` を使うことで現在ログインしている閲覧ユーザー情報を取得できます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "メッセージが自分でない（他人の）場合に「返信」ボタンを表示させるための条件分岐タグはどれですか？<br><pre><code>{% if message.user == request.user %}\n  <input type=\"submit\" value=\"削除\">\n{% ___ %}\n  <a href=\"...\" class=\"btn-reply\">返信</a>\n{% endif %}</code></pre>",
+      "options": [
+        "else",
+        "elif",
+        "other",
+        "otherwise"
+      ],
+      "answer": 0,
+      "commentary": "条件が満たされない場合の処理を記述するには `{% else %}` を使用します。"
+    },
+    {
+      "id": 3,
+      "type": "文法チェック",
+      "question": "返信ボタンを作成する際、教科書の指定通りに使用するHTMLタグはどれですか？",
+      "options": [
+        "<a> タグ",
+        "<button> タグ",
+        "<input type=\"button\"> タグ",
+        "<form> タグ"
+      ],
+      "answer": 0,
+      "commentary": "返信ボタンはページのURLパラメータ付き遷移を行うため、`<button>` ではなく `<a>` タグを使ってリンクとして実装します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "返信ボタンのリンク先（`href` 属性）で、返信対象のメッセージIDをGETパラメータとして設定する正しい記述はどれですか？<br><pre><code><a href=\"?keyword={{ keyword }}&page={{ page_obj.number }}&___={{ message.id }}\">返信</a></code></pre>",
+      "options": [
+        "parent_message_id",
+        "message_id",
+        "reply_id",
+        "target_id"
+      ],
+      "answer": 0,
+      "commentary": "返信元のメッセージIDを識別するため、`parent_message_id` というパラメータ名で指定します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "CSSで返信ボタンの下線（アンダーライン）を消すプロパティと値の組み合わせはどれですか？<br><pre><code>.btn-reply {\n    text-decoration: ___;\n}</code></pre>",
+      "options": [
+        "none",
+        "hidden",
+        "off",
+        "clear"
+      ],
+      "answer": 0,
+      "commentary": "リンク（aタグ）の下線を非表示にするには `text-decoration: none;` を指定します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "ビュー関数内でGETパラメータから `parent_message_id` の値を取り出す正しいコードを選んでください。<br><pre><code>parent_message_id = self.request.GET.____(\"parent_message_id\")</code></pre>",
+      "options": [
+        "get",
+        "fetch",
+        "find",
+        "value"
+      ],
+      "answer": 0,
+      "commentary": "GETリクエストパラメータから安全に値を取得するには `self.request.GET.get(...)` を使用します。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "URLパラメータに `parent_message_id` が存在しない状態で、次のコードが実行された場合、`parent_message` の値は何になりますか？<br><pre><code>parent_message_id = self.request.GET.get(\"parent_message_id\")\nif parent_message_id:\n    parent_message = Message.objects.get(id=parent_message_id)\nelse:\n    parent_message = None</code></pre>",
+      "options": [
+        "None",
+        "1番目のメッセージ",
+        "空のMessageオブジェクト",
+        "エラー（DoesNotExist）が発生する"
+      ],
+      "answer": 0,
+      "commentary": "`parent_message_id` が `None` の場合、`else` ブロックが実行されて `parent_message` には `None` が設定されます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で返信元メッセージを作成したユーザーのユーザー名を表示する正確な記述はどれですか？<br><pre><code>>> {{ parent_message.___.username }}: {{ parent_message.content }}</code></pre>",
+      "options": [
+        "user",
+        "author",
+        "sender",
+        "account"
+      ],
+      "answer": 0,
+      "commentary": "Messageモデルの作成者リレーションフィールド名は `user` のため、`parent_message.user.username` と記述します。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "テンプレート上で `parent_message.user.username` のように参照した際、あらかじめ一括取得していないと繰り返しデータベースにクエリが送られて重くなる現象を何と呼びますか？",
+      "options": [
+        "N + 1 問題",
+        "デッドロック問題",
+        "メモリーリーク問題",
+        "キャッシュアウト問題"
+      ],
+      "answer": 0,
+      "commentary": "関連データをルックアップするたびにクエリが追加発行され低速化する問題を「N + 1 問題」と呼びます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "返信元メッセージの取得時に関連する `user` データをあらかじめ1回のSQLで同時に取得し、N+1問題を回避するメソッド指定を選んでください。<br><pre><code>parent_message = Message.objects.____(\"user\").get(\n    id=parent_message_id\n)</code></pre>",
+      "options": [
+        "select_related",
+        "prefetch_related",
+        "join_table",
+        "include_user"
+      ],
+      "answer": 0,
+      "commentary": "1対多（ForeignKey）の関連先データをJOINして一括取得するには `select_related()` を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "返信関係（親メッセージと子メッセージ）を管理する `Reply` モデルの定義の一部です。空欄に入る記述を選んでください。<br><pre><code>class Reply(models.Model):\n    child_message = models.ForeignKey(\n        Message, related_name=\"reply_from_child_message\", ___=models.CASCADE\n    )</code></pre>",
+      "options": [
+        "on_delete",
+        "auto_delete",
+        "delete_rule",
+        "cascade"
+      ],
+      "answer": 0,
+      "commentary": "参照先の親要素が削除されたときの挙動を指定する引数名は `on_delete` です。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "モデルクラス `Reply` を `models.py` に新しく書き追加した後、データベースに反映させるためにターミナルで実行するコマンドの正しい組み合わせはどれですか？",
+      "options": [
+        "1: python manage.py makemigrations main\n2: python manage.py migrate",
+        "1: python manage.py migrate\n2: python manage.py makemigrations main",
+        "1: python manage.py runserver",
+        "1: python manage.py createapp"
+      ],
+      "answer": 0,
+      "commentary": "モデル変更の差分検出（`makemigrations`）を行ってから、データベースへの反映（`migrate`）を行います。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "画面上に表示せず、フォーム送信時に裏側で `parent_message.id` の値を送るためのHTML要素の属性設定を選んでください。<br><pre><code><input type=\"___\" name=\"parent_message_id\" value=\"{{ parent_message.id }}\"></code></pre>",
+      "options": [
+        "hidden",
+        "none",
+        "secret",
+        "text"
+      ],
+      "answer": 0,
+      "commentary": "画面に表示させずに値を保持して送信するには `type=\"hidden\"` を指定します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "次のテンプレート記述があるフォームを送信したとき、`parent_message` が `None`（返信ではない通常の投稿）の場合、どのようなHTMLが生成されますか？<br><pre><code>{% if parent_message %}\n<input type=\"hidden\" name=\"parent_message_id\" value=\"{{ parent_message.id }}\">\n{% endif %}</code></pre>",
+      "options": [
+        "inputタグは一切挿入されない",
+        "valueが空のinputタグが生成される",
+        "value=\"None\" というinputタグが生成される",
+        "エラーになって画面が止まる"
+      ],
+      "answer": 0,
+      "commentary": "`parent_message` が存在しない（`None`）場合は `{% if %}` 条件が不成立となるため、`input` タグ自体が生成されません。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "フォーム送信時のPOSTリクエストから `parent_message_id` を受け取る正しいコードを選んでください。<br><pre><code>parent_message_id = request.POST.____(\"parent_message_id\")</code></pre>",
+      "options": [
+        "get",
+        "fetch",
+        "find",
+        "value"
+      ],
+      "answer": 0,
+      "commentary": "POSTデータ辞書から値を取り出すには `request.POST.get(\"キー名\")` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "親メッセージ（`parent_message`）と新しく投稿された子メッセージ（`new_message`）を紐づける `Reply` レコードを作成するコードです。<br><pre><code>Reply.objects.create(\n    parent_message=parent_message,\n    ____=new_message\n)</code></pre>",
+      "options": [
+        "child_message",
+        "sub_message",
+        "reply_message",
+        "target_message"
+      ],
+      "answer": 0,
+      "commentary": "Replyモデルで定義した返信先（子メッセージ）のフィールド名は `child_message` です。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "親クエリ（Messageの取得）の内部で、関連する子要素（Reply）の情報を結合して取得するために用いる、「クエリの中に埋め込まれたクエリ」を何と呼びますか？",
+      "options": [
+        "サブクエリ",
+        "メインクエリ",
+        "ネストクエリ",
+        "インナークエリ"
+      ],
+      "answer": 0,
+      "commentary": "クエリの内部で別のデータを抽出して結合・利用する構造を「サブクエリ」と呼びます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "サブクエリ内で、外側のメインクエリの `id`（各メッセージのID）を参照するための特殊な参照オブジェクトを選んでください。<br><pre><code>subquery_for_username = Reply.objects.filter(\n    child_message=___(\"id\")\n).values(\"parent_message__user__username\")</code></pre>",
+      "options": [
+        "OuterRef",
+        "Subquery",
+        "F",
+        "SelfRef"
+      ],
+      "answer": 0,
+      "commentary": "外部（親）クエリの各レコードのカラムを参照するには `OuterRef(\"フィールド名\")` を使用します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "定義したサブクエリの検索結果を、メインクエリの動的追加フィールド（`annotate`）に埋め込むためのクラスを選んでください。<br><pre><code>parent_message_username=___(\n    subquery_for_username, output_field=CharField(), null=True\n)</code></pre>",
+      "options": [
+        "Subquery",
+        "OuterRef",
+        "Value",
+        "Aggregate"
+      ],
+      "answer": 0,
+      "commentary": "サブクエリの実行結果をフィールドとして注釈追加（annotate）するには `Subquery(...)` を指定します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "サブクエリで取得するデータの型が文字列であることを明示するパラメータ設定です。<br><pre><code>Subquery(subquery_for_username, ___=CharField(), null=True)</code></pre>",
+      "options": [
+        "output_field",
+        "field_type",
+        "data_type",
+        "return_type"
+      ],
+      "answer": 0,
+      "commentary": "Subqueryの返すデータ型を定義するには `output_field` 引数を使います。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "`parent_message_username` の `Subquery` 定義において `null=True` を設定しない場合、返信元が存在しない普通の投稿データはどう扱われますか？",
+      "options": [
+        "返信元が存在しないデータでエラー（または意図しない動作）が起こる可能性がある",
+        "自動的に空文字（\"\"）が入る",
+        "自動的に「名無し」という文字が入る",
+        "何も起きず問題なく動作する"
+      ],
+      "answer": 0,
+      "commentary": "返信元を持たない通常メッセージはサブクエリ結果が空（null）となるため、`null=True` を許可しておく必要があります。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "返信元トークのメッセージ本文を取り出すための参照パスです。空欄に入る適切な記述を選んでください。<br><pre><code>subquery_for_content = Reply.objects.filter(\n    child_message=OuterRef(\"id\")\n).values(\"___\")</code></pre>",
+      "options": [
+        "parent_message__content",
+        "parent_message.content",
+        "content",
+        "reply_message__content"
+      ],
+      "answer": 0,
+      "commentary": "`Reply` からリレーション `parent_message` をたどって本文を取るため、アンダースコア2つで `parent_message__content` と書きます。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で、返信元の「ユーザー名」と「本文」の両方が存在する場合にのみヘッダーを表示する条件タグの論理演算子を選んでください。<br><pre><code>{% if message.parent_message_username ___ message.parent_message_content %}\n>> {{ message.parent_message_username }}: {{ message.parent_message_content }}\n<br>\n{% endif %}</code></pre>",
+      "options": [
+        "and",
+        "or",
+        "&&",
+        "with"
+      ],
+      "answer": 0,
+      "commentary": "両方のデータが存在するかをチェックするため `and` 条件で判定します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "返信元の送信者が「takuya」、本文が「test2」であるメッセージへの返信が表示される際、テンプレートで描画されるテキストはどれですか？<br><pre><code>>> {{ message.parent_message_username }}: {{ message.parent_message_content }}</code></pre>",
+      "options": [
+        ">> takuya: test2",
+        ">> parent_message_username: parent_message_content",
+        ">> Message object (1): test2",
+        ">> takuya"
+      ],
+      "answer": 0,
+      "commentary": "変数に格納された「takuya」と「test2」が展開され、`>> takuya: test2` と表示されます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "掲示板一覧の全メッセージを取得する際、各投稿者（`user`）の情報を1回のSQLで事前に結合取得して N+1 問題を解消するコードです。<br><pre><code>queryset = (\n    Message.objects.filter(topic=topic)\n    .___\n(\"user\")\n    .annotate(...)\n    .order_by(\"created_at\")\n)</code></pre>",
+      "options": [
+        "select_related",
+        "prefetch_related",
+        "join_user",
+        "get_user"
+      ],
+      "answer": 0,
+      "commentary": "MessageのForeignKeyである `user` を事前に一括取得するために `.select_related(\"user\")` を繋ぎます。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "CSSで要素にマウスポインターを乗せたとき、カーソルの形を「指差しマーク」にする設定として正しいものはどれですか？",
+      "options": [
+        "cursor: pointer;",
+        "mouse: hand;",
+        "pointer: link;",
+        "cursor: click;"
+      ],
+      "answer": 0,
+      "commentary": "カーソルを指差しマークに変更するCSSプロパティは `cursor: pointer;` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "CSSで要素の四隅の角を6pxだけ丸めるプロパティ記述を選んでください。<br><pre><code>.btn-reply {\n    ___: 6px;\n}</code></pre>",
+      "options": [
+        "border-radius",
+        "corner-round",
+        "border-style",
+        "box-radius"
+      ],
+      "answer": 0,
+      "commentary": "角丸を設定するCSSプロパティは `border-radius` です。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "次のフォーム定義において、画像のアップロードなどのファイル送信を可能にするために必須となる `enctype` 属性の値は何ですか？<br><pre><code><form class=\"message-form\" action=\"...\" method=\"POST\" enctype=\"___\"></code></pre>",
+      "options": [
+        "multipart/form-data",
+        "application/x-www-form-urlencoded",
+        "text/plain",
+        "file/upload"
+      ],
+      "answer": 0,
+      "commentary": "画像やファイルなどのバイナリデータをPOST送信する際は `enctype=\"multipart/form-data\"` が必要です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "CSRF攻撃を防ぐためにフォーム内に記述するDjangoの必須タグを選んでください。<br><pre><code><form action=\"...\" method=\"POST\">\n    ___\n    <input type=\"submit\" value=\"投稿\">\n</form></code></pre>",
+      "options": [
+        "{% csrf_token %}",
+        "{{ csrf_token }}",
+        "{% csrf_input %}",
+        "{% secret_key %}"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのPOSTフォームにはセキュリティ対策として `{% csrf_token %}` が必須です。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "Djangoの `Subquery` や `OuterRef` をインポートするための正しく適切なモジュールパスはどれですか？",
+      "options": [
+        "from django.db.models import CharField, OuterRef, Subquery",
+        "from django.forms import CharField, OuterRef, Subquery",
+        "from django.urls import OuterRef, Subquery",
+        "from django.shortcuts import OuterRef, Subquery"
+      ],
+      "answer": 0,
+      "commentary": "データベースクエリ関連の特殊クラス（`OuterRef`, `Subquery`, `CharField` など）は `django.db.models` からインポートします。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "ログインしていない匿名ユーザーが投稿しようとした際、`if request.user.is_authenticated:` の判定はどうなりますか？",
+      "options": [
+        "False（偽）となり、メッセージの作成処理はスキップされる",
+        "True（真）となり、匿名ユーザー名で投稿が作成される",
+        "エラー（AttributeError）が発生する",
+        "自動的にログイン画面に遷移する"
+      ],
+      "answer": 0,
+      "commentary": "未ログイン状態では `is_authenticated` は `False` になるため、投稿処理ブロックは実行されません。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "メッセージ送信完了後に、元の掲示板画面（`forum`）にリダイレクトさせる正しいコードを選んでください。<br><pre><code>return redirect(\"forum\", ___=topic.id)</code></pre>",
+      "options": [
+        "topic_id",
+        "id",
+        "pk",
+        "topic"
+      ],
+      "answer": 0,
+      "commentary": "URLパターンで定義されている名前付き引数 `topic_id` にトピックIDを渡してリダイレクトします。"
+    },
+    {
+      "id": 33,
+      "type": "用語理解",
+      "question": "`Reply` モデルで `parent_message` と `child_message` の2つの `ForeignKey` を持つ際、それぞれの参照名を区別するために指定した属性は何ですか？",
+      "options": [
+        "related_name",
+        "foreign_name",
+        "alias",
+        "join_name"
+      ],
+      "answer": 0,
+      "commentary": "同じモデルへの複数の外部キーが存在する場合、逆参照名の衝突を防ぐために `related_name` で固有の識別名を付ける必要があります。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "`Message.objects.create(...)` を実行した直後に取得できるオブジェクトは何ですか？",
+      "options": [
+        "新しく作成され、データベースに保存された Message インスタンス",
+        "作成されたメッセージの件数（数値 1）",
+        "True（成功フラグ）",
+        "QuerySet（オブジェクトのリスト）"
+      ],
+      "answer": 0,
+      "commentary": "`create()` メソッドは、DBに保存された新しいモデルインスタンスそのものを返します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ListViewを継承したクラスベースビューで、表示するオブジェクト一覧のクエリセットを生成・定義するメソッドを選んでください。<br><pre><code>class ForumView(ListView):\n    def ____(self, **kwargs):\n        # クエリセット作成処理\n        return queryset</code></pre>",
+      "options": [
+        "get_queryset",
+        "get_context_data",
+        "get_object",
+        "post"
+      ],
+      "answer": 0,
+      "commentary": "表示する一覧のクエリセットをカスタマイズする場合は `get_queryset()` メソッドをオーバーライドします。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "HTMLの改行を行うタグとして正しいものはどれですか？",
+      "options": [
+        "<br>",
+        "<lb>",
+        "<break>",
+        "<newline>"
+      ],
+      "answer": 0,
+      "commentary": "HTMLでの改行には `<br>`（Break）タグを使用します。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "メッセージを作成日時順（古い順から新しい順）に並べ替えて取得するメソッド指定です。<br><pre><code>Message.objects.filter(topic=topic).order_by(\"___\")</code></pre>",
+      "options": [
+        "created_at",
+        "-created_at",
+        "date",
+        "id_asc"
+      ],
+      "answer": 0,
+      "commentary": "昇順（古い順）に並べるため、ハイフンなしで `\"created_at\"` を指定します。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "CSSで `.btn-reply` に `display: inline-block;` を設定したことによる効果はどれですか？",
+      "options": [
+        "aタグ（インライン要素）のままでも、`padding` などの上下余白が正しく効くようになる",
+        "要素が横幅いっぱいに広がる",
+        "要素が画面から消える",
+        "文字が太字に固定される"
+      ],
+      "answer": 0,
+      "commentary": "`display: inline-block;` を指定することで、インラインの性質を保ちつつ `padding` や `width`/`height` が正常に適用されます。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "データベース操作において、1つのクエリ結果に計算結果や別テーブルの値を「注釈」として列追加するDjango ORMのメソッドは何ですか？",
+      "options": [
+        "annotate()",
+        "aggregate()",
+        "filter()",
+        "exclude()"
+      ],
+      "answer": 0,
+      "commentary": "各レコードに対して新たな計算フィールドを追加・付与するには `annotate()` を使用します。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "本演習で追加された返信ボタンのHTML記述として、教科書の正解コードはどれですか？",
+      "options": [
+        "<a href=\"?keyword={{ keyword }}&page={{ page_obj.number }}&parent_message_id={{ message.id }}\" class=\"btn-reply\">返信</a>",
+        "<button type=\"submit\" class=\"btn-reply\">返信</button>",
+        "<input type=\"button\" value=\"返信\" class=\"btn-reply\">",
+        "<a href=\"/reply/{{ message.id }}\" class=\"btn-reply\">返信</a>"
+      ],
+      "answer": 0,
+      "commentary": "教科書では、現在のページパラメータ（`keyword` や `page`）を引き継ぎつつ `parent_message_id` を付与した `<a>` タグとして記述します。"
+    }
+  ]
 }
