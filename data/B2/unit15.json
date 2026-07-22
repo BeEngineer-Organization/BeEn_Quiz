@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit15",
-  "questions": []
+  "unit_title": "カード一覧画面の作成",
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "画面遷移時に渡されたデータを取得する記述です。空欄に入る適切なクラス・メソッドはどれですか？<br><pre><code>'/card_list': (context) => CardListPage(\n  genre: ___ .of(context)!.settings.arguments as Genre\n),</code></pre>",
+      "options": [
+        "Navigator",
+        "ModalRoute",
+        "MaterialApp",
+        "BuildContext"
+      ],
+      "answer": 1,
+      "commentary": "現在表示されているルートの情報や遷移時に渡されたデータ（arguments）を取得するには `ModalRoute.of(context)` を使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "画面遷移時に受け取った `Object?` 型のデータを、特定データ型（`Genre` 型）として扱う（型キャストする）ための演算子はどれですか？<br><pre><code>genre: ModalRoute.of(context)!.settings.arguments ___ Genre</code></pre>",
+      "options": [
+        "is",
+        "as",
+        "to",
+        "cast"
+      ],
+      "answer": 1,
+      "commentary": "Dartで特定データ型へキャストを行う場合は `as` 演算子を使用します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "DartのNull Safetyにおいて「この値は絶対にnullではない」とコンパイラに伝える演算子はどれですか？<br><pre><code>genre: ModalRoute.of(context)___ .settings.arguments as Genre</code></pre>",
+      "options": [
+        "?",
+        "!",
+        "??",
+        "#"
+      ],
+      "answer": 1,
+      "commentary": "非null表明演算子（`!`）を使用することで、nullの可能性があるオブジェクトをnull非許容として扱うことができます。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "次のコードで、実行時にしか値が決まらない動的なデータ渡しを行っている場合、routesの定義で `const` を付けたままにするとどうなりますか？<br><pre><code>'/card_list': (context) => const CardListPage(\n  genre: ModalRoute.of(context)!.settings.arguments as Genre\n),</code></pre>",
+      "options": [
+        "正常にビルドされて起動する",
+        "コンパイルエラー（または実行時エラー）が発生する",
+        "自動的に静的なデータとして変換される",
+        "画面が真っ黒になるがエラーは発生しない"
+      ],
+      "answer": 1,
+      "commentary": "`const` はコンパイル時に値が確定する定数にのみ付与できるため、実行時に値が決まる処理に付けるとエラーになります。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "`pushNamed` メソッドで名前付きルートへ遷移する際、遷移先の画面にデータを渡すための名前付き引数はどれですか？<br><pre><code>Navigator.of(context).pushNamed(\n  '/card_list',\n  ___: genreList[index],\n);</code></pre>",
+      "options": [
+        "data",
+        "arguments",
+        "params",
+        "extra"
+      ],
+      "answer": 1,
+      "commentary": "`pushNamed` でデータを渡す際は `arguments` 引数に値をセットします。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "StatefulWidgetの状態クラス（`_CardListState`）から、対応するウィジェットクラス（`CardListPage`）のプロパティにアクセスするための記述はどれですか？<br><pre><code>appBar: AppBar(\n  title: Text(___ .genre.title),\n),</code></pre>",
+      "options": [
+        "widget",
+        "state",
+        "context",
+        "parent"
+      ],
+      "answer": 0,
+      "commentary": "Stateクラス内から対となるWidgetクラスのプロパティを参照するには `widget.` を頭に付けます。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "リストの中から、指定した条件式が `true` になる要素のみを抽出（絞り込み）するリストのメソッドはどれですか？<br><pre><code>final shownList = flashcardList.___(\n  (card) => card.genre.id == widget.genre.id\n).toList();</code></pre>",
+      "options": [
+        "filter",
+        "where",
+        "select",
+        "map"
+      ],
+      "answer": 1,
+      "commentary": "Dartにおいてコレクション要素を条件で絞り込むには `where` メソッドを使用します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "以下の `where` メソッドの返り値 `Iterable` を `List` 型に変換するために末尾に付けられているメソッドは何ですか？<br><pre><code>final shownList = flashcardList.where(\n  (card) => card.genre.id == widget.genre.id\n).___();</code></pre>",
+      "options": [
+        "toList",
+        "toListData",
+        "convertList",
+        "asList"
+      ],
+      "answer": 0,
+      "commentary": "`where` の戻り値である `Iterable` を通常の `List` に変換するには `toList()` を呼び出します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されたとき、`shownList` に格納されるカードは何件ですか？<br><pre><code>// 選択されたジャンルID: 1\n// flashcardList内にジャンルID:1のカードが3件、ジャンルID:2のカードが2件存在する場合\nfinal shownList = flashcardList.where(\n  (card) => card.genre.id == widget.genre.id\n).toList();</code></pre>",
+      "options": [
+        "5件",
+        "3件",
+        "2件",
+        "0件"
+      ],
+      "answer": 1,
+      "commentary": "選択されたジャンルID（1）と一致するカードのみが抽出されるため、該当する3件が格納されます。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "画面表示後に状態（State）を保持し、データの変化に応じて表示を動的に更新できるウィジェットの基本クラスはどれですか？",
+      "options": [
+        "StatelessWidget",
+        "StatefulWidget",
+        "InheritedWidget",
+        "SingleChildRenderObjectWidget"
+      ],
+      "answer": 1,
+      "commentary": "表示内容が動的に更新・変更される画面やウィジェットには `StatefulWidget` を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "画面表示後に内部の状態を変更せず、静的な画面を描画するためのウィジェットの基本クラスはどれですか？",
+      "options": [
+        "StatelessWidget",
+        "StatefulWidget",
+        "StatefulElement",
+        "BuildContext"
+      ],
+      "answer": 0,
+      "commentary": "画面に描画されたあとに状態が変化しない静的なウィジェットを作成する場合は `StatelessWidget` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "StatefulWidgetクラスで状態オブジェクト（State）を生成する際にオーバーライドするメソッドはどれですか？<br><pre><code>class CardListPage extends StatefulWidget {\n  const CardListPage({super.key, required this.genre});\n  final Genre genre;\n\n  @override\n  _CardListState ___() => _CardListState();\n}</code></pre>",
+      "options": [
+        "createState",
+        "initState",
+        "buildState",
+        "makeState"
+      ],
+      "answer": 0,
+      "commentary": "StatefulWidgetは `createState()` メソッドをオーバーライドして対となるStateクラスのインスタンスを返します。"
+    },
+    {
+      "id": 13,
+      "type": "文法チェック",
+      "question": "StatefulWidgetを継承する `CardListPage` のコンストラクタで、`genre` 引数を必須（Required）として定義する正しい書き方はどれですか？",
+      "options": [
+        "const CardListPage({super.key, required this.genre});",
+        "const CardListPage({super.key, this.genre});",
+        "CardListPage(super.key, Genre genre);",
+        "const CardListPage({required Genre genre});"
+      ],
+      "answer": 0,
+      "commentary": "名前付き引数として必須にする場合は `{super.key, required this.genre}` のように定義します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "次のコードで、ListView.builderのタイトルのテキストには何が表示されますか？<br><pre><code>ListView.builder(\n  itemCount: shownList.length,\n  itemBuilder: (context, index) => Card(\n    child: ListTile(\n      title: Text(shownList[index].question),\n    ),\n  ),\n)</code></pre>",
+      "options": [
+        "フラッシュカードの問題文（question）",
+        "フラッシュカードの解答文（answer）",
+        "ジャンル名（title）",
+        "カードのID番号"
+      ],
+      "answer": 0,
+      "commentary": "`shownList[index].question` を指定しているため、カードの問題文テキストが表示されます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "ListView.builderで、絞り込んだ結果の件数を要素数として渡すプロパティの書き方はどれですか？<br><pre><code>ListView.builder(\n  itemCount: ___,\n  itemBuilder: (context, index) => const Card(),\n)</code></pre>",
+      "options": [
+        "shownList.length",
+        "flashcardList.length",
+        "genreList.length",
+        "shownList.count"
+      ],
+      "answer": 0,
+      "commentary": "絞り込んだカード一覧データ `shownList` の件数を指定するため `shownList.length` を渡します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "絞り込みを行わずに `flashcardList.length` を `itemCount` に指定して `ListView.builder` を作成した場合、どうなりますか？",
+      "options": [
+        "選択したジャンルに関わらず、すべてのジャンルのカードが一覧表示される",
+        "選択したジャンルのカードだけが表示される",
+        "カードが1件も表示されない",
+        "エラーが発生してアプリがクラッシュする"
+      ],
+      "answer": 0,
+      "commentary": "全データが入っている `flashcardList` を参照すると、ジャンルによる絞り込みが行われず全カードが表示されます。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "Dartにおいて、どんな型でも受け取ることができ、かつnullの可能性もある最上位の型表現はどれですか？",
+      "options": [
+        "Object?",
+        "String?",
+        "dynamic",
+        "var"
+      ],
+      "answer": 0,
+      "commentary": "Dartでは全ての型の頂点にあるのが `Object` であり、nullを許容する場合 `Object?` 型となります。"
+    },
+    {
+      "id": 18,
+      "type": "文法チェック",
+      "question": "クラスファイルや別モジュールを読み込む際のパスで、1つ上の親ディレクトリを表す記法はどれですか？",
+      "options": [
+        "../models/genre.dart",
+        "./models/genre.dart",
+        "/models/genre.dart",
+        "~/models/genre.dart"
+      ],
+      "answer": 0,
+      "commentary": "相対パス指定において親ディレクトリを示す記法は `../` です。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "FloatingActionButtonでタップされた際に '/card_add' 画面へ遷移するコードです。空欄に入る適切な記述はどれですか？<br><pre><code>floatingActionButton: FloatingActionButton(\n  onPressed: () {\n    Navigator.of(context).___('/card_add');\n  },\n  child: const Icon(Icons.add),\n)</code></pre>",
+      "options": [
+        "pushNamed",
+        "push",
+        "pop",
+        "go"
+      ],
+      "answer": 0,
+      "commentary": "名前付きルート '/card_add' へ遷移するには `Navigator.of(context).pushNamed('/card_add')` を呼び出します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "`genre.dart` のインポートを記述せずに `Genre` 型を使用したコードを書いた場合、どうなりますか？",
+      "options": [
+        "コンパイルエラー（Undefined class 'Genre'）が発生する",
+        "Dartが自動的にファイルを補完してインポートする",
+        "実行時に `null` が代入される",
+        "エラーにはならずアプリが通常起動する"
+      ],
+      "answer": 0,
+      "commentary": "使用する型（クラス）が定義されているファイルをインポートしていない場合、クラス名が未定義エラーになります。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "ListView.builder内で要素タップ時のイベントを検出するため、ListTileに設定するプロパティはどれですか？<br><pre><code>ListTile(\n  title: Text('問題文'),\n  ___: () {},\n)</code></pre>",
+      "options": [
+        "onTap",
+        "onPressed",
+        "onClick",
+        "onSelect"
+      ],
+      "answer": 0,
+      "commentary": "ListTileウィジェットのタップイベント用プロパティは `onTap` です。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "画面遷移時に `ModalRoute.of(context)!.settings.arguments` から受け取れるデータの初期型は何ですか？",
+      "options": [
+        "Object?",
+        "Genre",
+        "String",
+        "Map"
+      ],
+      "answer": 0,
+      "commentary": "argumentsは汎用的なデータを受け渡せるように型が特定されていない `Object?` 型となっています。"
+    },
+    {
+      "id": 23,
+      "type": "文法チェック",
+      "question": "Dartで `StatefulWidget` を継承したクラスに対応する、状態クラスの基本継承記法として正しいものはどれですか？",
+      "options": [
+        "class _CardListState extends State<CardListPage>",
+        "class _CardListState extends StatefulWidget",
+        "class _CardListState implements CardListPage",
+        "class _CardListState extends StatelessWidget"
+      ],
+      "answer": 0,
+      "commentary": "StatefulWidgetの状態クラスは `State<対象のStatefulWidgetクラス名>` を継承して作成します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "カード追加用のアクションボタンを画面右下に配置するためのScaffoldのプロパティはどれですか？<br><pre><code>Scaffold(\n  appBar: AppBar(),\n  body: ListView.builder(...),\n  ___: FloatingActionButton(\n    onPressed: () {},\n    child: const Icon(Icons.add),\n  ),\n)</code></pre>",
+      "options": [
+        "floatingActionButton",
+        "actionButton",
+        "bottomNavigationBar",
+        "drawer"
+      ],
+      "answer": 0,
+      "commentary": "FloatingActionButtonを配置するプロパティは `floatingActionButton` です。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "次のコードで、`CardListPage` のAppBarに表示されるタイトルテキストは何ですか？<br><pre><code>// widget.genre.title が '英単語' の場合\nappBar: AppBar(\n  title: Text(widget.genre.title),\n)</code></pre>",
+      "options": [
+        "英単語",
+        "card_list",
+        "genre.title",
+        "widget.genre"
+      ],
+      "answer": 0,
+      "commentary": "`widget.genre.title` の実際のプロパティ値（'英単語'）がテキストとして表示されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "リスト要素の1つ1つのカードを作成する際に使用するマテリアルデザインウィジェットはどれですか？<br><pre><code>itemBuilder: (context, index) => ___(\n  child: ListTile(\n    title: Text(shownList[index].question),\n  ),\n)</code></pre>",
+      "options": [
+        "Card",
+        "Container",
+        "Box",
+        "Panel"
+      ],
+      "answer": 0,
+      "commentary": "枠線や影を持ったパネルを表示する標準的なウィジェットは `Card` です。"
+    },
+    {
+      "id": 27,
+      "type": "用語理解",
+      "question": "プログラムの実行時（動的）に初めて値が確定するデータやオブジェクトを扱う際、コンパイル時定数キーワードである `const` を付けられない理由は何ですか？",
+      "options": [
+        "`const` はコンパイル時点で値が確定している定数にしか使用できないため",
+        "`const` を付けるとメモリ消費量が10倍に増えてしまうため",
+        "Flutterでは画面遷移時に `const` の使用が禁止されているため",
+        "型キャスト（`as`）を行うと `const` が無効化されるため"
+      ],
+      "answer": 0,
+      "commentary": "`const` はビルド（コンパイル）の時点で値が決定している必要があり、実行時に決定する動的な値には使用できません。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "カードの `genre.id` と選択中のジャンルIDが一致しているかを調べる条件式の記述として正しいものはどれですか？<br><pre><code>final shownList = flashcardList.where(\n  (card) => ___ == widget.genre.id\n).toList();</code></pre>",
+      "options": [
+        "card.genre.id",
+        "card.id",
+        "genre.id",
+        "flashcard.id"
+      ],
+      "answer": 0,
+      "commentary": "各カードが持っているジャンルオブジェクト（`card.genre`）の `id` プロパティと比較します。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "以下のコードで、`onTap` に渡されている `genreList[index]` は何を意味していますか？<br><pre><code>child: ListTile(\n  title: Text(genreList[index].title),\n  onTap: () {\n    Navigator.of(context).pushNamed(\n      '/card_list',\n      arguments: genreList[index],\n    );\n  },\n)</code></pre>",
+      "options": [
+        "タップされた箇所のジャンルオブジェクトそのもの",
+        "タップされた箇所のジャンルのタイトル文字列",
+        "タップされた要素のインデックス番号",
+        "全ジャンルのリスト"
+      ],
+      "answer": 0,
+      "commentary": "`genreList[index]` は、現在タップされたインデックスに該当する `Genre` オブジェクト全体を指します。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "Dartの `where` メソッドの引数に渡す関数（アロー関数）の書き方として正しいものはどれですか？",
+      "options": [
+        "(card) => card.genre.id == widget.genre.id",
+        "(card) { card.genre.id == widget.genre.id }",
+        "card -> card.genre.id == widget.genre.id",
+        "function(card) { return card.genre.id == widget.genre.id; }"
+      ],
+      "answer": 0,
+      "commentary": "1行の条件式を評価してbool値を返すアロー関数は `(要素) => 条件式` と記述します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "Scaffoldのボディ（本文）エリアにリストを表示するためのプロパティ指定はどれですか？<br><pre><code>Scaffold(\n  appBar: AppBar(),\n  ___: ListView.builder(...),\n)</code></pre>",
+      "options": [
+        "body",
+        "child",
+        "content",
+        "main"
+      ],
+      "answer": 0,
+      "commentary": "画面の主要なコンテンツ領域を設定するScaffoldのプロパティは `body` です。"
+    },
+    {
+      "id": 32,
+      "type": "用語理解",
+      "question": "あるクラスのオブジェクトを別の特定のクラス型として扱うようコンパイラに指定する処理を何と呼びますか？",
+      "options": [
+        "型キャスト（type casting）",
+        "型推論（type inference）",
+        "オーバーライド（override）",
+        "カプセル化（encapsulation）"
+      ],
+      "answer": 0,
+      "commentary": "`as` 演算子などを用いてオブジェクトを特定の型に変換・解釈させる処理を「型キャスト」と呼びます。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "次のコードを実行して `Navigator.of(context).pushNamed('/card_list', arguments: genreList[0])` が呼ばれた際、遷移先の `ModalRoute.of(context)!.settings.arguments` に入るデータは何ですか？<br><pre><code>// genreList[0] が Genre(id: 0, title: '英単語') の場合</code></pre>",
+      "options": [
+        "Genre(id: 0, title: '英単語') のオブジェクト",
+        "文字列 '英単語'",
+        "数値 0",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`arguments:` に渡した `genreList[0]`（Genreインスタンス）がそのまま遷移先へ受け渡されます。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "MaterialAppのルーティング一覧を設定するプロパティはどれですか？<br><pre><code>MaterialApp(\n  initialRoute: '/',\n  ___: {\n    '/': (context) => const GenreListPage(),\n    '/card_list': (context) => CardListPage(...),\n  },\n)</code></pre>",
+      "options": [
+        "routes",
+        "paths",
+        "pages",
+        "screens"
+      ],
+      "answer": 0,
+      "commentary": "パス名と画面ウィジェットの対応を設定するマップは `routes` プロパティに指定します。"
+    },
+    {
+      "id": 35,
+      "type": "文法チェック",
+      "question": "Dartのクラス定義において、再代入不可能なプロパティ（フィールド）を宣言するキーワードはどれですか？",
+      "options": [
+        "final",
+        "static",
+        "const",
+        "var"
+      ],
+      "answer": 0,
+      "commentary": "インスタンス化時に値が決まり、以降変更しないプロパティには `final` を使用します。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "StatefulWidgetで `build` メソッドを記述する正しいクラスはどれですか？<br><pre><code>class CardListPage extends StatefulWidget { ... }\n\nclass _CardListState extends State&lt;CardListPage&gt; {\n  @override\n  Widget ___(BuildContext context) {\n    return Scaffold(...);\n  }\n}</code></pre>",
+      "options": [
+        "build",
+        "create",
+        "render",
+        "make"
+      ],
+      "answer": 0,
+      "commentary": "画面UIを返却するメソッドは `Widget build(BuildContext context)` です。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "以下の `where` 処理で、該当するカードが存在しないジャンルID（例: 99）が渡された場合、`shownList` はどうなりますか？<br><pre><code>final shownList = flashcardList.where(\n  (card) => card.genre.id == 99\n).toList();</code></pre>",
+      "options": [
+        "空のリスト（[]）が生成される",
+        "エラーが発生してプログラムが止まる",
+        "全カードが入ったリストになる",
+        "null になる"
+      ],
+      "answer": 0,
+      "commentary": "条件に合う要素がない場合、`where` は空の集合を返し、`toList()` により空のリスト（要素数0）になります。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "ListView.builderの必須プロパティの組み合わせとして正しいものはどれですか？",
+      "options": [
+        "itemCount と itemBuilder",
+        "length と builder",
+        "count と child",
+        "itemCount と child"
+      ],
+      "answer": 0,
+      "commentary": "`ListView.builder` には要素数を指定する `itemCount` と、要素を描画する `itemBuilder` の2つが必須です。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "プラス記号の標準アイコンを表示するプロパティ指定はどれですか？<br><pre><code>child: const Icon(Icons.___)</code></pre>",
+      "options": [
+        "add",
+        "plus",
+        "create",
+        "append"
+      ],
+      "answer": 0,
+      "commentary": "マテリアルアイコンのプラス記号は `Icons.add` です。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "Flutterにおいて、画面の追加や削除（画面遷移）の履歴スタックを管理するオブジェクトやクラスを何と呼びますか？",
+      "options": [
+        "Navigator",
+        "Router",
+        "ScreenManager",
+        "PageController"
+      ],
+      "answer": 0,
+      "commentary": "Flutterで画面の遷移や履歴（スタック）を操作・管理するウィジェット/機能は `Navigator` です。"
+    }
+  ]
 }

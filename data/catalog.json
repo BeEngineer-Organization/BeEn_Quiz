@@ -202,30 +202,24 @@
           ]
         },
         {
-          "id": "B2-flutter-quiz-app-1",
-          "name": "Flutter クイズアプリ作成１",
+          "id": "B2-anki-card-app",
+          "name": "暗記カードアプリを作ろう",
           "units": [
-            { "id": "B2-u13", "title": "unit13", "jsonPath": "data/B2/unit13.json" },
-            { "id": "B2-u14", "title": "unit14", "jsonPath": "data/B2/unit14.json" },
-            { "id": "B2-u15", "title": "unit15", "jsonPath": "data/B2/unit15.json" },
-            { "id": "B2-u16", "title": "unit16", "jsonPath": "data/B2/unit16.json" }
+            { "id": "B2-u13", "title": "アプリの立ち上げと画面遷移の設計", "jsonPath": "data/B2/unit13.json" },
+            { "id": "B2-u14", "title": "ジャンル一覧画面の作成", "jsonPath": "data/B2/unit14.json" },
+            { "id": "B2-u15", "title": "カード一覧画面の作成", "jsonPath": "data/B2/unit15.json" },
+            { "id": "B2-u16", "title": "モーダルの実装", "jsonPath": "data/B2/unit16.json" },
+            { "id": "B2-u17", "title": "カード追加画面の実装", "jsonPath": "data/B2/unit17.json" }
           ]
         },
         {
-          "id": "B2-flutter-state-management",
-          "name": "Flutter 状態管理",
+          "id": "B2-preparing",
+          "name": "準備中",
           "units": [
-            { "id": "B2-u17", "title": "unit17", "jsonPath": "data/B2/unit17.json" },
             { "id": "B2-u18", "title": "unit18", "jsonPath": "data/B2/unit18.json" },
             { "id": "B2-u19", "title": "unit19", "jsonPath": "data/B2/unit19.json" },
             { "id": "B2-u20", "title": "unit20", "jsonPath": "data/B2/unit20.json" },
-            { "id": "B2-u21", "title": "unit21", "jsonPath": "data/B2/unit21.json" }
-          ]
-        },
-        {
-          "id": "B2-flutter-quiz-app-2",
-          "name": "Flutter クイズアプリ作成２",
-          "units": [
+            { "id": "B2-u21", "title": "unit21", "jsonPath": "data/B2/unit21.json" },
             { "id": "B2-u22", "title": "unit22", "jsonPath": "data/B2/unit22.json" },
             { "id": "B2-u23", "title": "unit23", "jsonPath": "data/B2/unit23.json" },
             { "id": "B2-u24", "title": "unit24", "jsonPath": "data/B2/unit24.json" },

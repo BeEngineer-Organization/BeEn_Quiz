@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit17",
-  "questions": []
+  "unit_title": "カード追加画面の実装",
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "コンストラクタで受け取った `genre` プロパティの値を、`StatefulWidget` の初期化処理（State生成時）で一度だけ代入するためにオーバーライドするメソッドはどれですか？<br><pre><code>@override\nvoid ___() {\n  super.___();\n  selectedValue = widget.genre.id;\n}</code></pre>",
+      "options": [
+        "initState",
+        "build",
+        "createState",
+        "dispose"
+      ],
+      "answer": 0,
+      "commentary": "StatefulWidgetのState生成時に最初の一度だけ初期化処理を行うメソッドは `initState` です。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "単一のテキストフォーム項目（`TextFormField`）の状態を直接参照するために設定する `GlobalKey` の型指定はどれですか？<br><pre><code>final questionFormKey = GlobalKey&lt;___&lt;String&gt;&gt;();</code></pre>",
+      "options": [
+        "FormFieldState",
+        "FormState",
+        "WidgetState",
+        "TextFieldState"
+      ],
+      "answer": 0,
+      "commentary": "TextFormFieldなどの個別フォーム項目の状態を管理・参照するには `GlobalKey<FormFieldState<String>>` を使用します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`FormFieldState` に設定したキーを経由して、入力欄の現在の値を取得するプロパティはどれですか？<br><pre><code>final question = questionFormKey.currentState!.___;</code></pre>",
+      "options": [
+        "value",
+        "text",
+        "data",
+        "content"
+      ],
+      "answer": 0,
+      "commentary": "`questionFormKey.currentState!.value` により、`onSaved` を挟まずに直接その入力項目の現在の値を取得できます。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "TextFormFieldで、入力欄の「最小表示行数」と「最大表示行数」を指定するプロパティの組み合わせはどれですか？<br><pre><code>TextFormField(\n  ___: 4,\n  ___: 4,\n)</code></pre>",
+      "options": [
+        "minLines / maxLines",
+        "lines / maxLines",
+        "height / maxHeight",
+        "minRows / maxRows"
+      ],
+      "answer": 0,
+      "commentary": "入力欄の高さを特定行数に固定または可変範囲指定するには `minLines` と `maxLines` を使用します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "プルダウン選択肢（ドロップダウン）要素を表示するために使用するマテリアルウィジェットはどれですか？<br><pre><code>___(\n  value: selectedValue,\n  items: dropdownMenuItemList,\n  onChanged: (value) { ... },\n)</code></pre>",
+      "options": [
+        "DropdownButton",
+        "SelectButton",
+        "PopupMenuButton",
+        "PickerButton"
+      ],
+      "answer": 0,
+      "commentary": "プルダウン項目を選択する標準ウィジェットは `DropdownButton` です。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "`DropdownButton` 内の各選択肢項目を生成するためのウィジェットはどれですか？<br><pre><code>DropdownMenuItem(\n  value: genreList[i].id,\n  child: Text(genreList[i].title),\n)</code></pre>",
+      "options": [
+        "DropdownMenuItem",
+        "DropdownOption",
+        "SelectItem",
+        "MenuItem"
+      ],
+      "answer": 0,
+      "commentary": "DropdownButtonのリスト要素（`items`）には `DropdownMenuItem` ウィジェットを渡します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`DropdownButton` の横幅を親要素いっぱいに広げるためのプロパティ指定はどれですか？<br><pre><code>DropdownButton(\n  isExpanded: ___,\n)</code></pre>",
+      "options": [
+        "true",
+        "false",
+        "null",
+        "double.infinity"
+      ],
+      "answer": 0,
+      "commentary": "`isExpanded: true` を設定することで、ドロップダウンボタンの幅が親ウィジェット全体に広がります。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "ドロップダウンで選択項目が変更された際に実行されるコールバックプロパティはどれですか？<br><pre><code>DropdownButton(\n  value: selectedValue,\n  ___: (value) {\n    setState(() {\n      selectedValue = value!;\n    });\n  },\n)</code></pre>",
+      "options": [
+        "onChanged",
+        "onSelected",
+        "onSelect",
+        "onTap"
+      ],
+      "answer": 0,
+      "commentary": "選択値が変化した時のイベントハンドラは `onChanged` です。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "画面遷移時（`pushNamed`）に引数として渡された `Genre` データを、画面構築側の `routes` で受け取る正しい記述はどれですか？<br><pre><code>'/card_add': (context) => CardAddPage(\n  genre: ModalRoute.of(context)!.settings.___ as Genre,\n),</code></pre>",
+      "options": [
+        "arguments",
+        "params",
+        "data",
+        "extra"
+      ],
+      "answer": 0,
+      "commentary": "画面遷移時に渡された渡りデータは `ModalRoute.of(context)!.settings.arguments` で参照します。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`dropdownMenuItemList` に最初に追加される `DropdownMenuItem` の `value` は何になりますか？<br><pre><code>final genreList = [Genre(id: 10, title: '英単語')];\nfinal dropdownMenuItemList = <DropdownMenuItem<int>>[];\n\nfor (var i = 0; i < genreList.length; i++) {\n  dropdownMenuItemList.add(\n    DropdownMenuItem(\n      value: genreList[i].id,\n      child: Text(genreList[i].title)\n    )\n  );\n}</code></pre>",
+      "options": [
+        "10",
+        "英単語",
+        "0",
+        "Genre"
+      ],
+      "answer": 0,
+      "commentary": "`value:` には `genreList[i].id`（10）が指定されるため、裏側で保持される値は整数値 `10` となります。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "入力欄が未入力（空文字 `\"\"`）の状態で、次のバリデーションを実行した場合に返される文字列は何ですか？<br><pre><code>validator: (value) {\n  if (value == null || value.trim() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
+      "options": [
+        "入力してください",
+        "null",
+        "true",
+        "エラーは返されない"
+      ],
+      "answer": 0,
+      "commentary": "入力値が空文字の場合、条件が成立し `'入力してください'` が返されて画面に赤字エラーが出ます。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "文字「テスト」と入力された状態で以下のバリデーションを実行したとき、返される値は何ですか？<br><pre><code>validator: (value) {\n  if (value == null || value.trim() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
+      "options": [
+        "null",
+        "入力してください",
+        "テスト",
+        "true"
+      ],
+      "answer": 0,
+      "commentary": "正常に入力されている場合は条件を満たさないため `null` が返り、エラー無し（検証成功）となります。"
+    },
+    {
+      "id": 13,
+      "type": "文法チェック",
+      "question": "StatefulWidgetの `initState()` メソッドを定義する際、必須とされる親クラスの呼び出し指定はどれですか？",
+      "options": [
+        "super.initState(); をメソッドの最初に呼ぶ",
+        "super.initState(); をメソッドの最後に呼ぶ",
+        "super.init(); と呼ぶ",
+        "親クラスの呼び出しは不要"
+      ],
+      "answer": 0,
+      "commentary": "`initState()` をオーバーライドする際は、必ず冒頭で `super.initState();` を呼び出します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "フォーム全体の入力値がすべて正常（バリデーション通過）かチェックするメソッドはどれですか？<br><pre><code>if (formKey.currentState!.____()) {\n  // 登録処理\n}</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "save",
+        "verify"
+      ],
+      "answer": 0,
+      "commentary": "フォーム内の各 validator を一括テストするには `formKey.currentState!.validate()` を呼び出します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "以下の `addCard` 関数を呼び出してカードを追加した後、`flashcardList.length`（要素数）はどう変化しますか？<br><pre><code>void addCard(String question, String answer, Genre genre) {\n  flashcardList.add(\n    Flashcard(\n      id: flashcardList.length,\n      question: question,\n      answer: answer,\n      genre: genre,\n    )\n  );\n}</code></pre>",
+      "options": [
+        "要素数が 1 増える",
+        "既存の要素がすべて上書きされる",
+        "要素数は変化しない",
+        "要素数が 0 にリセットされる"
+      ],
+      "answer": 0,
+      "commentary": "リストの `add` メソッドにより末尾に新アイテムが1件追加されるため、要素数は 1 増えます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "カードの追加処理が完了した後、カード追加画面を閉じて前のカード一覧画面に戻るためのコードはどれですか？<br><pre><code>addCard(question, answer, genre);\nNavigator.of(context).___();</code></pre>",
+      "options": [
+        "pop",
+        "push",
+        "back",
+        "remove"
+      ],
+      "answer": 0,
+      "commentary": "現在の画面スタックを取り除いて前の画面へ戻るには `Navigator.of(context).pop()` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "本教材において、アプリ再起動時に追加したカードデータが消失してしまう理由として正しい説明はどれですか？",
+      "options": [
+        "データが永続化データベースではなく、メモリ上のリスト（`flashcardList`）にのみ保持されているため",
+        "Flutterでは追加データの保持が一切禁止されているため",
+        "バリデーションに失敗しているため",
+        "StatefulWidgetではなくStatelessWidgetを使用しているため"
+      ],
+      "answer": 0,
+      "commentary": "メモリ（変数）上に置いたデータはアプリ終了時に破棄されるため、再起動後も残すにはデータベース等への保存が必要になります。"
+    },
+    {
+      "id": 18,
+      "type": "文法チェック",
+      "question": "Stateクラス内から、そのStatefulWidgetクラスの持つコンストラクタプロパティ `genre` にアクセスする正しい記述はどれですか？",
+      "options": [
+        "widget.genre",
+        "this.genre",
+        "state.genre",
+        "parent.genre"
+      ],
+      "answer": 0,
+      "commentary": "Stateクラス内から対となるWidgetクラスのフィールドを参照する場合は `widget.` を頭に付けます。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "`Column` ウィジェット内で、子要素（children）同士の間隔（縦方向の隙間）を一括設定するプロパティはどれですか？<br><pre><code>Column(\n  ___: 16,\n  children: [...],\n)</code></pre>",
+      "options": [
+        "spacing",
+        "gap",
+        "padding",
+        "margin"
+      ],
+      "answer": 0,
+      "commentary": "Flutter最新仕様における Flex（Column/Row）の要素間隙間指定プロパティは `spacing` です。"
+    },
+    {
+      "id": 20,
+      "type": "文法チェック",
+      "question": "TextFormFieldの入力欄に枠線を表示しラベルを付けるためのデコレーション設定として正しいものはどれですか？",
+      "options": [
+        "decoration: const InputDecoration(border: OutlineInputBorder(), labelText: '問題')",
+        "decoration: const BoxFormDecoration(border: true, label: '問題')",
+        "style: const TextStyle(border: Border.all(), text: '問題')",
+        "theme: const FormTheme(labelText: '問題')"
+      ],
+      "answer": 0,
+      "commentary": "TextFormFieldの枠線やラベルテキストの指定は `decoration: InputDecoration(...)` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "リスト `genreList` 内の指定インデックス（`selectedValue`）に合致する `Genre` オブジェクトを取得するコードはどれですか？<br><pre><code>final genre = genreList[___];</code></pre>",
+      "options": [
+        "selectedValue",
+        "genre.id",
+        "index",
+        "current"
+      ],
+      "answer": 0,
+      "commentary": "ドロップダウンの選択ID（インデックス）が入った変数 `selectedValue` を使って対象オブジェクトを取り出します。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "文字列の前後にある無駄なスペース（空白文字）を取り除くDartの文字列メソッドは何ですか？",
+      "options": [
+        "trim()",
+        "clean()",
+        "strip()",
+        "clear()"
+      ],
+      "answer": 0,
+      "commentary": "文字列の前後の余分な空白を除去するメソッドは `trim()` です。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "ユーザーがスペースのみ（例: \"   \"）をテキストボックスに入力して送信した場合、`value.trim() == ''` の判定はどうなりますか？",
+      "options": [
+        "true（空文字と判定されバリデーションエラーになる）",
+        "false（スペースが文字として扱われ通過する）",
+        "エラー（例外）が発生する",
+        "null に変わる"
+      ],
+      "answer": 0,
+      "commentary": "`trim()` により前後の空白が消去されて空文字 `\"\"` になるため、`true` と判定されます。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "CardAddPageクラスのコンストラクタで、`genre` 引数を必須（Required）とする正しい書き方はどれですか？",
+      "options": [
+        "const CardAddPage({super.key, required this.genre});",
+        "const CardAddPage({super.key, this.genre});",
+        "CardAddPage(Genre genre);",
+        "const CardAddPage({required Genre genre});"
+      ],
+      "answer": 0,
+      "commentary": "コンストラクタで必須の名前付き引数として受け取るには `required this.genre` と書きます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "画面遷移時に `arguments` オプションで渡された引数を指定する `pushNamed` の呼び出し方はどれですか？<br><pre><code>Navigator.of(context).pushNamed(\n  '/card_add',\n  ___: widget.genre,\n);</code></pre>",
+      "options": [
+        "arguments",
+        "data",
+        "params",
+        "extra"
+      ],
+      "answer": 0,
+      "commentary": "`pushNamed` の第2引数オプション `arguments:` に引き渡したいデータをセットします。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されたとき、新規作成される `Flashcard` の `id` には初期状態（カード数3件の時）でどのような値が入りますか？<br><pre><code>flashcardList.add(\n  Flashcard(\n    id: flashcardList.length,\n    question: question,\n    answer: answer,\n    genre: genre,\n  )\n);</code></pre>",
+      "options": [
+        "3",
+        "0",
+        "1",
+        "4"
+      ],
+      "answer": 0,
+      "commentary": "現在のカードリスト長 `flashcardList.length`（3）が新しい `id` として割り振られます。"
+    },
+    {
+      "id": 27,
+      "type": "文法チェック",
+      "question": "Dartにおいて、ジェネリクスを指定して「整数（int型）の選択値を持つ DropdownMenuItem のリスト」を宣言する正しい記法はどれですか？",
+      "options": [
+        "final dropdownMenuItemList = <DropdownMenuItem<int>>[];",
+        "final dropdownMenuItemList = List<DropdownMenuItem[int]>;",
+        "final dropdownMenuItemList = DropdownMenuItem<int>[];",
+        "final dropdownMenuItemList = [DropdownMenuItem<int>];"
+      ],
+      "answer": 0,
+      "commentary": "`<DropdownMenuItem<int>>[]` のようにアングルブラケットで型を指定して空リストを初期化します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "標準的なボタンを作成するウィジェットはどれですか？<br><pre><code>___(\n  onPressed: () { ... },\n  child: const Text('カードを追加する'),\n)</code></pre>",
+      "options": [
+        "ElevatedButton",
+        "FlatButton",
+        "SubmitButton",
+        "ActionButton"
+      ],
+      "answer": 0,
+      "commentary": "標準的なマテリアルデザインの浮き上がりボタンは `ElevatedButton` です。"
+    },
+    {
+      "id": 29,
+      "type": "用語理解",
+      "question": "複数行入力欄において、入力エリアの上端にラベルを揃えて表示する InputDecoration のプロパティはどれですか？",
+      "options": [
+        "alignLabelWithHint",
+        "labelTopAlign",
+        "alignTop",
+        "labelPosition"
+      ],
+      "answer": 0,
+      "commentary": "複数行テキストフィールドでラベルを上揃えにするには `alignLabelWithHint: true` を指定します。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "左右のみに余白を設定する `EdgeInsets` の構造はどれですか？<br><pre><code>Padding(\n  padding: const EdgeInsets.only(\n    ___: 16,\n    ___: 16,\n  ),\n  child: TextFormField(...),\n)</code></pre>",
+      "options": [
+        "left / right",
+        "top / bottom",
+        "start / end",
+        "x / y"
+      ],
+      "answer": 0,
+      "commentary": "左右個別指定には `EdgeInsets.only(left: ..., right: ...)` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "以下のコードで `Form` ウィジェットに `key: formKey` が設定されていない場合、どうなりますか？<br><pre><code>if (formKey.currentState!.validate()) { ... }</code></pre>",
+      "options": [
+        "Null check operator used on a null value エラー（currentStateがnull）が発生する",
+        "バリデーションが自動的にスキップされる",
+        "フォームの内容が自動保存される",
+        "正常にバリデーションが通過する"
+      ],
+      "answer": 0,
+      "commentary": "Formに `key` が紐付いていないと `formKey.currentState` が `null` となるため、`!`（Null強参照）で実行時エラーが発生します。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "コンストラクタ受け取り用のフィールド（例: `final Genre genre;`）の宣言として正しいものはどれですか？",
+      "options": [
+        "final Genre genre;",
+        "const Genre genre;",
+        "Genre final genre;",
+        "static Genre genre;"
+      ],
+      "answer": 0,
+      "commentary": "インスタンス化時に受け取り再代入しないプロパティは `final 型名 変数名;` と宣言します。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "全画面の中心に子ウィジェットを配置するためのレイアウトウィジェットはどれですか？<br><pre><code>body: Form(\n  key: formKey,\n  child: ___(\n    child: Column(...),\n  ),\n)</code></pre>",
+      "options": [
+        "Center",
+        "Middle",
+        "Align",
+        "Container"
+      ],
+      "answer": 0,
+      "commentary": "中央配置を行う基本ウィジェットは `Center` です。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "Dartの `!` 演算子（非null表明演算子）の役割は何ですか？",
+      "options": [
+        "nullの可能性があるオブジェクトに対し「ここでは絶対にnullではない」とコンパイラに伝える",
+        "変数の値を否定（boolean反転）する",
+        "変数を強制的に削除する",
+        "変数の初期化を遅延させる"
+      ],
+      "answer": 0,
+      "commentary": "Null Safetyにおいて、null許容型を非null型として強制解釈させるのが `!` 演算子です。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "以下の `DropdownButton` で選択値を変更した際、`setState` を呼び忘れるとどうなりますか？<br><pre><code>onChanged: (value) {\n  selectedValue = value!;\n}</code></pre>",
+      "options": [
+        "変数 `selectedValue` は更新されるが、画面の表示（選択中の表示）が更新されない",
+        "自動的に画面が更新される",
+        "コンパイルエラーになる",
+        "アプリが終了する"
+      ],
+      "answer": 0,
+      "commentary": "`setState()` を呼ばないと画面の再描画（buildの再実行）が走らないため、UI上の選択表示が変わりません。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "Dartの `for` ループを使ってリストの全要素を処理する正しい構文はどれですか？",
+      "options": [
+        "for (var i = 0; i < genreList.length; i++) { ... }",
+        "for (i = 0 to genreList.length) { ... }",
+        "foreach (var i in genreList) { ... }",
+        "loop (var i = 0; i < genreList.length) { ... }"
+      ],
+      "answer": 0,
+      "commentary": "標準的なDartのforループの記法は `for (var i = 0; i < リスト長; i++)` です。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "フォーム項目のキー型として宣言する構文の空欄に入る型はどれですか？<br><pre><code>final formKey = GlobalKey&lt;___&gt;();</code></pre>",
+      "options": [
+        "FormState",
+        "FormField",
+        "FormWidget",
+        "FormElement"
+      ],
+      "answer": 0,
+      "commentary": "`Form` 全体の状態を管理するキーの型は `GlobalKey<FormState>` です。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "教科書で使用しているアプリの各種ページが配置される標準フォルダー名はどれですか？",
+      "options": [
+        "lib/pages/",
+        "lib/views/",
+        "lib/screens/",
+        "lib/components/"
+      ],
+      "answer": 0,
+      "commentary": "本教材のプロジェクト構造では、画面ファイルは `lib/pages/` 配下に配置されています。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "ドロップダウン選択肢要素 `DropdownMenuItem` で選択時に内部データとして保持されるプロパティはどれですか？<br><pre><code>DropdownMenuItem(\n  ___: genreList[i].id,\n  child: Text(genreList[i].title)\n)</code></pre>",
+      "options": [
+        "value",
+        "key",
+        "id",
+        "data"
+      ],
+      "answer": 0,
+      "commentary": "選択肢が選ばれたときに保持されるデータ値は `value` プロパティにセットします。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "ユーザーからのテキスト入力をリアルタイムで入力・検証・送信するためのフォーム項目ウィジェットはどれですか？",
+      "options": [
+        "TextFormField",
+        "TextLabel",
+        "StaticText",
+        "InputCard"
+      ],
+      "answer": 0,
+      "commentary": "フォームの入力項目としてバリデーションや保存処理を統合して扱えるウィジェットが `TextFormField` です。"
+    }
+  ]
 }

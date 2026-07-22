@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit14",
-  "questions": []
+  "unit_title": "ジャンル一覧画面の作成",
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "Genreクラスのコンストラクタで、インスタンス生成時に引数を必須とするために指定するDartのキーワードはどれですか？<br><pre><code>class Genre {\n  Genre({\n    ___ this.id,\n    ___ this.title,\n  });\n\n  final int id;\n  final String title;\n}</code></pre>",
+      "options": [
+        "required",
+        "final",
+        "const",
+        "static"
+      ],
+      "answer": 0,
+      "commentary": "Dartの名前付き引数で値を必須にするためには `required` キーワードを使用します。"
+    },
+    {
+      "id": 2,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、ターミナルに出力される文字列は何ですか？<br><pre><code>final data_1 = Genre(id: 0, title: 'テスト');\nprint(data_1.title);</code></pre>",
+      "options": [
+        "0",
+        "テスト",
+        "Genre",
+        "null"
+      ],
+      "answer": 1,
+      "commentary": "data_1インスタンスの `title` プロパティを参照しているため、設定された文字列 'テスト' が表示されます。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "models/genre.dartで定義したモデルを他ファイルで読み込むためのインポート構文です。空欄に入るキーワードは何ですか？<br><pre><code>___ '../models/genre.dart';\n\nfinal List<Genre> genreList = [];</code></pre>",
+      "options": [
+        "import",
+        "include",
+        "require",
+        "load"
+      ],
+      "answer": 0,
+      "commentary": "Dartで他ファイルやパッケージを利用するときは `import` を記述します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "効率的に一覧表示を作るためのウィジェット `ListView.builder` で、リスト全体の件数を指定するプロパティは何ですか？<br><pre><code>ListView.builder(\n  ___: genreList.length,\n  itemBuilder: (context, index) => const Card(),\n)</code></pre>",
+      "options": [
+        "itemCount",
+        "length",
+        "count",
+        "totalCount"
+      ],
+      "answer": 0,
+      "commentary": "リストに表示する要素の総数を指定するプロパティは `itemCount` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "ListView.builder内で、1つずつの要素（ウィジェット）を組み立てる関数のプロパティは何ですか？<br><pre><code>ListView.builder(\n  itemCount: genreList.length,\n  ___: (context, index) => const Card(),\n)</code></pre>",
+      "options": [
+        "itemBuilder",
+        "itemWidget",
+        "builder",
+        "itemFactory"
+      ],
+      "answer": 0,
+      "commentary": "要素を順に生成するビルド関数を指定するプロパティは `itemBuilder` です。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "次のコードで `genreList` の最初の要素（インデックス0）の `title` を取得するとき、どのような値が得られますか？<br><pre><code>final List<Genre> genreList = [\n  Genre(id: 0, title: '英単語'),\n  Genre(id: 1, title: '世界史'),\n];\nprint(genreList[0].title);</code></pre>",
+      "options": [
+        "英単語",
+        "世界史",
+        "0",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "`genreList[0]` はリストの1番目のオブジェクト（'英単語'）を指すため、その `.title` は '英単語' になります。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "ListTileウィジェットで、項目をタップした時の処理を指定するプロパティは何ですか？<br><pre><code>ListTile(\n  title: Text(genreList[index].title),\n  ___: () {\n    Navigator.of(context).pushNamed('/card_list');\n  },\n)</code></pre>",
+      "options": [
+        "onTap",
+        "onPressed",
+        "onClick",
+        "onSelect"
+      ],
+      "answer": 0,
+      "commentary": "ListTileでタップ操作を検知・処理するプロパティは `onTap` です。"
+    },
+    {
+      "id": 8,
+      "type": "用語理解",
+      "question": "マテリアルデザインに準拠し、立体感や丸角のある独立したパネルを表現するためのウィジェットは何ですか？",
+      "options": [
+        "Card",
+        "Container",
+        "SizedBox",
+        "Panel"
+      ],
+      "answer": 0,
+      "commentary": "カード形状のUIを作るためのマテリアルウィジェットは `Card` です。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "テキストやアイコンを整理して並べ、タップ操作などを簡単に扱えるマテリアルデザインの行UIウィジェットは何ですか？",
+      "options": [
+        "ListTile",
+        "Row",
+        "Column",
+        "ListRow"
+      ],
+      "answer": 0,
+      "commentary": "タイトルやサブタイトル、タップ処理などを定型的に配置できる行用ウィジェットは `ListTile` です。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "名前付きルート '/card_list' に画面遷移するためのコードです。空欄に入る適切な記述はどれですか？<br><pre><code>onTap: () {\n  Navigator.of(context).___('/card_list');\n}</code></pre>",
+      "options": [
+        "pushNamed",
+        "push",
+        "go",
+        "to"
+      ],
+      "answer": 0,
+      "commentary": "名前付きルートで画面を重ねて表示する場合は `pushNamed` を使います。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "Flashcardクラスの定義で、所属するジャンルを表すプロパティの型指定は何ですか？<br><pre><code>class Flashcard {\n  Flashcard({\n    required this.id,\n    required this.question,\n    required this.answer,\n    required this.genre,\n  });\n\n  final int id;\n  final String question;\n  final String answer;\n  final ___ genre;\n}</code></pre>",
+      "options": [
+        "Genre",
+        "String",
+        "int",
+        "Map"
+      ],
+      "answer": 0,
+      "commentary": "所属するジャンルはカスタム定義した `Genre` 型オブジェクトとして保持します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "次のコードで、`flashcardList[0].genre.title` を参照した際に取得できる文字列は何ですか？<br><pre><code>final List<Genre> genreList = [\n  Genre(id: 0, title: '英単語'),\n];\nfinal List<Flashcard> flashcardList = [\n  Flashcard(id: 0, question: 'apple', answer: 'りんご', genre: genreList[0]),\n];\nprint(flashcardList[0].genre.title);</code></pre>",
+      "options": [
+        "英単語",
+        "apple",
+        "りんご",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "`flashcardList[0]` の `genre` は `genreList[0]`（英単語）なので、その `.title` は '英単語' となります。"
+    },
+    {
+      "id": 13,
+      "type": "文法チェック",
+      "question": "複数行の文字列（改行を含むテキスト）をDartで定義する正しい記法はどれですか？",
+      "options": [
+        "'''複数行のテキスト'''",
+        "\"\"\"複数行のテキスト\"\"\"",
+        "'''複数行のテキスト''' と \"\"\"複数行のテキスト\"\"\" の両方",
+        "[[複数行のテキスト]]"
+      ],
+      "answer": 2,
+      "commentary": "Dartではシングルクォート3つ `'''` またはダブルクォート3つ `\"\"\"` で囲むことで改行を含む複数行文字列を表現できます。"
+    },
+    {
+      "id": 14,
+      "type": "用語理解",
+      "question": "Flutter開発で、UI（画面表示）を作成するファイルとデータ構造（モデル）を定義するファイルを別々に分ける設計のメリットは何ですか？",
+      "options": [
+        "役割分担が明確になり、保守性や再利用性が向上する",
+        "アプリの実行速度が10倍以上速くなる",
+        "自動的にデータベースが構築される",
+        "エラーが絶対に発生しなくなる"
+      ],
+      "answer": 0,
+      "commentary": "データと画面表示のコードを分離することで、コードの見通しが良くなり管理や変更が容易になります。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "ListView.builderの `itemBuilder` で渡される、現在の要素の番号（0から始まるインデックス）を受ける引数名は慣例的に何が使われますか？<br><pre><code>itemBuilder: (context, ___) => Card(...)</code></pre>",
+      "options": [
+        "index",
+        "number",
+        "count",
+        "position"
+      ],
+      "answer": 0,
+      "commentary": "現在の要素の番号を示す引数には一般的に `index` が使用されます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "ListView.builderの `itemBuilder` で、アプリの位置情報や親要素のデータへアクセスするための第一引数は何ですか？<br><pre><code>itemBuilder: (___, index) => Card(...)</code></pre>",
+      "options": [
+        "context",
+        "widget",
+        "state",
+        "element"
+      ],
+      "answer": 0,
+      "commentary": "ウィジェットツリー内の位置情報やテーマ等にアクセスするための第一引数は `BuildContext`（変数名 `context`）です。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "次のコードで `genreList.length` の値はいくつになりますか？<br><pre><code>final List<Genre> genreList = [\n  Genre(id: 0, title: '英単語'),\n  Genre(id: 1, title: '世界史'),\n  Genre(id: 2, title: '情報'),\n];</code></pre>",
+      "options": [
+        "3",
+        "2",
+        "0",
+        "undefined"
+      ],
+      "answer": 0,
+      "commentary": "リスト内に3個のGenreオブジェクトが含まれているため、`length` は 3 になります。"
+    },
+    {
+      "id": 18,
+      "type": "文法チェック",
+      "question": "Dartで再代入を許さない読み取り専用の変数を宣言するときに使用するキーワードはどれですか？",
+      "options": [
+        "final",
+        "static",
+        "dynamic",
+        "var"
+      ],
+      "answer": 0,
+      "commentary": "一度値を代入した後に変更しない（読み取り専用）フィールドや変数には `final` を指定します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "Cardウィジェットの中に表示する主要ウィジェット（子ウィジェット）を設定するプロパティは何ですか？<br><pre><code>Card(\n  ___: ListTile(\n    title: Text('タイトル'),\n  ),\n)</code></pre>",
+      "options": [
+        "child",
+        "body",
+        "content",
+        "widget"
+      ],
+      "answer": 0,
+      "commentary": "単一の子ウィジェットを持つウィジェットでは `child` プロパティを使用します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されたとき、表示されるリストの件数は何件になりますか？<br><pre><code>final List<Genre> genreList = [\n  Genre(id: 0, title: 'A'),\n  Genre(id: 1, title: 'B'),\n];\n\nListView.builder(\n  itemCount: genreList.length,\n  itemBuilder: (context, index) => const Card(),\n)</code></pre>",
+      "options": [
+        "2件",
+        "1件",
+        "0件",
+        "無限件"
+      ],
+      "answer": 0,
+      "commentary": "`itemCount` に `genreList.length`（=2）が渡されるため、2件のCardが表示されます。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "ListTileウィジェットで、項目のメインタイトルテキストを指定するプロパティはどれですか？",
+      "options": [
+        "title",
+        "text",
+        "header",
+        "label"
+      ],
+      "answer": 0,
+      "commentary": "ListTileのメインテキストを指定するプロパティは `title` です。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "画面全体のレイアウト構造（AppBarやbodyなど）を提供する基本ウィジェットは何ですか？",
+      "options": [
+        "Scaffold",
+        "Container",
+        "MaterialApp",
+        "View"
+      ],
+      "answer": 0,
+      "commentary": "マテリアルデザインの基本的な視覚的構造を作成するための枠組みウィジェットは `Scaffold` です。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "Scaffoldのメインコンテンツ領域を指定するプロパティは何ですか？<br><pre><code>Scaffold(\n  appBar: AppBar(),\n  ___: ListView.builder(...),\n)</code></pre>",
+      "options": [
+        "body",
+        "content",
+        "child",
+        "main"
+      ],
+      "answer": 0,
+      "commentary": "画面の主要な表示領域を指定するプロパティは `body` です。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "Dartにおいて、相対パスを使って1つ上の親ディレクトリにあるファイルをインポートする記法はどれですか？",
+      "options": [
+        "import '../models/genre.dart';",
+        "import './models/genre.dart';",
+        "import '~/models/genre.dart';",
+        "import 'root/models/genre.dart';"
+      ],
+      "answer": 0,
+      "commentary": "親ディレクトリを指す相対パスの記法は `../` です。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "新規にモデルを定義する際のクラス作成の基本文法です。空欄に入るキーワードはどれですか？<br><pre><code>___ Genre {\n  final int id;\n  final String title;\n}</code></pre>",
+      "options": [
+        "class",
+        "struct",
+        "type",
+        "interface"
+      ],
+      "answer": 0,
+      "commentary": "Dartでクラスを定義するには `class` キーワードを使用します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "次のコードで `genreList[1].id` の実行結果（取得できる数値）は何ですか？<br><pre><code>final List<Genre> genreList = [\n  Genre(id: 10, title: '英単語'),\n  Genre(id: 20, title: '世界史'),\n];\nprint(genreList[1].id);</code></pre>",
+      "options": [
+        "20",
+        "10",
+        "1",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "`genreList[1]` はインデックス1（2番目）のGenreオブジェクト（id: 20）を指します。"
+    },
+    {
+      "id": 27,
+      "type": "用語理解",
+      "question": "要素が画面外にスクロールした際に必要な分だけ効率的に描画を行うリスト作成ウィジェットはどれですか？",
+      "options": [
+        "ListView.builder",
+        "Column",
+        "Row",
+        "SingleChildScrollView"
+      ],
+      "answer": 0,
+      "commentary": "画面に見える範囲のみを動的に生成してパフォーマンスを最適化する構造が `ListView.builder` です。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "Textウィジェットで文字列を表示する正しい指定はどれですか？<br><pre><code>ListTile(\n  title: ___('表示テキスト'),\n)</code></pre>",
+      "options": [
+        "Text",
+        "Label",
+        "String",
+        "Span"
+      ],
+      "answer": 0,
+      "commentary": "画面にテキストを表示するための基本ウィジェットは `Text` です。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "Dartで `List<Genre>` と記述したときの意味として正しいものはどれですか？",
+      "options": [
+        "Genreクラスのインスタンスのみを格納できるリスト",
+        "文字列のみを格納できるリスト",
+        "Genreという名前の単一の変数",
+        "Genreクラスの関数"
+      ],
+      "answer": 0,
+      "commentary": "ジェネリクス記法 `<Genre>` により、`Genre` オブジェクトのみを扱う型安全なリストになります。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "無名関数（アロー関数）を使って短く書く際の記号はどれですか？<br><pre><code>itemBuilder: (context, index) ___ Card(...)</code></pre>",
+      "options": [
+        "=>",
+        "->",
+        ":=",
+        "=="
+      ],
+      "answer": 0,
+      "commentary": "Dartの1行の式を返す無名関数（アロー関数）には `=>` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "次のコードを実行した際、リストの2番目（index 1）に表示されるテキストは何ですか？<br><pre><code>final List<Genre> genreList = [\n  Genre(id: 0, title: '数学'),\n  Genre(id: 1, title: '物理'),\n];\n\nListView.builder(\n  itemCount: genreList.length,\n  itemBuilder: (context, index) => Text(genreList[index].title),\n)</code></pre>",
+      "options": [
+        "物理",
+        "数学",
+        "0",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "index 1の要素は `genreList[1]` のため '物理' が表示されます。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "教科書で作成したモデルファイルの配置フォルダーとして正しいものはどれですか？",
+      "options": [
+        "lib/models/",
+        "lib/pages/",
+        "lib/views/",
+        "lib/screens/"
+      ],
+      "answer": 0,
+      "commentary": "データモデルは `lib/models/` フォルダー配下に配置するのが一般的です。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "教科書で作成した初期データファイルの配置フォルダーとして正しいものはどれですか？",
+      "options": [
+        "lib/data/",
+        "lib/database/",
+        "lib/assets/",
+        "lib/models/"
+      ],
+      "answer": 0,
+      "commentary": "サンプル・初期データは `lib/data/` フォルダー配下に配置されています。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "コンストラクタで引数を名前付き引数（`{ }` で囲む形式）にするための構文です。空欄に入る括弧はどれですか？<br><pre><code>class Genre {\n  Genre(___\n    required this.id,\n    required this.title,\n  ___);\n}</code></pre>",
+      "options": [
+        "{ と }",
+        "[ と ]",
+        "( と )",
+        "< と >"
+      ],
+      "answer": 0,
+      "commentary": "Dartで名前付き引数を定義するには引数リストを波括弧 `{ }` で囲みます。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "クラスを基にして作られた、実際のデータを持つ具体的な値（実体）を何と呼びますか？",
+      "options": [
+        "インスタンス",
+        "プロパティ",
+        "メソッド",
+        "インターフェース"
+      ],
+      "answer": 0,
+      "commentary": "クラスの定義に基づいて生成された実体データを「インスタンス」と呼びます。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "次のコードを実行した場合、`card.question` の値は何ですか？<br><pre><code>final card = Flashcard(\n  id: 1,\n  question: 'CPU',\n  answer: '中央処理装置',\n  genre: genreList[0],\n);\nprint(card.question);</code></pre>",
+      "options": [
+        "CPU",
+        "中央処理装置",
+        "1",
+        "Genre"
+      ],
+      "answer": 0,
+      "commentary": "`card` オブジェクトの `question` プロパティの値である 'CPU' が出力されます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "Flashcardクラスの定義で、問題文を保持するプロパティの型指定は何ですか？<br><pre><code>class Flashcard {\n  final int id;\n  final ___ question;\n  final String answer;\n  final Genre genre;\n}</code></pre>",
+      "options": [
+        "String",
+        "int",
+        "Text",
+        "var"
+      ],
+      "answer": 0,
+      "commentary": "テキスト（問題文）を扱うプロパティの型は `String` になります。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "StatelessWidgetを継承したクラスで、UI（画面）を返却する必須のメソッド名はどれですか？",
+      "options": [
+        "build",
+        "create",
+        "render",
+        "make"
+      ],
+      "answer": 0,
+      "commentary": "StatelessWidgetでは `Widget build(BuildContext context)` メソッドをオーバーライドしてUIを定義します。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "Googleが提唱する、影やアニメーションを用いて直感的で美しいUIを実現するためのデザインシステムは何ですか？",
+      "options": [
+        "マテリアルデザイン",
+        "フラットデザイン",
+        "ニューモフィズム",
+        "フルイドデザイン"
+      ],
+      "answer": 0,
+      "commentary": "Flutterが標準でサポートしているGoogleのデザインガイドラインを「マテリアルデザイン」と呼びます。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、ターミナルに出力される結果は何ですか？<br><pre><code>final genre = Genre(id: 0, title: '英単語');\nprint(genre.id);</code></pre>",
+      "options": [
+        "0",
+        "英単語",
+        "Genre",
+        "id"
+      ],
+      "answer": 0,
+      "commentary": "`genre.id` にアクセスしているため、整数値 `0` が出力されます。"
+    }
+  ]
 }

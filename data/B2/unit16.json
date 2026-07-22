@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit16",
-  "questions": []
+  "unit_title": "モーダルの実装",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "操作中の画面の手前に重なって表示され、表示中は背景の画面操作を制限する小さなウィンドウ（UI部品）を何と呼びますか？",
+      "options": [
+        "モーダルダイアログ",
+        "ボトムナビゲーション",
+        "スナックバー",
+        "ドロワー"
+      ],
+      "answer": 0,
+      "commentary": "今操作している画面の手前に表示され、ユーザーの確認や情報表示を行う小さなウィンドウを「モーダルダイアログ」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Flutterでモーダルダイアログを表示するために呼び出す関数は何ですか？<br><pre><code>___(\n  context: context,\n  builder: (_) {\n    return const Text('test');\n  },\n);</code></pre>",
+      "options": [
+        "showModal",
+        "showDialog",
+        "openDialog",
+        "createModal"
+      ],
+      "answer": 1,
+      "commentary": "Flutterでモーダルダイアログを表示するには `showDialog()` 関数を使用します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "showDialog関数で、ウィジェットツリー内の現在の位置情報を渡すプロパティは何ですか？<br><pre><code>showDialog(\n  ___: context,\n  builder: (_) => const AlertDialog(),\n);</code></pre>",
+      "options": [
+        "context",
+        "location",
+        "tree",
+        "position"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログをどの画面の上に重ねるか判断するために `context:` プロパティに `context` を渡します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "showDialog関数で、ダイアログの中身（ウィジェット）を構築して返す関数を指定するプロパティは何ですか？<br><pre><code>showDialog(\n  context: context,\n  ___: (_) {\n    return const AlertDialog();\n  },\n);</code></pre>",
+      "options": [
+        "child",
+        "builder",
+        "widget",
+        "content"
+      ],
+      "answer": 1,
+      "commentary": "ダイアログの中身を生成するコールバック関数は `builder:` プロパティに指定します。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "Dartの引数定義で `builder: (_)` のようにアンダースコア（`_`）を使うことにはどのような意味がありますか？",
+      "options": [
+        "引数として受け取るが、関数内で使用しないことを示す慣習的な記法",
+        "引数が null であることを保証する記法",
+        "プライベート変数を作成する記法",
+        "引数を自動的に削除する機能"
+      ],
+      "answer": 0,
+      "commentary": "Dartでは「引数は受け取るものの、関数内部では使わない」場合に慣習として `_` （アンダースコア）を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "標準的なダイアログの見た目を構成するためのマテリアルウィジェットはどれですか？<br><pre><code>showDialog(\n  context: context,\n  builder: (_) {\n    return ___(\n      title: const Text('タイトル'),\n    );\n  },\n);</code></pre>",
+      "options": [
+        "AlertDialog",
+        "MessageDialog",
+        "CardDialog",
+        "ConfirmDialog"
+      ],
+      "answer": 0,
+      "commentary": "タイトル、本文、ボタンなどを配置できる標準的なダイアログウィジェットは `AlertDialog` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "AlertDialogで、ダイアログ上部の「見出し」部分を設定するプロパティは何ですか？<br><pre><code>AlertDialog(\n  ___: Text(content.question),\n  content: Text(content.answer),\n)</code></pre>",
+      "options": [
+        "header",
+        "title",
+        "top",
+        "heading"
+      ],
+      "answer": 1,
+      "commentary": "ダイアログの見出し・タイトル部分を指定するプロパティは `title` です。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "AlertDialogで、ダイアログ中央の「本文」部分を設定するプロパティは何ですか？<br><pre><code>AlertDialog(\n  title: Text(content.question),\n  ___: Text(content.answer),\n)</code></pre>",
+      "options": [
+        "content",
+        "body",
+        "text",
+        "message"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログの本文エリアに配置するウィジェットを指定するプロパティは `content` です。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "AlertDialogで、下部に配置するボタンなどの操作ウィジェット群（リスト）を設定するプロパティは何ですか？<br><pre><code>AlertDialog(\n  title: const Text('確認'),\n  ___: [\n    IconButton(\n      icon: const Icon(Icons.close),\n      onPressed: () {},\n    ),\n  ],\n)</code></pre>",
+      "options": [
+        "buttons",
+        "actions",
+        "operations",
+        "children"
+      ],
+      "answer": 1,
+      "commentary": "ダイアログ下部に表示するボタンなどのリストは `actions` プロパティに配列形式 `[...]` で渡します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "表示されているモーダルダイアログを閉じるための正しいコードはどれですか？<br><pre><code>IconButton(\n  icon: const Icon(Icons.close),\n  onPressed: () {\n    ___(context);\n  },\n)</code></pre>",
+      "options": [
+        "Navigator.pop",
+        "Navigator.close",
+        "Navigator.dismiss",
+        "Navigator.remove"
+      ],
+      "answer": 0,
+      "commentary": "モーダルダイアログも画面スタックの一種として扱われるため、`Navigator.pop(context)` で閉じることができます。"
+    },
+    {
+      "id": 11,
+      "type": "文法チェック",
+      "question": "`Navigator.pop(context)` と `Navigator.of(context).pop()` の関係についての説明として正しいものはどれですか？",
+      "options": [
+        "`Navigator.pop(context)` は `Navigator.of(context).pop()` を簡潔に書けるようにした糖衣構文であり、同じ動作をする",
+        "`Navigator.pop(context)` はダイアログ専用で、画面遷移には使えない",
+        "`Navigator.of(context).pop()` は非推奨（非サポート）の古くからの記法である",
+        "両者は全く異なる処理を行い、互換性はない"
+      ],
+      "answer": 0,
+      "commentary": "`Navigator.pop(context)` は `Navigator.of(context).pop()` の糖衣構文（シンタックスシュガー）であり、内部的には全く同じ処理が行われます。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行され、ユーザーが「×」ボタン（IconButton）をタップしたとき、どのような動作が発生しますか？<br><pre><code>IconButton(\n  icon: const Icon(Icons.close),\n  onPressed: () {\n    Navigator.pop(context);\n  },\n)</code></pre>",
+      "options": [
+        "表示されていたモーダルダイアログが閉じる",
+        "アプリがバックグラウンドに移動する",
+        "ダイアログのテキストが消去されるだけでダイアログ自体は残る",
+        "新しい画面へ遷移する"
+      ],
+      "answer": 0,
+      "commentary": "`Navigator.pop(context)` が実行されることで、スタックからダイアログが取り除かれ、ダイアログが閉じます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "モーダル表示用のメソッド `activateModal` に、タップされたカード（`Flashcard` 型データ）を渡して呼び出す記述です。空欄に入る記述はどれですか？<br><pre><code>ListTile(\n  title: Text(shownList[index].question),\n  onTap: () {\n    activateModal(\n      context,\n      ___\n    );\n  },\n)</code></pre>",
+      "options": [
+        "shownList[index]",
+        "shownList",
+        "index",
+        "content"
+      ],
+      "answer": 0,
+      "commentary": "タップされた箇所のカードデータを渡すため、インデックス指定の `shownList[index]` を渡します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "次のコードで、`content.question` が \"apple\"、`content.answer` が \"りんご\" のカードをタップした場合、AlertDialogのタイトル部分には何が表示されますか？<br><pre><code>AlertDialog(\n  title: Text(content.question),\n  content: Text(content.answer),\n)</code></pre>",
+      "options": [
+        "apple",
+        "りんご",
+        "content.question",
+        "カード"
+      ],
+      "answer": 0,
+      "commentary": "`title` プロパティには `content.question`（問題文）を指定しているため、「apple」が表示されます。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "次のコードで、`content.question` が \"apple\"、`content.answer` が \"りんご\" のカードをタップした場合、AlertDialogの本文（content）部分には何が表示されますか？<br><pre><code>AlertDialog(\n  title: Text(content.question),\n  content: Text(content.answer),\n)</code></pre>",
+      "options": [
+        "りんご",
+        "apple",
+        "content.answer",
+        "テスト"
+      ],
+      "answer": 0,
+      "commentary": "AlertDialogの `content` プロパティには `content.answer`（解答文）を指定しているため、「りんご」が表示されます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "ダイアログの外側（背景領域）をタップしてもダイアログが閉じないように設定するプロパティと値の組み合わせはどれですか？<br><pre><code>showDialog(\n  context: context,\n  ___: false,\n  builder: (_) => const AlertDialog(),\n);</code></pre>",
+      "options": [
+        "barrierDismissible",
+        "cancelable",
+        "closeOnTapOutside",
+        "modalLock"
+      ],
+      "answer": 0,
+      "commentary": "`barrierDismissible: false` を指定すると、背景をタップしてもダイアログが閉じなくなります。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "showDialogで `barrierDismissible: false` を設定した場合の挙動として正しいものはどれですか？",
+      "options": [
+        "ダイアログの外側（暗い背景領域）をタップしても閉じなくなり、用意したボタン操作からのみ閉じるようになる",
+        "ダイアログを表示した瞬間に自動的に閉じる",
+        "ダイアログの閉じるボタンが無効化される",
+        "背景の画面が透明になる"
+      ],
+      "answer": 0,
+      "commentary": "`barrierDismissible` を `false` にすると、ユーザーが背景エリアを誤ってタップしてダイアログが閉じてしまうのを防ぐことができます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "ダイアログ表示中の背景の影（薄暗い部分）の色を変更するプロパティは何ですか？<br><pre><code>showDialog(\n  context: context,\n  ___: Colors.blue.withOpacity(0.5),\n  builder: (_) => const AlertDialog(),\n);</code></pre>",
+      "options": [
+        "barrierColor",
+        "backgroundColor",
+        "shadowColor",
+        "maskColor"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログ背後のオーバーレイ（バリア）の色を変更するには `barrierColor` プロパティを使用します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "AlertDialog自身の背景色を変更するプロパティは何ですか？<br><pre><code>AlertDialog(\n  ___: Colors.amber[50],\n  title: const Text('タイトル'),\n)</code></pre>",
+      "options": [
+        "backgroundColor",
+        "barrierColor",
+        "dialogColor",
+        "fillColor"
+      ],
+      "answer": 0,
+      "commentary": "AlertDialog自体の背景色を設定するには `backgroundColor` プロパティを使います。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "AlertDialogの角の丸みや形状をカスタマイズするためのプロパティは何ですか？<br><pre><code>AlertDialog(\n  ___: RoundedRectangleBorder(\n    borderRadius: BorderRadius.circular(20),\n  ),\n)</code></pre>",
+      "options": [
+        "shape",
+        "border",
+        "decoration",
+        "clipBehavior"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログの外形（角丸など）を指定するには `shape` プロパティに `RoundedRectangleBorder` などを渡します。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "次の設定をAlertDialogに追加した場合、ダイアログの見た目はどう変化しますか？<br><pre><code>shape: RoundedRectangleBorder(\n  borderRadius: BorderRadius.circular(20),\n)</code></pre>",
+      "options": [
+        "ダイアログの四角い四隅の角が半径20pxの丸みを帯びる",
+        "ダイアログが完全な正円形になる",
+        "ダイアログに太さ20pxの黒枠線が追加される",
+        "ダイアログの幅が20pxに固定される"
+      ],
+      "answer": 0,
+      "commentary": "`BorderRadius.circular(20)` を指定することで、ダイアログの角が丸められます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "AlertDialogの代わりに、選択肢を縦に並べたシンプルなダイアログを作成したい場合に使用するウィジェットはどれですか？<br><pre><code>showDialog(\n  context: context,\n  builder: (_) {\n    return ___(\n      title: const Text('選んでください'),\n      children: [...],\n    );\n  },\n);</code></pre>",
+      "options": [
+        "SimpleDialog",
+        "OptionDialog",
+        "ListDialog",
+        "MenuDialog"
+      ],
+      "answer": 0,
+      "commentary": "選択肢をシンプルに並べる形式のダイアログには `SimpleDialog` ウィジェットを使用します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "SimpleDialogの中で個々の選択肢アイテムを作成するためのウィジェットはどれですか？<br><pre><code>SimpleDialog(\n  title: const Text('選んでください'),\n  children: [\n    ___(\n      onPressed: () {\n        Navigator.pop(context);\n      },\n      child: const Text('選択肢 A'),\n    ),\n  ],\n)</code></pre>",
+      "options": [
+        "SimpleDialogOption",
+        "DialogOption",
+        "ListTile",
+        "SelectOption"
+      ],
+      "answer": 0,
+      "commentary": "`SimpleDialog` 内の選択項目には `SimpleDialogOption` ウィジェットを配置します。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "AlertDialogの `actions` プロパティに渡すことができるデータの型として正しいものはどれですか？",
+      "options": [
+        "List<Widget>（ウィジェットの配列）",
+        "Widget（単一のウィジェット）",
+        "String（文字列）",
+        "Function（関数）"
+      ],
+      "answer": 0,
+      "commentary": "`actions` プロパティは複数のボタン等を並べられるように `List<Widget>` 型を受け取ります。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "ダイアログの閉じるボタンとして「×」アイコンを表示するために Icon ウィジェットに渡す定数はどれですか？<br><pre><code>IconButton(\n  icon: const Icon(Icons.___),\n  onPressed: () {\n    Navigator.pop(context);\n  },\n)</code></pre>",
+      "options": [
+        "close",
+        "cancel",
+        "clear",
+        "exit"
+      ],
+      "answer": 0,
+      "commentary": "マテリアルアイコンの「×」マークは `Icons.close` です。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、Textウィジェットの文字列は画面上（ダイアログタイトル内）でどのように配置されますか？<br><pre><code>Text(\n  content.question,\n  textAlign: TextAlign.center,\n)</code></pre>",
+      "options": [
+        "テキストが中央揃え（センタリング）で表示される",
+        "テキストが左揃えで表示される",
+        "テキストが右揃えで表示される",
+        "テキストが上下中央に配置される"
+      ],
+      "answer": 0,
+      "commentary": "`textAlign: TextAlign.center` により文字が水平方向の中央揃えになります。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "Textウィジェットの文字を「太字」にするための `FontWeight` の指定はどれですか？<br><pre><code>style: TextStyle(\n  fontWeight: FontWeight.___,\n  fontSize: 18,\n)</code></pre>",
+      "options": [
+        "bold",
+        "heavy",
+        "w800",
+        "thick"
+      ],
+      "answer": 0,
+      "commentary": "標準的な太字を指定するには `FontWeight.bold` を使用します。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "Flutterにおけるダイアログ（モーダル）の管理構造について、正しい説明はどれですか？",
+      "options": [
+        "モーダルダイアログもFlutter内部では画面遷移（Navigatorのスタック）の一部として管理されている",
+        "モーダルダイアログは画面遷移とは全く関係なく、別プロセスで描画される",
+        "モーダルダイアログを表示すると前の画面のメモリは完全に破棄される",
+        "Navigator.pop(context) でダイアログを閉じることはできない"
+      ],
+      "answer": 0,
+      "commentary": "Flutterではモーダルダイアログも `Navigator` が管理するスタック（ルート）の上に重なる一つの画面要素として扱われます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "AlertDialogのタイトル文のフォントサイズを 18 に設定する記述です。空欄に入るプロパティは何ですか？<br><pre><code>style: TextStyle(\n  fontWeight: FontWeight.bold,\n  ___: 18,\n)</code></pre>",
+      "options": [
+        "fontSize",
+        "textSize",
+        "size",
+        "fontHeight"
+      ],
+      "answer": 0,
+      "commentary": "文字の大きさを指定するTextStyleのプロパティは `fontSize` です。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "次のコードで、actionsに2つのTextButtonを配置した場合、ダイアログ内ではボタンは通常どのように表示されますか？<br><pre><code>actions: [\n  TextButton(\n    onPressed: () => Navigator.pop(context),\n    child: const Text('いいえ'),\n  ),\n  TextButton(\n    onPressed: () => Navigator.pop(context),\n    child: const Text('はい'),\n  ),\n]</code></pre>",
+      "options": [
+        "「いいえ」「はい」の2つのボタンがダイアログ右下に横並びで表示される",
+        "「いいえ」ボタンのみが表示され「はい」は隠れる",
+        "ボタンが縦方向に画面いっぱいに広がる",
+        "エラーが発生してダイアログが表示されない"
+      ],
+      "answer": 0,
+      "commentary": "AlertDialogの `actions` に複数のボタンを渡すと、通常ダイアログ下部に横並びで配置されます。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "モーダルダイアログと一般的なダイアログ（非モーダル）の主な違いは何ですか？",
+      "options": [
+        "モーダルダイアログは表示中に背景の操作をブロック（制限）する",
+        "モーダルダイアログは文字を表示することができない",
+        "モーダルダイアログは背景が必ず赤色になる",
+        "モーダルダイアログは画面下部からしか出現しない"
+      ],
+      "answer": 0,
+      "commentary": "モーダルダイアログが表示されている間は、ユーザーは背景画面を直接操作できず、ダイアログに対する操作が求められます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "ダイアログ呼び出し用のメソッド `activateModal` の定義部分です。コンテキストとカードデータを受け取る型指定を選んでください。<br><pre><code>void activateModal(BuildContext context, ___ content) {\n  showDialog(\n    context: context,\n    builder: (_) => const AlertDialog(),\n  );\n}</code></pre>",
+      "options": [
+        "Flashcard",
+        "Card",
+        "Genre",
+        "String"
+      ],
+      "answer": 0,
+      "commentary": "タップされたフラッシュカードのオブジェクトを受け取るため、型には `Flashcard` を指定します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されたとき、`showDialog` の `builder` 関数から返されるウィジェットは何ですか？<br><pre><code>showDialog(\n  context: context,\n  builder: (_) {\n    return const Text('test');\n  },\n);</code></pre>",
+      "options": [
+        "画面中央に 'test' という文字が書かれた簡易的なダイアログウィンドウ",
+        "画面全体が 'test' という文字で埋め尽くされた新規画面",
+        "エラーが発生して何も表示されない",
+        "AlertDialogに自動変換された画面"
+      ],
+      "answer": 0,
+      "commentary": "`builder` で返したウィジェットがそのままモーダル上に描画されるため、「test」というテキストが表示されます。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "showDialog関数の `builder` に渡す関数の第一引数（`BuildContext`）を使わない場合に、Dartで書く最も適切なアロー関数の形式はどれですか？",
+      "options": [
+        "builder: (_) => const AlertDialog()",
+        "builder: () => const AlertDialog()",
+        "builder: (null) => const AlertDialog()",
+        "builder: (void) => const AlertDialog()"
+      ],
+      "answer": 0,
+      "commentary": "受け取る引数を無視して指定しないことを示すため、`(_)` と記述します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "アイコンを表示しながらタップイベントを受け取ることができるマテリアルボタンウィジェットはどれですか？<br><pre><code>___(\n  icon: const Icon(Icons.close),\n  onPressed: () {\n    Navigator.pop(context);\n  },\n)</code></pre>",
+      "options": [
+        "IconButton",
+        "IconTile",
+        "FlatIcon",
+        "ClickableIcon"
+      ],
+      "answer": 0,
+      "commentary": "アイコン単体をボタンとして扱うウィジェットは `IconButton` です。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "`activateModal(context, content)` の `content` 引数に対し、`shownList[index]` ではなく誤って `shownList[index].question`（String型）を渡した場合、どうなりますか？",
+      "options": [
+        "型不一致（`String` を `Flashcard` に代入できない）によるコンパイルエラーが発生する",
+        "自動的にFlashcard型に変換されて動く",
+        "ダイアログのタイトルが空文字になる",
+        "実行時に問題文だけが表示される"
+      ],
+      "answer": 0,
+      "commentary": "`activateModal` の第2引数は `Flashcard` 型として定義されているため、`String` 型を渡すと型エラーになります。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "ダイアログの `title` や `content` など、AlertDialogの各属性に渡せるオブジェクトの共通クラス（型）は何ですか？",
+      "options": [
+        "Widget",
+        "String",
+        "Element",
+        "Object"
+      ],
+      "answer": 0,
+      "commentary": "Flutterのプロパティの多く（title, contentなど）は、`Text` や `Image` など様々なUIを自由に配置できるよう `Widget` 型になっています。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "テキストの位置揃えを指定するプロパティ `textAlign` に設定する列挙型（Enum）はどれですか？<br><pre><code>Text(\n  content.question,\n  textAlign: TextAlign.___,\n)</code></pre>",
+      "options": [
+        "center",
+        "middle",
+        "justify",
+        "alignCenter"
+      ],
+      "answer": 0,
+      "commentary": "中央揃えを指定する値は `TextAlign.center` です。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "以下のコードで、`onPressed` の処理を空 `(){}` にした場合、閉じるボタンを押すとどうなりますか？<br><pre><code>IconButton(\n  icon: const Icon(Icons.close),\n  onPressed: (){},\n)</code></pre>",
+      "options": [
+        "ボタンを押しても何も起こらず、ダイアログは閉じない",
+        "自動的にダイアログが閉じる",
+        "アプリが終了する",
+        "ダイアログが再描画される"
+      ],
+      "answer": 0,
+      "commentary": "`onPressed` 内で `Navigator.pop(context)` を呼び出さない限り、ボタンを押しても閉じる処理は走りません。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "AlertDialogを使用するために必要な、Flutterの標準ライブラリのインポート文はどれですか？",
+      "options": [
+        "import 'package:flutter/material.dart';",
+        "import 'package:flutter/dialogs.dart';",
+        "import 'package:flutter/widgets.dart';",
+        "import 'package:flutter/cupertino.dart';"
+      ],
+      "answer": 0,
+      "commentary": "マテリアルデザインコンポーネント（AlertDialog等）を使用するには `package:flutter/material.dart` をインポートします。"
+    }
+  ]
 }
