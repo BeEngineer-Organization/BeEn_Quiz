@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — 設定ページの作成",
+  "unit_title": "設定ページの作成",
   "questions": [
     {
-      "question": "ユーザーが自分の表示名やメールを変更するフォームを作るとき、更新対象のインスタンスをフォームに渡すのはどれですか？",
-      "options": ["instance=request.user など", "instance は不要", "常に新規作成のみ", "settings.py を編集する"],
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "ユーザー名を変更するためのフォームクラスを `ModelForm` を使って定義しています。空欄に入るメタクラスの属性は何ですか？<br><pre><code>class UsernameChangeForm(forms.ModelForm):\n    class Meta:\n        model = User\n        ___ = (\"username\",)</code></pre>",
+      "options": [
+        "fields",
+        "inputs",
+        "models",
+        "labels"
+      ],
       "answer": 0,
-      "commentary": "ModelForm に instance を渡して更新します。"
+      "commentary": "フォームで編集対象とするモデルの列（フィールド）を指定するには `Meta` クラス内の `fields` にタプルまたはリストで指定します。"
     },
     {
-      "question": "設定変更後に成功メッセージを出すとき、よく使うのはどれですか？",
-      "options": ["messages.success(request, '...')", "print() のみ", "alert() のみサーバー", "ログファイルのみ"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "フォーム上の項目の表示ラベル（画面に表示する名前）を「新しいユーザー名」に変更する設定記述です。<br><pre><code>class UsernameChangeForm(forms.ModelForm):\n    class Meta:\n        model = User\n        fields = (\"username\",)\n        ___ = {\"username\": \"新しいユーザー名\"}</code></pre>",
+      "options": [
+        "labels",
+        "names",
+        "titles",
+        "headers"
+      ],
       "answer": 0,
-      "commentary": "django.contrib.messages のフレームワークを使います。"
+      "commentary": "各フィールドの表示ラベルを変更するには `labels` 辞書を指定します。"
     },
     {
-      "question": "パスワード変更は専用ビュー・フォームを使う理由として適切なのはどれですか？",
-      "options": ["現在パスワード確認やポリシーを守るため", "Django はパスワード変更不可", "HTML だけで完結するから", "不要"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "既存のログイン中ユーザーのデータ（`request.user`）をフォームに初期セットして表示・編集するための引数指定はどれですか？<br><pre><code>form = UsernameChangeForm(___=request.user)</code></pre>",
+      "options": [
+        "instance",
+        "data",
+        "model",
+        "user"
+      ],
       "answer": 0,
-      "commentary": "PasswordChangeForm などを使います。"
+      "commentary": "モデルフォームで特定の既存レコード（インスタンス）を編集対象としてバインドするには `instance` 引数を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "送信されたデータで既存ユーザーの情報を更新し保存するビュー関数内の処理です。空欄に入る記述を選んでください。<br><pre><code>elif request.method == \"POST\":\n    form = UsernameChangeForm(request.POST, instance=request.user)\n    if form.is_valid():\n        form.___()\n        return redirect(\"username_change_done\")</code></pre>",
+      "options": [
+        "save",
+        "update",
+        "commit",
+        "put"
+      ],
+      "answer": 0,
+      "commentary": "フォームの検証に成功した後、変更内容をデータベースに保存するには `form.save()` を呼び出します。"
+    },
+    {
+      "id": 5,
+      "type": "実行結果予測",
+      "question": "次のコードで `form.save()` が実行されたとき、データベース上ではどのような処理が行われますか？<br><pre><code>form = UsernameChangeForm(request.POST, instance=request.user)\nif form.is_valid():\n    form.save()</code></pre>",
+      "options": [
+        "ログイン中のユーザーレコードの username が送信された新しい名前に更新される",
+        "新しいユーザーが別レコードとして新規作成される",
+        "ユーザーがログアウトされる",
+        "何も保存されずに無視される"
+      ],
+      "answer": 0,
+      "commentary": "`instance=request.user` を指定して `form.save()` を実行したため、新規作成ではなく既存ユーザーの更新処理（UPDATE）が行われます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "ユーザー名変更処理が成功した後、「完了ページ（`username_change_done`）」へ移動させるコードです。<br><pre><code>return ___(\"username_change_done\")</code></pre>",
+      "options": [
+        "redirect",
+        "render",
+        "forward",
+        "goto"
+      ],
+      "answer": 0,
+      "commentary": "処理完了後に指定したページへユーザーを転送するには `redirect()` 関数を使用します。"
+    },
+    {
+      "id": 7,
+      "type": "文法チェック",
+      "question": "ビュー関数に未ログインユーザーがアクセスできないよう保護する正しいデコレータの記述はどれですか？",
+      "options": [
+        "@login_required\ndef username_change(request):",
+        "def username_change(@login_required, request):",
+        "@auth_required\ndef username_change(request):",
+        "def username_change(request): @login_required"
+      ],
+      "answer": 0,
+      "commentary": "関数の直前の行に `@login_required` と記述することで、ログイン必須の保護を適用できます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "メールアドレス変更用フォームの定義です。空欄に入るフィールド名を選んでください。<br><pre><code>class EmailChangeForm(forms.ModelForm):\n    class Meta:\n        model = User\n        fields = (\"___\",)</code></pre>",
+      "options": [
+        "email",
+        "mail",
+        "user_email",
+        "email_address"
+      ],
+      "answer": 0,
+      "commentary": "Userモデルのメールアドレス用フィールド名は `email` です。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "メールアドレス変更用のルーティング（`urls.py`）を追加するコードです。<br><pre><code>path(\"email_change/\", views.email_change, name=\"___\")</code></pre>",
+      "options": [
+        "email_change",
+        "change_email",
+        "email_update",
+        "email"
+      ],
+      "answer": 0,
+      "commentary": "テンプレートタグなどで使用するURLパターン名として `name=\"email_change\"` を設定します。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "ユーザーがGETアクセスでメールアドレス変更ページを開いたとき、入力欄に表示される初期値はどうなりますか？<br><pre><code>if request.method == \"GET\":\n    form = EmailChangeForm(instance=request.user)</code></pre>",
+      "options": [
+        "現在ログインしているユーザーの現在のメールアドレスがあらかじめ入力された状態になる",
+        "空の入力欄が表示される",
+        "「admin@example.com」という文字が表示される",
+        "エラーになって画面が表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`instance=request.user` が渡されているため、現在のユーザーの保持データがフォーム初期値として表示されます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "Django組み込みのパスワード変更クラスベースビューを継承するコードです。空欄に入るクラス名は何ですか？<br><pre><code>from django.contrib.auth import views as auth_views\n\nclass PasswordChangeView(auth_views.___):</code></pre>",
+      "options": [
+        "PasswordChangeView",
+        "ChangePasswordView",
+        "UserPasswordView",
+        "PasswordResetView"
+      ],
+      "answer": 0,
+      "commentary": "Django標準のパスワード変更用クラスベースビューは `auth_views.PasswordChangeView` です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "クラスベースビューで「処理成功時の転送先URL」を遅延評価で安全に指定するための関数は何ですか？<br><pre><code>from django.urls import ___\n\nclass PasswordChangeView(auth_views.PasswordChangeView):\n    template_name = \"main/password_change.html\"\n    success_url = ___(\"password_change_done\")</code></pre>",
+      "options": [
+        "reverse_lazy",
+        "redirect_url",
+        "resolve_url",
+        "get_url"
+      ],
+      "answer": 0,
+      "commentary": "クラス定義内での成功時URL指定には `django.urls.reverse_lazy` を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "クラスベースビューで表示するHTMLテンプレートのパスを指定するクラス属性は何ですか？<br><pre><code>class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):\n    ___ = \"main/password_change_done.html\"</code></pre>",
+      "options": [
+        "template_name",
+        "template_path",
+        "html_file",
+        "view_template"
+      ],
+      "answer": 0,
+      "commentary": "使用するテンプレートファイルを指定する属性は `template_name` です。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "クラスベースビューを `urls.py` に登録する際に呼び出す必須メソッドはどれですか？<br><pre><code>path(\n    \"password_change/\",\n    views.PasswordChangeView.___(),\n    name=\"password_change\",\n)</code></pre>",
+      "options": [
+        "as_view",
+        "get_view",
+        "run_view",
+        "show_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをルーティングで使える関数形式に変換するには `.as_view()` を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "ユーザーがパスワード変更フォームから正しくパスワードを変更した場合、次に遷移する画面はどこですか？<br><pre><code>class PasswordChangeView(auth_views.PasswordChangeView):\n    template_name = \"main/password_change.html\"\n    success_url = reverse_lazy(\"password_change_done\")</code></pre>",
+      "options": [
+        "\"password_change_done\" に設定されたパスワード変更完了画面",
+        "ログイン画面（login.html）",
+        "トップ画面（index.html）",
+        "設定画面（settings.html）"
+      ],
+      "answer": 0,
+      "commentary": "`success_url` に指定された `password_change_done`（完了画面）へ自動的にリダイレクトされます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "Django標準のログアウト用クラスベースビューを継承するコードです。空欄に入る適切なクラス名は何ですか？<br><pre><code>class LogoutView(auth_views.___):\n    pass</code></pre>",
+      "options": [
+        "LogoutView",
+        "SignoutView",
+        "UserLogoutView",
+        "ExitView"
+      ],
+      "answer": 0,
+      "commentary": "Django組み込みのログアウトビューは `auth_views.LogoutView` です。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でログアウトを実行するためのHTMLフォームの記述です。CSRF対策のタグと合わせて空欄に入るメソッドは何ですか？<br><pre><code>&lt;form action=\"{% url 'logout' %}\" method=\"___\"&gt;\n    {% csrf_token %}\n    &lt;button type=\"submit\" class=\"button logout\"&gt;ログアウト&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "post",
+        "get",
+        "delete",
+        "put"
+      ],
+      "answer": 0,
+      "commentary": "セキュリティの観点から、ログアウト処理を行うフォームの送信メソッドは `method=\"post\"`（POST送信）にします。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "「ログアウト」ボタンを押してログアウト完了した後、未ログインの状態で `/friends/`（友達一覧）にアクセスするとどうなりますか？",
+      "options": [
+        "friends ビューの @login_required により、ログインページへ自動リダイレクトされる",
+        "そのまま友達一覧画面が表示される",
+        "500 Internal Server Error になる",
+        "トップページが削除される"
+      ],
+      "answer": 0,
+      "commentary": "ログアウト後は未認証状態のため、`@login_required` の保護によってログイン画面へ強制リダイレクトされます。"
+    },
+    {
+      "id": 19,
+      "type": "文法チェック",
+      "question": "HTMLフォームでセキュリティ保護（CSRF対策）を行うために配置する正解タグはどれですか？",
+      "options": [
+        "{% csrf_token %}",
+        "{{ csrf_token }}",
+        "{% csrf_input %}",
+        "{% security_token %}"
+      ],
+      "answer": 0,
+      "commentary": "POST送信を行うフォームには必ず `{% csrf_token %}` を記述します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でフォームフィールド群をHTMLの表（`<table>`）形式で自動出力する記法を選んでください。<br><pre><code><table>\n    {{ form.___ }}\n</table></code></pre>",
+      "options": [
+        "as_table",
+        "as_p",
+        "as_ul",
+        "to_table"
+      ],
+      "answer": 0,
+      "commentary": "フォームをテーブルの行（`<tr>`）として整形出力するには `{{ form.as_table }}` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "用語理解",
+      "question": "Webサイトで自分のアカウントのセッションを終了し、未認証の状態に戻す操作を何と呼びますか？",
+      "options": [
+        "ログアウト（サインアウト）",
+        "ログイン（サインイン）",
+        "リファクタリング",
+        "バリデーション"
+      ],
+      "answer": 0,
+      "commentary": "認証セッションを終了させて未ログイン状態に戻す処理を「ログアウト」と呼びます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "設定画面（`settings.html`）から「ユーザー名変更」ページへのリンクを作成するコードです。<br><pre><code>&lt;a href=\"{% ___ 'username_change' %}\" class=\"button\"&gt;ユーザー名変更&lt;/a&gt;</code></pre>",
+      "options": [
+        "url",
+        "path",
+        "link",
+        "href"
+      ],
+      "answer": 0,
+      "commentary": "URLパターン名から実際のリンクURLを取得・作成するには `{% url 'URL名' %}` タグを使います。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "CSSでボタン要素に `background: none; border: none; outline: none;` を指定した場合、ボタンの見た目はどうなりますか？",
+      "options": [
+        "背景や外枠線が消えて、シンプルなテキストのように見えるようになる",
+        "ボタンが真っ黒に塗られる",
+        "文字が太字の赤色になる",
+        "ボタンの幅が画面いっぱいに広がる"
+      ],
+      "answer": 0,
+      "commentary": "背景色（background）や枠線（border/outline）を `none` にすることでデフォルトのボタン装飾を消去できます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "ブラウザ（WebKit/Gecko等）のデフォルトのボタン外観・装飾をリセットするCSSプロパティです。<br><pre><code>.logout {\n    ___: none;\n}</code></pre>",
+      "options": [
+        "appearance",
+        "style",
+        "display",
+        "visibility"
+      ],
+      "answer": 0,
+      "commentary": "ブラウザ固有の標準スタイル（ボタンやフォームの見た目）を解除するには `appearance: none;`（およびベンダプレフィックス付き）を使用します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "テンプレートの冒頭でベーステンプレート（`base.html`）を継承する宣言タグを選んでください。<br><pre><code>{% ___ \"main/base.html\" %}</code></pre>",
+      "options": [
+        "extends",
+        "include",
+        "import",
+        "inherit"
+      ],
+      "answer": 0,
+      "commentary": "親テンプレートを継承するには `{% extends \"パス\" %}` タグを使用します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "テンプレートで静的ファイル（CSSなど）を読み込めるように準備するタグを選んでください。<br><pre><code>{% ___ static %}</code></pre>",
+      "options": [
+        "load",
+        "import",
+        "use",
+        "require"
+      ],
+      "answer": 0,
+      "commentary": "静的ファイル参照タグを有効化するには `{% load static %}` を記述します。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "CSSで `.button` クラスに対して `display: block; width: 120px; margin: 16px auto;` を指定した場合の表示効果として適切なものはどれですか？",
+      "options": [
+        "幅120pxのブロックとなり、左右中央にキレイに配置される",
+        "画面の左上隅に固定配置される",
+        "要素が非表示になる",
+        "文字サイズが100pxになる"
+      ],
+      "answer": 0,
+      "commentary": "`display: block;` と `margin: ... auto;` の組み合わせにより、固定幅の要素が中央寄せ配置になります。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "複数のフォームクラスを `forms.py` や `views.py` で一度にまとめてインポートする際の正しいPythonの括弧記法はどれですか？",
+      "options": [
+        "from .forms import (\n    SignUpForm,\n    LoginForm,\n    TalkForm,\n    UsernameChangeForm,\n)",
+        "from .forms import [\n    SignUpForm,\n    LoginForm\n]",
+        "from .forms import {\n    SignUpForm,\n    LoginForm\n}",
+        "import (SignUpForm, LoginForm) from .forms"
+      ],
+      "answer": 0,
+      "commentary": "Pythonで複数行にわたるインポートを行う際は丸括弧 `(...)` を使用します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "設定画面（`settings.html`）から「パスワード変更」画面へのリンクを作成するコードです。<br><pre><code>&lt;a href=\"{% url '___' %}\" class=\"button\"&gt;パスワード変更&lt;/a&gt;</code></pre>",
+      "options": [
+        "password_change",
+        "change_password",
+        "password_update",
+        "password_edit"
+      ],
+      "answer": 0,
+      "commentary": "`urls.py` で定義したパスワード変更ページのパターン名である `'password_change'` を指定します。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "設定画面（`settings.html`）から「メールアドレス変更」画面へのリンクを作成するコードです。<br><pre><code>&lt;a href=\"{% url '___' %}\" class=\"button\"&gt;メールアドレス変更&lt;/a&gt;</code></pre>",
+      "options": [
+        "email_change",
+        "change_email",
+        "mail_change",
+        "email_update"
+      ],
+      "answer": 0,
+      "commentary": "メールアドレス変更ページのURLパターン名である `'email_change'` を指定します。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "ユーザー名変更完了画面（`username_change_done.html`）のビュー関数で `return render(request, \"main/username_change_done.html\")` が呼ばれた際に画面に表示される主なメッセージは何ですか？",
+      "options": [
+        "「ユーザー名変更完了」というテキストメッセージ",
+        "「エラーが発生しました」というメッセージ",
+        "ユーザー登録フォーム",
+        "パスワード入力欄"
+      ],
+      "answer": 0,
+      "commentary": "`username_change_done.html` 内の `<p>` タグで定義された「ユーザー名変更完了」の文字が表示されます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "フォームを送信するためのボタン要素の `type` 属性に指定するキーワードは何ですか？<br><pre><code>&lt;button type=\"___\"&gt;変更&lt;/button&gt;</code></pre>",
+      "options": [
+        "submit",
+        "button",
+        "post",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "フォームの入力内容を送信（POST）するボタンとして動かすには `type=\"submit\"` を指定します。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "新しい機能（画面）をWebアプリに追加する際の標準的な4つの開発ステップの順番として正しいものはどれですか？",
+      "options": [
+        "1. urls.py に path を追加 → 2. views.py にビューを作成 → 3. HTML ファイルの記述 → 4. CSS の適用",
+        "1. CSS の適用 → 2. HTML ファイルの記述 → 3. views.py にビューを作成 → 4. urls.py に path を追加",
+        "1. HTML ファイルの記述 → 2. urls.py に path を追加 → 3. CSS の適用 → 4. views.py にビューを作成",
+        "1. views.py にビューを作成 → 2. CSS の適用 → 3. urls.py に path を追加 → 4. HTML ファイルの記述"
+      ],
+      "answer": 0,
+      "commentary": "教科書で示された通り、ルーティング設定（urls）→ 処理作成（views）→ 画面作成（HTML）→ スタイル調整（CSS）の順番で進めます。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "Djangoで、モデルの特定の1件のレコード（データ）を入力・編集するためのフォームを簡単に作成できる基本クラスは何ですか？",
+      "options": [
+        "forms.ModelForm",
+        "forms.Form",
+        "forms.BaseForm",
+        "forms.RecordForm"
+      ],
+      "answer": 0,
+      "commentary": "既存モデルのデータ項目をフォーム化して追加・修正するには `forms.ModelForm` を使用するのが最適です。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ヘルプテキスト（入力欄の補助説明文）を非表示（空）に設定するフォームの `Meta` 設定です。<br><pre><code>class UsernameChangeForm(forms.ModelForm):\n    class Meta:\n        model = User\n        fields = (\"username\",)\n        ___ = {\"username\": \"\"}</code></pre>",
+      "options": [
+        "help_texts",
+        "descriptions",
+        "guides",
+        "hints"
+      ],
+      "answer": 0,
+      "commentary": "フィールドの補足説明メッセージを設定・消去するには `help_texts` 辞書を指定します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "ユーザー名変更画面でフォームに不適切な文字を入力して送信した場合、`if form.is_valid():` の判定はどうなりますか？",
+      "options": [
+        "False（偽）となり、保存やリダイレクトは行われず、エラーメッセージが表示された変更画面が再描画される",
+        "True（真）となり、空のユーザー名で保存される",
+        "自動的にログアウトされる",
+        "サーバーが物理的にクラッシュする"
+      ],
+      "answer": 0,
+      "commentary": "バリデーションで不合格（False）になるため `if` ブロック内の保存処理はスキップされ、エラー情報を含んだ画面が戻されます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "ヘッダータイトル用のブロックを「設定」という文字で上書きするテンプレートタグ記述です。<br><pre><code>{% ___ header_title %}設定{% endblock %}</code></pre>",
+      "options": [
+        "block",
+        "section",
+        "title",
+        "slot"
+      ],
+      "answer": 0,
+      "commentary": "親テンプレートの指定ブロックエリアを書き換えるには `{% block ブロック名 %}` を使います。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "`PasswordChangeView` や `PasswordChangeDoneView` をインポートするための正しいモジュールパスはどれですか？",
+      "options": [
+        "from django.contrib.auth import views as auth_views",
+        "from django.shortcuts import auth_views",
+        "from django.views import PasswordChangeView",
+        "from django.forms import PasswordChangeView"
+      ],
+      "answer": 0,
+      "commentary": "Django組み込みの認証系クラスベースビューは `django.contrib.auth.views` にまとめられています。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "設定ページ（`settings.html`）で作成した本節のメイン機能として含まれていないものはどれですか？",
+      "options": [
+        "クレジットカード情報の変更",
+        "ユーザー名変更",
+        "メールアドレス変更",
+        "パスワード変更・ログアウト"
+      ],
+      "answer": 0,
+      "commentary": "本節で実装した設定機能は「ユーザー名変更」「メールアドレス変更」「パスワード変更」「ログアウト」の4つです。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "ユーザー名やパスワードなどのユーザーアカウントの各種登録情報をまとめて管理・変更できる画面の名称は何ですか？",
+      "options": [
+        "設定ページ（settings）",
+        "トップページ（index）",
+        "トーク画面（talk_room）",
+        "友達一覧ページ（friends）"
+      ],
+      "answer": 0,
+      "commentary": "登録情報の一括変更やアカウント操作（ログアウト等）を行うための統合画面を設定ページ（settings）と呼びます。"
     }
   ]
 }

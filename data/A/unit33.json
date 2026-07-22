@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — チャット機能の作成",
+  "unit_title": "チャット機能の作成",
   "questions": [
     {
-      "question": "ブラウザからサーバーへメッセージを非同期送信する際、POST するデータに含めるべきものとして重要なのはどれですか？",
-      "options": ["CSRF トークンをフォームやヘッダに含める", "パスワードを平文で毎回送る", "セッションID を URL に載せる", "不要"],
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "モデルと連動したフォームを作成するため、`TalkForm` が継承しているDjangoのクラスは何ですか？<br><pre><code>class TalkForm(forms.___):\n    class Meta:\n        model = Talk\n        fields = (\"message\",)</code></pre>",
+      "options": [
+        "ModelForm",
+        "Form",
+        "BaseForm",
+        "UserForm"
+      ],
       "answer": 0,
-      "commentary": "CSRF 対策と認証・権限チェックを行います。"
+      "commentary": "Djangoのモデルデータに対応したフォームを作る場合は `forms.ModelForm` を継承します。"
     },
     {
-      "question": "WebSocket で双方向通信する場合、Django 側でよく扱うレイヤーとして挙られるのはどれですか？",
-      "options": ["Consumers（Channels）", "middleware のみ", "migrate", "collectstatic のみ"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "`TalkForm` で使用するモデルを指定する記述です。空欄に入るキーワードは何ですか？<br><pre><code>class TalkForm(forms.ModelForm):\n    class Meta:\n        ___ = Talk\n        fields = (\"message\",)</code></pre>",
+      "options": [
+        "model",
+        "target",
+        "database",
+        "class_name"
+      ],
       "answer": 0,
-      "commentary": "Channels を使う構成では Consumer が WebSocket を処理します。"
+      "commentary": "ModelFormの内底クラス `Meta` では、対象とするモデルを `model = モデル名` で指定します。"
     },
     {
-      "question": "送信したメッセージを他のクライアントにも届けるために、よく使うパターンはどれですか？",
-      "options": ["グループ送信やブロードキャスト（仕組みは実装による）", "1クライアントのみ更新", "メールのみ", "FTP"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "フォームに入力欄として表示するフィールドを指定する記述です。空欄に入る属性名は何ですか？<br><pre><code>class TalkForm(forms.ModelForm):\n    class Meta:\n        model = Talk\n        ___ = (\"message\",)</code></pre>",
+      "options": [
+        "fields",
+        "inputs",
+        "columns",
+        "items"
+      ],
       "answer": 0,
-      "commentary": "チャネルレイヤーの group_send 等でルーム配信します（教材に合わせる）。"
+      "commentary": "フォームに入力項目として含めるフィールド名は `fields` タプル（またはリスト）で指定します。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "チャットを送信する際、送信者（sender）や受信者（receiver）を画面上のフォームに入力させない理由として、最も適切なものはどれですか？",
+      "options": [
+        "送信者や受信者はバックエンド（ビュー処理）側でログイン情報やURLから自動補完できるから",
+        "送信者や受信者の情報はデータベースに保存する必要がないから",
+        "Djangoのフォーム機能では1つのフィールドしか扱えないから",
+        "セキュリティ上、ユーザー名を画面に表示してはいけないから"
+      ],
+      "answer": 0,
+      "commentary": "送信者は「ログイン中の自分」、受信者は「トーク相手」と特定できるため、画面で入力させずサーバー側でセットします。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "ビュー関数でGETリクエストを受け取った際、空のメッセージ入力フォームを作成するコードです。<br><pre><code>if request.method == \"GET\":\n    form = ___()</code></pre>",
+      "options": [
+        "TalkForm",
+        "TalkForm(request.GET)",
+        "Form()",
+        "TalkForm(None)"
+      ],
+      "answer": 0,
+      "commentary": "GETリクエスト（ページ初期表示）時は、引数なしの `TalkForm()` を呼び出して空のフォームを用意します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "POST送信されたデータを受け取ってフォームを初期化する正しいコードはどれですか？<br><pre><code>elif request.method == \"POST\":\n    form = TalkForm(___)</code></pre>",
+      "options": [
+        "request.POST",
+        "request.GET",
+        "request.BODY",
+        "request.DATA"
+      ],
+      "answer": 0,
+      "commentary": "送信されたフォームデータを受け取るには `TalkForm(request.POST)` と指定します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "送信されたデータが正しい形式か検証する条件文です。空欄に入るメソッドは何ですか？<br><pre><code>if form.____():\n    new_talk = form.save(commit=False)</code></pre>",
+      "options": [
+        "is_valid",
+        "validate",
+        "check",
+        "is_ok"
+      ],
+      "answer": 0,
+      "commentary": "フォーム入力の不備やバリデーションをチェックするには `form.is_valid()` メソッドを使います。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "フォームの内容からモデルインスタンスを作成しつつ、まだデータベースには書き込まない「仮作成」を行うコードです。<br><pre><code>new_talk = form.save(___=False)</code></pre>",
+      "options": [
+        "commit",
+        "save",
+        "db",
+        "force"
+      ],
+      "answer": 0,
+      "commentary": "`form.save(commit=False)` を使用することで、DB保存前に送信者や受信者などの追加データを割り当てることができます。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "次のコードを実行した直後、新しく作成されるトークの「送信者（sender）」としてセットされるのは誰ですか？<br><pre><code>new_talk = form.save(commit=False)\nnew_talk.sender = request.user</code></pre>",
+      "options": [
+        "現在ログインしているユーザー",
+        "トーク相手のユーザー（friend）",
+        "サイトの管理者（admin）",
+        "送信者は空（None）になる"
+      ],
+      "answer": 0,
+      "commentary": "`request.user` には現在ログインしてリクエストを送っているユーザーの情報が入ります。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "次のコードを実行した直後、新しく作成されるトークの「受信者（receiver）」としてセットされるのは誰ですか？<br><pre><code>new_talk = form.save(commit=False)\nnew_talk.receiver = friend</code></pre>",
+      "options": [
+        "ビュー関数で取得したトーク相手のユーザー（friend）",
+        "現在ログインしているユーザー（request.user）",
+        "すべての登録ユーザー",
+        "受信者は空（None）になる"
+      ],
+      "answer": 0,
+      "commentary": "トーク相手として取得済みの `friend` オブジェクトが `receiver` に代入されます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "仮作成したトークオブジェクト（`new_talk`）に送信者と受信者を設定した後、データベースに本保存するメソッド呼び出しはどれですか？<br><pre><code>new_talk.sender = request.user\nnew_talk.receiver = friend\nnew_talk.____()</code></pre>",
+      "options": [
+        "save",
+        "create",
+        "commit",
+        "push"
+      ],
+      "answer": 0,
+      "commentary": "属性の設定後に `.save()` を実行することで、データベースへ正式に記録されます。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "トーク送信が完了した後、再度同じトークルーム画面にリダイレクトさせる正しいコードはどれですか？<br><pre><code>return ___(\"talk_room\", friend_id)</code></pre>",
+      "options": [
+        "redirect",
+        "render",
+        "forward",
+        "goto"
+      ],
+      "answer": 0,
+      "commentary": "処理成功後に別のページ（または同じ画面）に転送するには `redirect()` 関数を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "メッセージ送信後に `redirect(\"talk_room\", friend_id)` を行う理由として最も適している説明はどれですか？",
+      "options": [
+        "ブラウザのリロード（再読み込み）によるメッセージの重複二重送信を防ぐため",
+        "データベースのデータを全消去するため",
+        "ユーザーをログアウトさせるため",
+        "HTMLのCSSデザインを初期化するため"
+      ],
+      "answer": 0,
+      "commentary": "POST処理後にGETへリダイレクト（再転送）することで、F5連打などによる二重投稿事故を防げます。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "テンプレートへ渡す辞書（`context`）にフォームオブジェクトを追加するコードです。<br><pre><code>context = {\n    \"___\": form,\n    \"friend\": friend,\n    \"talks\": talks,\n}</code></pre>",
+      "options": [
+        "form",
+        "talk_form",
+        "input",
+        "message_form"
+      ],
+      "answer": 0,
+      "commentary": "HTMLテンプレート内で `{{ form.message }}` と参照するためにキー名 `\"form\"` で渡します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "親テンプレート（`base.html`）にヘッダー用追加ブロックを拡張定義する記述です。空欄に入るタグを選んでください。<br><pre><code>&lt;header class=\"header\"&gt;\n    &lt;div class=\"header__title\"&gt;\n        {% block header_title %}{% endblock %}\n    &lt;/div&gt;\n    {% block ___ %}{% endblock %}\n&lt;/header&gt;</code></pre>",
+      "options": [
+        "talk_room",
+        "header_buttons",
+        "navigation",
+        "actions"
+      ],
+      "answer": 0,
+      "commentary": "トーク画面独自のヘッダー要素（戻るボタンや更新ボタン）を挟むために `{% block talk_room %}` を設置します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "トーク画面のヘッダーで、友達一覧画面（`friends`）に戻るためのリンクタグ記述です。<br><pre><code>&lt;a href=\"{% url '___' %}\" class=\"back-button\"&gt;\n    &lt;i class=\"fas fa-angle-left\"&gt;&lt;/i&gt;\n&lt;/a&gt;</code></pre>",
+      "options": [
+        "friends",
+        "index",
+        "home",
+        "back"
+      ],
+      "answer": 0,
+      "commentary": "友達一覧ページのURLパターン名である `'friends'` を指定します。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "トーク画面ヘッダーの「更新」ボタン（`<a href=\"\" class=\"reload-button\">更新</a>`）をクリックしたときの動作はどれですか？",
+      "options": [
+        "`href=\"\"` のため、現在のページが再読み込み（リロード）されて最新トークが表示される",
+        "トップページ（index）に移動する",
+        "チャットの履歴がすべて消去される",
+        "エラー（404）が発生する"
+      ],
+      "answer": 0,
+      "commentary": "アンカータグの `href` に空文字列を指定すると、現在のURLを再度読み込む（リロードする）動作になります。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "HTMLフォームでメッセージを特定の相手のトークルームへPOST送信する際の `action` 属性の記述です。<br><pre><code>&lt;form action=\"{% url 'talk_room' ___ %}\" method=\"POST\" class=\"message-form\"&gt;</code></pre>",
+      "options": [
+        "friend.id",
+        "user.id",
+        "talk.id",
+        "friend.username"
+      ],
+      "answer": 0,
+      "commentary": "`talk_room` パスに必要な相手のID（`friend.id`）をパラメータとして渡します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "POSTフォームでセキュリティを保護するために必ず配置するDjangoの必須タグは何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\" class=\"message-form\"&gt;\n    ___\n    {{ form.message }}\n    &lt;button type=\"submit\"&gt;送信&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "{% csrf_token %}",
+        "{{ csrf_token }}",
+        "{% security_token %}",
+        "{% post_token %}"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのPOSTフォームにはCSRF対策として `{% csrf_token %}` の記述が必須です。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でフォームの `message` フィールド（入力テキストエリア/ボックス）を描画する記述を選んでください。<br><pre><code>&lt;form method=\"POST\" class=\"message-form\"&gt;\n    {% csrf_token %}\n    ___\n    &lt;button type=\"submit\" class=\"message-form__submit\"&gt;送信&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "{{ form.message }}",
+        "{% form.message %}",
+        "{{ message }}",
+        "[[ form.message ]]"
+      ],
+      "answer": 0,
+      "commentary": "フォームオブジェクトの特定フィールドを描画するには `{{ form.フィールド名 }}` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "送信フォームのボタンをクリックした際に、フォームのPOST送信を発生させるボタンの `type` 属性は何ですか？<br><pre><code>&lt;button type=\"___\" class=\"message-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "options": [
+        "submit",
+        "button",
+        "post",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "フォーム送信用のボタンにするには `type=\"submit\"` を指定します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "CSSでチャット送信フォーム（`.message-form`）を画面の最下部に固定配置するプロパティ指定を選んでください。<br><pre><code>.message-form {\n    position: fixed;\n    ___: 0;\n    width: 100%;\n}</code></pre>",
+      "options": [
+        "bottom",
+        "top",
+        "down",
+        "footer"
+      ],
+      "answer": 0,
+      "commentary": "画面の一番下に要素を固定表示させるには `bottom: 0;` を指定します。"
+    },
+    {
+      "id": 23,
+      "type": "文法チェック",
+      "question": "CSSで `.message-form` 配下のすべての要素（`*`）のボックスサイズ算出方法を「枠線やパディングを含めた幅」にする正しい設定はどれですか？",
+      "options": [
+        "box-sizing: border-box;",
+        "box-size: border-box;",
+        "box-sizing: content-box;",
+        "size-control: border;"
+      ],
+      "answer": 0,
+      "commentary": "`padding` や `border` を要素の幅（width）に含めて計算させる設定は `box-sizing: border-box;` です。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "CSSの `calc()` 関数を使って、送信ボタンの幅（5em分）を差し引いた入力ボックスの横幅を計算・指定するコードです。<br><pre><code>.message-form input {\n    width: ___;\n}</code></pre>",
+      "options": [
+        "calc(100% - 5em)",
+        "calc(100% / 5em)",
+        "100% - 5em",
+        "fit(100%, 5em)"
+      ],
+      "answer": 0,
+      "commentary": "CSSで動的なサイズ計算を行うには `width: calc(100% - 5em);` のように記述します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "CSSで `.message-form__submit` に対し `background-color: transparent;` を指定した場合、ボタンの背景はどうなりますか？",
+      "options": [
+        "透明（親要素の背景色が透けて見える状態）になる",
+        "真っ黒になる",
+        "真っ白になる",
+        "灰色になる"
+      ],
+      "answer": 0,
+      "commentary": "`transparent` は背景を「透明」にするキーワードです。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "戻るボタン（`.back-button`）を画面ヘッダー内の左端（`left: 16px`）に絶対配置するCSS指定を選んでください。<br><pre><code>.back-button {\n    position: ___;\n    top: 0;\n    bottom: 0;\n    left: 16px;\n}</code></pre>",
+      "options": [
+        "absolute",
+        "relative",
+        "fixed",
+        "static"
+      ],
+      "answer": 0,
+      "commentary": "親要素（`.header`）を基準に特定の位置へ配置するため `position: absolute;` を指定します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "更新ボタン（`.reload-button`）をヘッダー内の右端（`right: 16px`）に絶対配置するCSS指定を選んでください。<br><pre><code>.reload-button {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    ___: 16px;\n}</code></pre>",
+      "options": [
+        "right",
+        "left",
+        "margin",
+        "padding"
+      ],
+      "answer": 0,
+      "commentary": "右端からの距離を指定するプロパティは `right` です。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "ユーザーがメッセージ入力欄に「こんにちは」と入力して送信ボタンを押した際、`form.save(commit=False)` から取得される `new_talk.message` の値は何ですか？",
+      "options": [
+        "\"こんにちは\"",
+        "\"message\"",
+        "None",
+        "空文字"
+      ],
+      "answer": 0,
+      "commentary": "フォームに入力されたテキスト「こんにちは」が `Talk` インスタンスの `message` 属性に代入されています。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "`TalkForm` クラスを定義する際、`forms` モジュールおよび自作の `Talk` モデルをインポートする正しいコードはどれですか？",
+      "options": [
+        "from django import forms\nfrom .models import Talk",
+        "import forms from django\nimport Talk from .models",
+        "from django.db import forms, Talk",
+        "from .forms import Talk"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのフォームモジュールは `from django import forms`、自作モデルは `from .models import Talk` で読み込みます。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "送信フォームで何も入力せず空のまま送信ボタンを押した場合、`form.is_valid()` の判定はどうなりますか？",
+      "options": [
+        "False（偽）となり、メッセージの保存処理やリダイレクトは行われない",
+        "True（真）となり、空のメッセージが保存される",
+        "サーバーがエラーで停止する",
+        "自動的に「こんにちは」と補われる"
+      ],
+      "answer": 0,
+      "commentary": "未入力の場合はフォームの必須チェックで弾かれ `is_valid()` が `False` となるため、`if` ブロック内の保存処理はスキップされます。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "FontAwesomeを使って左向きの矢印（＜マーク）を表示する要素の `class` 指定を選んでください。<br><pre><code>&lt;a href=\"...\" class=\"back-button\"&gt;\n    &lt;i class=\"___\"&gt;&lt;/i&gt;\n&lt;/a&gt;</code></pre>",
+      "options": [
+        "fas fa-angle-left",
+        "fas fa-arrow-right",
+        "fas fa-check",
+        "fas fa-user"
+      ],
+      "answer": 0,
+      "commentary": "FontAwesomeで左矢印アイコンを表示するクラス名は `fas fa-angle-left` です。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "Djangoのビュー関数 `talk_room` に未ログインユーザーがアクセスできないよう保護するデコレータ記述として正しいものはどれですか？",
+      "options": [
+        "@login_required\ndef talk_room(request, friend_id):",
+        "def talk_room(@login_required, request, friend_id):",
+        "@auth_user\ndef talk_room(request, friend_id):",
+        "def talk_room(request, friend_id): @login_required"
+      ],
+      "answer": 0,
+      "commentary": "ビュー関数の直前に `@login_required` を記述することでログインアクセス制限を行えます。"
+    },
+    {
+      "id": 33,
+      "type": "用語理解",
+      "question": "Djangoの `ModelForm` を使うことによる利点として最も当てはまるものはどれですか？",
+      "options": [
+        "モデル（`Talk` など）の定義に基づいてフォームフィールドやデータ保存ロジックが自動的に構成されること",
+        "データベースのマイグレーションが必要なくなること",
+        "JavaScriptのコードを自動生成してくれること",
+        "HTMLを使わずにWebページが表示できること"
+      ],
+      "answer": 0,
+      "commentary": "ModelFormを使うと、モデルの構成（フィールド型や制約）に合ったフォームを自動構築でき開発効率が上がります。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "次のテンプレート記述で、送信されたトークの送信日時（`talk.time`）の表示形式はどうなりますか？<br><pre><code>{{ talk.time|date:\"m/d\" }}&lt;br&gt;\n{{ talk.time|date:\"H:i\" }}</code></pre>",
+      "options": [
+        "1行目に「月/日」、2行目に「時:分」（例: 05/20<br>14:30）が表示される",
+        "「西暦-月-日」の1行で表示される",
+        "送信してからの経過分数が表示される",
+        "日時ではなくユーザー名が表示される"
+      ],
+      "answer": 0,
+      "commentary": "`m/d` フィルターで月日、`<br>` で改行、`H:i` フィルターで時分が出力されます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "メッセージ送信フォームの枠線（ボーダー）を2pxの黒色実線にするCSS記述です。<br><pre><code>.message-form input {\n    border: ___\n; \n}</code></pre>",
+      "options": [
+        "2px solid #131313",
+        "2px dashed #131313",
+        "solid 2px red",
+        "none"
+      ],
+      "answer": 0,
+      "commentary": "「太さ 種類 色」の順で `2px solid #131313` と指定します。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "CSSで送信入力欄の角を丸く（14px）仕上げるプロパティは何ですか？<br><pre><code>.message-form input {\n    ___: 14px;\n}</code></pre>",
+      "options": [
+        "border-radius",
+        "corner-round",
+        "box-radius",
+        "border-style"
+      ],
+      "answer": 0,
+      "commentary": "要素の四隅に角丸をつけるプロパティは `border-radius` です。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "Djangoテンプレートで、親テンプレートのブロックを終了させる正しいタグはどれですか？",
+      "options": [
+        "{% endblock %}",
+        "{% closeblock %}",
+        "{% end %}",
+        "{% stopblock %}"
+      ],
+      "answer": 0,
+      "commentary": "`{% block ブロック名 %}` で開始したブロックは `{% endblock %}` で閉じます。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "トークルームでメッセージを送信した後、ビューの `redirect(\"talk_room\", friend_id)` が正常に処理されたときのブラウザのレスポンスステータスコードは何ですか？",
+      "options": [
+        "302（リダイレクト）",
+        "200（OK）",
+        "404（Not Found）",
+        "500（Server Error）"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの標準リダイレクト処理による転送応答のステータスコードは `302` です。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "入力フォームを画面中央に揃えてテキスト配置するCSSプロパティです。<br><pre><code>.message-form {\n    text-align: ___;\n}</code></pre>",
+      "options": [
+        "center",
+        "middle",
+        "left",
+        "justify"
+      ],
+      "answer": 0,
+      "commentary": "インライン要素やテキストを中央揃えにするには `text-align: center;` を指定します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本格的なアプリ開発において、教科書で「ただコードをコピーするだけでなく大切である」と述べられている姿勢・考え方はどれですか？",
+      "options": [
+        "「なぜこの処理が必要なのか」と自問しながら自分で試行錯誤してコーディングすること",
+        "すべてのコードを1分以内に高速タイピングすること",
+        "一切エラーを出さずに一発で完璧なプログラムを書くこと",
+        "ライブラリを使わずすべて自作すること"
+      ],
+      "answer": 0,
+      "commentary": "アプリ開発スキルを身につけるには、各処理の必要性を自問自答しながら試行錯誤して組み上げる力が不可欠です。"
     }
   ]
 }

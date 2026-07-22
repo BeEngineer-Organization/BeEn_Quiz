@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — 見た目を整える",
+  "unit_title": "見た目を整える",
   "questions": [
     {
-      "question": "チャット画面でメッセージを吹き出し風に並べるのに使いやすいレイアウトはどれですか？",
-      "options": ["flexbox で左右に寄せる", "table のみ", "iframe のみ", "固定幅のみ"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "要素を横並びに配置し、横幅や高さを柔軟にコントロールできるCSSのレイアウト手法を何と呼びますか？",
+      "options": [
+        "フレックスボックス（Flexible Box）",
+        "グリッドレイアウト（Grid Layout）",
+        "フロート（Float）",
+        "ポジショニング（Positioning）"
+      ],
       "answer": 0,
-      "commentary": "自分と相手で配置や色を変えると分かりやすいです。"
+      "commentary": "要素を柔軟に横並び配置できるCSSのレイアウト手法を「フレックスボックス（Flexible Box）」と呼びます。"
     },
     {
-      "question": "モバイルでも入力しやすいようにする工夫として適切なのはどれですか？",
-      "options": ["viewport の設定と、タップ領域・フォントサイズの調整", "viewport は不要", "PC 固定幅のみ", "フォームを使わない"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "要素をフレックスコンテナにして横並びレイアウトを有効にするためのCSS記述です。空欄に入る値は何ですか？<br><pre><code>.container {\n    display: ___;\n}</code></pre>",
+      "options": [
+        "flex",
+        "inline",
+        "block",
+        "grid"
+      ],
       "answer": 0,
-      "commentary": "レスポンシブ対応とアクセシビリティを意識します。"
+      "commentary": "フレックスボックスの親要素（フレックスコンテナ）を作るには `display: flex;` を指定します。"
     },
     {
-      "question": "CSS を静的ファイルとして管理する場合、テンプレートで読み込む手順として正しいのはどれですか？",
-      "options": ["{% load static %} と {% static 'path' %}", "{% css 'all' %}", "style タグ禁止", "インラインのみ"],
+      "id": 3,
+      "type": "用語理解",
+      "question": "`display: flex;` を指定した親要素の内部にある個々の直接の子要素のことを何と呼びますか？",
+      "options": [
+        "フレックスアイテム",
+        "フレックスコンテナ",
+        "フレックスボックス",
+        "フレックスブロック"
+      ],
       "answer": 0,
-      "commentary": "static タグで CSS の URL を生成します。"
+      "commentary": "フレックスコンテナの中に配置されている直接の子要素群を「フレックスアイテム」と呼びます。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "フレックスアイテムを「上から下へ垂直方向」に並べるためのCSSプロパティ設定です。空欄に入る値は何ですか？<br><pre><code>.container {\n    display: flex;\n    flex-direction: ___;\n}</code></pre>",
+      "options": [
+        "column",
+        "row",
+        "column-reverse",
+        "vertical"
+      ],
+      "answer": 0,
+      "commentary": "上から下の垂直方向にアイテムを並べるには `flex-direction: column;` を指定します。"
+    },
+    {
+      "id": 5,
+      "type": "実行結果予測",
+      "question": "次のCSSを指定したとき、フレックスアイテムはどのように並びますか？<br><pre><code>.container {\n    display: flex;\n    flex-direction: row-reverse;\n}</code></pre>",
+      "options": [
+        "水平方向に「右から左」へ並ぶ",
+        "水平方向に「左から右」へ並ぶ",
+        "垂直方向に「上から下」へ並ぶ",
+        "垂直方向に「下から上」へ並ぶ"
+      ],
+      "answer": 0,
+      "commentary": "`row-reverse` を指定すると、水平方向に通常とは逆の「右から左」の順番で配置されます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "フレックスアイテムを「下から上へ垂直方向」に並べるプロパティの値を選んでください。<br><pre><code>.container {\n    display: flex;\n    flex-direction: ___;\n}</code></pre>",
+      "options": [
+        "column-reverse",
+        "row-reverse",
+        "column",
+        "up"
+      ],
+      "answer": 0,
+      "commentary": "垂直方向で下から上に並べるには `column-reverse` を指定します。"
+    },
+    {
+      "id": 7,
+      "type": "用語理解",
+      "question": "フレックスコンテナ内のアイテムが1行に収まらない場合に、折り返して複数行で表示するかどうかを指定するプロパティは何ですか？",
+      "options": [
+        "flex-wrap",
+        "flex-direction",
+        "flex-flow",
+        "flex-basis"
+      ],
+      "answer": 0,
+      "commentary": "アイテムの折り返し動作を設定するプロパティは `flex-wrap` です。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "アイテムの合計幅がコンテナを超えた際、次の設定を行っていると画面ではどのような表示になりますか？<br><pre><code>.container {\n    display: flex;\n    flex-wrap: wrap;\n}</code></pre>",
+      "options": [
+        "アイテムが入りきらない場合、自動的に次の行へ折り返して表示される",
+        "1行のまま無理やり潰れて収縮して表示される",
+        "コンテナを飛び出して横スクロールバーが表示される",
+        "溢れたアイテムが画面から消去されて非表示になる"
+      ],
+      "answer": 0,
+      "commentary": "`flex-wrap: wrap;` を設定すると、1行に収まらないアイテムが自動的に下の行へ折り返されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "`flex-direction` と `flex-wrap` を一度にまとめて一括指定できるショートハンドプロパティは何ですか？<br><pre><code>.container {\n    display: flex;\n    ___: row wrap;\n}</code></pre>",
+      "options": [
+        "flex-flow",
+        "flex-set",
+        "flex-style",
+        "flex-group"
+      ],
+      "answer": 0,
+      "commentary": "方向と折り返しをまとめて指定する一括指定プロパティは `flex-flow` です。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "フレックスコンテナ内で、水平方向（横方向）の余白の割り振りや位置揃え（左寄せ、中央寄せ、均等配置など）を行うプロパティは何ですか？",
+      "options": [
+        "justify-content",
+        "align-items",
+        "align-self",
+        "flex-direction"
+      ],
+      "answer": 0,
+      "commentary": "横方向の位置揃えや余白分配を制御するプロパティは `justify-content` です。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "フレックスアイテムを横方向の「中央寄せ」にする設定です。空欄に入る値は何ですか？<br><pre><code>.container {\n    display: flex;\n    justify-content: ___;\n}</code></pre>",
+      "options": [
+        "center",
+        "middle",
+        "flex-start",
+        "space-between"
+      ],
+      "answer": 0,
+      "commentary": "`justify-content: center;` を指定するとアイテムが水平方向の中央に配置されます。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "次のCSSを設定したとき、アイテム同士の間の余白はどのように配置されますか？<br><pre><code>.container {\n    display: flex;\n    justify-content: space-between;\n}</code></pre>",
+      "options": [
+        "両端のアイテムがコンテナの端にピッタリ付き、アイテム間の余白が均等に割り振られる",
+        "両端を含めてすべてのアイテムの周りに均等な余白がつく",
+        "アイテムがすべて中央に固まって配置される",
+        "アイテム間に一切余白がなくなる"
+      ],
+      "answer": 0,
+      "commentary": "`space-between` は最初と最後のアイテムを両端に寄せ、間にある余白を均等に分配します。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "フレックスコンテナ内で、垂直方向（縦方向）の位置揃え（上寄せ、下寄せ、中央寄せなど）を一括で指定するプロパティは何ですか？",
+      "options": [
+        "align-items",
+        "justify-content",
+        "align-self",
+        "vertical-align"
+      ],
+      "answer": 0,
+      "commentary": "コンテナ内のすべてのアイテムに対して縦方向の配置をそろえるプロパティは `align-items` です。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "フレックスアイテムを縦方向の「一番下（下寄せ）」に揃えて配置するプロパティ値を選んでください。<br><pre><code>.chatboard__time {\n    display: flex;\n    align-items: ___;\n}</code></pre>",
+      "options": [
+        "flex-end",
+        "bottom",
+        "flex-start",
+        "down"
+      ],
+      "answer": 0,
+      "commentary": "垂直方向の下寄せには `align-items: flex-end;` を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`align-items` のデフォルト値である `stretch` が適用されているとき、高さ（height）が指定されていないアイテムの表示はどうなりますか？",
+      "options": [
+        "一番背が高いアイテムの高さに合わせて、コンテナの高さにあっぱいに引き伸ばされる",
+        "高さが 0px に縮んで見えなくなる",
+        "常に画面全体の高さと同じになる",
+        "文字のフォントサイズだけが大きくなる"
+      ],
+      "answer": 0,
+      "commentary": "`stretch` はコンテナ内の一番高い要素やコンテナの高さに合わせてアイテムを引き伸ばして揃えます。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "親コンテナ全体の `align-items` 設定を上書きして、特定の「個別のアイテムだけ」縦方向の位置揃えを変更するプロパティは何ですか？",
+      "options": [
+        "align-self",
+        "align-items",
+        "justify-self",
+        "flex-item-align"
+      ],
+      "answer": 0,
+      "commentary": "コンテナの設定を上書きして特定の個別アイテムの縦位置を変更するには `align-self` を使います。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "トーク画面の各メッセージ行（`.chatboard__item`）内で、アイコンやメッセージ本文を横並びにするためのCSS記述です。<br><pre><code>.chatboard__item {\n    padding: 8px;\n    display: ___;\n}</code></pre>",
+      "options": [
+        "flex",
+        "block",
+        "inline",
+        "none"
+      ],
+      "answer": 0,
+      "commentary": "メッセージ行の中身を横並びレイアウトにするため `display: flex;` を追加します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "トーク画面でユーザー名とメッセージ本文の間で改行させるため、メッセージ行コンテナに指定する折り返し設定です。<br><pre><code>.chatboard__item {\n    display: flex;\n    flex-wrap: ___;\n}</code></pre>",
+      "options": [
+        "wrap",
+        "nowrap",
+        "reverse",
+        "break"
+      ],
+      "answer": 0,
+      "commentary": "要素が横幅からはみ出した際に折り返せるよう `flex-wrap: wrap;` を追加します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "吹き出しメッセージが横幅一杯に広がらず、一定の幅で折り返されるように指定する幅の設定です。<br><pre><code>.chatboard__message {\n    width: ___;\n}</code></pre>",
+      "options": [
+        "70%",
+        "100%",
+        "auto",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "コンテナの幅に対して70%の大きさに指定することで、適度な幅で下の行へ改行させます。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "親要素に `flex-wrap: wrap;` を指定し、子要素の本文（`.chatboard__message`）の幅を `width: 70%;` に設定した際、画面上で起こる変化として正しいものはどれですか？",
+      "options": [
+        "本文エリアが1行に収まりきらなくなり、ユーザー名の横から下の行へ自動的に改行される",
+        "本文エリアが画面から消えて見えなくなる",
+        "ユーザー名と本文が重ね合わさって表示される",
+        "本文の文字サイズが70%に縮小される"
+      ],
+      "answer": 0,
+      "commentary": "幅を70%に広げたことで1行の容量を超え、`wrap` の効果により自動で次の行に折り返されます。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "テンプレート内で、送信者がログイン中の自分（`request.user`）である場合に、`mine` というCSSクラスを付与する正解コードはどれですか？",
+      "options": [
+        "<li class=\"chatboard__item {% if talk.sender == request.user %}mine{% endif %}\">",
+        "<li class=\"chatboard__item mine if talk.sender == request.user\">",
+        "<li class=\"chatboard__item {mine: talk.sender}\">",
+        "<li class=\"chatboard__item {% mine %}\">"
+      ],
+      "answer": 0,
+      "commentary": "Djangoテンプレートの `{% if 条件 %}テキスト{% endif %}` タグを使って、条件成立時のみ `mine` クラスを挿入します。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "自分のメッセージであることを示す `.mine` クラスに対して `flex-direction: row-reverse;` を適用した場合、メッセージ行の要素の配置順はどうなりますか？",
+      "options": [
+        "要素の順番が逆（右から左）になり、自分の発言が右寄せ風に表示される",
+        "要素が上下逆さま（足滑り）に表示される",
+        "要素の文字が裏返し（鏡文字）になる",
+        "画面の左端に固定される"
+      ],
+      "answer": 0,
+      "commentary": "`row-reverse` を指定することで全体の並び順が左右反転し、自分のメッセージが右側に配置されたような見た目になります。"
+    },
+    {
+      "id": 23,
+      "type": "文法チェック",
+      "question": "自分の投稿の時は相手のアイコンや名前を表示しないようにするため、送信者が自分で「ない」場合のみ囲む正しいテンプレートタグはどれですか？",
+      "options": [
+        "{% if talk.sender != request.user %}",
+        "{% if talk.sender not request.user %}",
+        "{% if talk.sender !== request.user %}",
+        "{% ifnot talk.sender == request.user %}"
+      ],
+      "answer": 0,
+      "commentary": "「等しくない（不一致）」を判定するテンプレート演算子は `!=` です。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "CSSで、セレクタで選択した要素の「特定の指定部分（最初の1行や、要素の前後の空間など）」にだけ特別なスタイルを付与するためのキーワードを何と呼びますか？",
+      "options": [
+        "擬似要素（Pseudo-elements）",
+        "擬似クラス（Pseudo-classes）",
+        "属性セレクタ",
+        "メディアクエリ"
+      ],
+      "answer": 0,
+      "commentary": "要素の特定部分にスタイルを適用する `::before` や `::after` などの仕組みを「擬似要素」と呼びます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "指定した段落（`<p>`）の「最初の1行目」だけのスタイルを変更・装飾する擬似要素は何ですか？<br><pre><code>p::___ {\n    background-color: blue;\n}</code></pre>",
+      "options": [
+        "first-line",
+        "first-letter",
+        "first-row",
+        "top-line"
+      ],
+      "answer": 0,
+      "commentary": "要素の1行目のみを選択する擬似要素は `::first-line` です。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "指定した要素の「直前（冒頭）」に装飾やコンテンツを挿入するための擬似要素は何ですか？<br><pre><code>a::___ {\n    content: \"♥\";\n}</code></pre>",
+      "options": [
+        "before",
+        "after",
+        "prepend",
+        "start"
+      ],
+      "answer": 0,
+      "commentary": "要素の前に疑似要素を追加するには `::before` を使用します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "指定した要素の「直後（末尾）」に装飾やコンテンツを挿入するための擬似要素は何ですか？<br><pre><code>a::___ {\n    content: \"★\";\n}</code></pre>",
+      "options": [
+        "after",
+        "before",
+        "append",
+        "end"
+      ],
+      "answer": 0,
+      "commentary": "要素の後ろに疑似要素を追加するには `::after` を使用します。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "`::before` や `::after` などの擬似要素の中で、表示させたい文字や装飾データを指定するために使用する必須のCSSプロパティは何ですか？",
+      "options": [
+        "content",
+        "text",
+        "value",
+        "display"
+      ],
+      "answer": 0,
+      "commentary": "擬似要素で描画内容を指定するには `content: \"文字列\";`（空の場合は `content: \"\";`）が必須となります。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "次のCSSが適用されているとき、`<a>お問い合わせ</a>` というリンクテキストの画面表示はどうなりますか？<br><pre><code>a::before {\n    content: \"♥\";\n}</code></pre>",
+      "options": [
+        "「♥お問い合わせ」と表示される",
+        "「お問い合わせ♥」と表示される",
+        "「♥」マークのみが表示される",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`::before` 疑似要素により、リンクテキスト「お問い合わせ」の直前に「♥」が挿入されます。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "CSSで要素の「アスペクト比（縦と横の比率）」を固定・維持するために使用するプロパティは何ですか？",
+      "options": [
+        "aspect-ratio",
+        "ratio-size",
+        "box-ratio",
+        "scale-ratio"
+      ],
+      "answer": 0,
+      "commentary": "縦横の表示比率を指定・保持するCSSプロパティは `aspect-ratio` です。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "CSSで、要素の表示する領域（三角形や円形など）を指定の形状に切り抜くために使用するプロパティは何ですか？",
+      "options": [
+        "clip-path",
+        "crop-shape",
+        "mask-image",
+        "border-shape"
+      ],
+      "answer": 0,
+      "commentary": "表示エリアを特定のパスや多角形で切り取るプロパティは `clip-path` です。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "CSSで `clip-path: polygon(0 50%, 100% 0, 100% 100%);` のように `polygon()` 関数を使って3つの頂点座標を指定した場合、要素はどのような形に切り抜かれますか？",
+      "options": [
+        "三角形",
+        "円形",
+        "正方形",
+        "星形"
+      ],
+      "answer": 0,
+      "commentary": "`polygon()` で3箇所の座標を指定すると、その3点を繋いだ「三角形」の形状に切り抜かれます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "吹き出し本文（`.chatboard__message`）を、擬似要素（三角形）の配置基準位置（親の基準）にするための `position` 指定を選んでください。<br><pre><code>.chatboard__message {\n    position: ___;\n}</code></pre>",
+      "options": [
+        "relative",
+        "absolute",
+        "static",
+        "fixed"
+      ],
+      "answer": 0,
+      "commentary": "子要素の絶対配置（absolute）の基準点とするため、親要素に `position: relative;` を指定します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "擬似要素で作った三角形（.chatboard__message::before）を、親要素の位置を基準にして自由な位置へ移動・重ね配置するための `position` 指定を選んでください。<br><pre><code>.chatboard__message::before {\n    position: ___;\n    top: 12px;\n}</code></pre>",
+      "options": [
+        "absolute",
+        "relative",
+        "static",
+        "sticky"
+      ],
+      "answer": 0,
+      "commentary": "親要素（relative）の位置を基準に重ね配置を行うため、擬似要素には `position: absolute;` を指定します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "黒い三角形（.chatboard__message::before）に `z-index: -2;`、白い三角形（.chatboard__message::after）に `z-index: -1;` を指定したとき、重なり順はどうなりますか？",
+      "options": [
+        "白い三角形（-1）が黒い三角形（-2）の「手前（上）」に重なって表示される",
+        "黒い三角形（-2）が白い三角形（-1）の「手前（上）」に重なって表示される",
+        "両方の三角形が消えて非表示になる",
+        "重なり順は変わらずランダムになる"
+      ],
+      "answer": 0,
+      "commentary": "`z-index` は数値が大きいほど手前に表示されるため、`-1` の白い三角形が `-2` の黒い三角形の上に重なります。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "大規模なWeb開発でCSSの設計やクラス名の重複・干渉によるトラブルを防ぐために定められる、クラス命名のルールのことを何と呼びますか？",
+      "options": [
+        "CSSの命名規則",
+        "CSSのコンパイル",
+        "CSSの継承",
+        "CSSのバリデーション"
+      ],
+      "answer": 0,
+      "commentary": "管理しやすく競合の起きないクラス名を付けるための統一ルールを「CSSの命名規則」と呼びます。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "CSSプロパティを「構造（widthやpaddingなど）」と「見た目・状態（colorやbackgroundなど）」の2つに分離してクラス定義する、オブジェクト指向を取り入れたCSS命名規則は何ですか？",
+      "options": [
+        "OOCSS (Object Oriented CSS)",
+        "BEM",
+        "SMACSS",
+        "FLOCSS"
+      ],
+      "answer": 0,
+      "commentary": "構造と見た目を切り離して再利用性を高める手法を「OOCSS（Object Oriented CSS）」と呼びます。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "パーツを「Block（塊）」、「Element（要素）」、「Modifier（状態・変化）」の3つの組み合わせに分類して記述する代表的なCSS命名規則は何ですか？",
+      "options": [
+        "BEM",
+        "OOCSS",
+        "SMACSS",
+        "Atomic CSS"
+      ],
+      "answer": 0,
+      "commentary": "Block、Element、Modifier の3要素で統一的なクラス名を付ける手法を「BEM」と呼びます。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "BEM命名規則において、Block名が `nav`、Element名が `item` のとき、正しく接続されたクラス名の記述はどれですか？",
+      "options": [
+        "nav__item",
+        "nav--item",
+        "nav-item",
+        "nav..item"
+      ],
+      "answer": 0,
+      "commentary": "BEMでは Block と Element をアンダースコア2つ（`__`）で接続します（`block__element`）。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "クラスを「ベース」「レイアウト」「モジュール」「ステート」「テーマ」の5種類に分類して体系的に定義する、SMACSS（スマックス）の正式名称に含まれる単語を選んでください。",
+      "options": [
+        "Scalable and Modular Architecture for CSS",
+        "System and Method Architecture for CSS",
+        "Standard and Model Application CSS",
+        "Simple and Modern Architecture CSS"
+      ],
+      "answer": 0,
+      "commentary": "SMACSS は 「Scalable and Modular Architecture for CSS」の略称です。"
     }
   ]
 }

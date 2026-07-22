@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — ユーザーアイコンの設定",
+  "unit_title": "ユーザーアイコンの設定",
   "questions": [
     {
-      "question": "ユーザーごとにアイコン画像を保存するために、モデルに追加しやすいフィールドはどれですか？",
-      "options": ["ImageField（Pillow が必要）", "TextField のみ", "IntegerField のみ", "URLField で HTML を貼る"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "Djangoで画像を扱うためにインストールが必要なPythonの画像処理ライブラリは何ですか？",
+      "options": [
+        "Pillow",
+        "OpenCV",
+        "Pygame",
+        "Matplotlib"
+      ],
       "answer": 0,
-      "commentary": "プロフィールモデルの ImageField や User を拡張したフィールドに保存します。"
+      "commentary": "DjangoのImageFieldを使用するためには、画像処理パッケージであるPillowのインストールが必要です。"
     },
     {
-      "question": "アップロードされた画像を保存する場所を settings で指定する設定として一般的なのはどれですか？",
-      "options": ["MEDIA_ROOT", "STATIC_ROOT のみ", "DEBUG", "SECRET_KEY"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoで画像を扱うためのライブラリをインストールするコマンドです。空欄に入るパッケージ名は何ですか？<br><pre><code>pip install ___</code></pre>",
+      "options": [
+        "pillow",
+        "image",
+        "django-image",
+        "picture"
+      ],
       "answer": 0,
-      "commentary": "MEDIA_ROOT と MEDIA_URL を設定し、開発時は URL を配信します。"
+      "commentary": "`pip install pillow` コマンドでPillowパッケージをインストールします。"
     },
     {
-      "question": "テンプレートでアイコン画像を表示するとき、ファイルが無い場合のデフォルト画像を出すのに使うのはどれですか？",
-      "options": ["{% if user.profile.avatar %} ... {% else %} ... {% endif %} など", "必ずエラーにする", "script タグのみ", "CSS のみ"],
+      "id": 3,
+      "type": "用語理解",
+      "question": "Webアプリで扱う画像のうち、背景画像など開発者が用意した変更されないファイルを「静的ファイル」と呼ぶのに対し、ユーザーがアップロードするファイルを何と呼びますか？",
+      "options": [
+        "メディア（media）ファイル",
+        "システム（system）ファイル",
+        "ダイナミック（dynamic）ファイル",
+        "テンポラリ（temporary）ファイル"
+      ],
       "answer": 0,
-      "commentary": "条件分岐でプレースホルダ画像を表示します。"
+      "commentary": "ユーザーがアップロード・ダウンロードするファイルは「メディアファイル」と呼ばれます。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "アップロードされたメディアファイルを保存するサーバー上のディレクトリパスを指定する `settings.py` の設定項目は何ですか？<br><pre><code>___ = BASE_DIR / \"media\"</code></pre>",
+      "options": [
+        "MEDIA_ROOT",
+        "MEDIA_URL",
+        "STATIC_ROOT",
+        "FILE_PATH"
+      ],
+      "answer": 0,
+      "commentary": "アップロードされたファイルの保管場所を指定するのは `MEDIA_ROOT` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "ブラウザなど外部からメディアファイルにアクセスする際のURLのプレフィックスを指定する `settings.py` の設定項目は何ですか？<br><pre><code>___ = \"/media/\"</code></pre>",
+      "options": [
+        "MEDIA_URL",
+        "MEDIA_ROOT",
+        "STATIC_URL",
+        "SITE_URL"
+      ],
+      "answer": 0,
+      "commentary": "メディアファイルアクセスのためのURLを指定するのは `MEDIA_URL` です。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "`settings.py` で `MEDIA_URL = \"/media/\"` と設定されている場合、`profile.png` という画像ファイルへアクセスするためのURL形式として正しいものはどれですか？",
+      "options": [
+        "<サイトのURL>/media/profile.png",
+        "<サイトのURL>/static/profile.png",
+        "<サイトのURL>/files/profile.png",
+        "<サイトのURL>/uploads/profile.png"
+      ],
+      "answer": 0,
+      "commentary": "`MEDIA_URL` に指定した `/media/` の配下にファイル名が続く形式（`<サイトのURL>/media/<ファイル名>`）でアクセスします。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "開発環境でメディアファイルへアクセスできるように `chat_app/urls.py` に追加する関数の記述です。空欄に入る記述を選んでください。<br><pre><code>urlpatterns += ___(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)</code></pre>",
+      "options": [
+        "static",
+        "media",
+        "path",
+        "url"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの開発環境でメディアファイルを配信するには `static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)` を追加します。"
+    },
+    {
+      "id": 8,
+      "type": "文法チェック",
+      "question": "`chat_app/urls.py` で `static()` 関数を使用するために必要な正しいインポート文はどれですか？",
+      "options": [
+        "from django.conf.urls.static import static",
+        "from django.urls import static",
+        "from django.core.files import static",
+        "from django.conf import static"
+      ],
+      "answer": 0,
+      "commentary": "`static` 関数は `django.conf.urls.static` からインポートします。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "モデルで画像データを保持・保存するためのフィールドクラスは何ですか？<br><pre><code>class User(AbstractUser):\n    icon = models.___(null=True, blank=True)</code></pre>",
+      "options": [
+        "ImageField",
+        "FileField",
+        "PictureField",
+        "MediaField"
+      ],
+      "answer": 0,
+      "commentary": "画像を扱うためのモデルフィールドは `models.ImageField` です。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "アイコン画像が未設定（空）であることをデータベース上およびフォーム上で許可するための引数設定です。<br><pre><code>icon = models.ImageField(___=True, ___=True)</code></pre>",
+      "options": [
+        "null / blank",
+        "empty / none",
+        "allow_null / allow_blank",
+        "clear / free"
+      ],
+      "answer": 0,
+      "commentary": "DB上でNULLを許容するには `null=True`、フォーム入力で空を許容するには `blank=True` を指定します。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "アイコン画像をアップロードしていないユーザーの `friend.icon` に対し、テンプレートで `{{ friend.icon.url }}` を直接参照しようとするとどうなりますか？",
+      "options": [
+        "画像が存在しないためエラーが発生する（または何も出力されないため、条件分岐で判定する必要がある）",
+        "自動的にデフォルト画像のURLが補われる",
+        "\"/static/default.png\" が返される",
+        "\"none\" という文字列が出力される"
+      ],
+      "answer": 0,
+      "commentary": "画像が保存されていない場合に `.url` を直接参照するとエラーになるため、`{% if friend.icon %}` のように存在チェックを行う必要があります。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で、ユーザーのアイコン画像が存在する場合はそのURLを表示し、存在しない場合はデフォルト画像を表示する条件分岐コードです。<br><pre><code>&lt;img src=\"{% if friend.icon %}{{ friend.icon.___ }}{% else %}{% static 'main/img/default-icon.png' %}{% endif %}\"&gt;</code></pre>",
+      "options": [
+        "url",
+        "path",
+        "src",
+        "file"
+      ],
+      "answer": 0,
+      "commentary": "ImageFieldに保存された画像のアクセスURLを取得するには `.url` プロパティを使用します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "デフォルトのアイコン画像（静的ファイル）をテンプレートで読み込むためのタグ記述です。<br><pre><code>{% ___ 'main/img/default-icon.png' %}</code></pre>",
+      "options": [
+        "static",
+        "media",
+        "url",
+        "file"
+      ],
+      "answer": 0,
+      "commentary": "開発者が用意した静的画像のパスを指定するには `{% static 'パス' %}` を使用します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "ユーザーが自分のアイコン画像を更新した場合、友達一覧画面のそのユーザーのアイコン表示はどう変化しますか？",
+      "options": [
+        "`{% if friend.icon %}` が真になり、`friend.icon.url`（アップロードした画像）が表示される",
+        "常にデフォルト画像が表示され続ける",
+        "画像が表示されずテキスト名のみになる",
+        "古い画像と新しい画像が交互に表示される"
+      ],
+      "answer": 0,
+      "commentary": "アイコンが設定されたことで条件式が真となり、アップロードされたメディア画像のURLが `src` 属性にセットされます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "CSSで正方形のアイコン画像を「完全な丸型（円形）」に切り抜いて表示するための設定です。<br><pre><code>.friends-list__icon {\n    width: 60px;\n    height: 60px;\n    ___: 50%;\n}</code></pre>",
+      "options": [
+        "border-radius",
+        "corner-radius",
+        "box-radius",
+        "circle-style"
+      ],
+      "answer": 0,
+      "commentary": "要素の四隅を丸めて円形にするには `border-radius: 50%;` を指定します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "CSSで、画像の縦横比を崩さずに指定した枠（60px×60px）全体を覆うように自動トリミング表示させるプロパティは何ですか？<br><pre><code>.friends-list__icon {\n    width: 60px;\n    height: 60px;\n    ___: cover;\n}</code></pre>",
+      "options": [
+        "object-fit",
+        "image-size",
+        "background-size",
+        "aspect-ratio"
+      ],
+      "answer": 0,
+      "commentary": "画像の比率を維持したままトリミングして要素枠いっぱいに収めるには `object-fit: cover;` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "CSSで `.friends-list__icon` に `object-fit: cover;` を指定しなかった場合、縦横比が変形している長方形の画像を読み込むとどうなりますか？",
+      "options": [
+        "画像が縦や横に引き伸ばされて歪んで表示される",
+        "自動的に画像の端が切り取られる",
+        "画像が黒く塗りつぶされる",
+        "画像が丸型ではなく四角形になる"
+      ],
+      "answer": 0,
+      "commentary": "`object-fit` を指定しない場合、画像の元サイズ比率が無視されて枠のサイズ（60px×60px）に無理やり引き伸ばされて歪んでしまいます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "アイコン変更用のフォームを `ModelForm` を使って定義するコードです。空欄に入る記述を選んでください。<br><pre><code>class IconChangeForm(forms.ModelForm):\n    class Meta:\n        model = User\n        fields = (\"___\",)</code></pre>",
+      "options": [
+        "icon",
+        "image",
+        "user_icon",
+        "avatar"
+      ],
+      "answer": 0,
+      "commentary": "Userモデルに追加した画像フィールド名である `\"icon\"` を指定します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "アイコン変更用フォームの画面表示用ラベルを「アイコン画像」に指定するコードです。<br><pre><code>class IconChangeForm(forms.ModelForm):\n    class Meta:\n        model = User\n        fields = (\"icon\",)\n        ___ = {\"icon\": \"アイコン画像\"}</code></pre>",
+      "options": [
+        "labels",
+        "names",
+        "titles",
+        "headers"
+      ],
+      "answer": 0,
+      "commentary": "フィールドの表示ラベルを変更するには `labels` 辞書を指定します。"
+    },
+    {
+      "id": 20,
+      "type": "用語理解",
+      "question": "Djangoのビューで、フォームから送信された「画像ファイルや添付ファイルの内容データ」が格納されているリクエストオブジェクトの属性は何ですか？",
+      "options": [
+        "request.FILES",
+        "request.POST",
+        "request.GET",
+        "request.DATA"
+      ],
+      "answer": 0,
+      "commentary": "通常のテキストデータ（`request.POST`）とは異なり、送信されたファイルデータは `request.FILES` に格納されます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "ビュー関数内で、POSTデータと送信ファイルデータの両方をフォームに渡してインスタンス化する正しいコードはどれですか？<br><pre><code>form = IconChangeForm(\n    request.POST, ___ , instance=request.user\n)</code></pre>",
+      "options": [
+        "request.FILES",
+        "request.GET",
+        "request.MEDIA",
+        "request.IMAGES"
+      ],
+      "answer": 0,
+      "commentary": "フォームで受け取ったファイルデータを処理するには、第2引数などに `request.FILES` を渡す必要があります。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "画像変更のPOST処理時に、`IconChangeForm(request.POST, instance=request.user)` のように `request.FILES` を渡し忘れて実行した場合どうなりますか？",
+      "options": [
+        "送信された画像ファイルが認識されず、アイコン画像が更新・保存されない",
+        "自動的に `request.FILES` が読み込まれて正常に保存される",
+        "データベースからユーザーアカウントが削除される",
+        "Pythonの構文エラーで即座にクラッシュする"
+      ],
+      "answer": 0,
+      "commentary": "`request.FILES` を渡し忘れるとフォームにファイルデータが届かないため、画像の保存・更新が行われません。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "HTMLフォームで画像などのファイルデータを送信するために、`<form>` タグに必ず指定しなければならないエンコード属性は何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\" class=\"settings\" ___=\"multipart/form-data\"&gt;</code></pre>",
+      "options": [
+        "enctype",
+        "type",
+        "media",
+        "filetype"
+      ],
+      "answer": 0,
+      "commentary": "ファイル送信を可能にするには、フォームタグに `enctype=\"multipart/form-data\"` を指定する必要があります。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "HTMLテンプレートの `<form>` タグで `enctype=\"multipart/form-data\"` を記述し忘れて画像送信ボタンを押した場合、どうなりますか？",
+      "options": [
+        "ファイルの内容データがサーバーに送信されず、画像アップロードに失敗する",
+        "ブラウザが自動的に `enctype` を追加して正常送信される",
+        "テキストデータも一切送信できなくなる",
+        "サーバーのデータベースが破損する"
+      ],
+      "answer": 0,
+      "commentary": "`enctype=\"multipart/form-data\"` がないとファイル本体のバイナリデータがPOSTリクエストに乗らないため、画像が送信されません。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "アイコン変更ページへのルーティングを `main/urls.py` に追加するコードです。<br><pre><code>path(\"icon_change/\", views.icon_change, name=\"___\")</code></pre>",
+      "options": [
+        "icon_change",
+        "change_icon",
+        "edit_icon",
+        "upload_icon"
+      ],
+      "answer": 0,
+      "commentary": "テンプレートタグなどで使用するURLパターン名として `name=\"icon_change\"` を指定します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "アイコン変更完了後に完了画面（`icon_change_done`）へ移動するビュー処理のコードです。<br><pre><code>if form.is_valid():\n    form.save()\n    return ___(\"icon_change_done\")</code></pre>",
+      "options": [
+        "redirect",
+        "render",
+        "forward",
+        "goto"
+      ],
+      "answer": 0,
+      "commentary": "処理成功後に指定ページへ遷移させるには `redirect()` 関数を使用します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "設定画面（`settings.html`）から「アイコン変更」ページへのリンクを作成するテンプレートタグ記述です。<br><pre><code>&lt;a href=\"{% ___ 'icon_change' %}\" class=\"button\"&gt;アイコン変更&lt;/a&gt;</code></pre>",
+      "options": [
+        "url",
+        "path",
+        "link",
+        "href"
+      ],
+      "answer": 0,
+      "commentary": "名前付きURLパターンからリンクアドレスを動的に生成するには `{% url 'URL名' %}` を使います。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "トークルーム（`talk_room.html`）で、送信者のアイコン画像が存在する場合にそのURLを出力する正しい記述はどれですか？",
+      "options": [
+        "{{ talk.sender.icon.url }}",
+        "{{ talk.sender.icon }}",
+        "{% talk.sender.icon.url %}",
+        "{{ talk.sender.url }}"
+      ],
+      "answer": 0,
+      "commentary": "`talk`（トーク）→ `sender`（送信者）→ `icon`（アイコン画像）→ `.url`（画像URL）の順で辿って参照します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "`settings.py` でプロジェクトのルートディレクトリ（`BASE_DIR`）に `media` フォルダを連結して指定する記述です。<br><pre><code>MEDIA_ROOT = BASE_DIR ___ \"media\"</code></pre>",
+      "options": [
+        "/",
+        "+",
+        ".",
+        ","
+      ],
+      "answer": 0,
+      "commentary": "Pythonの `pathlib.Path` オブジェクトでは `/` スラッシュ演算子を使ってパスを結合します。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "まだプロジェクト内に `media` という名前のディレクトリが存在しない状態でユーザーが初めて画像をアップロードした場合、どうなりますか？",
+      "options": [
+        "Djangoが自動的に `media` ディレクトリを作成して画像を保存する",
+        "ディレクトリが存在しないためエラー（FileNotFoundError）が発生する",
+        "画像は破棄され保存されない",
+        "手動でディレクトリを作成するまでサーバーが停止する"
+      ],
+      "answer": 0,
+      "commentary": "`MEDIA_ROOT` で指定したフォルダが存在しない場合、ファイルアップロード時にDjangoが自動でフォルダを作成してくれます。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "新規追加したパッケージ情報を `requirements.txt` に反映保存するための正解コマンドはどれですか？",
+      "options": [
+        "pip freeze > requirements.txt",
+        "pip save requirements.txt",
+        "pip export requirements.txt",
+        "python manage.py freeze"
+      ],
+      "answer": 0,
+      "commentary": "現在の環境のパッケージ一覧をファイル出力するには `pip freeze > requirements.txt` を使用します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "`models.py` の変更内容（`ImageField` 追加など）を検出してマイグレーションファイルを作成するコマンドはどれですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "makemigrations",
+        "migrate",
+        "update_models",
+        "build_db"
+      ],
+      "answer": 0,
+      "commentary": "モデルの差分を検出してマイグレーションファイルを生成するには `makemigrations` を実行します。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "作成したマイグレーションを実際のデータベース構造に反映・適用するコマンドはどれですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "runserver",
+        "apply"
+      ],
+      "answer": 0,
+      "commentary": "マイグレーションをDBに適用するには `migrate` コマンドを実行します。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "CSSで `.friends-list__link` に対して `display: flex;` を設定した場合の要素の配置はどう変化しますか？",
+      "options": [
+        "子要素（アイコン画像とユーザー名）が横並びに配置される",
+        "子要素が上下の縦並びに配置される",
+        "子要素がすべて非表示になる",
+        "子要素が画面中央に固定される"
+      ],
+      "answer": 0,
+      "commentary": "`display: flex;` を指定すると、標準で子要素（アイコンとテキスト）が横並びレイアウトになります。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ログイン中のユーザーの既存情報をフォームにバインド（セット）して表示するための引数指定です。<br><pre><code>form = IconChangeForm(instance=___)</code></pre>",
+      "options": [
+        "request.user",
+        "User",
+        "User.objects.all()",
+        "user_id"
+      ],
+      "answer": 0,
+      "commentary": "現在ログインしているユーザーインスタンスをフォームに渡すため `instance=request.user` を指定します。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "未ログインユーザーが直接 `/icon_change/` にアクセスした際、アクセスを拒否してログイン画面へリダイレクトさせるために関数の直前に付けるデコレータは何ですか？",
+      "options": [
+        "@login_required",
+        "@auth_check",
+        "@user_only",
+        "@is_authenticated"
+      ],
+      "answer": 0,
+      "commentary": "ログインが必要なビュー関数には `@login_required` デコレータを付与します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "ユーザーがGETアクセスで `/icon_change/`（アイコン変更画面）を開いたときに実行される処理として正しいものはどれですか？<br><pre><code>if request.method == \"GET\":\n    form = IconChangeForm(instance=request.user)</code></pre>",
+      "options": [
+        "ログイン中ユーザーの現在のデータ（現在のアイコン情報など）が入ったフォームが作成され画面が表示される",
+        "空の新規ユーザー作成フォームが表示される",
+        "アイコン画像がその場で即座に削除される",
+        "トップページへ強制リダイレクトされる"
+      ],
+      "answer": 0,
+      "commentary": "GETアクセス時は `instance=request.user` により、現在のユーザー情報が保持された状態のフォームが描画されます。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "アイコン変更完了画面のビュー関数 `icon_change_done` の返り値記述です。<br><pre><code>@login_required\ndef icon_change_done(request):\n    return ___(request, \"main/icon_change_done.html\")</code></pre>",
+      "options": [
+        "render",
+        "redirect",
+        "display",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "HTMLテンプレートを描画して応答を返すには `render()` 関数を使用します。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "`chat_app/urls.py` で `settings` オブジェクトをインポートするための正しい記述はどれですか？",
+      "options": [
+        "from django.conf import settings",
+        "from django import settings",
+        "import settings from django.conf",
+        "from django.settings import settings"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの設定オブジェクト `settings` は `django.conf` からインポートします。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節でチャットアプリにユーザーアイコン設定機能を導入した主な目的は何ですか？",
+      "options": [
+        "視覚的なユーザー体験（UX）を向上させ、アプリを使いたくなるようにするため",
+        "データベースの読み込み速度を上げるため",
+        "サーバーのストレージ容量を節約するため",
+        "ユーザーのパスワードのセキュリティを高めるため"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーごとに独自のアイコン画像を表示できるようにすることで、視覚的な楽しさやユーザー体験（UX）を向上させます。"
     }
   ]
 }

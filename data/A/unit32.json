@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — トーク画面の表示",
+  "unit_title": "トーク画面の表示",
   "questions": [
     {
-      "question": "特定の相手とのトーク画面 URL を設計するとき、相手ユーザーを識別子として URL に含める例として適切なのはどれですか？",
-      "options": ["path('talk/<int:user_id>/', ...)", "path('talk/') のみ", "クエリにパスワードを載せる", "固定 HTML のみ"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "データベースから指定したデータを取り出し、もしデータが存在しない場合は自動的に「404 Not Found（ページが見つかりません）」エラーを発生させてくれるDjangoの便利な関数は何ですか？",
+      "options": [
+        "get_object_or_404",
+        "get_or_create",
+        "filter_or_404",
+        "find_or_error"
+      ],
       "answer": 0,
-      "commentary": "ユーザー ID やユーザー名（スラッグ）でルーティングします。"
+      "commentary": "`get_object_or_404()` はデータが見つからない場合に自動で404エラーを出してくれる便利なショートカット関数です。"
     },
     {
-      "question": "過去メッセージを表示するために、ビューでよく行うのはどれですか？",
-      "options": ["ルームや相手に紐づく Message をフィルタしてテンプレートへ", "テンプレートのみで DB に直接書く", "CSV を手で貼る", "キャッシュだけ見る"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "URLから「整数型の相手のID（`friend_id`）」を受け取るためのパス記述です。空欄に入る型指定（パスコンバータ）は何ですか？<br><pre><code>path(\"talk_room/&lt;___:friend_id&gt;/\", views.talk_room, name=\"talk_room\")</code></pre>",
+      "options": [
+        "int",
+        "str",
+        "slug",
+        "uuid"
+      ],
       "answer": 0,
-      "commentary": "会話に紐づくメッセージを時系列で取得します。"
+      "commentary": "整数値としてURLパラメータを受け取るには `<int:変数名>` のように `int` コンバータを指定します。"
     },
     {
-      "question": "テンプレートでメッセージを時系列で並べるとき、クエリ側で order_by する例に近いのはどれですか？",
-      "options": ["order_by('created_at')", "order_by('-created_at')", "order_by('pk') のみ", "sort は使わない"],
-      "answer": 1,
-      "commentary": "新しいものを下にするなら昇順、上にするなら降順など要件に合わせます。"
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "urls.py にトークルームへのルーティングを登録するコードです。空欄に入る適切な記述を選んでください。<br><pre><code>path(\"talk_room/&lt;int:friend_id&gt;/\", ___, name=\"talk_room\")</code></pre>",
+      "options": [
+        "views.talk_room",
+        "views.talk_room()",
+        "talk_room.as_view()",
+        "views.TalkRoomView"
+      ],
+      "answer": 0,
+      "commentary": "関数ベースビューを指定する場合は、括弧を付けずに `views.関数名` の形で渡します。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "`path(\"talk_room/<int:friend_id>/\", views.talk_room, name=\"talk_room\")` と設定されているとき、ユーザーが `/talk_room/5/` にアクセスしました。ビュー関数 `talk_room(request, friend_id)` の引数 `friend_id` に入る値は何ですか？",
+      "options": [
+        "5（数値の5）",
+        "\"5\"（文字列の5）",
+        "\"friend_id\"",
+        "None"
+      ],
+      "answer": 0,
+      "commentary": "`<int:friend_id>` と指定されているため、URL中の数字「5」が整数型（`5`）に変換されて引数に渡されます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "友達一覧画面（`friends.html`）から特定の友達（`friend`）のトークルームへ移動するリンクを作成するコードです。空欄に入る記述を選んでください。<br><pre><code>&lt;a href=\"{% url 'talk_room' ___ %}\" class=\"friends-list__link\"&gt;</code></pre>",
+      "options": [
+        "friend.id",
+        "friend.username",
+        "friend",
+        "user.id"
+      ],
+      "answer": 0,
+      "commentary": "トークルームのURL引数として必要な相手のID（`friend.id`）を `{% url %}` タグの第2引数に渡します。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "`friend.id` の値が `3` であるとき、テンプレートの `{% url 'talk_room' friend.id %}` が生成するURL文字列はどれですか？",
+      "options": [
+        "/talk_room/3/",
+        "/talk_room/friend.id/",
+        "/talk_room/?id=3",
+        "/talk_room/user/3/"
+      ],
+      "answer": 0,
+      "commentary": "URLパターンの `<int:friend_id>` 部分に `3` が埋め込まれ、`/talk_room/3/` というパスが生成されます。"
+    },
+    {
+      "id": 7,
+      "type": "用語理解",
+      "question": "DjangoのORMで、「AかつB（AND）」だけでなく「AまたはB（OR）」のような複雑な検索条件を組み立てるために使うオブジェクトは何ですか？",
+      "options": [
+        "Q オブジェクト",
+        "F オブジェクト",
+        "OR オブジェクト",
+        "Where オブジェクト"
+      ],
+      "answer": 0,
+      "commentary": "検索フィルターでOR条件などの複雑なロジックを構成する際には `Q` オブジェクトを使用します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`get_object_or_404` 関数をインポートするための正しいDjangoモジュールパスを選んでください。<br><pre><code>from django.____ import get_object_or_404</code></pre>",
+      "options": [
+        "shortcuts",
+        "http",
+        "urls",
+        "views"
+      ],
+      "answer": 0,
+      "commentary": "`get_object_or_404` や `render`, `redirect` などのヘルパー関数は `django.shortcuts` に用意されています。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "検索条件用クラス `Q` をインポートするための正しいDjangoモジュールパスを選んでください。<br><pre><code>from django.db.models import ___</code></pre>",
+      "options": [
+        "Q",
+        "Query",
+        "Filter",
+        "OR"
+      ],
+      "answer": 0,
+      "commentary": "`Q` オブジェクトは `django.db.models` からインポートします。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "ビュー関数内で、URLから受け取った `friend_id` に該当するユーザーを取得するコードです。空欄に入る変数名を選んでください。<br><pre><code>friend = get_object_or_404(User, id=___)</code></pre>",
+      "options": [
+        "friend_id",
+        "user_id",
+        "request.user.id",
+        "id"
+      ],
+      "answer": 0,
+      "commentary": "関数の引数として受け取った `friend_id` を指定して該当の User オブジェクトを取得します。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "存在しないユーザーID（例: ID `999`）のトーク画面 URL（`/talk_room/999/`）にアクセスした際、`get_object_or_404(User, id=999)` が実行されるとどうなりますか？",
+      "options": [
+        "HTTP 404 エラー（Page Not Found）が発生して処理が中断される",
+        "空の User オブジェクトが自動作成される",
+        "500 Internal Server Error が発生する",
+        "None が返されてそのまま画面が表示される"
+      ],
+      "answer": 0,
+      "commentary": "`get_object_or_404` は指定したIDが存在しない場合、安全に404エラー（Http404）を発生させます。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "Djangoの `filter()` 内で、2つの `Q` オブジェクトを「OR（または）」の条件で結合する記号は何ですか？<br><pre><code>Talk.objects.filter(\n    Q(sender=request.user, receiver=friend)\n    ___ Q(sender=friend, receiver=request.user)\n)</code></pre>",
+      "options": [
+        "|",
+        "&",
+        "&&",
+        "||"
+      ],
+      "answer": 0,
+      "commentary": "Qオブジェクト同士の「OR（または）」結合にはパイプ記号 `|` を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "自分が送信者（`sender`）で、相手が受信者（`receiver`）であるチャットを絞り込む条件です。空欄に入るパラメータ名を選んでください。<br><pre><code>Q(sender=request.user, ___=friend)</code></pre>",
+      "options": [
+        "receiver",
+        "target",
+        "to_user",
+        "recipient"
+      ],
+      "answer": 0,
+      "commentary": "Talkモデルの受信者フィールド名は `receiver` です。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "相手が送信者（`sender`）で、自分が受信者（`receiver`）であるチャットを絞り込む条件です。空欄に入るパラメータ名を選んでください。<br><pre><code>Q(sender=friend, ___=request.user)</code></pre>",
+      "options": [
+        "receiver",
+        "user",
+        "me",
+        "to"
+      ],
+      "answer": 0,
+      "commentary": "自分が受信したトークを抽出するため `receiver=request.user` を指定します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "やり取りされたトーク一覧を送信日時（`time`）の古い順（昇順）に並び替えて取得する記述です。空欄に入るメソッドは何ですか？<br><pre><code>Talk.objects.filter(...).___(\"time\")</code></pre>",
+      "options": [
+        "order_by",
+        "sort_by",
+        "group_by",
+        "arrange"
+      ],
+      "answer": 0,
+      "commentary": "クエリセットを指定フィールドで並び替えるには `order_by(\"フィールド名\")` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "`Talk.objects.filter(...).order_by(\"time\")` を実行して取得した `talks` をテンプレートで上から順に表示したとき、チャットの表示順はどうなりますか？",
+      "options": [
+        "古いメッセージが上に、新しいメッセージが下に表示される（時系列順）",
+        "新しいメッセージが上に、古いメッセージが下に表示される",
+        "送信者の名前の五十音順で表示される",
+        "ランダムな順番で表示される"
+      ],
+      "answer": 0,
+      "commentary": "`-time` ではなく `time`（昇順）でソートしているため、過去の古い会話から順番に下へ向かって表示されます。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "テンプレートへ渡すデータ辞書 `context` を定義するコードです。空欄に入るキーを選んでください。<br><pre><code>context = {\n    \"friend\": friend,\n    \"___\": talks,\n}</code></pre>",
+      "options": [
+        "talks",
+        "talk_list",
+        "messages",
+        "chat_history"
+      ],
+      "answer": 0,
+      "commentary": "テンプレート側の `{% for talk in talks %}` で受け取るため、キー名を `\"talks\"` に設定します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "ビュー関数 `talk_room` の最後で、`main/talk_room.html` テンプレートを描画して返却する記述です。<br><pre><code>return ___(request, \"main/talk_room.html\", context)</code></pre>",
+      "options": [
+        "render",
+        "redirect",
+        "display",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "リクエストや辞書データを渡してHTMLを描画返却するには `render()` 関数を使います。"
+    },
+    {
+      "id": 19,
+      "type": "用語理解",
+      "question": "未ログインユーザーが直接 `/talk_room/1/` にアクセスした際、自動でログイン画面へ弾く（保護する）ために `talk_room` 関数の上に付けるデコレータは何ですか？",
+      "options": [
+        "@login_required",
+        "@user_passes_test",
+        "@auth_check",
+        "@permission_required"
+      ],
+      "answer": 0,
+      "commentary": "ビュー関数のアクセス制限（ログイン必須化）には `@login_required` デコレータを使用します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "`talk_room.html` の先頭で、親テンプレート `main/base.html` を継承する記述です。<br><pre><code>{% ___ \"main/base.html\" %}</code></pre>",
+      "options": [
+        "extends",
+        "include",
+        "inherit",
+        "import"
+      ],
+      "answer": 0,
+      "commentary": "ベーステンプレートを継承するには `{% extends \"パス\" %}` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "`talk_room.html` 内で静的ファイル（CSSなど）を読み込むために宣言するタグは何ですか？<br><pre><code>{% ___ static %}</code></pre>",
+      "options": [
+        "load",
+        "import",
+        "include",
+        "use"
+      ],
+      "answer": 0,
+      "commentary": "静的ファイル参照用タグを有効化するには `{% load static %}` を記述します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "画面上部のヘッダータイトル部分に、チャット相手（`friend`）のユーザー名を表示するブロック記述です。<br><pre><code>{% block header_title %}{{ ___ }}{% endblock %}</code></pre>",
+      "options": [
+        "friend.username",
+        "friend.name",
+        "user.username",
+        "friend_id"
+      ],
+      "answer": 0,
+      "commentary": "相手ユーザーオブジェクト `friend` のユーザー名を出力するため `{{ friend.username }}` と書きます。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "相手ユーザー（`friend`）の `username` が「sakura」であるとき、`{% block header_title %}{{ friend.username }}{% endblock %}` を実行するとヘッダーには何が表示されますか？",
+      "options": [
+        "sakura",
+        "friend.username",
+        "User object (sakura)",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "変数 `friend.username` の中身であるテキスト「sakura」がそのまま表示されます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "ビューから受け取ったトーク一覧（`talks`）を1件ずつ処理するテンプレートの繰り返しタグです。<br><pre><code>{% ___ talk in talks %}\n    &lt;li class=\"chatboard__item\"&gt;...&lt;/li&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "for",
+        "foreach",
+        "loop",
+        "while"
+      ],
+      "answer": 0,
+      "commentary": "リスト要素を順番に展開・描画するには `{% for 変数 in リスト %}` を使用します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "各トークメッセージの「送信者のユーザー名」を表示するテンプレート記述です。<br><pre><code>＞{{ talk.___.username }}</code></pre>",
+      "options": [
+        "sender",
+        "user",
+        "author",
+        "from_user"
+      ],
+      "answer": 0,
+      "commentary": "Talkモデルの送信者リレーション属性名は `sender` なので、`talk.sender.username` で取得します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "メッセージの送信者（`talk.sender.username`）が「Taro」のとき、`＞{{ talk.sender.username }}` によるテンプレートの出力文字列はどれですか？",
+      "options": [
+        "＞Taro",
+        "Taro",
+        "＞talk.sender.username",
+        "＞User: Taro"
+      ],
+      "answer": 0,
+      "commentary": "全角の「＞」の直後に変数 `talk.sender.username`（Taro）が展開されるため「＞Taro」となります。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "各トークの「本文メッセージ」を出力するテンプレート変数です。<br><pre><code>&lt;p class=\"chatboard__message\"&gt;{{ talk.___ }}&lt;/p&gt;</code></pre>",
+      "options": [
+        "message",
+        "text",
+        "content",
+        "body"
+      ],
+      "answer": 0,
+      "commentary": "Talkモデルの本文フィールド名は `message` です。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "送信日時（`talk.time`）から「月/日（例: 04/15）」の形式だけを抜き出して出力するテンプレートフィルター指定はどれですか？<br><pre><code>{{ talk.time|___:\"m/d\" }}</code></pre>",
+      "options": [
+        "date",
+        "time",
+        "format",
+        "string"
+      ],
+      "answer": 0,
+      "commentary": "日時オブジェクトを指定形式のフォーマットに整えるには `|date:\"フォーマット\"` フィルターを使います。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "送信時刻（`talk.time`）が「14時30分」であるとき、`{{ talk.time|date:\"H:i\" }}` が出力する文字列はどれですか？",
+      "options": [
+        "14:30",
+        "14時30分",
+        "02:30 PM",
+        "H:i"
+      ],
+      "answer": 0,
+      "commentary": "`H` は24時間表記の時（14）、`i` は2桁の分（30）を表すため、`14:30` と表示されます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "送信日時の「月/日」と「時:分」の表示の間で改行を入れるためのHTMLタグは何ですか？<br><pre><code>{{ talk.time|date:\"m/d\" }}&lt;___&gt;\n{{ talk.time|date:\"H:i\" }}</code></pre>",
+      "options": [
+        "br",
+        "lb",
+        "newline",
+        "p"
+      ],
+      "answer": 0,
+      "commentary": "HTMLで強制的に改行を行う要素タグは `<br>` です。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "トーク画面（`talk_room.html`）では画面下の共通フッター（「友達」「設定」などのボタン）を表示させないようにするため、親テンプレートのフッターブロックを空で記述しています。正しい書き方はどれですか？",
+      "options": [
+        "{% block footer %}{% endblock %}",
+        "{% block footer %}none{% endblock %}",
+        "{% remove footer %}",
+        "{% hide block footer %}"
+      ],
+      "answer": 0,
+      "commentary": "親のフッターブロックを消したい（何も表示させない）場合は、ブロックの中身を空（`{% block footer %}{% endblock %}`）にして定義します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "チャットメッセージ内で非常に長い英単語やURLが入力された際、枠線からはみ出さずに自動で折り返すCSSプロパティ設定はどれですか？<br><pre><code>.chatboard__message {\n    margin: 0;\n    ___: break-all;\n}</code></pre>",
+      "options": [
+        "word-break",
+        "white-space",
+        "overflow-wrap",
+        "text-wrap"
+      ],
+      "answer": 0,
+      "commentary": "長い連続文字列でも強制的に要素内で改行・折り返しさせるには `word-break: break-all;` を指定します。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "CSSで、トークリストの「一番最初のアイテム（1番目の `li`）」にだけ上の枠線を付与する擬似クラス指定はどれですか？<br><pre><code>.chatboard__item:___ {\n    border-top: 2px solid #eee;\n}</code></pre>",
+      "options": [
+        "first-child",
+        "first-item",
+        "top-child",
+        "nth-child(1)"
+      ],
+      "answer": 0,
+      "commentary": "要素群の先頭要素を対象にするCSS擬似クラスは `:first-child` です。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "トークの送信時間を、親要素を基準にして右端（`right: 16px`）へ配置するために指定する配置プロパティはどれですか？<br><pre><code>.chatboard__time {\n    position: ___;\n    right: 16px;\n    font-size: 0.6rem;\n}</code></pre>",
+      "options": [
+        "absolute",
+        "relative",
+        "fixed",
+        "static"
+      ],
+      "answer": 0,
+      "commentary": "親要素などの基準位置からの絶対配置を行うには `position: absolute;` を使用します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "CSSで `.chatboard` クラスに対して `list-style: none;` を指定した場合、画面上の表示はどうなりますか？",
+      "options": [
+        "リスト（ul/li）の先頭に表示されていた「・（黒丸）」などのポインター記号が消える",
+        "リスト内のテキストがすべて非表示になる",
+        "リストの枠線がすべて消える",
+        "リストが横並び配置に変わる"
+      ],
+      "answer": 0,
+      "commentary": "`list-style: none;` を指定することで、HTMLのリスト要素特有の行頭記号（黒丸など）を非表示にできます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "`main/admin.py` に `Talk` モデルを登録して、Djangoの管理者画面からチャットデータを閲覧・追加できるようにするコードです。<br><pre><code>from django.contrib import admin\nfrom .models import Talk, User\n\nadmin.site.register(User)\nadmin.site.____(Talk)</code></pre>",
+      "options": [
+        "register",
+        "add",
+        "connect",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "モデルを管理者サイトに登録するには `admin.site.register(モデル名)` を呼び出します。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "Djangoで作成したモデル（`Talk` など）を管理者がブラウザ上で追加・編集・削除できるように設定を書き込むファイル名はどれですか？",
+      "options": [
+        "admin.py",
+        "models.py",
+        "views.py",
+        "urls.py"
+      ],
+      "answer": 0,
+      "commentary": "管理者サイトへのモデルの登録や設定は各アプリ配下の `admin.py` に記述します。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "Djangoの `urls.py` で、URLのパスに含まれる数値を整数型変数 `friend_id` としてビュー関数に渡す正しいルーティング記述はどれですか？",
+      "options": [
+        "path(\"talk_room/<int:friend_id>/\", views.talk_room, name=\"talk_room\")",
+        "path(\"talk_room/{friend_id}/\", views.talk_room, name=\"talk_room\")",
+        "path(\"talk_room/<friend_id:int>/\", views.talk_room, name=\"talk_room\")",
+        "path(\"talk_room/(int)friend_id/\", views.talk_room, name=\"talk_room\")"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの動的パス記法は `<型:変数名>`（例: `<int:friend_id>`）の形式で記述します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "`Talk` モデルの `__str__` メソッドが `return \"{} -> {}\".format(self.sender, self.receiver)` と定義されているとき、送信者「Ken」、受信者「May」のTalkオブジェクトを管理画面で見たときの表示名称はどうなりますか？",
+      "options": [
+        "Ken -> May",
+        "Ken to May",
+        "Talk object (1)",
+        "{} -> {}"
+      ],
+      "answer": 0,
+      "commentary": "`self.sender`（Ken）と `self.receiver`（May）が波括弧に埋め込まれるため「Ken -> May」と表示されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "今回作成したチャットアプリのトーク画面で、LINEや一般的なメッセージアプリのように「古いメッセージが上に、最新のメッセージが一番下」に表示される仕組みを実現しているデータベースの操作（クエリ）指定は何ですか？",
+      "options": [
+        "order_by(\"time\")（送信日時による昇順ソート）",
+        "order_by(\"-time\")（送信日時による降順ソート）",
+        "filter(time=now)",
+        "exclude(time=null)"
+      ],
+      "answer": 0,
+      "commentary": "`order_by(\"time\")` で送信時刻が古い順（昇順）に取得して上から描画することで、最新のメッセージが自然と一番下に来るレイアウトになります。"
     }
   ]
 }

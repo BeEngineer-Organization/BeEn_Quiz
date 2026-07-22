@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — ログインページの作成",
+  "unit_title": "ログインページの作成",
   "questions": [
     {
-      "question": "Django の認証でログイン処理を行う関数として、ビューからよく import するのはどれですか？",
-      "options": ["django.contrib.auth.login", "django.login", "auth.signin", "django.contrib.auth.logout のみ"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "Djangoが標準で提供している、ログイン機能を簡単に実装するためのクラスベースビューは何ですか？",
+      "options": [
+        "LoginView",
+        "SigninView",
+        "UserView",
+        "AuthView"
+      ],
       "answer": 0,
-      "commentary": "login(request, user) でセッションにログイン状態を記録します。"
+      "commentary": "Djangoにはログイン処理を自動で行ってくれる組み込みのクラスベースビュー `LoginView` が用意されています。"
     },
     {
-      "question": "ログイン必須のビューを関数ベースで制限するデコレータはどれですか？",
-      "options": ["@login_required", "@auth_only", "@must_login", "@user.login"],
+      "id": 2,
+      "type": "用語理解",
+      "question": "Djangoでログイン画面の入力（ユーザー名とパスワード）を処理するために標準で用意されているフォームクラスは何ですか？",
+      "options": [
+        "AuthenticationForm",
+        "LoginForm",
+        "UserLoginForm",
+        "UserCreationForm"
+      ],
       "answer": 0,
-      "commentary": "login_required を付けます。"
+      "commentary": "ログイン認証用の標準フォームクラスは `AuthenticationForm` です。"
     },
     {
-      "question": "ログイン後のリダイレクト先を settings で指定する設定名として一般的なのはどれですか？",
-      "options": ["LOGIN_REDIRECT_URL", "AFTER_LOGIN", "HOME_URL", "AUTH_REDIRECT"],
+      "id": 3,
+      "type": "用語理解",
+      "question": "ビューを「クラス」として定義し、Djangoに標準搭載された仕組みを使って最小限の記述で機能を実装する方式を何と呼びますか？",
+      "options": [
+        "クラスベースビュー",
+        "関数ベースビュー",
+        "メソッドベースビュー",
+        "オブジェクトビュー"
+      ],
       "answer": 0,
-      "commentary": "LOGIN_REDIRECT_URL や next パラメータで制御します。"
+      "commentary": "ビューをクラスとして定義し、再利用性や拡張性を高める仕組みを「クラスベースビュー」と呼びます。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "ビューを「Pythonの関数」として記述し、処理の流れやレスポンスの返却（`render` や `redirect`）を自由かつ明示的に書く方式は何ですか？",
+      "options": [
+        "関数ベースビュー",
+        "クラスベースビュー",
+        "ロジックビュー",
+        "ダイレクトビュー"
+      ],
+      "answer": 0,
+      "commentary": "処理を関数単位で記述する従来の基本方式を「関数ベースビュー」と呼びます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "クラスベースビューを `urls.py` のルーティング（`path` 関数の第2引数）に設定する際、クラス名の直後に呼び出す必須のメソッドは何ですか？<br><pre><code>path(\"login/\", views.LoginView.___(), name=\"login\")</code></pre>",
+      "options": [
+        "as_view",
+        "get_view",
+        "run_view",
+        "to_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをルーティングに登録するときは、必ず `.as_view()` メソッドを呼び出します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "Django標準の認証用ビューモジュールをインポートする記述です。空欄に入るキーワードは何ですか？<br><pre><code>from django.contrib.auth import ___ as auth_views</code></pre>",
+      "options": [
+        "views",
+        "login",
+        "forms",
+        "urls"
+      ],
+      "answer": 0,
+      "commentary": "`django.contrib.auth.views` を別名（`auth_views`）としてインポートしています。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`LoginView` クラス内で、ログイン処理に使用するフォームクラスを指定する属性名は何ですか？<br><pre><code>class LoginView(auth_views.LoginView):\n    ___ = LoginForm\n    template_name = \"main/login.html\"</code></pre>",
+      "options": [
+        "authentication_form",
+        "form_class",
+        "login_form",
+        "user_form"
+      ],
+      "answer": 0,
+      "commentary": "`LoginView` で使用するフォームを指定するクラス属性は `authentication_form` です。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`LoginView` クラス内で、ログイン画面として表示するHTMLテンプレートのパスを指定する属性名は何ですか？<br><pre><code>class LoginView(auth_views.LoginView):\n    authentication_form = LoginForm\n    ___ = \"main/login.html\"</code></pre>",
+      "options": [
+        "template_name",
+        "template_path",
+        "html_file",
+        "view_template"
+      ],
+      "answer": 0,
+      "commentary": "表示するテンプレートファイルを指定するクラス属性は `template_name` です。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "Django標準の `AuthenticationForm` を継承してログインフォームを作成する記述です。空欄に入るクラス名は何ですか？<br><pre><code>from django.contrib.auth.forms import AuthenticationForm\n\nclass LoginForm(___):\n    pass</code></pre>",
+      "options": [
+        "AuthenticationForm",
+        "UserCreationForm",
+        "BaseForm",
+        "ModelForm"
+      ],
+      "answer": 0,
+      "commentary": "独自ログインフォームを作成する際、ベースとして `AuthenticationForm` を継承します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "`settings.py` で、ログインが必要なページに未ログインでアクセスした際の転送先（ログインページ）を指定する設定変数はどれですか？<br><pre><code>___ = \"login\"</code></pre>",
+      "options": [
+        "LOGIN_URL",
+        "LOGIN_REDIRECT_URL",
+        "LOGOUT_REDIRECT_URL",
+        "DEFAULT_LOGIN_PAGE"
+      ],
+      "answer": 0,
+      "commentary": "ログインページの指定には `LOGIN_URL` 変数を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`settings.py` で、ログインが成功した後に自動的に遷移（リダイレクト）させるページを指定する設定変数はどれですか？<br><pre><code>___ = \"friends\"</code></pre>",
+      "options": [
+        "LOGIN_REDIRECT_URL",
+        "LOGIN_URL",
+        "SUCCESS_URL",
+        "HOME_URL"
+      ],
+      "answer": 0,
+      "commentary": "ログイン成功後のリダイレクト先指定には `LOGIN_REDIRECT_URL` 変数を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "`settings.py` で、ログアウトした後に自動移動するページを指定する設定変数はどれですか？<br><pre><code>___ = \"index\"</code></pre>",
+      "options": [
+        "LOGOUT_REDIRECT_URL",
+        "LOGIN_REDIRECT_URL",
+        "LOGOUT_URL",
+        "INDEX_URL"
+      ],
+      "answer": 0,
+      "commentary": "ログアウト後の移動先指定には `LOGOUT_REDIRECT_URL` 変数を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "`settings.py` に `LOGIN_REDIRECT_URL = \"friends\"` と設定されているアプリで、ユーザーがログインフォームから正しくログインした場合、どうなりますか？",
+      "options": [
+        "\"friends\" という名前付きURLが指すページ（/friends/）へ自動的にリダイレクトされる",
+        "トップページ（\"index\"）へリダイレクトされる",
+        "ログイン画面（/login/）にとどまり続ける",
+        "自動的にログアウトされる"
+      ],
+      "answer": 0,
+      "commentary": "ログイン成功時、`LOGIN_REDIRECT_URL` に設定された URL パターン（ここでは \"friends\"）へ移動します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "ログインフォームの送信内容に誤り（ユーザー名やパスワードの不一致）があった場合、次のテンプレート文の判定はどうなりますか？<br><pre><code>{% if form.errors %}\n    &lt;div class=\"login-form__error\"&gt;ユーザー名とパスワードが一致しません。&lt;/div&gt;\n{% endif %}</code></pre>",
+      "options": [
+        "True（真）となり、エラーメッセージの div 要素が画面に描画される",
+        "False（偽）となり、エラーメッセージは非表示になる",
+        "エラーが発生して画面全体が白くなる",
+        "フォームに入力した文字が自動で全消去される"
+      ],
+      "answer": 0,
+      "commentary": "フォーム検証でエラーがある場合 `form.errors` が存在するため、`{% if %}` 内のエラーメッセージが表示されます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "HTMLの `<label>` タグの `for` 属性に、対応する入力欄のHTML用IDを出力するDjangoフォームのプロパティ指定はどれですか？<br><pre><code>&lt;label for=\"{{ form.username.___ }}\"&gt;ユーザー名:&lt;/label&gt;</code></pre>",
+      "options": [
+        "id_for_label",
+        "label_id",
+        "element_id",
+        "input_id"
+      ],
+      "answer": 0,
+      "commentary": "フォームフィールドに対応するHTML要素のID属性値を取得するには `.id_for_label` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でログインフォームの「ユーザー名入力欄（`<input>`）」を描画する正しい変数はどれですか？<br><pre><code>&lt;div class=\"login-form__field\"&gt;\n    {{ ___ }}\n&lt;/div&gt;</code></pre>",
+      "options": [
+        "form.username",
+        "form.user",
+        "form.name",
+        "form.input_user"
+      ],
+      "answer": 0,
+      "commentary": "ユーザー名入力欄を出力するには `{{ form.username }}` と指定します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でログインフォームの「パスワード入力欄（`<input>`）」を描画する正しい変数はどれですか？<br><pre><code>&lt;div class=\"login-form__field\"&gt;\n    {{ ___ }}\n&lt;/div&gt;</code></pre>",
+      "options": [
+        "form.password",
+        "form.pass",
+        "form.user_password",
+        "form.input_password"
+      ],
+      "answer": 0,
+      "commentary": "パスワード入力欄を出力するには `{{ form.password }}` と指定します。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "`login.html` 内の `<form>` タグ内に `{% csrf_token %}` を書き忘れてログインボタン（POST送信）を押した場合、どうなりますか？",
+      "options": [
+        "403 Forbidden（CSRF検証失敗）エラーが発生し、ログイン処理が拒否される",
+        "エラーは起きず、正常にログインできる",
+        "自動的にGET送信に切り替わって処理される",
+        "ユーザーのアカウントが自動削除される"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのPOSTフォームにはセキュリティ（CSRF対策）のため `{% csrf_token %}` が必須であり、欠落していると403エラーになります。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "`main/urls.py` にログイン後遷移先となる `friends` ページのルーティングを追加するコードです。<br><pre><code>urlpatterns = [\n    # ...\n    path(\"friends/\", views.___, name=\"friends\"),\n]</code></pre>",
+      "options": [
+        "friends",
+        "friends_view",
+        "FriendsView",
+        "show_friends"
+      ],
+      "answer": 0,
+      "commentary": "ビュー関数 `def friends(request):` に対応させるため `views.friends` を指定します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "次のビュー関数が実行されたとき、ブラウザにレンダリングされるHTMLテンプレートはどれですか？<br><pre><code>def friends(request):\n    return render(request, \"main/friends.html\")</code></pre>",
+      "options": [
+        "main/templates/main/friends.html",
+        "main/friends.html",
+        "templates/friends.html",
+        "chat_app/templates/friends.html"
+      ],
+      "answer": 0,
+      "commentary": "Djangoはアプリ内の `templates/` フォルダ配下を探索するため、`main/templates/main/friends.html` が読み込まれます。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "Django標準の `auth_views.LoginView` を継承して自作の `LoginView` クラスを定義する正しい構文はどれですか？",
+      "options": [
+        "class LoginView(auth_views.LoginView):",
+        "def LoginView(auth_views.LoginView):",
+        "class LoginView extends auth_views.LoginView:",
+        "class LoginView(auth_views):"
+      ],
+      "answer": 0,
+      "commentary": "Pythonのクラス継承文法は `class クラス名(親クラス名):` です。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "クラスベースビューを使う長所（メリット）として、教科書の説明に合致するものはどれですか？",
+      "options": [
+        "複雑な処理を内部処理に任せられるためバグ発生のリスクが少なく、コード記述量を減らせる",
+        "内部でどのような処理が行われているかが1行ずつ完全に見えやすくなる",
+        "HTMLやCSSを書かなくても全自動で画面がレイアウトされる",
+        "データベース（DATABASES）の設定が一切不要になる"
+      ],
+      "answer": 0,
+      "commentary": "標準のクラスベースビューを使うことで、認証や検証などの複雑なロジックを内部に任せ、短い記述で安全に実装できます。"
+    },
+    {
+      "id": 23,
+      "type": "用語理解",
+      "question": "関数ベースビューの特徴として正しい説明はどれですか？",
+      "options": [
+        "処理の流れや条件分岐を自由に記述できるが、コードの記述量が多くなりやすい",
+        "コードの記述量が必ず1行で収まる",
+        "Djangoに標準用意されている専用クラスを継承して作成する",
+        "URLパラメータを一切扱うことができない"
+      ],
+      "answer": 0,
+      "commentary": "関数ベースビューは自由度が高い反面、フォーム検証やレンダリングなどの処理をすべて自分で書くため記述量が増えます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で、名前付きURL `'login'` をターゲットにしてフォームデータを送信（POST）する記述です。<br><pre><code>&lt;form action=\"{% ___ 'login' %}\" method=\"POST\" class=\"login-form\"&gt;</code></pre>",
+      "options": [
+        "url",
+        "path",
+        "route",
+        "link"
+      ],
+      "answer": 0,
+      "commentary": "名前付きURLパターンから送信先パスを動的作成するには `{% url 'URL名' %}` タグを使用します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "`friends.html` の中身が `Welcome to app` のみである場合、ログイン成功後に `/friends/` にアクセスした画面には何が表示されますか？",
+      "options": [
+        "「Welcome to app」というテキストのみが表示される",
+        "ログインフォームが再度表示される",
+        "エラー（TemplateDoesNotExist）が発生する",
+        "ユーザーの友達一覧テーブルが自動生成される"
+      ],
+      "answer": 0,
+      "commentary": "テンプレートファイルに書かれた「Welcome to app」というテキストがそのままブラウザに表示されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "静的ファイル用タグ（`{% static %}`）を利用するために、テンプレートファイルの先頭付近で読み込む必須タグはどれですか？<br><pre><code>{% ___ static %}</code></pre>",
+      "options": [
+        "load",
+        "import",
+        "include",
+        "require"
+      ],
+      "answer": 0,
+      "commentary": "`static` タグを有効化するには `{% load static %}` を記述します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "`login.css` の静的ファイルパスを指定して読み込む `<link>` タグの記述です。<br><pre><code>&lt;link rel=\"stylesheet\" href=\"{% static '___' %}\"&gt;</code></pre>",
+      "options": [
+        "main/css/login.css",
+        "css/login.css",
+        "login.css",
+        "static/main/css/login.css"
+      ],
+      "answer": 0,
+      "commentary": "アプリ配下の `static/` 以降のパスである `'main/css/login.css'` を指定します。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "`AuthenticationForm` をインポートするための正しいPythonの記述はどれですか？",
+      "options": [
+        "from django.contrib.auth.forms import AuthenticationForm",
+        "from django.forms import AuthenticationForm",
+        "import AuthenticationForm from django.auth",
+        "from django.contrib.auth.views import AuthenticationForm"
+      ],
+      "answer": 0,
+      "commentary": "`AuthenticationForm` は `django.contrib.auth.forms` モジュールからインポートします。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "`settings.py` で `LOGIN_URL = \"login\"` と設定されているとき、未ログインのユーザーが認証が必要なページへ直接アクセスした場合、Djangoはどこへ案内（転送）しますか？",
+      "options": [
+        "\"login\" というURLパターン名に対応するログインページ（/login/）",
+        "トップページ（/）",
+        "404 Not Found エラーページ",
+        "管理者サイト（/admin/）"
+      ],
+      "answer": 0,
+      "commentary": "`LOGIN_URL` に指定されたログイン画面のURLへ自動的にリダイレクトされます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "ログインフォームの送信ボタンをクリックしたときにフォーム内容を送信させるHTML属性はどれですか？<br><pre><code>&lt;button type=\"___\" class=\"login-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "options": [
+        "submit",
+        "button",
+        "post",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "フォームの入力内容を送信するボタンには `type=\"submit\"` を指定します。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "Webサイトにおいて、入力されたユーザー名とパスワードが登録情報と一致するか確かめ、本人であることを証明する処理を何と呼びますか？",
+      "options": [
+        "認証（Authentication）",
+        "認可（Authorization）",
+        "暗号化（Encryption）",
+        "セッション（Session）"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーの身元・本人性を確認・検証する処理を「認証（Authentication）」と呼びます。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "`login.html` の冒頭に `{% extends \"main/base.html\" %}` と記述した場合、画面の表示はどうなりますか？",
+      "options": [
+        "`base.html` のヘッダーやフッターなどの共通枠組みの中に、`login.html` で定義したコンテンツが埋め込まれて表示される",
+        "`base.html` の中身が上書きされて完全に消去される",
+        "画面上に `main/base.html` というファイル名の文字列が表示される",
+        "エラーが発生して画面が開かなくなる"
+      ],
+      "answer": 0,
+      "commentary": "`{% extends %}` タグにより、親テンプレート（`base.html`）のレイアウトを継承して共通デザインが適用されます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "独自フォーム `LoginForm` の中身に追加のカスタマイズを行わない場合、Pythonで空のクラス本体を表すキーワードは何ですか？<br><pre><code>class LoginForm(AuthenticationForm):\n    ___</code></pre>",
+      "options": [
+        "pass",
+        "null",
+        "none",
+        "break"
+      ],
+      "answer": 0,
+      "commentary": "Pythonで処理や定義がない空のブロックを示すには `pass` 文を使用します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Djangoの `urls.py` で `path` 関数を使ってURLパターンを定義する際の正しい引数の組み合わせ・順序はどれですか？",
+      "options": [
+        "path(\"URLパターン\", ビュー, name=\"名前\")",
+        "path(ビュー, \"URLパターン\", name=\"名前\")",
+        "path(name=\"名前\", \"URLパターン\", ビュー)",
+        "path(\"URLパターン\", name=\"名前\", ビュー)"
+      ],
+      "answer": 0,
+      "commentary": "第1引数にURL文字列、第2引数にビュー（関数または `.as_view()`）、第3引数以降に `name=` オプションを指定します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "CSSで `.login-form__submit` に対して `width: 120px; margin: 16px auto; display: block;` を適用した場合、ボタンの配置はどうなりますか？",
+      "options": [
+        "幅120pxのブロック要素となり、左右中央に配置される",
+        "画面全体の横幅いっぱいに広がる",
+        "画面の左上隅に小さく固定される",
+        "ボタンが透明になって非表示になる"
+      ],
+      "answer": 0,
+      "commentary": "`display: block;` と `margin: ... auto;` を設定することで、指定幅（120px）の要素が左右中央に揃います。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "`base.html` 内のヘッダータイトル部分を「ログイン」という文字で上書きするテンプレートブロックの記述です。<br><pre><code>{% ___ header_title %}ログイン{% endblock %}</code></pre>",
+      "options": [
+        "block",
+        "section",
+        "slot",
+        "define"
+      ],
+      "answer": 0,
+      "commentary": "親テンプレートのブロック要素を上書き・指定するには `{% block ブロック名 %}` を使用します。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "Djangoに用意されている `TemplateView` や `LoginView` のように、よく使われる汎用的な画面処理をクラスとして提供している機能を何と呼びますか？",
+      "options": [
+        "汎用クラスベースビュー（Generic Class-Based Views）",
+        "カスタムモデルフォーム",
+        "テンプレートフィルター",
+        "ミドルウェア"
+      ],
+      "answer": 0,
+      "commentary": "定型的なWeb画面処理を標準化して提供するクラス群を「汎用クラスベースビュー」と呼びます。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "`AuthenticationForm` をそのまま継承した `LoginForm` を用いて `LoginView` を動かした場合、画面にはどのような入力項目が自動生成されますか？",
+      "options": [
+        "ユーザー名（username）とパスワード（password）の2つの入力欄",
+        "メールアドレスとパスワードの2つの入力欄",
+        "ユーザー名・メールアドレス・パスワードの3つの入力欄",
+        "入力欄は何も生成されない"
+      ],
+      "answer": 0,
+      "commentary": "`AuthenticationForm` には標準でユーザー名（`username`）とパスワード（`password`）の入力フィールドが含まれています。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "`views.py` の先頭で `redirect` と `render` をショートカットモジュールからまとめて読み込む正しいインポート文はどれですか？",
+      "options": [
+        "from django.shortcuts import redirect, render",
+        "from django.views import redirect, render",
+        "from django.http import redirect, render",
+        "import render, redirect from django.shortcuts"
+      ],
+      "answer": 0,
+      "commentary": "`render` や `redirect` などの画面遷移用ヘルパー関数は `django.shortcuts` からインポートします。"
+    },
+    {
+      "id": 40,
+      "type": "コード穴埋め",
+      "question": "ログインフォームのエラーメッセージ領域を装飾するためにHTMLの `class` 属性に指定されているクラス名を選んでください。<br><pre><code>&lt;div class=\"___\"&gt;ユーザー名とパスワードが一致しません。&lt;/div&gt;</code></pre>",
+      "options": [
+        "login-form__error",
+        "error_message",
+        "alert-danger",
+        "form-error-list"
+      ],
+      "answer": 0,
+      "commentary": "教科書のコードでは `.login-form__error` クラスが使用されています。"
     }
   ]
 }

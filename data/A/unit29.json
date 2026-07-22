@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — 会員登録機能の作成",
+  "unit_title": "会員登録機能の作成",
   "questions": [
     {
-      "question": "Django でユーザー登録フォームを作るとき、パスワードをそのまま保存してはいけない理由として正しいのはどれですか？",
-      "options": ["平文保存は漏えい時に危険なため、ハッシュ化して保存する", "Django はパスワードを保存できない", "パスワードは URL に書くため", "不要"],
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "Djangoで独自のUserモデルを作成するため、標準で用意されている基底クラスを継承します。空欄に入る適切なクラス名は何ですか？<br><pre><code>from django.contrib.auth.models import ___ \nfrom django.db import models\n\nclass User(___):\n    pass</code></pre>",
+      "options": [
+        "AbstractUser",
+        "BaseUser",
+        "UserModel",
+        "UserCreation"
+      ],
       "answer": 0,
-      "commentary": "User 作成時は set_password や create_user でハッシュ化されます。"
+      "commentary": "Django標準のユーザー機能を持ちつつ独自の拡張を行うには、`AbstractUser` クラスを継承してモデルを定義します。"
     },
     {
-      "question": "ユーザー登録後にログイン画面へ誘導するとき、リダイレクトを返すレスポンスとしてよく使うのはどれですか？",
-      "options": ["redirect()", "HttpResponseOnly()", "render() のみ", "jsonify()"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "作成した独自UserモデルをDjangoプロジェクト全体で利用するために、`settings.py` に設定する変数名はどれですか？<br><pre><code>___ = \"main.User\"</code></pre>",
+      "options": [
+        "AUTH_USER_MODEL",
+        "USER_MODEL_CLASS",
+        "CUSTOM_USER_MODEL",
+        "DEFAULT_USER_MODEL"
+      ],
       "answer": 0,
-      "commentary": "redirect('login') などで遷移させます。"
+      "commentary": "Djangoに独自のユーザーモデルを認識させるためには、`settings.py` で `AUTH_USER_MODEL = \"アプリ名.モデル名\"` と指定します。"
     },
     {
-      "question": "フォームでメールアドレスやユーザー名の重複を防ぐバリデーションを書く場所として適切なのはどれですか？",
-      "options": ["Form の clean メソッドや Model の制約", "settings.py", "wsgi.py", "CSS ファイル"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "ユーザー登録用のフォームを作成するために継承するDjango標準のフォームクラスは何ですか？<br><pre><code>from django.contrib.auth.forms import ___\n\nclass SignUpForm(___):\n    class Meta:\n        model = User\n        fields = (\"username\", \"email\",)</code></pre>",
+      "options": [
+        "UserCreationForm",
+        "UserForm",
+        "SignUpForm",
+        "BaseUserForm"
+      ],
       "answer": 0,
-      "commentary": "フォーム・モデルで一意性や形式を検証します。"
+      "commentary": "Djangoにはユーザー登録処理に必要な機能が揃った `UserCreationForm` が標準で用意されています。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "フォームで入力・表示させる項目を指定する `Meta` クラス内のプロパティ名は何ですか？<br><pre><code>class SignUpForm(UserCreationForm):\n    class Meta:\n        model = User\n        ___ = (\"username\", \"email\",)</code></pre>",
+      "options": [
+        "fields",
+        "inputs",
+        "items",
+        "columns"
+      ],
+      "answer": 0,
+      "commentary": "フォームに含めるモデルのフィールドを指定するには、`Meta` クラス内で `fields` タプル（またはリスト）を定義します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "ユーザーからPOST送信されたフォームデータを受け取って `SignUpForm` インスタンスを作成する正しいコードはどれですか？<br><pre><code>def signup(request):\n    if request.method == \"POST\":\n        form = ___(request.POST)</code></pre>",
+      "options": [
+        "SignUpForm",
+        "UserForm",
+        "UserCreationForm",
+        "ModelForm"
+      ],
+      "answer": 0,
+      "commentary": "POST送信されたデータを取り扱うには、定義した `SignUpForm(request.POST)` に渡してインスタンス化します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "フォームに入力された値が正しい形式（バリデーション合格）かを確認するメソッドは何ですか？<br><pre><code>if form.____():\n    form.save()</code></pre>",
+      "options": [
+        "is_valid",
+        "is_ok",
+        "validate",
+        "check_data"
+      ],
+      "answer": 0,
+      "commentary": "フォームの入力内容を検証するには `is_valid()` メソッドを使用します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "モデルフォームの入力内容をデータベースにそのまま保存するメソッドは何ですか？<br><pre><code>if form.is_valid():\n    form.____()</code></pre>",
+      "options": [
+        "save",
+        "create",
+        "store",
+        "commit"
+      ],
+      "answer": 0,
+      "commentary": "ModelForm（またはそれを継承したクラス）では、`form.save()` を呼び出すことでデータベースに直接保存できます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "フォームで検証済みのデータ（パスワードなど）を取り出すための辞書オブジェクトプロパティは何ですか？<br><pre><code>password = form.____[\"password1\"]</code></pre>",
+      "options": [
+        "cleaned_data",
+        "post_data",
+        "valid_data",
+        "form_data"
+      ],
+      "answer": 0,
+      "commentary": "`form.is_valid()` を通過した安全な入力データは `form.cleaned_data` という辞書に格納されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "ユーザー名とパスワードの組み合わせを検証し、正しければ対応する `User` オブジェクトを返すDjangoの関数は何ですか？<br><pre><code>from django.contrib import auth\n\nuser = auth.___(username=username, password=password)</code></pre>",
+      "options": [
+        "authenticate",
+        "login",
+        "check_password",
+        "get_user"
+      ],
+      "answer": 0,
+      "commentary": "認証情報（ユーザー名やパスワード）を検証して該当するユーザーを取得するには `auth.authenticate()` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "指定したユーザーをログイン状態にするためのDjangoの関数は何ですか？<br><pre><code>if user:\n    auth.___(request, user)</code></pre>",
+      "options": [
+        "login",
+        "authenticate",
+        "set_user",
+        "session_start"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーをセッション上でログイン状態にするには `auth.login(request, user)` を呼び出します。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "`auth.authenticate(username=username, password=password)` を実行した際、入力されたパスワードが間違っていた場合、返される値は何ですか？",
+      "options": [
+        "None",
+        "False",
+        "PermissionDenied エラー画面が強制表示される",
+        "空の User オブジェクト"
+      ],
+      "answer": 0,
+      "commentary": "認証情報が無効であったり該当するユーザーが存在しない場合、`authenticate()` は `None` を返します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "次のコードで、`user` に適切な User オブジェクトが入っている場合に実行される処理はどれですか？<br><pre><code>if user:\n    auth.login(request, user)\nreturn redirect(\"index\")</code></pre>",
+      "options": [
+        "ユーザーがログイン状態になり、\"index\" ページにリダイレクトされる",
+        "ユーザー登録画面（signup.html）が再表示される",
+        "エラーが発生してプログラムが停止する",
+        "データベースからユーザー情報が削除される"
+      ],
+      "answer": 0,
+      "commentary": "`user` が存在（`None` でない）すれば `auth.login()` が実行されてログイン状態になり、その後 `index` へ移動します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "HTMLのフォーム内に配置し、Djangoフォームをテーブル形式（`<tr>`や`<td>`）で自動描画する変数の記法は何ですか？<br><pre><code><table>\n    {{ form.___ }}\n</table></code></pre>",
+      "options": [
+        "as_table",
+        "as_p",
+        "as_ul",
+        "render_table"
+      ],
+      "answer": 0,
+      "commentary": "フォームの各フィールドを HTML の表（table）用タグとして整形出力するには `{{ form.as_table }}` を使用します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "管理者サイトにログイン可能な特権アカウント（スーパーユーザー）を作成するための管理コマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "createsuperuser",
+        "createadmin",
+        "addsuperuser",
+        "initadmin"
+      ],
+      "answer": 0,
+      "commentary": "管理者アカウントをコマンドラインから作成するには `createsuperuser` を実行します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "独自作成した `User` モデルをDjango管理画面（admin）で操作できるように登録するコードです。<br><pre><code>from django.contrib import admin\nfrom .models import User\n\nadmin.site.___(User)</code></pre>",
+      "options": [
+        "register",
+        "add",
+        "connect",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "モデルを管理者サイトに表示・登録するには `admin.site.register(モデルクラス)` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "文法チェック",
+      "question": "CSRF攻撃を防ぐために、POST送信を行うフォームの内部に必ず書くべきDjangoテンプレートタグはどれですか？",
+      "options": [
+        "{% csrf_token %}",
+        "{{ csrf_token }}",
+        "{% csrf_input %}",
+        "{% security_token %}"
+      ],
+      "answer": 0,
+      "commentary": "POSTメソッドを使うフォーム内には、CSRF対策として `{% csrf_token %}` を記述することが必須です。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "親テンプレート（`base.html`）を継承して新しいテンプレートを作成する際、ファイルの先頭に書くタグは何ですか？<br><pre><code>{% ___ \"main/base.html\" %}</code></pre>",
+      "options": [
+        "extends",
+        "include",
+        "inherit",
+        "import"
+      ],
+      "answer": 0,
+      "commentary": "ベースとなるテンプレートを継承するには `{% extends \"パス\" %}` タグを使用します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`base.html` 側でヘッダータイトル部分を差し替え可能にするために置かれたブロック定義です。<br><pre><code>{% block header_title %}会員登録{% ___ %}</code></pre>",
+      "options": [
+        "endblock",
+        "closeblock",
+        "endheader",
+        "stop"
+      ],
+      "answer": 0,
+      "commentary": "`{% block ブロック名 %}` で始めた領域は `{% endblock %}` で閉じます。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "ユーザーがGETリクエストで `/signup/` ページを開いたとき、`signup` ビュー関数からテンプレートに渡される `form` の状態はどれですか？<br><pre><code>def signup(request):\n    if request.method == \"GET\":\n        form = SignUpForm()</code></pre>",
+      "options": [
+        "入力データが入っていない空の SignUpForm インスタンス",
+        "エラーメッセージを含んだ SignUpForm インスタンス",
+        "すでに保存済みの User データ",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "GETリクエスト時は入力データがない空の `SignUpForm()` が作成され、画面に何も入っていない初期入力フォームが表示されます。"
+    },
+    {
+      "id": 20,
+      "type": "用語理解",
+      "question": "Djangoのユーザー管理において、メールアドレスやパスワードなどの基本属性を持った標準の抽象ユーザーモデルクラスは何ですか？",
+      "options": [
+        "AbstractUser",
+        "BaseUser",
+        "DefaultUser",
+        "SuperUser"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの組み込みユーザーモデルと同じフィールドを持ち、カスタムユーザーモデルのベースとして使われるクラスが `AbstractUser` です。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "モデルの差分を検出してマイグレーションファイルを作成するコマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "makemigrations",
+        "migrate",
+        "createmigration",
+        "dbupdate"
+      ],
+      "answer": 0,
+      "commentary": "モデル（`models.py`）を変更・追加した後は、まず `python manage.py makemigrations` でマイグレーションファイルを生成します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "マイグレーションファイルを実際のデータベース構造に反映するコマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "dbapply",
+        "runserver"
+      ],
+      "answer": 0,
+      "commentary": "作成されたマイグレーションファイルをデータベースへ適用するには `python manage.py migrate` を実行します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "`SignUpForm` の `fields = (\"username\", \"email\",)` の定義に `password1` や `password2` を記述していないにもかかわらず、画面にパスワード入力欄が表示される理由として正しいものはどれですか？",
+      "options": [
+        "親クラスである `UserCreationForm` にあらかじめパスワードの入力・確認欄が含まれているから",
+        "DjangoがAIで自動的に判断して追加したから",
+        "HTMLの `<form>` タグが自動で追加するから",
+        "AbstractUser クラスに直書されているから"
+      ],
+      "answer": 0,
+      "commentary": "`UserCreationForm` はユーザー作成用フォームとして最初からパスワード（および確認用パスワード）フィールドを持っています。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "会員登録後に別のページ（\"index\"）へ画面を転送するための関数呼び出しです。<br><pre><code>return ___(\"index\")</code></pre>",
+      "options": [
+        "redirect",
+        "render",
+        "forward",
+        "goto"
+      ],
+      "answer": 0,
+      "commentary": "処理の完了後に指定したページ（URLパターン名など）にユーザーをリダイレクトさせるには `redirect()` 関数を使います。"
+    },
+    {
+      "id": 25,
+      "type": "文法チェック",
+      "question": "`forms.py` で定義する `SignUpForm` クラスの継承関係として正しいものはどれですか？",
+      "options": [
+        "class SignUpForm(UserCreationForm):",
+        "class SignUpForm(models.Model):",
+        "class SignUpForm(AbstractUser):",
+        "class SignUpForm(forms.Form):"
+      ],
+      "answer": 0,
+      "commentary": "ユーザー作成用フォームを拡張するため、`UserCreationForm` を継承してクラスを定義します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "CSSで、フォームで入力エラーがあった場合にDjangoが自動生成するエラーリスト（`.errorlist`）の文字色を赤にする記述です。<br><pre><code>.errorlist {\n    ___: red;\n}</code></pre>",
+      "options": [
+        "color",
+        "font-color",
+        "text-color",
+        "background-color"
+      ],
+      "answer": 0,
+      "commentary": "CSSで文字色を変更するためのプロパティは `color` です。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "CSSでヘッダー要素に `position: fixed; top: 0; width: 100%;` を指定した場合、画面上でのヘッダーの挙動はどうなりますか？",
+      "options": [
+        "画面の最上部に固定され、ページをスクロールしても常に上に表示され続ける",
+        "スクロールすると画面の上に隠れて消えてしまう",
+        "画面の一番下に移動する",
+        "文字が左に流れるようになる"
+      ],
+      "answer": 0,
+      "commentary": "`position: fixed` で位置を画面固定にすると、スクロールを行っても常に同じ場所に固定表示されます。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "ボタンウィジェットの文字位置を中央揃え（センタリング）にするCSSプロパティは何ですか？<br><pre><code>.signup-form__submit {\n    ___: center;\n}</code></pre>",
+      "options": [
+        "text-align",
+        "align-items",
+        "justify-content",
+        "content-align"
+      ],
+      "answer": 0,
+      "commentary": "テキストの水平揃えを指定するCSSプロパティは `text-align` です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "会員登録フォームの送信ボタン（HTML要素）を作成する正しいタグ記述はどれですか？<br><pre><code>&lt;button type=\"___\" class=\"signup-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "options": [
+        "submit",
+        "button",
+        "post",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "フォームを送信するためのボタンにするには `type=\"submit\"` を指定します。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "ユーザー登録やログインなどの入力フォームで、無効な文字やパスワード不一致などの不備がないかチェックする仕組みを何と呼びますか？",
+      "options": [
+        "バリデーション（入力検証）",
+        "レプリケーション",
+        "レンダリング",
+        "コンパイル"
+      ],
+      "answer": 0,
+      "commentary": "入力値がルールに沿っているかを検証・チェックする処理を「バリデーション」と呼びます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "新規ユーザーが会員登録フォームに正しいユーザー名・メールアドレス・パスワードを入力して送信（`POST`）し、`form.is_valid()` が `True` になった際、内部で実行される順番として正しいものはどれですか？",
+      "options": [
+        "1. form.save() でユーザー保存 → 2. auth.authenticate() で検証 → 3. auth.login() でログイン → 4. indexへリダイレクト",
+        "1. auth.login() でログイン → 2. form.save() でユーザー保存 → 3. indexへリダイレクト",
+        "1. indexへリダイレクト → 2. form.save() でユーザー保存",
+        "1. auth.authenticate() で検証 → 2. indexへリダイレクト → 3. form.save() でユーザー保存"
+      ],
+      "answer": 0,
+      "commentary": "まずDBにユーザーを保存（`form.save`）し、その認証情報を確認（`authenticate`）してログイン処理（`login`）を行った後に画面遷移します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "`UserCreationForm` で入力されたパスワード1（`password1`）を安全にフォームから取得する正解コードはどれですか？<br><pre><code>password = form.cleaned_data[\"___\"]</code></pre>",
+      "options": [
+        "password1",
+        "password",
+        "user_password",
+        "pass"
+      ],
+      "answer": 0,
+      "commentary": "`UserCreationForm` では最初のパスワード入力用フィールド名が `\"password1\"` となっています。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "Djangoのビュー関数 `signup` で、フォームの処理を行うためのメソッド分岐（GET/POST）の書き方として正しいものはどれですか？",
+      "options": [
+        "if request.method == \"GET\":\n    ...\nelif request.method == \"POST\":\n    ...",
+        "if request.type == \"GET\":\n    ...\nelse request.type == \"POST\":\n    ...",
+        "switch(request.method) {\n    case 'GET': ...\n}",
+        "if request.action == \"POST\": ..."
+      ],
+      "answer": 0,
+      "commentary": "HTTPリクエストの種別は `request.method` 文字列（\"GET\" または \"POST\"）で判定します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "登録用フォームクラスを置くために `main` アプリ直下に新しく作成する標準的なPythonファイル名は何ですか？<br><pre><code>main/\n  |-- models.py\n  |-- views.py\n  |-- ___ .py</code></pre>",
+      "options": [
+        "forms",
+        "inputs",
+        "validations",
+        "fields"
+      ],
+      "answer": 0,
+      "commentary": "Djangoにおいてフォームに関するクラスや処理は `forms.py` にまとめて記述するのが慣例です。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "ユーザーを実際にWebアプリケーションに登録・識別するために必要な、本節で挙げられた「3つの必須基本情報」に含まれないものはどれですか？",
+      "options": [
+        "クレジットカード番号",
+        "ユーザーネーム（ユーザー名）",
+        "メールアドレス",
+        "パスワード"
+      ],
+      "answer": 0,
+      "commentary": "本節で実装された会員登録機能の基本データは「ユーザーネーム」「メールアドレス」「パスワード」の3つです。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "HTMLの `<form>` タグで、会員登録のフォームデータを安全に送信するために指定する `method` 属性は何ですか？<br><pre><code>&lt;form action=\"{% url 'signup' %}\" method=\"___\" class=\"signup-form\"&gt;</code></pre>",
+      "options": [
+        "POST",
+        "GET",
+        "PUT",
+        "SEND"
+      ],
+      "answer": 0,
+      "commentary": "パスワードや個人情報などのデータを安全にサーバーへ送信・作成するためには `method=\"POST\"` を使用します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "会員登録後に管理者サイト（http://127.0.0.1:8000/admin/）へ移動し「ユーザー」項目を確認したとき、何が表示されていれば登録成功と判断できますか？",
+      "options": [
+        "会員登録フォームで入力した新規ユーザーの名前",
+        "データベースのSQL文",
+        "エラーログのテキストファイル",
+        "パスワードの生文字列"
+      ],
+      "answer": 0,
+      "commentary": "`form.save()` によってDBに保存されているため、管理者サイトのユーザー一覧に登録したユーザー名が表示されます。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "テンプレート内で名前付きURLパターン `'signup'` を呼び出すための正解タグ記述はどれですか？",
+      "options": [
+        "{% url 'signup' %}",
+        "{{ url 'signup' }}",
+        "{% path 'signup' %}",
+        "{% href 'signup' %}"
+      ],
+      "answer": 0,
+      "commentary": "URLパターン名から実際のパスを動的生成するには `{% url 'パターン名' %}` を使います。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "独自定義した `User` モデルを `forms.py` 内で読み込むためのインポート文です。<br><pre><code>from .models import ___</code></pre>",
+      "options": [
+        "User",
+        "AbstractUser",
+        "CustomUser",
+        "UserModel"
+      ],
+      "answer": 0,
+      "commentary": "同じアプリの `models.py` で定義した `User` クラスをインポートするため `from .models import User` と記述します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "Djangoにおいて、標準の機能やクラス（`AbstractUser` や `UserCreationForm` など）を進んで利用する利点として最も当てはまるものはどれですか？",
+      "options": [
+        "自分でゼロから安全な認証処理やセキュリティ処理を書く必要がなく、実装がとても楽になる",
+        "デザインのCSSを書かなくても全自動で完璧な見栄えになる",
+        "データベースが不要になる",
+        "プログラミング言語がPythonからJavaScriptに変わる"
+      ],
+      "answer": 0,
+      "commentary": "Django標準のクラスを活用することで、セキュリティや認証機能が確保されたプログラムを簡単に効率よく実装できます。"
     }
   ]
 }

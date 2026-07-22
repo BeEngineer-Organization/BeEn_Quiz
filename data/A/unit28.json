@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — 初期設定",
+  "unit_title": "初期設定",
   "questions": [
     {
-      "question": "Django プロジェクトに新しいアプリを追加したあと、最初に確認する設定ファイルとして主なのはどれですか？",
-      "options": ["settings.py の INSTALLED_APPS", "index.html のみ", "package.json のみ", "Dockerfile のみ"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "現在のPython仮想環境にインストールされているパッケージ名とそのバージョン一覧を出力するコマンドはどれですか？",
+      "options": [
+        "pip freeze",
+        "pip list",
+        "pip show",
+        "pip check"
+      ],
       "answer": 0,
-      "commentary": "アプリを INSTALLED_APPS に登録し、必要なら urls も繋ぎます。"
+      "commentary": "現在の環境のパッケージ一覧を取得するには `pip freeze` を使用し、これを `requirements.txt` に保存するのが一般的です。"
     },
     {
-      "question": "チャットでリアルタイム性を高めるために、Django 単体の HTTP だけでなく検討されやすいのはどれですか？",
-      "options": ["Django Channels などの構成", "FTP", "SMTP のみ", "CSV 転送のみ"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "作成したアプリケーション「main」をDjangoプロジェクトに認識させるため、`settings.py` に追加する設定項目はどれですか？<br><pre><code>___ = [\n    # ...\n    \"main\",\n]</code></pre>",
+      "options": [
+        "INSTALLED_APPS",
+        "MIDDLEWARE",
+        "ALLOWED_APPS",
+        "TEMPLATES"
+      ],
       "answer": 0,
-      "commentary": "要件に応じて Channels + ASGI 等を選びます（教材の方針に合わせてください）。"
+      "commentary": "新規作成したアプリケーションは `settings.py` の `INSTALLED_APPS` に追加する必要があります。"
     },
     {
-      "question": "依存パッケージをプロジェクトごとに分けるために推奨されやすいのはどれですか？",
-      "options": ["仮想環境（venv 等）", "グローバルに pip install のみ", "OS の再インストール", "ブラウザの拡張機能"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "Djangoのメッセージや管理画面などの表示言語を日本語に設定する `settings.py` の正しい記述はどれですか？<br><pre><code>LANGUAGE_CODE = \"___\"</code></pre>",
+      "options": [
+        "ja",
+        "ja-jp",
+        "japanese",
+        "JP"
+      ],
       "answer": 0,
-      "commentary": "venv で requirements を管理するのが一般的です。"
+      "commentary": "言語コードを日本語にするには `LANGUAGE_CODE = \"ja\"` と指定します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "タイムゾーンを日本時間に設定する `settings.py` の正しい記述はどれですか？<br><pre><code>TIME_ZONE = \"___\"</code></pre>",
+      "options": [
+        "Asia/Tokyo",
+        "Japan/Tokyo",
+        "JST",
+        "Tokyo/Asia"
+      ],
+      "answer": 0,
+      "commentary": "日本の標準時を設定するには `TIME_ZONE = \"Asia/Tokyo\"` と指定します。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "`settings.py` に含まれる `SECRET_KEY` に関する説明として適切なものはどれですか？",
+      "options": [
+        "セキュリティ上非常に重要なランダム文字列であり、Gitなどで外部に公開しないよう注意が必要である",
+        "ユーザーのログインパスワードを暗号化するための公開鍵である",
+        "データベースの接続パスワードを指定する項目である",
+        "画面の背景色を決定するための設定キーである"
+      ],
+      "answer": 0,
+      "commentary": "`SECRET_KEY` は暗号化署名などに使われる極秘の文字列であり、外部に漏れないよう厳重に管理する必要があります。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "`settings.py` で `DEBUG = True` と設定して開発を行っているとき、エラーが発生した場合の挙動はどうなりますか？",
+      "options": [
+        "ブラウザ画面上にエラーのスタックトレースや詳細な内容が表示される",
+        "エラー内容は隠され、簡潔な「500 Server Error」画面のみが表示される",
+        "自動的にサーバーが再起動してエラーが解消される",
+        "エラーはすべて無視され、正常にページが表示され続ける"
+      ],
+      "answer": 0,
+      "commentary": "デバッグモード（`DEBUG = True`）では、エラーの原因を特定しやすくするためにブラウザ上に詳しいエラー情報が表示されます。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "本番環境で `DEBUG = False` に設定した場合、`ALLOWED_HOSTS` の設定を正しく行わないとどうなりますか？",
+      "options": [
+        "Djangoがセキュリティ保護のためアクセスを拒否し、エラーが発生する",
+        "自動的に `DEBUG = True` に戻る",
+        "誰でも自由にアクセスできるようになる",
+        "データベースが自動的に初期化される"
+      ],
+      "answer": 0,
+      "commentary": "`DEBUG = False` にするときは、許可するホスト名（ドメインやIP）を `ALLOWED_HOSTS` に設定しないとエラーになります。"
+    },
+    {
+      "id": 8,
+      "type": "用語理解",
+      "question": "HTTPリクエストが送られてからレスポンスが返るまでの「中間」で、各種処理を実行するDjangoのモジュール群を設定する項目は何ですか？",
+      "options": [
+        "MIDDLEWARE",
+        "TEMPLATES",
+        "ROOT_URLCONF",
+        "DATABASES"
+      ],
+      "answer": 0,
+      "commentary": "リクエストとレスポンスの間でセッション処理やセキュリティチェックなどを行うモジュール群を `MIDDLEWARE` で設定します。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "Djangoでパスワードの安全性を高めるため、ユーザー名と似すぎているパスワードや短すぎるパスワードをチェックする設定項目は何ですか？",
+      "options": [
+        "AUTH_PASSWORD_VALIDATORS",
+        "PASSWORD_HASHERS",
+        "SECURITY_CHECK_RULES",
+        "AUTH_USER_MODEL"
+      ],
+      "answer": 0,
+      "commentary": "パスワード設定時のルール（文字数や強度など）を検証するバリデータ設定は `AUTH_PASSWORD_VALIDATORS` です。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "プロジェクト全体の `chat_app/urls.py` から、アプリ内の `main/urls.py` を読み込むコードです。空欄に入る関数は何ですか？<br><pre><code>from django.urls import include, path\n\nurlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"\", ___(\"main.urls\")),\n]</code></pre>",
+      "options": [
+        "include",
+        "import_urls",
+        "route",
+        "load"
+      ],
+      "answer": 0,
+      "commentary": "別の `urls.py` を読み込んで組み込むには `django.urls.include` 関数を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`main/urls.py` 内で「会員登録ページ（/signup/）」へのルーティングを正しく定義するコードはどれですか？<br><pre><code>urlpatterns = [\n    path(\"\", views.index, name=\"index\"),\n    path(\"signup/\", views.signup, ___=\"signup\"),\n]</code></pre>",
+      "options": [
+        "name",
+        "alias",
+        "title",
+        "id"
+      ],
+      "answer": 0,
+      "commentary": "URLパターンに名前をつけてテンプレート等から参照可能にするには `name` オプションを使用します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "`main/views.py` 内で、リクエストを受け取って `main/index.html` テンプレートを描画・返却するコードです。<br><pre><code>from django.shortcuts import render\n\ndef index(request):\n    return ___(request, \"main/index.html\")</code></pre>",
+      "options": [
+        "render",
+        "redirect",
+        "display",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "HTMLテンプレートを表示するレスポンスを生成するには `render` 関数を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "複数のHTMLテンプレートで共通するヘッダーやフッターなどの枠組みを1つのファイル（`base.html`など）にまとめ、使い回すDjangoの仕組みを何と呼びますか？",
+      "options": [
+        "テンプレートの継承",
+        "テンプレートのコピー",
+        "テンプレートのインポート",
+        "テンプレートのコンパイル"
+      ],
+      "answer": 0,
+      "commentary": "共通の親テンプレートを作成し、子テンプレートで一部を上書きして使い回す機能を「テンプレートの継承」と呼びます。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "親テンプレート（`base.html`）内で、子テンプレートが上書き・追記できるエリアを作成するテンプレートタグは何ですか？<br><pre><code>{% ___ content %}{% ___ %}</code></pre>",
+      "options": [
+        "block / endblock",
+        "section / endsection",
+        "slot / endslot",
+        "area / endarea"
+      ],
+      "answer": 0,
+      "commentary": "置換可能なブロック領域を作るには `{% block ブロック名 %}{% endblock %}` を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "子テンプレート（`index.html`）の先頭で、親テンプレート（`main/base.html`）を継承することを宣言する正しいタグはどれですか？<br><pre><code>{% ___ \"main/base.html\" %}</code></pre>",
+      "options": [
+        "extends",
+        "inherit",
+        "include",
+        "import"
+      ],
+      "answer": 0,
+      "commentary": "親テンプレートを指定して継承するには `{% extends \"親ファイルのパス\" %}` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "親テンプレート（`base.html`）に `{% block header %}{% endblock %}` が定義されており、子テンプレート側でこのブロックを何も書かずに空にした場合、出力されるHTMLのヘッダー部分はどのようになりますか？",
+      "options": [
+        "ヘッダー部分は何も出力されず空になる",
+        "エラーが発生して画面が表示されなくなる",
+        "「header」という文字列が自動的に表示される",
+        "base.html という文字が表示される"
+      ],
+      "answer": 0,
+      "commentary": "子テンプレートでブロックを定義しなかった（または中身を空にした）場合、そのブロック部分は何も描画されません。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で名前付きURL（例: 'login'）を呼び出し、動的にリンク先のURLアドレスを作るテンプレートタグはどれですか？<br><pre><code>&lt;a href=\"{% ___ 'login' %}\" class=\"button\"&gt;ログイン&lt;/a&gt;</code></pre>",
+      "options": [
+        "url",
+        "path",
+        "link",
+        "href"
+      ],
+      "answer": 0,
+      "commentary": "名前付きURLから実際のアドレスパスを動的に参照・作成するには `{% url 'URLパターン名' %}` を使います。"
+    },
+    {
+      "id": 18,
+      "type": "用語理解",
+      "question": "Djangoにおいて、CSSファイルやJavaScriptファイル、画像ファイルなど、プログラムで変化しないファイルの総称は何ですか？",
+      "options": [
+        "静的ファイル（static files）",
+        "動的ファイル（dynamic files）",
+        "メディアファイル（media files）",
+        "システムファイル（system files）"
+      ],
+      "answer": 0,
+      "commentary": "CSSやJS、デザイン用画像など、サーバー側で書き換わらない固定ファイルを「静的ファイル（static files）」と呼びます。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で `static` タグを使ってCSSファイルなどを読み込む前に、ファイルの先頭付近で呼び出す必須の読み込みタグは何ですか？<br><pre><code>{% ___ static %}</code></pre>",
+      "options": [
+        "load",
+        "import",
+        "include",
+        "require"
+      ],
+      "answer": 0,
+      "commentary": "静的ファイル参照用タグを使う前に `{% load static %}` を記述してライブラリをロードする必要があります。"
+    },
+    {
+      "id": 20,
+      "type": "文法チェック",
+      "question": "アプリケーション `main` 内の `static/main/css/base.css` をテンプレートで正しく読み込むための `<link>` タグの記述はどれですか？",
+      "options": [
+        "<link rel=\"stylesheet\" href=\"{% static 'main/css/base.css' %}\">",
+        "<link rel=\"stylesheet\" href=\"static/main/css/base.css\">",
+        "<link rel=\"stylesheet\" href=\"{{ static 'main/css/base.css' }}\">",
+        "<link rel=\"stylesheet\" href=\"{% url 'main/css/base.css' %}\">"
+      ],
+      "answer": 0,
+      "commentary": "静的ファイルのパスは `{% static 'パス' %}` を使って正しいURLを生成します。"
+    },
+    {
+      "id": 21,
+      "type": "用語理解",
+      "question": "Gitの操作において、パスワードの代わりとして認証に使用される「ghp_」などから始まるセキュリティ文字列を何と呼びますか？",
+      "options": [
+        "パーソナルアクセストークン（Personal Access Token）",
+        "SSHプライベートキー",
+        "リポジトリID",
+        "コミットハッシュ"
+      ],
+      "answer": 0,
+      "commentary": "GitHubなどのGit操作でパスワードの代替として認証に利用されるトークンを「パーソナルアクセストークン」と呼びます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "作業フォルダーをGitの管理下に置き、リポジトリ（.git フォルダ）を初期化するコマンドはどれですか？<br><pre><code>git ___</code></pre>",
+      "options": [
+        "init",
+        "start",
+        "create",
+        "clone"
+      ],
+      "answer": 0,
+      "commentary": "カレントディレクトリをGitリポジトリとして初期化するコマンドは `git init` です。"
+    },
+    {
+      "id": 23,
+      "type": "用語理解",
+      "question": "Gitで追跡・管理したくないファイルやフォルダ（仮想環境 `.venv/` や秘密情報など）を指定しておく特別なファイル名は何ですか？",
+      "options": [
+        ".gitignore",
+        ".gitconfig",
+        ".gitkeep",
+        "readme.md"
+      ],
+      "answer": 0,
+      "commentary": "管理対象外にするファイルやディレクトリの一覧を記述するファイル名は `.gitignore` です。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "`.gitignore` ファイル内に `.venv/` と記述した場合、Gitはどのように振る舞いますか？",
+      "options": [
+        "`.venv` フォルダ内のファイル変更を追跡せず、コミット対象から除外する",
+        "`.venv` フォルダの内容を自動的に削除する",
+        "`.venv` フォルダをZip圧縮してバックアップする",
+        "`.venv` フォルダのアクセス権限を読み取り専用に変更する"
+      ],
+      "answer": 0,
+      "commentary": "`.gitignore` に指定されたフォルダやファイルは、Gitのバージョン管理（追跡）から完全に除外されます。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "ファイルの変更内容を次のコミットの準備状態として記録する操作（`git add` で実行する処理）を何と呼びますか？",
+      "options": [
+        "ステージング",
+        "フェッチ",
+        "マージ",
+        "チェックアウト"
+      ],
+      "answer": 0,
+      "commentary": "コミットする変更対象をインデックスエリアに登録する操作を「ステージング」と呼びます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "ステージングエリアにある変更履歴に対し、「first commit」というメッセージを添えて保存（コミット）するコマンドはどれですか？<br><pre><code>git commit ___ \"first commit\"</code></pre>",
+      "options": [
+        "-m",
+        "-msg",
+        "-c",
+        "--message-title"
+      ],
+      "answer": 0,
+      "commentary": "コミットメッセージをコマンドラインから直接指定するオプションは `-m` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "現在のブランチ名を「main」という名前に変更・統一するためのコマンドはどれですか？<br><pre><code>git branch ___ main</code></pre>",
+      "options": [
+        "-M",
+        "-rename",
+        "-n",
+        "-b"
+      ],
+      "answer": 0,
+      "commentary": "既存のブランチ名を強制的に変更するには `git branch -M <新ブランチ名>` を使用します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "ローカルのリポジトリに、「origin」という名前でGitHubのリモートリポジトリURLを紐付けるコマンドです。<br><pre><code>git ___ add origin https://github.com/username/chat_app.git</code></pre>",
+      "options": [
+        "remote",
+        "origin",
+        "github",
+        "connect"
+      ],
+      "answer": 0,
+      "commentary": "リモートリポジトリを追加設定するコマンドは `git remote add <識別名> <URL>` です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "ローカルの「main」ブランチの変更内容を、リモートリポジトリ「origin」にアップロードして保存するコマンドです。<br><pre><code>git push ___ origin main</code></pre>",
+      "options": [
+        "-u",
+        "-all",
+        "-f",
+        "--save"
+      ],
+      "answer": 0,
+      "commentary": "次回以降 `git push` だけに省略できるようデフォルトの送信先を設定するオプションは `-u` です。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "以下の `main/urls.py` が設定されているとき、ユーザーが `/login/` というURLにアクセスした場合に実行されるビュー関数はどれですか？<br><pre><code>urlpatterns = [\n    path(\"\", views.index, name=\"index\"),\n    path(\"signup/\", views.signup, name=\"signup\"),\n    path(\"login/\", views.login, name=\"login\"),\n]</code></pre>",
+      "options": [
+        "views.login",
+        "views.signup",
+        "views.index",
+        "admin.site.urls"
+      ],
+      "answer": 0,
+      "commentary": "`\"login/\"` パスにマッチするため、対応する `views.login` ビュー関数が呼び出されます。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "新規に「main」という名前のアプリケーションを作成する管理コマンドです。空欄に入るキーワードは何ですか？<br><pre><code>python manage.py ___ main</code></pre>",
+      "options": [
+        "startapp",
+        "createapp",
+        "newapp",
+        "initapp"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのアプリ新規作成コマンドは `python manage.py startapp <アプリ名>` です。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "カレントディレクトリ直下に「chat_app」というDjangoプロジェクトを新規作成するコマンドです。<br><pre><code>django-admin startproject chat_app ___</code></pre>",
+      "options": [
+        ".",
+        "/",
+        "*",
+        "-main"
+      ],
+      "answer": 0,
+      "commentary": "現在の作業フォルダに直接プロジェクト構成ファイルを出力するために、末尾に `.` （ピリオド）を付けます。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "CSSで要素の幅を「最大コンテンツサイズ（中身のテキストなどに合わせた幅）」に自動調整する正しい値はどれですか？",
+      "options": [
+        "width: max-content;",
+        "width: fit-size;",
+        "width: auto-content;",
+        "width: content-max;"
+      ],
+      "answer": 0,
+      "commentary": "要素の幅を中身の必要最小限の最大サイズに合わせるCSS記述は `width: max-content;` です。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "現在設定されているリモートリポジトリの一覧とURL（fetch / push）を確認するコマンドは何ですか？<br><pre><code>git remote ___</code></pre>",
+      "options": [
+        "-v",
+        "-list",
+        "--show",
+        "-all"
+      ],
+      "answer": 0,
+      "commentary": "設定済みリモートリポジトリの詳細URLを確認するには `git remote -v` を実行します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "次のビュー関数が呼び出されたとき、ユーザーのブラウザに描画される画面のファイルは何ですか？<br><pre><code>def signup(request):\n    return render(request, \"main/signup.html\")</code></pre>",
+      "options": [
+        "main/templates/main/signup.html",
+        "main/signup.html",
+        "templates/signup.html",
+        "chat_app/signup.html"
+      ],
+      "answer": 0,
+      "commentary": "Djangoは各アプリの `templates/` フォルダー配下から指定されたパス（`main/signup.html`）を探索して読み込みます。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "開発したWebアプリケーションをスマートフォン画面のサイズ感でテストしたい場合、Google Chromeなどのブラウザで利用する機能は何ですか？",
+      "options": [
+        "開発者ツール（デベロッパーツール）のデバイスモード",
+        "シークレットモード",
+        "拡張機能ストア",
+        "ブックマークマネージャー"
+      ],
+      "answer": 0,
+      "commentary": "ブラウザの開発者ツール内にあるデバイス切り替え機能を使うことで、スマホ画面での表示をシミュレートできます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "プロジェクトルートの設定ファイル `settings.py` の中で、テンプレートエンジンの設定やテンプレート検索ディレクトリを指定する辞書リストの変数名は何ですか？<br><pre><code>___ = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        ...\n    },\n]</code></pre>",
+      "options": [
+        "TEMPLATES",
+        "VIEWS",
+        "PAGES",
+        "HTML_ENGINE"
+      ],
+      "answer": 0,
+      "commentary": "テンプレート関連のエンジンやディレクトリ設定を保持する変数は `TEMPLATES` です。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "Djangoテンプレート内でコメントを記述する正しい形式はどれですか？",
+      "options": [
+        "{# コメント文 #}",
+        "<!-- コメント文 -->",
+        "// コメント文",
+        "/* コメント文 */"
+      ],
+      "answer": 0,
+      "commentary": "Djangoテンプレート構文における単一行コメントは `{# ... #}` を使用します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "Gitで変更したファイルをステージングエリアに追加するため `git add .` を実行した際、「`.`（ピリオド）」は何を意味していますか？",
+      "options": [
+        "現在の作業ディレクトリ以下のすべての変更ファイル",
+        "最後に編集した1つのファイルのみ",
+        "新規作成されたファイルのみ（削除ファイルは除く）",
+        "隠しファイル以外のファイル"
+      ],
+      "answer": 0,
+      "commentary": "`git add .` のピリオドは「カレントディレクトリ配下の全ての変更（追加・修正・削除）」を意味します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "チャットアプリ開発において、ユーザー登録画面（signup）とログイン画面（login）の双方へ遷移するためのトップページとなる画面の名前（役割）は何ですか？",
+      "options": [
+        "index ページ",
+        "settings ページ",
+        "talk_room ページ",
+        "friends ページ"
+      ],
+      "answer": 0,
+      "commentary": "アプリに最初に訪れた際に表示され、ログインや新規登録への入口となるトップ画面を index ページと呼びます。"
     }
   ]
 }

@@ -1,23 +1,525 @@
 {
-  "unit_title": "Django Webアプリ開発コース — Django でチャットアプリを作ろう — フレンド一覧表示機能の作成",
+  "unit_title": "フレンド一覧表示機能の作成",
   "questions": [
     {
-      "question": "ログインユーザーと「フレンド関係」を表すモデル設計として、よく使うのはどれですか？",
-      "options": ["中間テーブルや ForeignKey でユーザー同士を関連づける", "1つのテキストフィールドだけ", "画像ファイル名だけ", "セッションのみ"],
+      "id": 1,
+      "type": "用語理解",
+      "question": "ログインしていないユーザーが保護されたページへアクセスした際に、自動的にログイン画面へリダイレクトさせるDjangoのデコレータは何ですか？",
+      "options": [
+        "@login_required",
+        "@auth_only",
+        "@user_check",
+        "@is_authenticated"
+      ],
       "answer": 0,
-      "commentary": "多対多や自己参照で友達関係を表現します。"
+      "commentary": "@login_required デコレータをビュー関数の前につけることで、ログイン済みのユーザーのみアクセスを許可できます。"
     },
     {
-      "question": "フレンド一覧をテンプレートで表示するとき、クエリで取得したリストを渡すキー例として自然なのはどれですか？",
-      "options": ["friends や friend_list", "only_int", "rows", "sql_text"],
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "`Talk` モデルでメッセージ本文を500文字以内の文字列として保存するためのフィールド定義です。空欄に入る適切なクラスは何ですか？<br><pre><code>class Talk(models.Model):\n    message = models.___(max_length=500)</code></pre>",
+      "options": [
+        "CharField",
+        "TextField",
+        "StringField",
+        "MessageField"
+      ],
       "answer": 0,
-      "commentary": "ビューからコンテキストに QuerySet やリストを渡します。"
+      "commentary": "文字数制限のある短め・中規模の文字列を保存するには `models.CharField` を使用します。"
     },
     {
-      "question": "自分自身をフレンド一覧に出さないなど、クエリで除外する条件として考えられるのはどれですか？",
-      "options": [".exclude(user=...)", "必ず全件表示", "delete() だけ", "filter() は使わない"],
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`Talk` モデルで送信者（`sender`）と `User` モデルを関連付けるコードです。空欄に入るフィールド名は何ですか？<br><pre><code>sender = models.___\n(\n    User, on_delete=models.CASCADE, related_name=\"sent_talk\"\n)</code></pre>",
+      "options": [
+        "ForeignKey",
+        "OneToOneField",
+        "ManyToManyField",
+        "ConnectField"
+      ],
       "answer": 0,
-      "commentary": "exclude や条件付き filter で制御します。"
+      "commentary": "1対多のリレーション（あるUserが複数のTalkを持つ関係）を作るには `models.ForeignKey` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "`ForeignKey` の設定で、参照先のユーザーが削除されたときに紐づくトークも一緒に削除する設定は何ですか？<br><pre><code>sender = models.ForeignKey(\n    User, ___=models.CASCADE, related_name=\"sent_talk\"\n)</code></pre>",
+      "options": [
+        "on_delete",
+        "auto_delete",
+        "delete_rule",
+        "cascade_delete"
+      ],
+      "answer": 0,
+      "commentary": "親オブジェクトが削除されたときの動作を指定する引数は `on_delete` であり、連動削除には `models.CASCADE` を渡します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "送信者のUserから関連するTalk一覧を逆参照する際の名前（`sent_talk`）を指定する属性は何ですか？<br><pre><code>sender = models.ForeignKey(\n    User, on_delete=models.CASCADE, ___=\"sent_talk\"\n)</code></pre>",
+      "options": [
+        "related_name",
+        "reverse_name",
+        "alias",
+        "lookup_name"
+      ],
+      "answer": 0,
+      "commentary": "逆参照時の呼び出し名を指定するには `related_name` 属性を設定します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "メッセージの送信日時（`time`）をレコード作成時に自動で記録するフィールドオプションは何ですか？<br><pre><code>time = models.DateTimeField(___=True)</code></pre>",
+      "options": [
+        "auto_now_add",
+        "auto_now",
+        "default_now",
+        "auto_create"
+      ],
+      "answer": 0,
+      "commentary": "新規レコード挿入時に自動的に現在日時を保存するには `auto_now_add=True` を使います。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "次の `__str__` メソッドが定義されているとき、送信者が「Alice」、受信者が「Bob」の Talk オブジェクトを文字列として表示した際の結果はどれですか？<br><pre><code>def __str__(self):\n    return \"{} -> {}\".format(self.sender, self.receiver)</code></pre>",
+      "options": [
+        "Alice -> Bob",
+        "{} -> {}",
+        "Talk object (1)",
+        "sender: Alice, receiver: Bob"
+      ],
+      "answer": 0,
+      "commentary": "`.format(self.sender, self.receiver)` によって `{}` の部分に送信者名と受信者名が埋め込まれるため「Alice -> Bob」となります。"
+    },
+    {
+      "id": 8,
+      "type": "文法チェック",
+      "question": "Djangoで `@login_required` デコレータを使用するためにインポートする正確なモジュールパスはどれですか？",
+      "options": [
+        "from django.contrib.auth.decorators import login_required",
+        "from django.auth.decorators import login_required",
+        "from django.contrib.decorators import login_required",
+        "from django.views.decorators import login_required"
+      ],
+      "answer": 0,
+      "commentary": "`@login_required` デコレータは `django.contrib.auth.decorators` からインポートします。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "全ユーザーの中から「自分自身（`request.user.id`）」を除外した友達リストを取得する正しいORM記述はどれですか？<br><pre><code>friends = User.objects.___(id=request.user.id)</code></pre>",
+      "options": [
+        "exclude",
+        "filter",
+        "remove",
+        "delete"
+      ],
+      "answer": 0,
+      "commentary": "指定した条件に当てはまるデータを取り除いた検索結果を得るには `exclude()` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "自分（ID: 1）以外のユーザーを取得するため `User.objects.exclude(id=1)` を実行し、その結果を `print(friends)` でターミナルに出力した際、表示される形式として最も適切なものはどれですか？",
+      "options": [
+        "<QuerySet [<User: takuya>, <User: sayaka>]>",
+        "['takuya', 'sayaka']",
+        "User object (1)",
+        "True"
+      ],
+      "answer": 0,
+      "commentary": "`exclude()` や `filter()` の結果は `QuerySet` という特殊なリスト形式のオブジェクトとして出力されます。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "Djangoにおいて、直書きでUserモデルをインポートする代わりに、プロジェクトで有効なUserモデルを動的に取得する推奨関数は何ですか？",
+      "options": [
+        "get_user_model()",
+        "get_current_user()",
+        "load_user_class()",
+        "fetch_user_model()"
+      ],
+      "answer": 0,
+      "commentary": "カスタムユーザーモデル等への変更に対応しやすくするため、Djangoでは `django.contrib.auth.get_user_model()` の使用が推奨されます。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "推奨される方法で User モデルを取得するコードです。空欄に入る関数名は何ですか？<br><pre><code>from django.contrib.auth import ___ \n\nUser = ___()</code></pre>",
+      "options": [
+        "get_user_model",
+        "get_user",
+        "auth_user",
+        "user_factory"
+      ],
+      "answer": 0,
+      "commentary": "`from django.contrib.auth import get_user_model` から `get_user_model()` を呼び出して代入します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で渡された友達リスト（`friends`）を1人ずつ取り出して繰り返し処理するタグの記述です。<br><pre><code>{% ___ friend in friends %}\n    &lt;li class=\"friends-list__item\"&gt;{{ friend.username }}&lt;/li&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "for",
+        "foreach",
+        "loop",
+        "while"
+      ],
+      "answer": 0,
+      "commentary": "テンプレートで繰り返し描画を行うには `{% for 変数 in リスト %}` を使用します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "`friends` リストに3人のユーザーが含まれている場合、次のテンプレートで生成される `<li>` 要素の数はいくつですか？<br><pre><code>{% for friend in friends %}\n    &lt;li class=\"friends-list__item\"&gt;\n        &lt;div class=\"friends-list__username\"&gt;{{ friend.username }}&lt;/div&gt;\n    &lt;/li&gt;\n{% endfor %}</code></pre>",
+      "options": [
+        "3個",
+        "1個",
+        "0個",
+        "4個"
+      ],
+      "answer": 0,
+      "commentary": "`friends` 内のデータ件数（3人）だけ `for` ループが繰り返されるため、`<li>` タグも3個生成されます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "CSSで、リストの最初の要素（1番目の `<li>`）にだけ上の枠線を追加する擬似クラス記述はどれですか？<br><pre><code>.friends-list__item:___ {\n    border-top: 1px solid #888;\n}</code></pre>",
+      "options": [
+        "first-child",
+        "first-item",
+        "top-child",
+        "nth-child(0)"
+      ],
+      "answer": 0,
+      "commentary": "同階層の最初の要素を選択するCSS擬似クラスは `:first-child` です。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "CSSでフッターエリア（`.footer`）を画面の最下部に固定配置するためのプロパティ指定を選んでください。<br><pre><code>.footer {\n    position: fixed;\n    ___: 0;\n    width: 100%;\n}</code></pre>",
+      "options": [
+        "bottom",
+        "top",
+        "down",
+        "footer"
+      ],
+      "answer": 0,
+      "commentary": "画面下端に固定するには `position: fixed;` と `bottom: 0;` を組み合わせます。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "CSSの `position: fixed` の説明として最も適切なものはどれですか？",
+      "options": [
+        "要素を画面（ウィンドウ）の特定位置に固定し、スクロールしても動かないようにする",
+        "要素を親要素の直後に回り込ませる",
+        "要素を完全に非表示にして隠す",
+        "要素の幅を自動的に50%に分割する"
+      ],
+      "answer": 0,
+      "commentary": "`position: fixed` はビューポート（画面）に対して絶対的な位置固定を行い、スクロールしても追従表示されます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "フッターのアイテムを左右横並びに配置するために `.footer` に指定するレイアウトプロパティは何ですか？<br><pre><code>.footer {\n    position: fixed;\n    bottom: 0;\n    display: ___;\n    width: 100%;\n}</code></pre>",
+      "options": [
+        "flex",
+        "block",
+        "inline",
+        "grid-inline"
+      ],
+      "answer": 0,
+      "commentary": "子要素を簡単に横並びレイアウトにするには `display: flex;` を設定します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "フッターに2つのアイコンボタン（「友達」「設定」）を均等（それぞれ幅半分）に配置するための幅指定です。<br><pre><code>.footer__item {\n    width: ___;\n}</code></pre>",
+      "options": [
+        "50%",
+        "100px",
+        "auto",
+        "half"
+      ],
+      "answer": 0,
+      "commentary": "2つのフッター要素を画面幅半分ずつに分けるため `width: 50%;` を指定します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "フッターのテンプレート内で、名前付きURL `'friends'` へのハイパーリンクを作成する正しい記述を選んでください。<br><pre><code>&lt;a href=\"{% ___ 'friends' %}\" class=\"footer__link\"&gt;</code></pre>",
+      "options": [
+        "url",
+        "path",
+        "link",
+        "href"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのテンプレートでURLパターン名から動的にパスを生成するには `{% url '名前' %}` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "未ログイン状態のユーザーが `@login_required` が付いた `friends` ビューにアクセスしようとした場合、どのような動作になりますか？",
+      "options": [
+        "`settings.py` の `LOGIN_URL` で設定されたログイン画面へ自動的にリダイレクトされる",
+        "HTTP 500 サーバーエラーが発生する",
+        "真っ白な空の画面が表示される",
+        "自動的に新しいユーザーとして会員登録される"
+      ],
+      "answer": 0,
+      "commentary": "`@login_required` は未ログインユーザーを検知すると、自動的に `LOGIN_URL`（ログインページ）へ転送します。"
+    },
+    {
+      "id": 22,
+      "type": "文法チェック",
+      "question": "ビュー関数 `friends` の直前に `@login_required` を適用する正しい書き方はどれですか？",
+      "options": [
+        "@login_required\ndef friends(request):\n    ...",
+        "def friends(request):\n    @login_required\n    ...",
+        "def friends(@login_required, request):\n    ...",
+        "@login_required(def friends(request):)"
+      ],
+      "answer": 0,
+      "commentary": "Pythonのデコレータは、修飾したい関数定義の「直前の行」に `@デコレータ名` と記述します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "新規追加した `Talk` モデルをデータベースに反映するため、最初にマイグレーションファイルを作成するコマンドはどれですか？<br><pre><code>python manage.py ___ main</code></pre>",
+      "options": [
+        "makemigrations",
+        "migrate",
+        "create_model",
+        "update_db"
+      ],
+      "answer": 0,
+      "commentary": "モデル差分を検出してマイグレーションファイルを生成するコマンドは `makemigrations` です。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "生成されたマイグレーションファイルを実際のデータベースに適用するコマンドはどれですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "runserver",
+        "apply"
+      ],
+      "answer": 0,
+      "commentary": "マイグレーションをDB構造に適用・反映させるコマンドは `migrate` です。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "Pythonにおいて、関数やメソッドの直前に `@` マークを付けて書き、その関数の機能（ログインチェックなど）を拡張・修飾する仕組みを何と呼びますか？",
+      "options": [
+        "デコレータ",
+        "ジェネレータ",
+        "コンストラクタ",
+        "インヘリタンス"
+      ],
+      "answer": 0,
+      "commentary": "関数の前について挙動を修飾・追加する構文機能を「デコレータ」と呼びます。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "テストや動作確認のために `views.py` 内で `print(friends)` を書いて実行したとき、出力ログはどこに表示されますか？",
+      "options": [
+        "サーバーを起動しているターミナル（コンソール）画面",
+        "Webブラウザの画面上",
+        "データベースのテーブル内",
+        "HTMLファイル内"
+      ],
+      "answer": 0,
+      "commentary": "Pythonの `print()` 文の出力は、サーバーが動作しているターミナル画面に出力されます。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "親テンプレート（`base.html`）を継承して `friends.html` を作成する際、冒頭に書く正しいタグはどれですか？<br><pre><code>{% ___ \"main/base.html\" %}</code></pre>",
+      "options": [
+        "extends",
+        "include",
+        "import",
+        "inherit"
+      ],
+      "answer": 0,
+      "commentary": "ベースとなるテンプレートを継承するには `{% extends \"パス\" %}` を指定します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "テンプレートのブロック `header_title` 内のテキストを「友達」に指定する正しい記述はどれですか？<br><pre><code>{% ___ header_title %}友達{% endblock %}</code></pre>",
+      "options": [
+        "block",
+        "section",
+        "title",
+        "set"
+      ],
+      "answer": 0,
+      "commentary": "親テンプレートで用意されたブロック領域を上書きするには `{% block ブロック名 %}` を使います。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "ウェブフォントやアイコン（FontAwesomeなど）のCSSファイルを外部から読み込むための正しいHTML要素タグはどれですか？",
+      "options": [
+        "<link rel=\"stylesheet\" href=\"https://...\">",
+        "<script src=\"https://...\"></script>",
+        "<style src=\"https://...\"></style>",
+        "<icon href=\"https://...\"></icon>"
+      ],
+      "answer": 0,
+      "commentary": "外部のCSSスタイルシートを読み込むには `<link rel=\"stylesheet\" href=\"...\">` タグを使用します。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "FontAwesomeのアイコンクラス `<i class=\"fas fa-user-friends\"></i>` をHTML内に記述した場合、画面には何が表示されますか？",
+      "options": [
+        "友達（ユーザー群）を表すグラフィカルなアイコンマーク",
+        "「fas fa-user-friends」というテキスト文字列",
+        "エラー（404 Not Found）",
+        "空の大きな四角形"
+      ],
+      "answer": 0,
+      "commentary": "FontAwesomeのフォントアイコンが読み込まれ、人にちなんだピクトグラムアイコンが表示されます。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "HTML要素の箇条書きポインター（・マーク）を消すためのCSSプロパティ設定はどれですか？<br><pre><code>.friends-list {\n    list-style: ___;\n}</code></pre>",
+      "options": [
+        "none",
+        "hidden",
+        "off",
+        "clear"
+      ],
+      "answer": 0,
+      "commentary": "`<ul>` や `<li>` のデフォルト箇条書き記号を消すには `list-style: none;` を指定します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "設定画面（`settings`）用の空のビュー関数を作成するコードです。ログイン制限デコレータを正しく付けた記述を選んでください。<br><pre><code>___ \ndef settings(request):\n    return render(request, \"main/settings.html\")</code></pre>",
+      "options": [
+        "@login_required",
+        "@auth",
+        "@is_logged",
+        "@user_only"
+      ],
+      "answer": 0,
+      "commentary": "ログインが必要なビュー関数にするため `@login_required` デコレータを付与します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "CSSで `.friends-list__link` に対して `display: block;` を指定した場合、アンカータグ（`<a>`）の性質はどう変化しますか？",
+      "options": [
+        "インライン要素からブロック要素に変化し、指定した高さ（height: 64px）やパディングが有効になって押しやすくなる",
+        "要素が非表示になってタップできなくなる",
+        "文字が太字に固定される",
+        "背景色が赤色に変わる"
+      ],
+      "answer": 0,
+      "commentary": "`<a>` タグなどのインライン要素に `display: block;` を設定すると、高さを指定して領域全体をタップ可能なリンクにできます。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Djangoのビュー関数でコンテキスト辞書 `context` を指定してテンプレートを描画返却する正しい文法はどれですか？",
+      "options": [
+        "return render(request, \"main/friends.html\", context)",
+        "return render(\"main/friends.html\", request, context)",
+        "return render(context, \"main/friends.html\")",
+        "return display(request, \"main/friends.html\", context)"
+      ],
+      "answer": 0,
+      "commentary": "`render()` 関数は第1引数に `request`、第2引数に `テンプレートパス`、第3引数に `context` 辞書を取ります。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "`main/urls.py` に設定ページ（/settings/）へのパスを追記するコードです。<br><pre><code>urlpatterns = [\n    # ...\n    path(\"settings/\", views.settings, ___=\"settings\"),\n]</code></pre>",
+      "options": [
+        "name",
+        "alias",
+        "title",
+        "id"
+      ],
+      "answer": 0,
+      "commentary": "テンプレートの `{% url %}` 等から参照できるように `name=\"settings\"` を設定します。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "チャットアプリにおいて、自分以外のすべての登録ユーザーを「友達」として一覧表示する画面の名称（ビュー名）は何ですか？",
+      "options": [
+        "friends",
+        "index",
+        "talk_room",
+        "profile"
+      ],
+      "answer": 0,
+      "commentary": "本教材では、友達一覧を表示・管理するページを `friends` と命名しています。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "会員登録機能からユーザーを追加せず、Djangoの管理者ページ（admin）から直接ユーザーを手動作成しようとした際に発生しやすい問題は何ですか？",
+      "options": [
+        "パスワードがハッシュ処理されず正しく設定されないため、通常ログインできなくなる可能性がある",
+        "データベースがその場で物理破壊される",
+        "自動的にログアウト処理がされる",
+        "特に何も問題は起きない"
+      ],
+      "answer": 0,
+      "commentary": "管理者ページの通常のフォーム操作ではパスワードのハッシュ処理が正常に行われない場合があるため、フォーム（会員登録画面）からの登録が推奨されています。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "Djangoテンプレートで静的ファイル用タグをロードする記述です。<br><pre><code>{% ___ static %}</code></pre>",
+      "options": [
+        "load",
+        "import",
+        "include",
+        "require"
+      ],
+      "answer": 0,
+      "commentary": "静的ファイル用テンプレートタグを使用する前には `{% load static %}` を記述します。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "Pythonの文字列フォーマットメソッド `format()` の使い方として正しい記述はどれですか？",
+      "options": [
+        "\"{} -> {}\".format(val1, val2)",
+        "\"{} -> {}\".format[val1, val2]",
+        "format(\"{} -> {}\", val1, val2)",
+        "\"{} -> {}\" % format(val1, val2)"
+      ],
+      "answer": 0,
+      "commentary": "文字列の `{}` 置換フィールドに対して `.format(値1, 値2)` の形で引数を渡します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "チャットアプリの構築において、過去のやり取り（メッセージ・送信者・受信者・送信時刻）をデータベースに記録・保持するために作成した新しいモデル名はどれですか？",
+      "options": [
+        "Talk",
+        "User",
+        "Friend",
+        "MessageList"
+      ],
+      "answer": 0,
+      "commentary": "本教材ではメッセージやり取りデータを管理するモデルとして `Talk` モデルを作成しました。"
     }
   ]
 }
