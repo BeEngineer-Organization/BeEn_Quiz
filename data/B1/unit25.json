@@ -1,4 +1,525 @@
 {
   "unit_title": "テストコードを書く 1",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "プログラムが自分の意図や想定通りに動作するかどうかを確認・検証するために書くコードを何と呼びますか？",
+      "options": [
+        "テストコード",
+        "ソースコード",
+        "ダミーコード",
+        "ビルドコード"
+      ],
+      "answer": 0,
+      "commentary": "自分が作成したプログラムの挙動を自動で検証・確認するためのコードを「テストコード」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "プログラムを比較的小さな機能単位（関数やメソッドなど）ごとに分けてテストし、問題の原因を特定しやすくするテスト手法は何ですか？",
+      "options": [
+        "単体テスト（ユニットテスト）",
+        "結合テスト（インテグレーションテスト）",
+        "負荷テスト",
+        "ヒューマンテスト"
+      ],
+      "answer": 0,
+      "commentary": "小さな単位ごとに個別で動作確認を行うテストを「単体テスト（ユニットテスト）」と呼びます。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "単体テストをクリアした複数のプログラムを組み合わせ、プログラム間の連携が正しく行われているかをテストする手法は何ですか？",
+      "options": [
+        "結合テスト（インテグレーションテスト）",
+        "単体テスト",
+        "セキュリティテスト",
+        "ブラックボックステスト"
+      ],
+      "answer": 0,
+      "commentary": "単体プログラム同士の連携や全体の流れが正しく機能するかを調べるテストを「結合テスト」と呼びます。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Djangoで作成したアプリケーションのテストを実行するための管理コマンドです。空欄に入るキーワードは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "test",
+        "runtest",
+        "unittest",
+        "check"
+      ],
+      "answer": 0,
+      "commentary": "Djangoプロジェクト内でテストを実行する標準コマンドは `python manage.py test` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "Djangoでテストクラスを作成する際にインポートする、標準のテスト用クラスを選んでください。<br><pre><code>from django.test import ___</code></pre>",
+      "options": [
+        "TestCase",
+        "TestClass",
+        "AppTest",
+        "DjangoTest"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのテストクラス作成に必要な標準基本クラスは `TestCase` です。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "Djangoのテスト用クラスを定義する基本的な記述です。空欄に入る継承元クラスは何ですか？<br><pre><code>class ExampleTests(___):\n    def test_hoge(self):\n        pass</code></pre>",
+      "options": [
+        "TestCase",
+        "Object",
+        "Model",
+        "View"
+      ],
+      "answer": 0,
+      "commentary": "テストクラスは `django.test.TestCase` を継承して作成します。"
+    },
+    {
+      "id": 7,
+      "type": "文法チェック",
+      "question": "Djangoが自動テスト実行時に「テスト用メソッド」として認識・実行するために、メソッド名の先頭に付けるべきプレフィックス（接頭辞）は何ですか？",
+      "options": [
+        "test_",
+        "check_",
+        "run_",
+        "assert_"
+      ],
+      "answer": 0,
+      "commentary": "Pythonのテストランナーは、名前が `test_` で始まるメソッドを自動的にテストケースとして実行します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "テストクラス内の全テスト実行前に「1度だけ」呼び出されるクラスメソッドの定義です。空欄に入る引数名は何ですか？<br><pre><code>@classmethod\ndef setUpClass(___):\n    pass</code></pre>",
+      "options": [
+        "cls",
+        "self",
+        "class",
+        "ctx"
+      ],
+      "answer": 0,
+      "commentary": "クラスメソッドの第1引数には慣例としてクラス自身を表す `cls` を指定します。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "テストクラス内の「各テストメソッドが実行される直前」に毎回呼び出される前処理メソッドはどれですか？",
+      "options": [
+        "setUp()",
+        "setUpClass()",
+        "tearDown()",
+        "tearDownClass()"
+      ],
+      "answer": 0,
+      "commentary": "それぞれのテストメソッドの実行直前に毎回復元・初期化を行うメソッドは `setUp()` です。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "テストクラス内の「各テストメソッドが実行された直後」に毎回呼び出される後処理メソッドはどれですか？",
+      "options": [
+        "tearDown()",
+        "tearDownClass()",
+        "setUp()",
+        "cleanUp()"
+      ],
+      "answer": 0,
+      "commentary": "各テストメソッドの終了後にクリーンアップを行うメソッドは `tearDown()` です。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "2つの値（第1引数と第2引数）が「等しいこと」を検証するための `TestCase` のメソッドは何ですか？<br><pre><code>def test_upper(self):\n    self.___(\"foo\".upper(), \"FOO\")</code></pre>",
+      "options": [
+        "assertEqual",
+        "assertTrue",
+        "assertSame",
+        "assertMatch"
+      ],
+      "answer": 0,
+      "commentary": "値の一致を検証するには `self.assertEqual(a, b)` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "与えられた式が「True（真）であること」を検証するための `TestCase` のメソッドは何ですか？<br><pre><code>def test_isupper(self):\n    self.___(\"FOO\".isupper())</code></pre>",
+      "options": [
+        "assertTrue",
+        "assertEqual",
+        "assertBool",
+        "assertValid"
+      ],
+      "answer": 0,
+      "commentary": "式の結果が `True` になることを確かめるには `self.assertTrue(...)` を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "与えられた式が「False（偽）であること」を検証するための `TestCase` のメソッドは何ですか？<br><pre><code>def test_isupper(self):\n    self.___(\"Foo\".isupper())</code></pre>",
+      "options": [
+        "assertFalse",
+        "assertTrue",
+        "assertNot",
+        "assertError"
+      ],
+      "answer": 0,
+      "commentary": "式の結果が `False` になることを確かめるには `self.assertFalse(...)` を使用します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "特定ブロック内の処理で指定した例外（エラー）が発生するかどうかを検証するアサーション記述です。<br><pre><code>with self.___(TypeError):\n    s.split(2)</code></pre>",
+      "options": [
+        "assertRaises",
+        "assertException",
+        "catchError",
+        "expectException"
+      ],
+      "answer": 0,
+      "commentary": "例外の発生をチェックするには `with self.assertRaises(例外クラス):` を使います。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "次のテスト関数を実行した際、出力されるメッセージはどれですか？<br><pre><code>def multiply(a, b):\n    return a * b\n\ndef test_multiply():\n    testcase1 = multiply(1, 2)\n    testcase2 = multiply(5, 10)\n    if testcase1 != 2 or testcase2 != 50:\n        print(\"計算結果が違います\")\n    else:\n        print(\"テスト通過\")</code></pre>",
+      "options": [
+        "テスト通過",
+        "計算結果が違います",
+        "エラーが発生して停止する",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`1*2=2` および `5*10=50` となり条件を満たすため、elseブロックの「テスト通過」が出力されます。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "次のテストメソッドを実行した場合、テストの結果はどう判定されますか？<br><pre><code>def test_sample(self):\n    self.assertEqual(1 + 1, 3)</code></pre>",
+      "options": [
+        "1 + 1 は 2 であり 3 ではないため、テストは失敗（Failure）となる",
+        "テストは成功して通過する",
+        "Pythonの構文エラーになる",
+        "自動的に 1 + 1 = 3 に上書きされる"
+      ],
+      "answer": 0,
+      "commentary": "`1 + 1` は `2` なので、`3` との一致検証（`assertEqual`）は不合格（テスト失敗）になります。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "次のテストメソッドを実行した場合、テスト結果はどうなりますか？<br><pre><code>def test_compare(self):\n    self.assertTrue(5 > 10)</code></pre>",
+      "options": [
+        "`5 > 10` は False になるため、テストは失敗（Failure）となる",
+        "`5 > 10` は True なので成功する",
+        "TypeError が発生する",
+        "何も起きずにスキップされる"
+      ],
+      "answer": 0,
+      "commentary": "`5 > 10` は `False` のため、`assertTrue` の検証に失敗します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "経過時間（時間や日数の差分）を定義・判定するために標準ライブラリから読み込むクラスは何ですか？<br><pre><code>from datetime import ___</code></pre>",
+      "options": [
+        "timedelta",
+        "datetime",
+        "time",
+        "timespan"
+      ],
+      "answer": 0,
+      "commentary": "時間の差分や間隔を表すには `datetime` モジュールの `timedelta` クラスを使用します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "Djangoのタイムゾーンを考慮した現在時刻を取得するためにインポートするモジュールを選んでください。<br><pre><code>from django.utils import ___</code></pre>",
+      "options": [
+        "timezone",
+        "datetime",
+        "time",
+        "date"
+      ],
+      "answer": 0,
+      "commentary": "Djangoでタイムゾーン対応の現在時刻を取得するには `django.utils.timezone` を利用します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "メッセージが作成されてからの経過時間（`delta`）を計算するコードです。空欄に入る記述を選んでください。<br><pre><code>delta = ___ - self.time</code></pre>",
+      "options": [
+        "timezone.now()",
+        "datetime.today()",
+        "time.time()",
+        "timezone.current()"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの現在日時 `timezone.now()` からメッセージ作成日時 `self.time` を差し引いて差分を求めます。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "メッセージの送信日時（`self.time`）が未来の時刻に設定されていた場合、次の処理で発生する挙動はどれですか？<br><pre><code>delta = timezone.now() - self.time\nzero = timedelta()\nif delta < zero:\n    raise ValueError(\"未来の時刻です。\")</code></pre>",
+      "options": [
+        "ValueError（「未来の時刻です。」）が送信・実行時に発生する",
+        "「0分前」という文字列が返される",
+        "自動的に現在時刻に補正される",
+        "何も起きずに処理が続く"
+      ],
+      "answer": 0,
+      "commentary": "`delta < zero`（現在時刻より未来）の条件が成立するため、`ValueError` が送出されます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "経過時間が1時間未満の場合に「〇〇分前」と返すフォーマット文字列のコードです。空欄に入る単位文字列は何ですか？<br><pre><code>if delta < one_hour:\n    return f\"{delta.seconds // 60} ___\"</code></pre>",
+      "options": [
+        "分前",
+        "時間前",
+        "日前",
+        "秒前"
+      ],
+      "answer": 0,
+      "commentary": "`delta.seconds // 60` で分数を計算しているため、返り値は「〇〇分前」となります。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "`delta`（経過時間）が「30分間（1800秒）」であるとき、次のコードを実行して返される文字列は何ですか？<br><pre><code>if delta < one_hour:\n    return f\"{delta.seconds // 60} 分前\"</code></pre>",
+      "options": [
+        "30 分前",
+        "1800 分前",
+        "0 時間前",
+        "1 30 分前"
+      ],
+      "answer": 0,
+      "commentary": "`1800 // 60` は `30` となるため、「30 分前」が返されます。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "`delta`（経過時間）が「3時間（10800秒）」のとき、次の条件判定と処理によって返される文字列は何ですか？<br><pre><code>if delta < one_hour:\n    return f\"{delta.seconds // 60} 分前\"\nelif delta < one_day:\n    return f\"{delta.seconds // 3600} 時間前\"</code></pre>",
+      "options": [
+        "3 時間前",
+        "180 分前",
+        "0 日前",
+        "300 時間前"
+      ],
+      "answer": 0,
+      "commentary": "`delta < one_day` のブロックに入り、`10800 // 3600` で `3` と計算され「3 時間前」になります。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "`delta`（経過時間）が「2日間」のとき、次の条件処理で返される文字列は何ですか？<br><pre><code>elif delta < one_week:\n    return f\"{delta.days} 日前\"</code></pre>",
+      "options": [
+        "2 日前",
+        "48 時間前",
+        "2880 分前",
+        "1 週間以上前"
+      ],
+      "answer": 0,
+      "commentary": "`delta.days` は `2` を返すため、「2 日前」が返されます。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "`delta`（経過時間）が「10日間」のとき、`get_elapsed_time` メソッドの最終的な戻り値は何になりますか？<br><pre><code>if delta < one_hour: ...\nelif delta < one_day: ...\nelif delta < one_week: ...\nelse:\n    return \"1 週間以上前\"</code></pre>",
+      "options": [
+        "1 週間以上前",
+        "10 日前",
+        "240 時間前",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "1週間（7日）を超えているため `else` 側の「1 週間以上前」が返されます。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "Djangoのフォーム検証でエラーを通知・発生させるための例外クラスをインポートする正しい記述はどれですか？<br><pre><code>from django.core.exceptions import ___</code></pre>",
+      "options": [
+        "ValidationError",
+        "FormError",
+        "InputError",
+        "TabooError"
+      ],
+      "answer": 0,
+      "commentary": "バリデーションエラーを通知するには `django.core.exceptions.ValidationError` を使用します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "入力メッセージの中に禁止ワードリスト `TABOO_WORDS` の単語が含まれているかを判定するリスト内包表記の空欄に入る演算子はどれですか？<br><pre><code>matched = [w for w in TABOO_WORDS if w ___ message]</code></pre>",
+      "options": [
+        "in",
+        "==",
+        "contains",
+        "has"
+      ],
+      "answer": 0,
+      "commentary": "文字列内に部分一致で特定の単語が含まれるか判定するには `in` 演算子を使います。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "禁止ワードが見つかった場合にバリデーション例外を発生させるキーワードは何ですか？<br><pre><code>if matched:\n    ___ ValidationError(f\"禁止ワード {', '.join(matched)} が含まれています\")</code></pre>",
+      "options": [
+        "raise",
+        "throw",
+        "return",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "Pythonで例外を手動発生（送出）させるには `raise` キーワードを使用します。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "`message` に「おまえはバカだな」と入力された状態で `clean_message()` を実行した場合、どのような結果になりますか？<br><pre><code>TABOO_WORDS = [\"ばか\", \"バカ\", \"あほ\", \"アホ\"]\n# ...\nmatched = [w for w in TABOO_WORDS if w in message]\nif matched:\n    raise ValidationError(...)</code></pre>",
+      "options": [
+        "「バカ」が検出され、ValidationError 例外が発生してフォーム送信がブロックされる",
+        "メッセージがそのまま送信される",
+        "「バカ」という文字が自動消去されて送信される",
+        "データベースからユーザーが削除される"
+      ],
+      "answer": 0,
+      "commentary": "「バカ」が `TABOO_WORDS` にヒットするため `matched` に入り、`ValidationError` が発生して送信が防がれます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`message` に「こんにちは」と入力して `clean_message()` を呼び出した場合、返される値は何ですか？<br><pre><code>def clean_message(self):\n    message = self.cleaned_data[\"message\"]\n    matched = [w for w in TABOO_WORDS if w in message]\n    if matched:\n        raise ValidationError(...)\n    return message</code></pre>",
+      "options": [
+        "\"こんにちは\"",
+        "None",
+        "True",
+        "空文字"
+      ],
+      "answer": 0,
+      "commentary": "禁止ワードが含まれていないためエラーは起きず、検証済みの文字列 `\"こんにちは\"` がそのまま返されます。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "`main` アプリケーション内の特定のテストクラス `HogeTests` のみを選択して実行する正確なコマンドはどれですか？",
+      "options": [
+        "python manage.py test main.tests.HogeTests",
+        "python manage.py test --class HogeTests",
+        "python manage.py test HogeTests",
+        "python test HogeTests.py"
+      ],
+      "answer": 0,
+      "commentary": "ドット（`.`）で区切って `アプリ名.テストモジュール名.クラス名` の形式で指定して個別実行できます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "HTMLテンプレート内で、トーク（`talk`）の経過時間文字列を呼び出して表示する記法を選んでください。<br><pre><code>&lt;p class=\"chatboard__time\"&gt;{{ talk.___ }}&lt;/p&gt;</code></pre>",
+      "options": [
+        "get_elapsed_time",
+        "get_elapsed_time()",
+        "elapsed_time",
+        "time_ago"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのテンプレート構文内で引数のないモデルメソッドを呼ぶ際は括弧を付けずに `talk.get_elapsed_time` と書きます。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "フォームの `message` フィールドで発生したバリデーションエラー一覧を取得・ループ表示するテンプレート記述です。<br><pre><code>{% if form.message.___ %}\n  &lt;ul&gt;\n    {% for error in form.message.___ %}\n      &lt;li&gt;{{ error }}&lt;/li&gt;\n    {% endfor %}\n  &lt;/ul&gt;\n{% endif %}</code></pre>",
+      "options": [
+        "errors",
+        "error_list",
+        "invalid",
+        "messages"
+      ],
+      "answer": 0,
+      "commentary": "フォームフィールドのエラー情報を参照するには `.errors` 属性を使用します。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "テストコード内の `assert` という英単語の元々の意味として最も適しているものはどれですか？",
+      "options": [
+        "表明（主張する、断言する）",
+        "否定（打ち消す）",
+        "保存（記録する）",
+        "分岐（分かれる）"
+      ],
+      "answer": 0,
+      "commentary": "プログラミングにおける `assert` は「この条件・結果が正しいことを表明（主張）する」という意味を持ちます。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "テストクラス全体の事前処理 `setUpClass` に付与するPythonの正しいデコレータ記述はどれですか？",
+      "options": [
+        "@classmethod",
+        "@staticmethod",
+        "@setup",
+        "@testmethod"
+      ],
+      "answer": 0,
+      "commentary": "`setUpClass` および `tearDownClass` はクラスメソッドであるため `@classmethod` デコレータが必須です。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "TestCaseを継承したテスト実行時のライフサイクル（処理の実行順序）として正しい順番はどれですか？",
+      "options": [
+        "setUpClass → setUp → (テストメソッド) → tearDown → tearDownClass",
+        "setUp → setUpClass → (テストメソッド) → tearDownClass → tearDown",
+        "setUpClass → (テストメソッド) → setUp → tearDown → tearDownClass",
+        "(テストメソッド) → setUp → tearDown → setUpClass → tearDownClass"
+      ],
+      "answer": 0,
+      "commentary": "最初にクラス共通の `setUpClass` が呼ばれ、各テストの前後に `setUp` と `tearDown` が毎回実行され、最後に `tearDownClass` が呼ばれます。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "検出された禁止ワードのリスト（`matched`）を、カンマ区切りの文字列に結合するPythonメソッドは何ですか？<br><pre><code>f\"禁止ワード {', '.___(matched)} が含まれています\"</code></pre>",
+      "options": [
+        "join",
+        "concat",
+        "merge",
+        "append"
+      ],
+      "answer": 0,
+      "commentary": "文字列リストの要素を特定の区切り文字で連結するには `'区切り文字'.join(リスト)` を使います。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "`matched` に `[\"ばか\", \"あほ\"]` が入っているとき、`', '.join(matched)` が出力する文字列を選んでください。",
+      "options": [
+        "ばか, あほ",
+        "ばかあほ",
+        "[\"ばか\", \"あほ\"]",
+        "ばか AND あほ"
+      ],
+      "answer": 0,
+      "commentary": "要素がカンマとスペース（`, `）で結合されるため、「ばか, あほ」になります。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "Djangoプロジェクトでテストコードをファイル分割して整理する際、テストファイルと認識されるための命名ルールとして正しいものはどれですか？",
+      "options": [
+        "ファイル名を `test` で始める（例: `test_models.py`）",
+        "ファイル名を `spec` で終える（例: `models_spec.py`）",
+        "ファイル名を `check` で始める（例: `check_views.py`）",
+        "ファイル名に必ず `django` を入れる"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのテスト発見機能（test runner）は、`test*.py` というパターンにマッチするファイル名を自動探索してテストを実行します。"
+    }
+  ]
 }

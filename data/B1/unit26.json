@@ -1,4 +1,525 @@
 {
   "unit_title": "テストコードを書く 2",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "関数やクラスなど小さな単位ごとに正しく動くか検証するテストを何と呼びますか？",
+      "options": [
+        "単体テスト（ユニットテスト）",
+        "結合テスト（インテグレーションテスト）",
+        "負荷テスト",
+        "システムテスト"
+      ],
+      "answer": 0,
+      "commentary": "個々の小さな機能単位で動作を確認するテストを単体テスト（ユニットテスト）と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "複数の機能を組み合わせたり、ビュー関数などを通して全体の連携が正しく動くか検証するテストを何と呼びますか？",
+      "options": [
+        "結合テスト（インテグレーションテスト）",
+        "単体テスト（ユニットテスト）",
+        "静的テスト",
+        "コンパイルテスト"
+      ],
+      "answer": 0,
+      "commentary": "複数のプログラムやビュー関数などの連携を確かめるテストを結合テストと呼びます。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "Djangoでテストコードを実行するためのコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "test",
+        "runtest",
+        "starttest",
+        "check"
+      ],
+      "answer": 0,
+      "commentary": "Djangoで作成したテストコードを実行するには `python manage.py test` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Djangoのテストクラスを作成する際に継承する必須のクラスは何ですか？<br><pre><code>from django.test import TestCase\n\nclass TestTalkModel(___):\n    pass</code></pre>",
+      "options": [
+        "TestCase",
+        "ModelTest",
+        "BaseTest",
+        "Object"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの標準テストクラスを作成する際は `TestCase` を継承します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "テストクラス全体の事前準備（変数の初期化など）を行うクラスメソッドです。空欄に入るデコレータは何ですか？<br><pre><code>___ \ndef setUpClass(cls):\n    super().setUpClass()</code></pre>",
+      "options": [
+        "@classmethod",
+        "@staticmethod",
+        "@property",
+        "@testmethod"
+      ],
+      "answer": 0,
+      "commentary": "`setUpClass` はクラスメソッドであるため、`@classmethod` デコレータを付与します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "親クラスの `setUpClass` を呼ぶための正しい記述を選んでください。<br><pre><code>@classmethod\ndef setUpClass(cls):\n    ___ .setUpClass()</code></pre>",
+      "options": [
+        "super()",
+        "self",
+        "parent",
+        "this"
+      ],
+      "answer": 0,
+      "commentary": "親クラスの同名メソッドをオーバーライドして呼び出すには `super().setUpClass()` と書きます。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "現在の日時（`now`）から30分前の日時を表す `timedelta` の指定方法はどれですか？<br><pre><code>now - timedelta(___=30)</code></pre>",
+      "options": [
+        "minutes",
+        "hours",
+        "days",
+        "seconds"
+      ],
+      "answer": 0,
+      "commentary": "分単位の差分を指定するには `timedelta(minutes=数値)` を使います。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "現在の日時（`now`）から3日前の日時を表す `timedelta` の指定方法はどれですか？<br><pre><code>now - timedelta(___=3)</code></pre>",
+      "options": [
+        "days",
+        "weeks",
+        "hours",
+        "months"
+      ],
+      "answer": 0,
+      "commentary": "日単位の差分を指定するには `timedelta(days=数値)` を使います。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "メソッド内で特定の例外（エラー）が発生することを検証するテストの記述です。空欄に入るメソッドは何ですか？<br><pre><code>def test_invalid_elapsed_time(self):\n    with self.___(ValueError):\n        self._talk_future.get_elapsed_time()</code></pre>",
+      "options": [
+        "assertRaises",
+        "assertException",
+        "catchError",
+        "expectError"
+      ],
+      "answer": 0,
+      "commentary": "指定したエラーが発生することをテストするには `with self.assertRaises(例外クラス):` を使います。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "30分前のトークデータに対して `get_elapsed_time()` を実行した際、`assertEqual` で期待される戻り値の文字列は何ですか？<br><pre><code>self.assertEqual(self._talk_30minutes_ago.get_elapsed_time(), ___)</code></pre>",
+      "options": [
+        "\"30 分前\"",
+        "\"30 分\"",
+        "\"0 時間前\"",
+        "\"30 minutes ago\""
+      ],
+      "answer": 0,
+      "commentary": "教科書の仕様に従い、1時間以内のメッセージは「〇〇 分前」という形式の文字列が返されます。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "未来の時刻（`now + timedelta(weeks=3)`）が設定されたトークに対して `get_elapsed_time()` を実行したとき、どうなりますか？",
+      "options": [
+        "ValueError 例外が発生する",
+        "\"未来\" と表示される",
+        "\"0分前\" と表示される",
+        "何も起きずに None が返る"
+      ],
+      "answer": 0,
+      "commentary": "未来の時刻が渡された場合は `ValueError(\"未来の時刻です。\")` が発生する設計になっています。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "フォームクラス `TalkForm` にテスト用データを渡して初期化する際、引数に渡すデータ型は何ですか？<br><pre><code>cls._good_form = TalkForm(___)</code></pre>",
+      "options": [
+        "辞書型（{\"message\": \"文章\"}）",
+        "文字列型（\"文章\"）",
+        "リスト型（[\"文章\"]）",
+        "数値型（123）"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのフォームは、キーと値のペアを持つ「辞書型（dict）」を引数に渡して初期化します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "フォームの入力内容が正しくバリデーションを通過するか判定するメソッドは何ですか？<br><pre><code>def test_good_talk(self):\n    self.assertTrue(self._good_form.____())</code></pre>",
+      "options": [
+        "is_valid",
+        "validate",
+        "check",
+        "is_ok"
+      ],
+      "answer": 0,
+      "commentary": "フォームの検証を行う標準メソッドは `is_valid()` です。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "「君はあほだね」というメッセージが入った `_bad_form1` に対し `_bad_form1.is_valid()` を呼んだ結果はどう判定されますか？",
+      "options": [
+        "False（検証失敗）",
+        "True（検証成功）",
+        "None",
+        "エラーになって停止する"
+      ],
+      "answer": 0,
+      "commentary": "禁止ワード（あほ）が含まれているため `is_valid()` は `False` を返します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "フォームのエラーメッセージ内に特定テキストが含まれているかを検証するメソッドはどれですか？<br><pre><code>self.____(\"禁止ワード あほ が含まれています\", self._bad_form1.errors[\"message\"])</code></pre>",
+      "options": [
+        "assertIn",
+        "assertTrue",
+        "assertEqual",
+        "assertContains"
+      ],
+      "answer": 0,
+      "commentary": "リストや文字列の中に指定要素が含まれるかをテストするには `assertIn(要素, コンテナ)` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "結合テスト等で、テストクライアントを使って指定URLにGETリクエストを送信する正しいコードはどれですか？<br><pre><code>res = self.client.____(\"/ja/signup/\")</code></pre>",
+      "options": [
+        "get",
+        "post",
+        "fetch",
+        "request"
+      ],
+      "answer": 0,
+      "commentary": "GET通信をテストするには `self.client.get(\"URL\")` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "結合テスト等で、テストクライアントを使ってデータをPOST送信する正しいコードはどれですか？<br><pre><code>res = self.client.____(\"/ja/signup/\", data)</code></pre>",
+      "options": [
+        "post",
+        "get",
+        "send",
+        "submit"
+      ],
+      "answer": 0,
+      "commentary": "POST通信をテストするには `self.client.post(\"URL\", データ)` を使用します。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "存在しないページや正常にアクセスできたページでHTTPステータスコード 200 が返ってきたかを検証するコードはどれですか？<br><pre><code>res = self.client.get(\"/ja/signup/\")\nself.assertEqual(res.status_code, ___)</code></pre>",
+      "options": [
+        "200",
+        "302",
+        "404",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "正常レスポンスのHTTPステータスコードは `200` です。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "レスポンスのレンダリングで「指定したHTMLテンプレート」が正しく使われたか検証するメソッドはどれですか？<br><pre><code>self.____(res, \"main/signup.html\")</code></pre>",
+      "options": [
+        "assertTemplateUsed",
+        "assertTemplate",
+        "assertHTML",
+        "assertEqualTemplate"
+      ],
+      "answer": 0,
+      "commentary": "テンプレートファイルの使用を確認するには `assertTemplateUsed(response, \"テンプレートパス\")` を使用します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "POST送信後のリダイレクト処理（ステータスコード302など）が正しく行われたか検証するメソッドはどれですか？<br><pre><code>self.____(\n    res,\n    \"/ja/\",\n    status_code=302,\n    target_status_code=200,\n    fetch_redirect_response=True,\n)</code></pre>",
+      "options": [
+        "assertRedirects",
+        "assertRedirectTo",
+        "assertForward",
+        "assertEqual"
+      ],
+      "answer": 0,
+      "commentary": "リダイレクトの動作や遷移先を検証するには `assertRedirects(...)` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "Djangoで処理成功時に別画面へ転送（リダイレクト）される場合の標準的なHTTPステータスコードの数値は何ですか？",
+      "options": [
+        "302",
+        "200",
+        "403",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの標準的なリダイレクト時のステータスコードは `302` です。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "テスト実行時にクライアントをログイン状態にするためのメソッドはどれですか？<br><pre><code>self.client.____(username=\"test太郎\", password=\"beengineer\")</code></pre>",
+      "options": [
+        "login",
+        "auth",
+        "signin",
+        "connect"
+      ],
+      "answer": 0,
+      "commentary": "テスト環境でログイン状態を作るには `self.client.login(...)` を呼出します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "テスト用のユーザーアカウントをデータベースに作成・登録する正しいORMメソッドは何ですか？<br><pre><code>User.objects.____(\n    username=cls._username, email=cls._email, password=cls._password\n)</code></pre>",
+      "options": [
+        "create_user",
+        "create",
+        "add_user",
+        "new_user"
+      ],
+      "answer": 0,
+      "commentary": "パスワードのハッシュ化等を行って正しくユーザーを作成するには `User.objects.create_user(...)` を使用します。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "共通のテスト処理（ログイン設定など）をまとめるために作成し、複数のテストクラスで継承して再利用するクラスを何と呼びますか？",
+      "options": [
+        "ミックスイン（Mixin）",
+        "コンポーネント",
+        "インターフェース",
+        "プロキシ"
+      ],
+      "answer": 0,
+      "commentary": "特定の機能（ここではログイン機能など）を横断的に追加・共有するためのクラスをミックスインと呼びます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "テストクラスで使う初期データをデータベースに1度だけ登録する際に用いられるクラスメソッドは何ですか？<br><pre><code>@classmethod\ndef ____(cls):\n    super().setUpTestData()\n    cls._friend = User.objects.create_user(...)</code></pre>",
+      "options": [
+        "setUpTestData",
+        "setUpClass",
+        "setUp",
+        "initData"
+      ],
+      "answer": 0,
+      "commentary": "テストデータ生成用のデータベース初期化を行うメソッドは `setUpTestData` です。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "HTMLレスポンス全体の文字列内に指定したテキスト（「禁止ワード...が含まれています」など）が含まれているかを検証するメソッドはどれですか？",
+      "options": [
+        "assertContains",
+        "assertIn",
+        "assertTrue",
+        "assertEqual"
+      ],
+      "answer": 0,
+      "commentary": "`assertContains(res, \"テキスト\")` はHTTPレスポンス全体やレンダリング結果のHTML文字列を対象に検証します。"
+    },
+    {
+      "id": 27,
+      "type": "用語理解",
+      "question": "`assertContains()` と `assertIn()` の主な違いについての説明として正しいものはどれですか？",
+      "options": [
+        "assertContains はレスポンス全体（ステータスコードやHTML内容）を対象とし、assertIn は主にPythonのリストや文字列などのオブジェクトを対象とする",
+        "assertContains はエラーが出た時のみ使い、assertIn は正常時のみ使う",
+        "両者とも全く同じ処理であり違いはない",
+        "assertIn の方が高速で常に推奨される"
+      ],
+      "answer": 0,
+      "commentary": "`assertContains` はHTTPレスポンス（`HttpResponse`）オブジェクト専用でステータス200の確認も含めて検証します。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "テストを実行した際、ターミナルに表示された文字列が「OK」ではなく「FAILED (failures=1)」となった場合は何を意味していますか？",
+      "options": [
+        "実行したテストのうち1件が不合格（失敗）だったことを意味する",
+        "すべてのテストが成功したことを意味する",
+        "Pythonがインストールされていないことを意味する",
+        "データベースが壊れたことを意味する"
+      ],
+      "answer": 0,
+      "commentary": "`FAILED (failures=1)` は、テストコードの不一致やプログラムのバグによって1件のテストが失敗したことを示します。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "Pythonの文字列フォーマット（f-string）を使ってURL変数を組み立てる正しい書き方はどれですか？",
+      "options": [
+        "f\"/ja/talk_room/{cls._friend.id}\"",
+        "\"/ja/talk_room/\" + {cls._friend.id}",
+        "\"/ja/talk_room/%s\" % {cls._friend.id}",
+        "f\"/ja/talk_room/cls._friend.id\""
+      ],
+      "answer": 0,
+      "commentary": "f-stringでは `f\"...{変数}...\"` の形式で波括弧内に変数や式を直接書きます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "テスト環境でブラウザを使わずにサーバーへアクセスするためのクライアントオブジェクトの参照プロパティは何ですか？<br><pre><code>res = self.___.get(\"/ja/\")</code></pre>",
+      "options": [
+        "client",
+        "browser",
+        "http",
+        "request"
+      ],
+      "answer": 0,
+      "commentary": "TestCase内で仮想リクエストを送るテストクライアントは `self.client` です。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "ログインが必要なページに対し、`self.login()` を呼ばずに `self.client.get(url)` を実行した場合、通常どのようなレスポンスが返りますか？",
+      "options": [
+        "ログインページへのリダイレクト（ステータスコード302など）",
+        "ステータスコード200の正常画面",
+        "500 Internal Server Error",
+        "自動的にログインが完了する"
+      ],
+      "answer": 0,
+      "commentary": "未ログイン状態でのアクセス制限ページは、ログイン画面へのリダイレクト（302）が返されます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "テスト用のクラス定義で、自作の `TestWithAuthMixin` と `TestCase` を両方継承する正しい多重継承の記述はどれですか？<br><pre><code>class TestTalkRoomView(___, TestCase):</code></pre>",
+      "options": [
+        "TestWithAuthMixin",
+        "AuthMixin",
+        "LoginMixin",
+        "UserMixin"
+      ],
+      "answer": 0,
+      "commentary": "自作した `TestWithAuthMixin` を第一親クラスに並べて継承させます。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "次のアサーションコードを実行したとき、結果はどうなりますか？<br><pre><code>self.assertTrue(10 > 2)</code></pre>",
+      "options": [
+        "10 > 2 は True なので、テストは成功（パス）する",
+        "テストは失敗（Failure）となる",
+        "エラー（TypeError）が発生する",
+        "何も起こらず処理がスキップされる"
+      ],
+      "answer": 0,
+      "commentary": "条件式 `10 > 2` の評価結果が `True` であるため、`assertTrue` の検証に成功します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Djangoのテストクラス内で使われる `self.assertFalse(式)` の動作として正しいものはどれですか？",
+      "options": [
+        "「式」の評価結果が False であれば成功とし、True であればテスト失敗とする",
+        "「式」の評価結果が True であれば成功とする",
+        "常にエラーを発生させる",
+        "「式」の文字数をカウントする"
+      ],
+      "answer": 0,
+      "commentary": "`assertFalse` は評価が `False` であることを正解（期待通り）として検証します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "INVALIDなデータ（誤った形式のメールアドレスなど）をPOST送信したときのテストコードです。<br><pre><code>res = self.client.post(\"/ja/signup/\", params)\nself.assertEqual(res.status_code, ___)</code></pre>",
+      "options": [
+        "200",
+        "302",
+        "404",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "入力エラー時はリダイレクトされず、エラーメッセージを含んだ同じ登録画面（ステータス200）が再描画されます。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "テスト実行時に作成・利用されるテスト用データベースについての説明として正しいものはどれですか？",
+      "options": [
+        "テスト開始時に自動作成され、テスト終了時に自動的に破棄（削除）される",
+        "開発用の本番データベースが直接上書き更新される",
+        "テストが終わってもデータは永続的に残り続ける",
+        "テスト用に別途MySQLサーバーを購入する必要がある"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのテスト実行時は「Creating test database...」と表示され、終了時に「Destroying test database...」と自動破棄されるため安全です。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "テスト用の時間計算で「3週間」の期間を作成する `timedelta` の書き方はどれですか？<br><pre><code>now - timedelta(___=3)</code></pre>",
+      "options": [
+        "weeks",
+        "days",
+        "months",
+        "hours"
+      ],
+      "answer": 0,
+      "commentary": "週単位を指定するには `timedelta(weeks=3)` を使用します。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "次のテスト用フォームに「彼はバカというよりかはあほだ」と送信したとき、エラーメッセージ内に含まれる文字列として正しいものはどれですか？<br><pre><code>cls._bad_form2 = TalkForm({\"message\": \"彼はバカというよりかはあほだ\"})</code></pre>",
+      "options": [
+        "\"禁止ワード バカ, あほ が含まれています\"",
+        "\"禁止ワード なし\"",
+        "\"正常に送信されました\"",
+        "\"エラーはありません\""
+      ],
+      "answer": 0,
+      "commentary": "「バカ」と「あほ」の両方が検出され、カンマ区切りでエラーメッセージにまとめられます。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "Djangoの `TestCase` でテストメソッドを定義する際の正しいメソッド名の付け方はどれですか？",
+      "options": [
+        "def test_valid_post(self):",
+        "def check_valid_post(self):",
+        "def run_valid_post(self):",
+        "def valid_post_test(self):"
+      ],
+      "answer": 0,
+      "commentary": "テストランナーに実行対象として認識させるため、メソッド名は必ず `test_` で始めます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で扱った、事前にテストコードを整備しておく最大のメリットは何ですか？",
+      "options": [
+        "コードを変更・機能追加した際も、既存の機能が壊れていないか一括で自動検証できデバッグが非常に楽になる",
+        "プログラムのファイルサイズが小さくなる",
+        "サーバーのレンタル費用が安くなる",
+        "プログラミング言語のバージョンアップが不要になる"
+      ],
+      "answer": 0,
+      "commentary": "テストコードがあることで、修正時や追加実装時のバグ発見・品質保持（退行テスト）が自動化され開発が格段に楽になります。"
+    }
+  ]
 }

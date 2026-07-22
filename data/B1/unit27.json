@@ -1,4 +1,525 @@
 {
   "unit_title": "テストコード - 演習",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "掲示板アプリのテストコードを機能ごとに整理するため、`tests/` ディレクトリ内に作成する3つの標準的なパッケージ（フォルダ）の組み合わせはどれですか？",
+      "options": [
+        "models, forms, views",
+        "controllers, views, routes",
+        "admin, settings, urls",
+        "templates, static, media"
+      ],
+      "answer": 0,
+      "commentary": "Djangoではテストコードが増えた際、`models`（モデル用）、`forms`（フォーム用）、`views`（ビュー用）のフォルダに分けて整理するのが一般的です。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "テスト用の画像データを作成する際、文字列の先頭に付けて「バイト型（bytes）」であることを宣言する記号は何ですか？<br><pre><code>gif = (\n    ___'\\x47\\x49\\x46\\x38\\x39\\x61\\x01\\x00...'\n)</code></pre>",
+      "options": [
+        "b",
+        "f",
+        "r",
+        "u"
+      ],
+      "answer": 0,
+      "commentary": "文字列の前に `b` を付けることで、バイト型のデータ（`b'...'`）であることを明示します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "テストコード内で、実際の画像ファイルを用意せずにメモリ上で仮のアップロードファイルを作成するDjangoのクラスは何ですか？<br><pre><code>from django.core.files.uploadedfile import ___\n\nimage = ___('test.gif', gif, content_type='image/gif')</code></pre>",
+      "options": [
+        "SimpleUploadedFile",
+        "TestUploadedFile",
+        "DummyImageFile",
+        "MemoryFile"
+      ],
+      "answer": 0,
+      "commentary": "テスト用に仮想ファイルを作成するには `django.core.files.uploadedfile.SimpleUploadedFile` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "`SimpleUploadedFile` を作成する際、ファイルの種類（MIMEタイプ）を指定するキーワード引数はどれですか？<br><pre><code>image = SimpleUploadedFile('test.gif', gif, ___='image/gif')</code></pre>",
+      "options": [
+        "content_type",
+        "file_type",
+        "mime_type",
+        "format"
+      ],
+      "answer": 0,
+      "commentary": "ファイルのコンテントタイプ（MIMEタイプ）は `content_type='image/gif'` のように指定します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "データベース内に保存されている `Topic` レコードの全件数を取得するメソッドは何ですか？<br><pre><code>def test_is_empty(self):\n    records = Topic.objects.all()\n    self.assertEqual(records.___(), 1)</code></pre>",
+      "options": [
+        "count",
+        "length",
+        "size",
+        "total"
+      ],
+      "answer": 0,
+      "commentary": "QuerySetに含まれるレコードの件数をカウントするには `.count()` メソッドを使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "取得したレコード一覧（クエリセット）の中に、特定のオブジェクトが含まれていることを検証するアサーションメソッドはどれですか？<br><pre><code>records = Topic.objects.filter(name=self.name)\nself.____(self.topic, records)</code></pre>",
+      "options": [
+        "assertIn",
+        "assertTrue",
+        "assertEqual",
+        "assertContains"
+      ],
+      "answer": 0,
+      "commentary": "リストやQuerySetの中に特定要素が含まれているか調べるには `self.assertIn(要素, コレクション)` を使います。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "主キー（`id`）を指定してデータベースから特定の1件の `Topic` レコードを取得する記述です。<br><pre><code>record = Topic.objects.___(id=self.topic.id)</code></pre>",
+      "options": [
+        "get",
+        "filter",
+        "find",
+        "fetch"
+      ],
+      "answer": 0,
+      "commentary": "IDなどを指定して単一のオブジェクトを取得するには `get()` を使用します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "`setUpTestData` で1件のTopic（`self.topic`）のみを作成した状態で、次のテストを実行した場合、結果はどう判定されますか？<br><pre><code>def test_get_record(self):\n    record = Topic.objects.get(id=self.topic.id)\n    self.assertEqual(record, self.topic)</code></pre>",
+      "options": [
+        "取得した record と self.topic が一致するため、テストは成功（パス）する",
+        "エラーが発生してテストが失敗する",
+        "record が None になるため失敗する",
+        "2件のデータが返される"
+      ],
+      "answer": 0,
+      "commentary": "データベースから取得した `record` と生成済みの `self.topic` は同一インスタンス（同一レコード）なので一致検証に成功します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "モデルの属性値（`name`）を変更した後、データベースに更新内容を保存するメソッドは何ですか？<br><pre><code>self.topic.name = \"TestTopic2\"\nself.topic.____()\nself.assertEqual(self.topic.name, \"TestTopic2\")</code></pre>",
+      "options": [
+        "save",
+        "update",
+        "commit",
+        "refresh"
+      ],
+      "answer": 0,
+      "commentary": "モデルインスタンスの変更をデータベースに反映させるには `.save()` を呼び出します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "データベースからオブジェクトを削除するための正しいメソッド呼び出しはどれですか？<br><pre><code>def test_delete(self):\n    self.topic.____()\n    records = Topic.objects.filter(name=self.name)\n    self.assertEqual(records.count(), 0)</code></pre>",
+      "options": [
+        "delete",
+        "remove",
+        "destroy",
+        "drop"
+      ],
+      "answer": 0,
+      "commentary": "モデルインスタンスをDBから削除するには `.delete()` を使います。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "次の削除テストを実行した直後、`records.count()` の値は何になりますか？<br><pre><code>self.topic.delete()\nrecords = Topic.objects.filter(name=self.name)</code></pre>",
+      "options": [
+        "0",
+        "1",
+        "-1",
+        "None"
+      ],
+      "answer": 0,
+      "commentary": "`delete()` が実行されて該当レコードが消去されるため、`filter` で検索した件数は 0件（0）になります。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "テストクラスで共通して使用する初期データをデータベースに一括登録するクラスメソッドの定義です。<br><pre><code>@classmethod\ndef ____(cls):\n    cls.name = \"TestTopic\"\n    cls.topic = Topic.objects.create(name=cls.name)</code></pre>",
+      "options": [
+        "setUpTestData",
+        "setUpClass",
+        "setUp",
+        "initData"
+      ],
+      "answer": 0,
+      "commentary": "テストデータの初期作成には `@classmethod` デコレータを付けた `setUpTestData(cls)` を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "`Message.objects.create(content=..., topic=..., user=...)` のように、`image` 引数を指定せずに作成した Message の `image` フィールド初期値は何になりますか？",
+      "options": [
+        "None",
+        "\"\"",
+        "\"default.gif\"",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "画像がアップロードされなかった場合、`image` フィールドのデフォルト値は `None` となります。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "`self.message.image` が `None` ではないこと（画像が正しく保存されたこと）を検証するアサーションメソッドはどれですか？<br><pre><code>self.____(self.message.image, None)</code></pre>",
+      "options": [
+        "assertNotEqual",
+        "assertEqual",
+        "assertFalse",
+        "assertIsNone"
+      ],
+      "answer": 0,
+      "commentary": "2つの値が等しくないことを確かめるには `self.assertNotEqual(a, b)` を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`Message` モデルと `CustomUser` モデルが `on_delete=models.CASCADE` の関係にあるとき、`self.user.delete()` を実行すると `Message.objects.filter(user=self.user)` の件数はどうなりますか？",
+      "options": [
+        "紐づくメッセージも連動して削除され、0件になる",
+        "メッセージは削除されず1件のまま残る",
+        "エラー（ProtectedError）が発生する",
+        "メッセージの user フィールドが NULL になる"
+      ],
+      "answer": 0,
+      "commentary": "`on_delete=models.CASCADE` が設定されているため、親（User）が削除されると子（Message）も自動でカスケード削除され0件になります。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "フォームが持つ入力フィールド（`fields`）の要素数を取得して検証するコードです。<br><pre><code>form = MessageSearchForm()\nself.assertEqual(len(form.____), 1)</code></pre>",
+      "options": [
+        "fields",
+        "inputs",
+        "elements",
+        "controls"
+      ],
+      "answer": 0,
+      "commentary": "フォームのフィールド辞書には `form.fields` でアクセスでき、`len(form.fields)` で項目数を取得できます。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "次のフォームテストコードを実行した際、`valid_form.is_valid()` の戻り値は何になりますか？<br><pre><code>valid_data = {\"keyword\": \"TestKeyword\"}\nvalid_form = MessageSearchForm(valid_data)\nself.assertTrue(valid_form.is_valid())</code></pre>",
+      "options": [
+        "True（バリデーション成功）",
+        "False（バリデーション失敗）",
+        "None",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "正常なデータが渡されているため `is_valid()` は `True` を返し、テストは成功（パス）します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "テストクライアントを使ってトップページ `/forum/` にアクセス（GET通信）するコードです。<br><pre><code>def test_get(self):\n    res = self.client.____(\"/forum/\")\n    self.assertEqual(res.status_code, 200)</code></pre>",
+      "options": [
+        "get",
+        "post",
+        "fetch",
+        "request"
+      ],
+      "answer": 0,
+      "commentary": "テスト環境でGETリクエストを送るには `self.client.get(\"URL\")` を使います。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "正常にアクセスできるページ（`/forum/`）に対し `self.client.get(\"/forum/\")` を実行した場合、`res.status_code` に入る数値は何ですか？",
+      "options": [
+        "200",
+        "302",
+        "404",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "HTTPの正常レスポンスを表すステータスコードは `200` です。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "レスポンスで正しく「`main/index.html`」テンプレートがレンダリングされたか検証するアサーションです。<br><pre><code>res = self.client.get(\"/forum/\")\nself.____(res, \"main/index.html\")</code></pre>",
+      "options": [
+        "assertTemplateUsed",
+        "assertTemplate",
+        "assertEqualTemplate",
+        "assertRender"
+      ],
+      "answer": 0,
+      "commentary": "指定したテンプレートが使用されたか確かめるには `self.assertTemplateUsed(res, \"パス\")` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "ログイン処理を伴うテスト用ミックスイン内で、認証ユーザーを作成する正しい記述はどれですか？<br><pre><code>cls.user = CustomUser.objects.____(\n    username=cls._username, email=cls._email, password=cls._password\n)</code></pre>",
+      "options": [
+        "create_user",
+        "create",
+        "add_user",
+        "new_user"
+      ],
+      "answer": 0,
+      "commentary": "パスワードを暗号化（ハッシュ化）して正しいユーザーを作成するには `create_user` を使います。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "テスト実行時にクライアントをログイン状態にする `login()` メソッドの定義です。<br><pre><code>def login(self):\n    return self.client.____(username=self._username, password=self._password)</code></pre>",
+      "options": [
+        "login",
+        "auth",
+        "authenticate",
+        "signin"
+      ],
+      "answer": 0,
+      "commentary": "テスト環境でログインを実行するには `self.client.login(...)` を呼出します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "POST送信後に別のURL（例: `self.forum_url`）へリダイレクトされたことを検証するアサーションメソッドは何ですか？<br><pre><code>self.____(\n    res,\n    self.forum_url,\n    status_code=302,\n    target_status_code=200,\n    fetch_redirect_response=True,\n)</code></pre>",
+      "options": [
+        "assertRedirects",
+        "assertRedirect",
+        "assertLocation",
+        "assertForward"
+      ],
+      "answer": 0,
+      "commentary": "リダイレクト先のURLやステータスコードをまとめてテストするには `assertRedirects` を使用します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "Djangoで処理完了後に別ページへリダイレクト（転送）される際の標準的なHTTPステータスコード数値は何ですか？",
+      "options": [
+        "302",
+        "200",
+        "404",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "リダイレクトレスポンスのHTTPステータスコードは `302` です。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "Pythonのf-stringを使って、動的にトピックIDを埋め込んだ掲示板URLを作成する記述です。<br><pre><code>cls.forum_url = f\"/forum/{___}/\"</code></pre>",
+      "options": [
+        "cls.topic.id",
+        "topic_id",
+        "self.id",
+        "Topic.id"
+      ],
+      "answer": 0,
+      "commentary": "生成した `cls.topic` オブジェクトの `id` を波括弧内に指定して `f\"/forum/{cls.topic.id}/\"` と記述します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "初期件数2件の状態で、画像と返信元IDを含めたメッセージ投稿テスト（`test_valid_message_post_with_image_and_parent_message_id`）を実行した場合、`Message.objects.filter(...)` の件数は何件になりますか？",
+      "options": [
+        "3件（1件追加される）",
+        "2件（変化なし）",
+        "0件",
+        "1件"
+      ],
+      "answer": 0,
+      "commentary": "正常なPOST送信により新しいメッセージが1件保存されるため、合計件数は 2件から 3件に増加します。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "ログインしていない状態（未ログイン）で `test_invalid_message_post_not_authenticated` から投稿POST送信を実行した場合、返ってくるステータスコードは何ですか？",
+      "options": [
+        "302（ログイン画面へリダイレクトされる）",
+        "200（そのまま投稿される）",
+        "500（サーバーエラー）",
+        "404（ページが見つからない）"
+      ],
+      "answer": 0,
+      "commentary": "ログインが必要なビューに対して未認証のままPOST送信すると、ログインページへリダイレクト（302）されます。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "未ログインユーザーが投稿POST送信を行った場合、データベース内の `Message` の件数はどう変化しますか？",
+      "options": [
+        "保存処理がスキップされるため、件数は変化しない（2件のまま）",
+        "1件追加されて3件になる",
+        "既存の全メッセージが削除される",
+        "エラーでデータベースが初期化される"
+      ],
+      "answer": 0,
+      "commentary": "未ログイン時は投稿が不許可となりDBへ保存されないため、メッセージ件数は変化しません。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "文字制限（200文字）を超える201文字を入力して投稿POST送信を行った場合（`test_invalid_message_post_too_long_content`）、DB内のメッセージ数はどうなりますか？",
+      "options": [
+        "バリデーションエラーとなりDBに保存されないため、件数は変化しない（2件のまま）",
+        "エラーにならず1件追加される",
+        "201文字目が自動で切り落とされて追加される",
+        "全メッセージが削除される"
+      ],
+      "answer": 0,
+      "commentary": "文字数制限オーバーによりバリデーションが失敗し保存されないため、件数は変わりません。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "メッセージ文を空文字 `\"\"` にして投稿POST送信を行った場合（`test_invalid_message_post_without_content`）、DB内のメッセージ数はどうなりますか？",
+      "options": [
+        "空投稿は不許可となり、メッセージ件数は変化しない",
+        "空のメッセージとして1件追加される",
+        "\"名無し\" という文字が補われて追加される",
+        "例外が発生してサーバーが停止する"
+      ],
+      "answer": 0,
+      "commentary": "必須項目であるメッセージ本文が空のため保存されず、データベース件数は維持されます。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "201文字の文字列（文字「a」が201個連続するテキスト）をPythonで簡潔に生成するコードはどれですか？<br><pre><code>invalid_form = {\n    \"message\": ___,\n}</code></pre>",
+      "options": [
+        "\"a\" * 201",
+        "\"a\" + 201",
+        "repeat(\"a\", 201)",
+        "\"a\".multi(201)"
+      ],
+      "answer": 0,
+      "commentary": "Pythonでは `\"文字列\" * 回数` の掛け算によって繰り返し文字列を簡単に作成できます。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "Djangoのテストランナーが自動でテストファイルとして認識・実行するためのファイル命名ルールとして正しいものはどれですか？",
+      "options": [
+        "ファイル名を `test_` で始める（例: `test_message.py`）",
+        "ファイル名を `_test` で終わらせる（例: `message_test.py`）",
+        "ファイル名に必ず `django` を含める",
+        "ファイル名をすべて大文字にする"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのテスト発見機能は `test*.py` というパターンのファイル名を認識して自動実行します。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "返信関係を表す `Reply` モデルのインスタンスを作成するコードです。空欄に入る引数の組み合わせを選んでください。<br><pre><code>cls.reply = Reply.objects.create(\n    ___ = cls.child_message,\n    ___ = cls.parent_message,\n)</code></pre>",
+      "options": [
+        "child_message / parent_message",
+        "from_message / to_message",
+        "sub_message / main_message",
+        "child_id / parent_id"
+      ],
+      "answer": 0,
+      "commentary": "Replyモデルで定義した外部キー属性名である `child_message` と `parent_message` を指定します。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "親メッセージ（`parent_message`）を削除した場合（`self.parent_message.delete()`）、紐づいていた `Reply` オブジェクトの件数はどうなりますか？（ForeignKeyに `on_delete=models.CASCADE` が設定されているとします）",
+      "options": [
+        "連動して削除され 0件 になる",
+        "1件のまま残る",
+        "親メッセージのみ削除され Reply は残る",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "`CASCADE` 設定により、親メッセージの削除に伴って関連する Reply レコードも自動削除され 0件になります。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "手動で操作・確認する「ヒューマンテスト」と比較したときの、「テストコード」による自動テストの利点として最も適切なものはどれですか？",
+      "options": [
+        "プログラムの実行によって見落としなく正確かつ高速に何度でも検証できる",
+        "テストコードを書くとプログラムの行数が減る",
+        "画面の見た目（CSSデザイン）の美しさを評価できる",
+        "開発コストが絶対に0円になる"
+      ],
+      "answer": 0,
+      "commentary": "テストコードは機械的に漏れなく高速で検証を行えるため、手動テストでの見落としを防ぎデバッグを容易にします。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "Djangoで `SimpleUploadedFile` クラスをインポートするための正しいモジュールパスはどれですか？",
+      "options": [
+        "from django.core.files.uploadedfile import SimpleUploadedFile",
+        "from django.files import SimpleUploadedFile",
+        "from django.test.files import SimpleUploadedFile",
+        "from django.utils.files import SimpleUploadedFile"
+      ],
+      "answer": 0,
+      "commentary": "`SimpleUploadedFile` は `django.core.files.uploadedfile` からインポートして使用します。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "`SimpleUploadedFile` を生成する際の正しい引数の順番（第1引数, 第2引数, 第3引数）はどれですか？",
+      "options": [
+        "SimpleUploadedFile(ファイル名, バイトデータ, content_type=MIMEタイプ)",
+        "SimpleUploadedFile(バイトデータ, ファイル名, content_type=MIMEタイプ)",
+        "SimpleUploadedFile(content_type=MIMEタイプ, ファイル名, バイトデータ)",
+        "SimpleUploadedFile(ファイル名, content_type=MIMEタイプ, バイトデータ)"
+      ],
+      "answer": 0,
+      "commentary": "第1引数にファイル名（例: `'test.gif'`）、第2引数にバイナリデータ（例: `gif`）、キーワード引数に `content_type` を指定します。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "検索キー付きURL（例: `/forum/1/?keyword=test_keyword`）へGETアクセスするテストを実行した際、正常表示された場合のレスポンスステータスコードは何ですか？<br><pre><code>valid_url = f\"{self.forum_url}?keyword=test_keyword\"\nres = self.client.get(valid_url)\nself.assertEqual(res.status_code, 200)</code></pre>",
+      "options": [
+        "200",
+        "302",
+        "404",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "検索キーワード付きのGETアクセスでも、正常にページが描写されれば `200` が返されます。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "テスト用オブジェクトの属性値を変更後、DB内の実際の値を更新するために最後に呼び出すメソッドは何ですか？<br><pre><code>self.topic.name = \"TestTopic2\"\nself.topic.____()\nself.assertEqual(self.topic.name, \"TestTopic2\")</code></pre>",
+      "options": [
+        "save",
+        "update",
+        "refresh",
+        "commit"
+      ],
+      "answer": 0,
+      "commentary": "インスタンスの変更内容をデータベースに保存するには `.save()` を実行します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "Djangoプロジェクトにおいて、単体テスト・フォームテスト・ビューテストを別々のファイル（`test_message.py` など）に分割して整理する主な目的は何ですか？",
+      "options": [
+        "どこがどの機能のテストかが分かりやすくなり、保守・管理がしやすくなるため",
+        "テストの実行速度が100倍速くなるため",
+        "分割しないとDjangoがエラーを吐くため",
+        "データベースの容量を節約するため"
+      ],
+      "answer": 0,
+      "commentary": "テストコードを機能・役割ごとにファイル分割して管理することで、視認性とメンテナンス性が大幅に向上します。"
+    }
+  ]
 }
