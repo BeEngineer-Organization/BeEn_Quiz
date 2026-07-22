@@ -1,4 +1,525 @@
 {
-  "unit_title": "ダミーデータ作成",
-  "questions": []
+  "unit_title": "クエリ最適化 1",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "DjangoでSQL文を直接書かずに、Pythonのコードを使ってデータベースの操作を行う仕組みを何と呼びますか？",
+      "options": [
+        "ORM (Object Relational Mapping)",
+        "API (Application Programming Interface)",
+        "MVC (Model View Controller)",
+        "DOM (Document Object Model)"
+      ],
+      "answer": 0,
+      "commentary": "Djangoなどのフレームワークで、データベースの操作をPythonのオブジェクト操作として扱える仕組みをORMと呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoで対話モード（シェル）を起動するための管理コマンドはどれですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "runserver",
+        "shell",
+        "startapp",
+        "console"
+      ],
+      "answer": 1,
+      "commentary": "対話モードを起動して直接クエリを試すには `python manage.py shell` を実行します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "クエリ結果から特定のフィールドだけを辞書型で取得したい場合に使用するメソッドはどれですか？<br><pre><code>User.objects.filter(id__lt=5).___('id', 'username')</code></pre>",
+      "options": [
+        "values",
+        "only",
+        "get",
+        "select"
+      ],
+      "answer": 0,
+      "commentary": "`values()` を使うと指定したフィールドのみを辞書形式で取り出すことができます。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "取得したデータに対し、集計結果などの新しい計算フィールドを動的に追加・付与するためのORMメソッドは何ですか？<br><pre><code>User.objects.annotate(send_count=___(\"sent_talk\"))</code></pre>",
+      "options": [
+        "annotate",
+        "aggregate",
+        "append",
+        "add"
+      ],
+      "answer": 0,
+      "commentary": "各レコードに計算結果などの新しいフィールドを追加するには `annotate()` を使用します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "関連づけられたレコードの「総数」を集計する際に、`annotate()` と組み合わせて使用するDjangoの関数は何ですか？<br><pre><code>from django.db.models import ___</code></pre>",
+      "options": [
+        "Count",
+        "Sum",
+        "Max",
+        "Avg"
+      ],
+      "answer": 0,
+      "commentary": "件数を集計・カウントするには `from django.db.models import Count` を利用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "指定したフィールドの最大値（最も大きい数値や最も新しい日時）を取得する集計関数は何ですか？<br><pre><code>from django.db.models import ___</code></pre>",
+      "options": [
+        "Max",
+        "Top",
+        "Greatest",
+        "Highest"
+      ],
+      "answer": 0,
+      "commentary": "単一フィールド群の中での最大値（最新日時）を取得するには `Max` 関数を使用します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "複数のフィールドを受け取り、それらの中で最も大きい値を返すデータベース関数は何ですか？<br><pre><code>from django.db.models.functions import ___</code></pre>",
+      "options": [
+        "Greatest",
+        "Max",
+        "Highest",
+        "Compare"
+      ],
+      "answer": 0,
+      "commentary": "複数のフィールド（例: `send_max` と `receive_max`）を比較して最大の値を返すには `Greatest` を使います。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "複数フィールドを受け取り、最初に出てくる `None` 以外の非空の値を返してくれる関数は何ですか？<br><pre><code>from django.db.models.functions import ___</code></pre>",
+      "options": [
+        "Coalesce",
+        "Greatest",
+        "NotNull",
+        "FirstValue"
+      ],
+      "answer": 0,
+      "commentary": "`None` を回避し、最初に見つかった有効な値を返すには `Coalesce` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "SQLite環境において、`Greatest(\"send_max\", \"receive_max\")` を使用した際、片方のフィールドの値が `None`（データなし）だった場合、どのような結果が返されますか？",
+      "options": [
+        "None",
+        "None ではない方の値",
+        "エラー（例外）が発生する",
+        "0（数値）"
+      ],
+      "answer": 0,
+      "commentary": "SQLiteにおける `Greatest` は、比較対象に `None` が含まれていると全体の結果も `None` になってしまいます。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "次のコードで `Coalesce(\"time_max\", \"sent_talk__time__max\", \"received_talk__time__max\")` を使用した場合、`time_max` が `None` で `sent_talk__time__max` に日時が入っていたときの戻り値は何ですか？",
+      "options": [
+        "sent_talk__time__max の値",
+        "None",
+        "time_max の値",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "`Coalesce` は左から順番に評価し、最初に出てきた `None` 以外の非空データを採用するため、`sent_talk__time__max` の値が返されます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "Djangoのクエリ内で、他のモデルとリレーション（ForeignKeyなど）でつながっている参照先フィールド（例: Talkのtime）を指定する際の正しい記法はどれですか？<br><pre><code>sent_talk___time</code></pre>",
+      "options": [
+        "__",
+        ".",
+        "->",
+        ":"
+      ],
+      "answer": 0,
+      "commentary": "Django ORMで参照先モデルのプロパティを指定する場合は、アンダースコア2つ（`__`）で繋ぎます。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "`annotate()` や `filter()` の中で、複雑な検索条件を組み立てるために使うオブジェクトはどれですか？<br><pre><code>from django.db.models import Q\n\nMax(\"sent_talk__time\", filter=___(sent_talk__receiver=me))</code></pre>",
+      "options": [
+        "Q",
+        "F",
+        "Where",
+        "Condition"
+      ],
+      "answer": 0,
+      "commentary": "フィルター条件をより柔軟に記述するためには `Q` オブジェクトを使用します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "以下のクエリを実行したとき、どのような順番でデータが取得されますか？<br><pre><code>User.objects.annotate(...).order_by(\"-last_talk_time\")</code></pre>",
+      "options": [
+        "last_talk_time（最新のチャット日時）が新しい順（降順）",
+        "last_talk_time が古い順（昇順）",
+        "ユーザーIDの昇順",
+        "ランダムな順序"
+      ],
+      "answer": 0,
+      "commentary": "フィールド名の頭に `-`（マイナス）を付けているため、数値・日時が大きい順（最新順の降順）になります。"
+    },
+    {
+      "id": 14,
+      "type": "用語理解",
+      "question": "ブラウザ画面上で、実行されたSQLクエリの数や所要時間、読み込まれたテンプレートなどのデバッグ情報を確認できる拡張ライブラリは何ですか？",
+      "options": [
+        "django-debug-toolbar",
+        "django-extensions",
+        "django-admin",
+        "django-cors-headers"
+      ],
+      "answer": 0,
+      "commentary": "画面上で発行されたクエリの数や実行時間をビジュアルに確認できる開発用ツールは `django-debug-toolbar` です。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "`django-debug-toolbar` をインストールするコマンドです。空欄に入るパッケージ名は何ですか？<br><pre><code>pip install ___</code></pre>",
+      "options": [
+        "django-debug-toolbar",
+        "debug-toolbar",
+        "django-toolbar",
+        "django-debug"
+      ],
+      "answer": 0,
+      "commentary": "Pipでインストールする際の正しいパッケージ名は `django-debug-toolbar` です。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "`settings.py` の `INSTALLED_APPS` にデバッグツールバーを登録する記述です。<br><pre><code>INSTALLED_APPS = [\n    # ...\n    \"___\",\n]</code></pre>",
+      "options": [
+        "debug_toolbar",
+        "django_debug_toolbar",
+        "toolbar",
+        "debug_tools"
+      ],
+      "answer": 0,
+      "commentary": "`INSTALLED_APPS` に追加するアプリケーション名は `\"debug_toolbar\"` です。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "デバッグツールバーを機能させるため、`settings.py` の `MIDDLEWARE` に追加するミドルウェアの記述はどれですか？<br><pre><code>MIDDLEWARE = [\n    # ...\n    \"___\",\n]</code></pre>",
+      "options": [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        "django.middleware.debug.DebugMiddleware",
+        "debug_toolbar.DebugMiddleware",
+        "django.contrib.toolbar.Middleware"
+      ],
+      "answer": 0,
+      "commentary": "`\"debug_toolbar.middleware.DebugToolbarMiddleware\"` を追加します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "デバッグツールバーを表示させる許可IP（ローカル環境など）を指定するために `settings.py` に定義する変数はどれですか？<br><pre><code>___ = [\n    \"127.0.0.1\",\n]</code></pre>",
+      "options": [
+        "INTERNAL_IPS",
+        "ALLOWED_HOSTS",
+        "DEBUG_IPS",
+        "LOCAL_IPS"
+      ],
+      "answer": 0,
+      "commentary": "デバッグツールバーを内部的に表示させるIPアドレスリストの設定名は `INTERNAL_IPS` です。"
+    },
+    {
+      "id": 19,
+      "type": "文法チェック",
+      "question": "`chat_app/urls.py` で、`DEBUG` モード時のみデバッグツールバーのURLを追加する正しい記述はどれですか？",
+      "options": [
+        "if settings.DEBUG:\n    urlpatterns += [path(\"__debug__/\", include(\"debug_toolbar.urls\"))]",
+        "if DEBUG == True:\n    urlpatterns.add(\"__debug__/\")",
+        "urlpatterns.append(\"__debug__/\")",
+        "if settings.is_debug():\n    path(\"__debug__/\")"
+      ],
+      "answer": 0,
+      "commentary": "`if settings.DEBUG:` 条件の元で `path(\"__debug__/\", include(\"debug_toolbar.urls\"))` を追加します。"
+    },
+    {
+      "id": 20,
+      "type": "用語理解",
+      "question": "Webページが1回表示される間に、データベースに対して発行されたSQL文（クエリ）の合計回数を何と呼びますか？",
+      "options": [
+        "クエリの発行回数",
+        "データベース・アクセス権",
+        "SQLレスポンスタイム",
+        "クエリ・コミット数"
+      ],
+      "answer": 0,
+      "commentary": "1ページ描画の際にDBにアクセスした問い合わせの回数を「クエリの発行回数」と呼びます。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "ウェブページの表示にあたって「クエリの発行回数」が増えすぎると、システムにはどのような影響が出ますか？",
+      "options": [
+        "処理が重くなり、ページの読み込み速度が遅くなる",
+        "画面のフォントサイズが小さくなる",
+        "自動的にログアウトされる",
+        "データベースの全容量が消去される"
+      ],
+      "answer": 0,
+      "commentary": "DBアクセスの発行回数が無駄に多くなると、処理に時間がかかりユーザー体験が低下します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "Djangoテンプレート内で日付データを「月/日 時:分」（例: 04/01 12:30）の形式にフォーマットするフィルター記述はどれですか？<br><pre><code>{{ friend.last_talk_time|___:\"m/d H:i\" }}</code></pre>",
+      "options": [
+        "date",
+        "time",
+        "format",
+        "datetime"
+      ],
+      "answer": 0,
+      "commentary": "Djangoテンプレートで日付を指定の形式にフォーマットするには `|date:\"...\"` フィルターを使用します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "Djangoテンプレートで、文字数が長すぎる場合（例: 20文字を超える場合）に末尾を「…」で省略表示するフィルターはどれですか？<br><pre><code>{{ last_talk.message|___:20 }}</code></pre>",
+      "options": [
+        "truncatechars",
+        "limit",
+        "slice",
+        "shorten"
+      ],
+      "answer": 0,
+      "commentary": "指定した文字数でテキストを切り詰めて省略表示するには `truncatechars` を使用します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "`annotate()` で追加された動的フィールド（例: `send_count` や `last_talk_time`）についての説明で正しいものはどれですか？",
+      "options": [
+        "クエリセットの変数（オブジェクト）上に一時的に付与されたデータであり、DBのテーブル自体に列が追加されたわけではない",
+        "データベースのテーブル構造（models.py）が永続的に書き換えられる",
+        "他のすべてのビュー関数から永続的に参照できるようになる",
+        "ブラウザのローカルストレージにのみ保存される"
+      ],
+      "answer": 0,
+      "commentary": "`annotate()` は実行したクエリの結果オブジェクトに対して一時的に注釈（計算フィールド）を付ける機能です。"
+    },
+    {
+      "id": 25,
+      "type": "文法チェック",
+      "question": "Djangoのクエリで「idが 5 未満（5より小さい）」という条件を指定する正しい書き方はどれですか？",
+      "options": [
+        "User.objects.filter(id__lt=5)",
+        "User.objects.filter(id < 5)",
+        "User.objects.filter(id__small=5)",
+        "User.objects.filter(id_less=5)"
+      ],
+      "answer": 0,
+      "commentary": "「〜未満（Less Than）」の比較ルックアップは `フィールド名__lt=値` です。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "ListViewを継承したクラスベースビューで、取得するクエリセットをカスタマイズ・再定義するためにオーバーライドするメソッドは何ですか？<br><pre><code>class FriendsView(LoginRequiredMixin, ListView):\n    def ____(self):\n        queryset = User.objects.exclude(...)\n        return queryset</code></pre>",
+      "options": [
+        "get_queryset",
+        "get_data",
+        "query_set",
+        "get_objects"
+      ],
+      "answer": 0,
+      "commentary": "表示する一覧データのクエリセットを自作・カスタマイズするには `get_queryset()` メソッドをオーバーライドします。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "ログイン中の自分のID（`self.request.user.id`）を対象から除外（排斥）してユーザー一覧を取得するメソッドはどれですか？<br><pre><code>User.objects.___(id=self.request.user.id)</code></pre>",
+      "options": [
+        "exclude",
+        "filter",
+        "delete",
+        "remove"
+      ],
+      "answer": 0,
+      "commentary": "指定した条件の要素を除外したクエリセットを得るには `exclude()` を使います。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "`django-debug-toolbar` のパネルを開いた際、SQLクエリの発行回数や実行履歴を確認するためにクリックするメニュー項目は何ですか？",
+      "options": [
+        "SQL",
+        "Database",
+        "Queries",
+        "Debug"
+      ],
+      "answer": 0,
+      "commentary": "ツールバーの「SQL」項目を選択することで、ページ内で動いたSQLの詳細と発行回数が確認できます。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "本番環境（`settings.DEBUG = False`）でアプリを動かした場合、`django-debug-toolbar` はどのように動作しますか？",
+      "options": [
+        "画面上に表示されない（本番環境では非表示になる）",
+        "エラーが発生してサイトが停止する",
+        "開発環境とまったく同じように画面右側に表示される",
+        "自動的にデータベースが初期化される"
+      ],
+      "answer": 0,
+      "commentary": "デバッグツールバーは安全のため `DEBUG = True` かつ許可されたIPアクセス時のみ表示されます。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "URLから検索キーワード（GETパラメータ `keyword`）を取得する正しいPythonコードはどれですか？",
+      "options": [
+        "keyword = self.request.GET.get(\"keyword\")",
+        "keyword = self.request.POST.get(\"keyword\")",
+        "keyword = request.keyword",
+        "keyword = self.GET[\"keyword\"]"
+      ],
+      "answer": 0,
+      "commentary": "クエリパラメータを取得するには `self.request.GET.get(\"パラメータ名\")` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "ユーザー名に検索ワードが部分一致（大文字小文字を区別しない）するか判定するクエリルックアップはどれですか？<br><pre><code>queryset.filter(username____=keyword)</code></pre>",
+      "options": [
+        "__icontains",
+        "__contains",
+        "__like",
+        "__exact"
+      ],
+      "answer": 0,
+      "commentary": "大文字・小文字を無視した部分一致検索には `__icontains` を使用します。"
+    },
+    {
+      "id": 32,
+      "type": "用語理解",
+      "question": "直近でチャットを行ったユーザーを画面の上上に並べるために、本節で実施した工夫は何ですか？",
+      "options": [
+        "送信・受信メッセージの最新日時を `annotate` と `Coalesce` 等で取得し、その日時で並び替えた",
+        "ユーザーのID順にソートした",
+        "ユーザーの名前の五十音順でソートした",
+        "ランダムにシャッフルした"
+      ],
+      "answer": 0,
+      "commentary": "自分と相手の間の最新チャット日時を計算して付与し、その日時を基準に降順ソートすることで解決しました。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "一度もチャット（送信も受信も）をしたことがないユーザーの場合、`last_talk_time` の値はどうなりますか？",
+      "options": [
+        "None",
+        "1970-01-01 00:00:00",
+        "現在時刻",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "送信・受信履歴がどちらも存在しない場合、集計結果は `None` になります。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Djangoのモデルで関連する逆参照（例: あるUserが送ったTalk一覧）のデフォルトフィールド名の傾向として正しいものはどれですか？",
+      "options": [
+        "related_name を指定していない場合は `モデル名_set` や定義されたフィールド名",
+        "常に `all_talks` になる",
+        "逆参照は一切できない",
+        "常に `talk_list` になる"
+      ],
+      "answer": 0,
+      "commentary": "ForeignKeyで指定されたリレーションは、モデル定義や `related_name` 設定に基づいて逆参照できます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でカスタムタグを呼び出し、変数 `last_talk` に結果を代入する記法です。<br><pre><code>{% display_last_message request.user friend ___ last_talk %}</code></pre>",
+      "options": [
+        "as",
+        "to",
+        "into",
+        "set"
+      ],
+      "answer": 0,
+      "commentary": "テンプレートタグの実行結果を変数に格納するには `as 変数名` の構文を使います。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "Webサイトやアプリで、ユーザーの検索の手間を減らしたり直感的に使いやすくしたりするデザインや使い勝手の良さを総称して何と呼びますか？",
+      "options": [
+        "ユーザー体験（UX）",
+        "ユーザーインターフェース（UI）",
+        "システムパフォーマンス",
+        "データベース設計"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーがサービスを通じて得る体験や満足度のことを「ユーザー体験（UX: User Experience）」と呼びます。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "本節でビュー関数において `values()` をあえて使わなかった理由は何ですか？",
+      "options": [
+        "辞書型になると、Userインスタンスを引数とするカスタムテンプレートタグが動かなくなるから",
+        "values() を使うとスピードが著しく遅くなるから",
+        "values() はDjangoで非推奨になったから",
+        "values() を使うとデータベースが破損するから"
+      ],
+      "answer": 0,
+      "commentary": "`values()` を使うとデータがUserモデルのインスタンスではなくPythonの辞書型になるため、モデルの属性を使うテンプレートタグでエラーになるためです。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`django-debug-toolbar` の設定において、インポートした `settings` を確認してURLパターンを追加する条件式です。<br><pre><code>if settings.___: \n    urlpatterns += [path(\"__debug__/\", include(\"debug_toolbar.urls\"))]</code></pre>",
+      "options": [
+        "DEBUG",
+        "DEVELOPMENT",
+        "TESTING",
+        "ENABLE_TOOLBAR"
+      ],
+      "answer": 0,
+      "commentary": "開発モード時（`DEBUG = True`）のみ有効化するために `settings.DEBUG` を判定します。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "新しいパッケージをインストールした後に、依存関係ファイル（`requirements.txt`）を更新する標準コマンドはどれですか？",
+      "options": [
+        "pip freeze > requirements.txt",
+        "pip save requirements.txt",
+        "pip export > requirements.txt",
+        "python manage.py freeze"
+      ],
+      "answer": 0,
+      "commentary": "現在の環境のパッケージ一覧を出力して書き保存するには `pip freeze > requirements.txt` を使用します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "データベース操作において、必要なデータのみを最小限の回数で効率的に取り出すようにコードを改善・最適化することを何と呼びますか？",
+      "options": [
+        "クエリ最適化",
+        "データマイグレーション",
+        "リファクタリング",
+        "ノーコード化"
+      ],
+      "answer": 0,
+      "commentary": "データベースへの無駄なアクセスを減らし、パフォーマンスを上げる取り組みを「クエリ最適化」と呼びます。"
+    }
+  ]
 }

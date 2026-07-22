@@ -128,47 +128,47 @@
           "name": "要件定義",
           "units": [
             { "id": "B1-u15", "title": "要件定義 1", "jsonPath": "data/B1/unit15.json" },
-            { "id": "B1-u16", "title": "要件定義 2", "jsonPath": "data/B1/unit16.json" },
-            { "id": "B1-u17", "title": "演習", "jsonPath": "data/B1/unit17.json" }
+            { "id": "B1-u16", "title": "要件定義 2", "jsonPath": "data/B1/unit16.json" }
           ]
         },
         {
           "id": "B1-query-optimization",
           "name": "クエリ最適化",
           "units": [
-            { "id": "B1-u18", "title": "ダミーデータ作成", "jsonPath": "data/B1/unit18.json" },
-            { "id": "B1-u19", "title": "クエリ最適化 1", "jsonPath": "data/B1/unit19.json" },
-            { "id": "B1-u20", "title": "クエリ最適化 2", "jsonPath": "data/B1/unit20.json" },
-            { "id": "B1-u21", "title": "クエリ最適化 3", "jsonPath": "data/B1/unit21.json" },
-            { "id": "B1-u22", "title": "クエリ最適化 1 - 演習と解説", "jsonPath": "data/B1/unit22.json" },
-            { "id": "B1-u23", "title": "クエリ最適化 2 - 演習と解説", "jsonPath": "data/B1/unit23.json" }
+            { "id": "B1-u17", "title": "ダミーデータ作成", "jsonPath": "data/B1/unit17.json" },
+            { "id": "B1-u18", "title": "クエリ最適化 1", "jsonPath": "data/B1/unit18.json" },
+            { "id": "B1-u19", "title": "クエリ最適化 2", "jsonPath": "data/B1/unit19.json" },
+            { "id": "B1-u20", "title": "クエリ最適化 3", "jsonPath": "data/B1/unit20.json" },
+            { "id": "B1-u21", "title": "クエリ最適化 1 - 演習", "jsonPath": "data/B1/unit21.json" },
+            { "id": "B1-u22", "title": "クエリ最適化 2 - 演習", "jsonPath": "data/B1/unit22.json" }
           ]
         },
         {
           "id": "B1-logging",
           "name": "ロギング",
           "units": [
-            { "id": "B1-u24", "title": "ロギング - 基礎", "jsonPath": "data/B1/unit24.json" },
-            { "id": "B1-u25", "title": "ロギング - 応用", "jsonPath": "data/B1/unit25.json" }
+            { "id": "B1-u23", "title": "ロギング - 基礎", "jsonPath": "data/B1/unit23.json" },
+            { "id": "B1-u24", "title": "ロギング - 応用", "jsonPath": "data/B1/unit24.json" }
           ]
         },
         {
           "id": "B1-testing",
           "name": "テストコード",
           "units": [
-            { "id": "B1-u26", "title": "テストコードを書く 1", "jsonPath": "data/B1/unit26.json" },
-            { "id": "B1-u27", "title": "テストコードを書く 2", "jsonPath": "data/B1/unit27.json" },
-            { "id": "B1-u28", "title": "テストコード - 演習と解説", "jsonPath": "data/B1/unit28.json" }
+            { "id": "B1-u25", "title": "テストコードを書く 1", "jsonPath": "data/B1/unit25.json" },
+            { "id": "B1-u26", "title": "テストコードを書く 2", "jsonPath": "data/B1/unit26.json" },
+            { "id": "B1-u27", "title": "テストコード - 演習", "jsonPath": "data/B1/unit27.json" }
           ]
         },
         {
           "id": "B1-more-django-sns",
           "name": "More Django - SNS アプリ",
           "units": [
-            { "id": "B1-u29", "title": "SNS アプリ", "jsonPath": "data/B1/unit29.json" },
-            { "id": "B1-u30", "title": "コメント機能の実装 1", "jsonPath": "data/B1/unit30.json" },
-            { "id": "B1-u31", "title": "コメント機能の実装 2", "jsonPath": "data/B1/unit31.json" },
-            { "id": "B1-u32", "title": "SNS アプリのデプロイ", "jsonPath": "data/B1/unit32.json" }
+            { "id": "B1-u28", "title": "SNS アプリ", "jsonPath": "data/B1/unit28.json" },
+            { "id": "B1-u29", "title": "メールアドレス認証の実装", "jsonPath": "data/B1/unit29.json" },
+            { "id": "B1-u30", "title": "パスワードリセット機能の実装", "jsonPath": "data/B1/unit30.json" },
+            { "id": "B1-u31", "title": "コメント機能の実装", "jsonPath": "data/B1/unit31.json" },
+            { "id": "B1-u32", "title": "プロフィールページの実装", "jsonPath": "data/B1/unit32.json" }
           ]
         }
       ]

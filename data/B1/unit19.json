@@ -1,4 +1,525 @@
 {
-  "unit_title": "クエリ最適化 1",
-  "questions": []
+  "unit_title": "クエリ最適化 2",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "親オブジェクトを取得した後に、繰り返し処理の中で関連する子オブジェクトをその都度取得してしまい、大量のSQLクエリが発行されて処理が遅くなる問題を何と呼びますか？",
+      "options": [
+        "N + 1 問題",
+        "オーバーフロー問題",
+        "デッドロック問題",
+        "インデックス全探索問題"
+      ],
+      "answer": 0,
+      "commentary": "親データの取得で1回、N個の親に紐づく関連データをループ内で取得するためにN回、合計 N+1 回のクエリが発行されて低速化する現象を「N + 1 問題」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "データを新規作成するための汎用クラスベースビューをインポートする記述です。空欄に入る適切なクラス名は何ですか？<br><pre><code>from django.views.generic.edit import ___</code></pre>",
+      "options": [
+        "CreateView",
+        "FormView",
+        "DetailView",
+        "ListView"
+      ],
+      "answer": 0,
+      "commentary": "新規データの追加画面を作成するための汎用クラスベースビューは `CreateView` です。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "ルーティング（`urls.py`）でクラスベースビューを指定する際に呼び出す必須のメソッドは何ですか？<br><pre><code>urlpatterns = [\n    path(\"talk_room/&lt;user_id&gt;\", views.TalkRoomView.___\n(), name=\"talk_room\"),\n]</code></pre>",
+      "options": [
+        "as_view",
+        "run_view",
+        "get_view",
+        "show_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをルーティングに登録する際は `ビュークラス名.as_view()` を呼び出します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "クラスベースビューでテンプレートに渡すコンテキスト（辞書データ）を拡張・定義するために呼び出す親クラスのメソッド記述はどれですか？<br><pre><code>def get_context_data(self, **kwargs):\n    context = ___().get_context_data(**kwargs)</code></pre>",
+      "options": [
+        "super",
+        "parent",
+        "base",
+        "self"
+      ],
+      "answer": 0,
+      "commentary": "親クラスの `get_context_data` を呼び出して初期コンテキストを取得するために `super().get_context_data(**kwargs)` を記述します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "URLパラメータ等から受け取った `user_id` を使って、指定したユーザーを取得し、存在しない場合は404エラーを返す関数は何ですか？<br><pre><code>user_id = self.kwargs[\"user_id\"]\nfriend = ___(User, id=user_id)</code></pre>",
+      "options": [
+        "get_object_or_404",
+        "get_user_or_404",
+        "find_object_or_404",
+        "fetch_or_404"
+      ],
+      "answer": 0,
+      "commentary": "指定したIDのオブジェクトが見つからない場合に自動で404エラーを発生させる関数は `get_object_or_404()` です。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "次のコードで `Q` オブジェクトを `|`（パイプ）記号で繋いだ場合、どのような検索条件になりますか？<br><pre><code>Talk.objects.filter(\n    Q(sender=self.request.user, receiver=friend)\n    | Q(sender=friend, receiver=self.request.user)\n)</code></pre>",
+      "options": [
+        "「自分が送信者かつ相手が受信者」または「相手が送信者かつ自分が受信者」のデータを取得する（OR条件）",
+        "「自分が送信者」かつ「相手が受信者」の両方を満たすデータのみ取得する（AND条件）",
+        "自分と相手以外の第三者のトークを取得する（NOT条件）",
+        "最新の1件だけを取得する"
+      ],
+      "answer": 0,
+      "commentary": "Qオブジェクトを `|` で繋ぐと「OR（または）」条件になり、自分と相手の間でやり取りされた全トークを抽出できます。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "フォームのデータをまだデータベースには書き込まず、メモリ上でモデルインスタンスとして仮作成（取得）するための設定はどれですか？<br><pre><code>new_talk = form.save(___=False)</code></pre>",
+      "options": [
+        "commit",
+        "save",
+        "db",
+        "force"
+      ],
+      "answer": 0,
+      "commentary": "`form.save(commit=False)` を使用すると、DBへ即座に保存せず、送信者や受信者などの値を途中で設定できる仮のオブジェクトを生成できます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "クラスベースビューで処理成功後のリダイレクト先URLを遅延評価（安全に指定）するためにインポートして使う関数は何ですか？<br><pre><code>def get_success_url(self):\n    user_id = self.kwargs[\"user_id\"]\n    return ___(\"talk_room\", kwargs={\"user_id\": user_id})</code></pre>",
+      "options": [
+        "reverse_lazy",
+        "redirect_url",
+        "get_url",
+        "resolve_url"
+      ],
+      "answer": 0,
+      "commentary": "クラス定義時などに安全にURLを逆引き・取得するには `reverse_lazy()` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "テンプレート内でトークの吹き出しをクリックした際、URLパラメータとしてそのトークのID（`talk.id`）を付与するリンク記述はどれですか？<br><pre><code>&lt;a href=\"___\" class=\"chatboard__message\"&gt;\n    {{ talk.message }}\n&lt;/a&gt;</code></pre>",
+      "options": [
+        "?parent_talk_id={{ talk.id }}",
+        "&parent_talk_id={{ talk.id }}",
+        "/parent_talk_id/{{ talk.id }}",
+        "#parent_talk_id={{ talk.id }}"
+      ],
+      "answer": 0,
+      "commentary": "同一ページに対してクエリパラメータ（URLパラメータ）を付与して遷移する場合は `?キー=値`（`?parent_talk_id={{ talk.id }}`）の形式で書きます。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "HTMLリンクで `href=\"?parent_talk_id=5\"` と書かれた要素をクリックしたときのブラウザの動作として正しいものはどれですか？",
+      "options": [
+        "現在のページURLの末尾に `?parent_talk_id=5` というパラメータを付けた同じページに遷移する",
+        "全く別の外部Webサイトに移動する",
+        "5番目の要素が画面から削除される",
+        "POSTリクエストがサーバーに直接送信される"
+      ],
+      "answer": 0,
+      "commentary": "`?key=value` 形式の相対パスリンクを指定すると、同じURLにGETパラメータを付与して再読み込み・遷移します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "ビュー側でURLパラメータ（GETリクエストの `parent_talk_id`）の値を取得するための記述を選んでください。<br><pre><code>parent_talk_id = self.request.____.get(\"parent_talk_id\")</code></pre>",
+      "options": [
+        "GET",
+        "POST",
+        "PARAMS",
+        "ARGS"
+      ],
+      "answer": 0,
+      "commentary": "URLの末尾に付与されたパラメータ（`?parent_talk_id=...`）を取得するには `self.request.GET.get(...)` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "URLパラメータに `parent_talk_id` が含まれていない通常のアクセス時、次の処理を実行した後の `parent_talk` の値は何になりますか？<br><pre><code>parent_talk_id = self.request.GET.get(\"parent_talk_id\")\nif parent_talk_id:\n    parent_talk = Talk.objects.get(id=parent_talk_id)\nelse:\n    parent_talk = None</code></pre>",
+      "options": [
+        "None",
+        "1番目のTalkオブジェクト",
+        "空の文字列（\"\"）",
+        "エラー（DoesNotExist）が発生する"
+      ],
+      "answer": 0,
+      "commentary": "`parent_talk_id` が与えられていない場合は `if` 条件が成立しないため、`else` ブロックが走り `parent_talk` には `None` が設定されます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "テンプレート内で「返信対象のトーク（`parent_talk`）が存在する場合のみ」返信表示プレビューを出力する条件タグは何ですか？<br><pre><code>{% ___ parent_talk %}\n&lt;p class=\"reply\"&gt;\n    &gt;&gt; {{ parent_talk.sender.username }}: {{ parent_talk.message }}\n&lt;/p&gt;\n{% endif %}</code></pre>",
+      "options": [
+        "if",
+        "when",
+        "for",
+        "exists"
+      ],
+      "answer": 0,
+      "commentary": "変数が `None` でなく存在するかを判定するには `{% if 変数名 %}` を使います。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "返信先メッセージの「送信者のユーザー名」と「メッセージ本文」をテンプレートで出力する記法はどれですか？<br><pre><code>&gt;&gt; {{ parent_talk.___.username }}: {{ parent_talk.___ }}</code></pre>",
+      "options": [
+        "sender / message",
+        "user / text",
+        "author / content",
+        "from / body"
+      ],
+      "answer": 0,
+      "commentary": "Talkモデルの属性名に従い `parent_talk.sender.username` と `parent_talk.message` を指定します。"
+    },
+    {
+      "id": 15,
+      "type": "用語理解",
+      "question": "CSSで要素の高さがコンテンツ量に応じて伸びることを許可しつつ、小さくなりすぎないように「最小限の高さ」を保証するプロパティは何ですか？",
+      "options": [
+        "min-height",
+        "max-height",
+        "height-limit",
+        "min-size"
+      ],
+      "answer": 0,
+      "commentary": "`min-height` を設定すると、中身が少ないときも指定の最低高さを保ち、中身が増えた場合は自動で要素が伸びます。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "1対1 または 多対1（ForeignKey）のリレーションを持つモデルを検索する際、SQLのJOIN（結合）を使って1回のクエリで関連データを一緒に取得し、N+1問題を解決するDjango ORMメソッドは何ですか？",
+      "options": [
+        "select_related()",
+        "prefetch_related()",
+        "join_related()",
+        "connect_models()"
+      ],
+      "answer": 0,
+      "commentary": "ForeignKeyなどの「対1」のリレーションデータを一括で事前取得するには `select_related()` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "多対多（ManyToManyField）や 1対多（逆参照）のリレーションを持つモデルデータを効率的に事前取得し、N+1問題を解決するDjango ORMメソッドは何ですか？",
+      "options": [
+        "prefetch_related()",
+        "select_related()",
+        "bulk_fetch()",
+        "join_all()"
+      ],
+      "answer": 0,
+      "commentary": "「対多」のリレーションデータを事前にまとめて取得するには `prefetch_related()` を使用します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`Talk` モデルを取得する際、関連する `sender` と `receiver`（ユーザー情報）を1回のSQLクエリで同時に取得するためのコードです。<br><pre><code>talks = Talk.objects.filter(...).___(\"sender\", \"receiver\").order_by(\"time\")</code></pre>",
+      "options": [
+        "select_related",
+        "prefetch_related",
+        "join_tables",
+        "include_fields"
+      ],
+      "answer": 0,
+      "commentary": "`sender` や `receiver` はForeignKey（多対1）なので `select_related(\"sender\", \"receiver\")` を繋ぎます。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "`Talk` 一覧のループ処理で `select_related(\"sender\", \"receiver\")` を適用した場合、`django-debug-toolbar` で確認できるクエリ発行回数はどう変化しますか？",
+      "options": [
+        "トーク件数に応じて増えていたクエリ数が大幅に減少する（例: 9回→5回など）",
+        "クエリ数が100倍以上に増加する",
+        "クエリ数が1回も発行されなくなる（0回になる）",
+        "変化しない"
+      ],
+      "answer": 0,
+      "commentary": "関連するユーザー情報を事前にJOINして一括取得するため、ループ内の追加クエリが発生しなくなりクエリ数が減少します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "ビュークラス `TalkRoomView` で扱うモデルを `Talk` に指定するクラス属性は何ですか？<br><pre><code>class TalkRoomView(LoginRequiredMixin, CreateView):\n    template_name = \"main/talk_room.html\"\n    ___ = Talk\n    form_class = TalkForm</code></pre>",
+      "options": [
+        "model",
+        "target_model",
+        "queryset_model",
+        "class_name"
+      ],
+      "answer": 0,
+      "commentary": "CreateViewなどの汎用ビューで操作対象のモデルを指定するクラス属性は `model` です。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "CreateViewで利用する入力フォームクラスを指定するクラス属性は何ですか？<br><pre><code>class TalkRoomView(LoginRequiredMixin, CreateView):\n    template_name = \"main/talk_room.html\"\n    model = Talk\n    ___ = TalkForm</code></pre>",
+      "options": [
+        "form_class",
+        "form",
+        "input_form",
+        "form_name"
+      ],
+      "answer": 0,
+      "commentary": "使用するフォームクラスを指定する属性は `form_class` です。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "フォーム送信時の処理を行う `form_valid` メソッド内で `new_talk.sender = self.request.user` を設定して `new_talk.save()` を実行した場合の動作はどれですか？",
+      "options": [
+        "送信者をログイン中のユーザーとして設定し、トークをデータベースに保存する",
+        "送信者を匿名の管理者に変更する",
+        "データベースへの保存をキャンセルする",
+        "エラーが発生して元の画面に戻る"
+      ],
+      "answer": 0,
+      "commentary": "ログインユーザーを `sender` に割り当てて `.save()` を呼ぶことで、正しく送信者を記録してDBに書き込みます。"
+    },
+    {
+      "id": 23,
+      "type": "文法チェック",
+      "question": "Djangoのクラスベースビューで、ログインしていないユーザーからのアクセスを制限（ログイン画面へリダイレクト）するために継承するミックスインクラスはどれですか？",
+      "options": [
+        "LoginRequiredMixin",
+        "UserAuthMixin",
+        "CheckLoginMixin",
+        "AuthRequiredClass"
+      ],
+      "answer": 0,
+      "commentary": "ログイン状態を必須にするには `LoginRequiredMixin` をビュークラスの第一親クラスとして継承します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "`self.kwargs[\"user_id\"]` は、どこから取得されたデータですか？",
+      "options": [
+        "URLパターン（`path(\"talk_room/<user_id>\", ...)`）の中でキャプチャされたパス変数",
+        "HTMLの `<form>` のPOST送信データ",
+        "セッションストレージの中身",
+        "settings.py に設定された定数"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューの `self.kwargs` には、`urls.py` のパスで指定された引数（`<user_id>` など）が格納されています。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "フォーム送信が正常（バリデーション成功）だった場合に呼び出される `CreateView` のメソッドをオーバーライドする記述です。<br><pre><code>def ___(self, form):\n    new_talk = form.save(commit=False)\n    # ...\n    return super().form_valid(form)</code></pre>",
+      "options": [
+        "form_valid",
+        "form_success",
+        "on_submit",
+        "save_form"
+      ],
+      "answer": 0,
+      "commentary": "フォームの入力内容が正常だった時の追加処理を記述するには `form_valid(self, form)` を使います。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "フォーム送信が成功した後のリダイレクト先を指定する `get_success_url` メソッドの返り値として正しい書き方はどれですか？",
+      "options": [
+        "return reverse_lazy(\"talk_room\", kwargs={\"user_id\": user_id})",
+        "return render(request, \"talk_room\")",
+        "return redirect_to_url(\"talk_room\")",
+        "return \"/talk_room/\""
+      ],
+      "answer": 0,
+      "commentary": "`reverse_lazy` を用いて、名前付きURLと引数（`kwargs`）を指定して返却します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "HTMLフォームでセキュリティ（CSRF攻撃）を防ぐために必ず挿入するテンプレートタグは何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\" class=\"message-form\"&gt;\n    ___\n    {{ form.message }}\n    &lt;button type=\"submit\"&gt;送信&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "options": [
+        "{% csrf_token %}",
+        "{{ csrf_token }}",
+        "{% csrf_input %}",
+        "{% secret_key %}"
+      ],
+      "answer": 0,
+      "commentary": "POST送信を行うフォームにはセキュリティのため `{% csrf_token %}` が必須です。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "次のテンプレート記述において、`talk.sender == request.user` が成り立ったとき、`<li>` タグに追加されるクラス名は何ですか？<br><pre><code>&lt;li class=\"chatboard__item {% if talk.sender == request.user %}mine{% endif %}\"&gt;</code></pre>",
+      "options": [
+        "mine",
+        "request.user",
+        "sender",
+        "chatboard__item"
+      ],
+      "answer": 0,
+      "commentary": "条件が真の時に `mine` という文字が挿入されるため、自分の発言を示すCSSクラス `mine` が付与されます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "CSSでメッセージフォームを画面の一番下に固定配置するためのプロパティ指定はどれですか？<br><pre><code>.message-form {\n    position: ___;\n    bottom: 0;\n    width: 100%;\n}</code></pre>",
+      "options": [
+        "fixed",
+        "absolute",
+        "relative",
+        "static"
+      ],
+      "answer": 0,
+      "commentary": "画面（ウィンドウ）の特定位置（最下部など）に固定表示するには `position: fixed;` を使用します。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "テンプレートの `for` ループ内でリレーション先の別モデル属性（例: `talk.sender.username`）を毎回参照したときに発生しやすい問題は何ですか？",
+      "options": [
+        "ループの回数だけ毎回データベースへの追加クエリが実行され、動作が非常に重くなる（N+1問題）",
+        "データベースのデータがすべて消去される",
+        "自動的にCSSスタイルが崩れる",
+        "HTMLのタグが途中で切れてしまう"
+      ],
+      "answer": 0,
+      "commentary": "`select_related` 等で事前に読み込んでおかないと、要素を取り出すたびにDBへの通信が発生しN+1問題が引き起こされます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "単一の返信先トークを取得する際、`select_related(\"sender\", \"receiver\")` を追加した場合の動作として正しいものはどれですか？<br><pre><code>parent_talk = Talk.objects.select_related(\"sender\", \"receiver\").get(id=parent_talk_id)</code></pre>",
+      "options": [
+        "取得時に送信者と受信者のユーザー情報もまとめてJOIN取得するため、後から `parent_talk.sender.username` を参照しても追加クエリが発生しない",
+        "送信者と受信者のデータがデータベースから削除される",
+        "取得処理にかかる時間が100倍長くなる",
+        "エラーになってデータが取得できない"
+      ],
+      "answer": 0,
+      "commentary": "`select_related` を指定して `get()` することで、送信者・受信者情報を事前に一括取得でき、テンプレート描画時の無駄なクエリを防げます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "返信文プレビューを左揃えにするためのCSS設定です。空欄に入る記述はどれですか？<br><pre><code>.reply {\n    margin: 16px;\n    text-align: ___;\n}</code></pre>",
+      "options": [
+        "left",
+        "center",
+        "right",
+        "justify"
+      ],
+      "answer": 0,
+      "commentary": "テキストを左揃えにするには `text-align: left;` を指定します。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "Djangoテンプレートで、条件分岐を閉じる正しいタグはどれですか？",
+      "options": [
+        "{% endif %}",
+        "{% end %}",
+        "{% closeif %}",
+        "{% endifblock %}"
+      ],
+      "answer": 0,
+      "commentary": "`{% if %}` タグの終了には `{% endif %}` を使用します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "送信ボタン（`<button>`）をクリックした際にフォーム内容を送信させる `type` 属性の指定は何ですか？<br><pre><code>&lt;button type=\"___\" class=\"message-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "options": [
+        "submit",
+        "button",
+        "post",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "フォームの送信ボタンにするには `type=\"submit\"` を設定します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "CSSで `.message-form` の `height: 48px;` の指定を削除し `min-height: 48px;` に変更したことで得られた効果は何ですか？",
+      "options": [
+        "返信メッセージが表示されてフォームの縦幅が大きくなっても、領域が潰れたり表示が崩れたりしなくなった",
+        "フォームが画面から完全に消えるようになった",
+        "入力欄の文字が太字になった",
+        "送信ボタンがクリックできなくなった"
+      ],
+      "answer": 0,
+      "commentary": "高さが `48px` に固定されていると返信プレビュー追加時に溢れて崩れてしまいますが、`min-height` にすることで柔軟に高さが広がるようになります。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "`LoginRequiredMixin` と `CreateView` を多重継承してクラスベースビューを作成する際の正しい記述順序はどれですか？",
+      "options": [
+        "class TalkRoomView(LoginRequiredMixin, CreateView):",
+        "class TalkRoomView(CreateView, LoginRequiredMixin):",
+        "class TalkRoomView(models.Model, CreateView):",
+        "class TalkRoomView(View, LoginRequiredMixin):"
+      ],
+      "answer": 0,
+      "commentary": "Pythonの多重継承において、アクセス制限のMixin（`LoginRequiredMixin`）は主要なビュークラス（`CreateView`）より前に記述する必要があります。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "トークデータを作成日時順（古い順から新しい順）に昇順ソートして取得するメソッドの書き方はどれですか？<br><pre><code>Talk.objects.filter(...).order_by(\"___\")</code></pre>",
+      "options": [
+        "time",
+        "-time",
+        "created_at",
+        "id_desc"
+      ],
+      "answer": 0,
+      "commentary": "昇順（古い順）に並べ替えるには、ハイフンなしでフィールド名 `\"time\"` を指定します。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "開発中にクエリの発行回数や処理時間をブラウザ上でリアルタイムに測定・確認するために使用したデバッグツールは何ですか？",
+      "options": [
+        "django-debug-toolbar",
+        "Chrome DevTools",
+        "Postman",
+        "PyTest"
+      ],
+      "answer": 0,
+      "commentary": "DjangoのSQL発行数などを画面上で確認できる定番の開発ツールは `django-debug-toolbar` です。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "次のように `form.save(commit=False)` を行った後、`new_talk.save()` を呼び出さずに処理を終えてしまった場合どうなりますか？",
+      "options": [
+        "データベースに新規トークデータが保存されない",
+        "自動的にデータベースに保存される",
+        "データベースの既存トークが消去される",
+        "エラーになってサーバーが停止する"
+      ],
+      "answer": 0,
+      "commentary": "`commit=False` で作成したオブジェクトはメモリ上にあるだけなので、明示的に `new_talk.save()` を呼ばないとDBには反映されません。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "テンプレート内で指定したフォームのメッセージ入力フィールドを描画する正しい変数の記述はどれですか？",
+      "options": [
+        "{{ form.message }}",
+        "{% form.message %}",
+        "{{ message.form }}",
+        "[[ form.message ]]"
+      ],
+      "answer": 0,
+      "commentary": "Djangoのフォームオブジェクトのフィールドをレンダリングするには二重波括弧 `{{ form.フィールド名 }}` を使用します。"
+    }
+  ]
 }

@@ -1,4 +1,525 @@
 {
-  "unit_title": "演習",
-  "questions": []
+  "unit_title": "ダミーデータ作成",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "名前やメールアドレス、本文などの架空（ダミー）のデータを自動でランダム生成してくれるPythonのライブラリは何ですか？",
+      "options": [
+        "Faker",
+        "Django",
+        "Pandas",
+        "Requests"
+      ],
+      "answer": 0,
+      "commentary": "Fakerは、テストや動作確認に使う架空の人物名やメールアドレスなどをランダムに作ってくれる利便性の高いライブラリです。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Fakerと日付処理ライブラリをインストールするコマンドです。空欄に入るパッケージ名は何ですか？<br><pre><code>pip install ___ python-dateutil</code></pre>",
+      "options": [
+        "faker",
+        "dummy",
+        "mock",
+        "fake-data"
+      ],
+      "answer": 0,
+      "commentary": "Fakerパッケージをインストールするには `pip install faker` を実行します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "インストールされているパッケージ一覧を `requirements.txt` に保存するコマンドです。空欄に入るコマンドは何ですか？<br><pre><code>pip ___ > requirements.txt</code></pre>",
+      "options": [
+        "freeze",
+        "list",
+        "export",
+        "save"
+      ],
+      "answer": 0,
+      "commentary": "`pip freeze` コマンドを使うと、現在有効な仮想環境に入っているパッケージとそのバージョン一覧を出力できます。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "外部スクリプトからDjangoの設定ファイルを読み込むための記述です。空欄に入る設定ファイルのモジュールパスは何ですか？<br><pre><code>os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"___\")</code></pre>",
+      "options": [
+        "chat_app.settings",
+        "chat_app.config",
+        "main.settings",
+        "settings.py"
+      ],
+      "answer": 0,
+      "commentary": "プロジェクト名が `chat_app` の場合、設定ファイルは `chat_app.settings` と指定します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "Djangoの環境を初期化してモデル等を使えるように準備する関数呼び出しです。空欄に入るメソッドは何ですか？<br><pre><code>import django\n\ndjango.___()</code></pre>",
+      "options": [
+        "setup",
+        "init",
+        "start",
+        "run"
+      ],
+      "answer": 0,
+      "commentary": "外部のPythonスクリプトからDjangoの機能を使う前に `django.setup()` を呼び出して初期化します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "Fakerで日本語のダミーデータを生成するように設定する際の言語コード指定です。空欄に入る文字列は何ですか？<br><pre><code>fakegen = Faker([\"___\"])</code></pre>",
+      "options": [
+        "ja_JP",
+        "japan",
+        "jp_JA",
+        "ja_JAPAN"
+      ],
+      "answer": 0,
+      "commentary": "日本語形式（名前や住所など）のダミーデータを生成させるには `ja_JP` ロケールを指定します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "Fakerを使ってランダムなユーザー名を生成するメソッドは何ですか？<br><pre><code>User(\n    username=fakegen.___(),\n    email=fakegen.ascii_safe_email()\n)</code></pre>",
+      "options": [
+        "user_name",
+        "name",
+        "get_username",
+        "account_name"
+      ],
+      "answer": 0,
+      "commentary": "英数字などのユーザー名を生成するには `fakegen.user_name()` を呼び出します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "Fakerを使って安全な英字メールアドレスを生成するメソッドは何ですか？<br><pre><code>User(\n    username=fakegen.user_name(),\n    email=fakegen.___()\n)</code></pre>",
+      "options": [
+        "ascii_safe_email",
+        "email",
+        "get_email",
+        "random_email"
+      ],
+      "answer": 0,
+      "commentary": "文字化けしにくいASCII文字のみのメールアドレスを作成するには `fakegen.ascii_safe_email()` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "リストで用意した大量のモデルオブジェクトを、一度のアクセスでまとめてデータベースに一括登録するORMメソッドは何ですか？<br><pre><code>User.objects.___(users, ignore_conflicts=True)</code></pre>",
+      "options": [
+        "bulk_create",
+        "create_all",
+        "save_all",
+        "insert_many"
+      ],
+      "answer": 0,
+      "commentary": "複数のレコードを一度に挿入（作成）するには `bulk_create()` メソッドを使います。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "`bulk_create()` のオプション `ignore_conflicts=True` の役割として正しい説明はどれですか？",
+      "options": [
+        "一意制約（ユーザー名の重複など）で衝突が起きたデータがあってもエラーにせずスキップする",
+        "エラーが起きた場合にデータベースの全データを消去する",
+        "重複したデータが存在した場合に自動で名前の末尾に数字を足して保存する",
+        "データの保存処理をすべてキャンセルする"
+      ],
+      "answer": 0,
+      "commentary": "`ignore_conflicts=True` を設定すると、重複などのエラー（コンフリクト）が発生したデータを無視して処理を継続します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "自分のID（`my_id`）以外のユーザーを取り除く（除外する）クエリセットメソッドは何ですか？<br><pre><code>user_ids = User.objects.___(id=my_id).values_list(\"id\", flat=True)</code></pre>",
+      "options": [
+        "exclude",
+        "filter",
+        "remove",
+        "delete"
+      ],
+      "answer": 0,
+      "commentary": "指定した条件に当てはまるデータを取り除いた検索結果を得るには `exclude()` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "検索結果から特定の列（`id`）だけを取り出すメソッドと、タプルではなくシンプルな1次元リストにするオプションの組み合わせです。<br><pre><code>User.objects.exclude(id=my_id).values_list(\"id\", ___=True)</code></pre>",
+      "options": [
+        "flat",
+        "single",
+        "list",
+        "simple"
+      ],
+      "answer": 0,
+      "commentary": "単一フィールドの値をフラットなリスト（例: `[1, 2, 3]`）として取り出すには `flat=True` オプションを渡します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`user_ids` に入るデータの形式はどれになりますか？<br><pre><code>user_ids = User.objects.exclude(id=1).values_list(\"id\", flat=True)</code></pre>",
+      "options": [
+        "[2, 3, 4, 5] のようなIDの1次元リスト",
+        "[(2,), (3,), (4,), (5,)] のようなタプルのリスト",
+        "Userオブジェクトが並んだリスト",
+        "IDの合計値（数値）"
+      ],
+      "answer": 0,
+      "commentary": "`flat=True` を指定しているため、要素が直接並ぶシンプルな数値リストになります。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "リストの中から要素を1つランダムに選んで取得するPython標準の `random` モジュールの関数は何ですか？<br><pre><code>receiver_id = random.___(user_ids)</code></pre>",
+      "options": [
+        "choice",
+        "select",
+        "pick",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "配列・リストからランダムに1つの要素を選ぶには `random.choice()` を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "Fakerを使ってランダムな文章（本文テキスト）を生成するメソッドは何ですか？<br><pre><code>message = fakegen.___()</code></pre>",
+      "options": [
+        "text",
+        "sentence",
+        "paragraph",
+        "word"
+      ],
+      "answer": 0,
+      "commentary": "ダミーの本文メッセージを生成するには `fakegen.text()` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "Pythonのリスト `talks` に、複数の要素（リストの中身）をまとめて末尾に追加（拡張）するメソッドは何ですか？<br><pre><code>talks.____([sent_talk, received_talk])</code></pre>",
+      "options": [
+        "extend",
+        "append",
+        "add",
+        "push"
+      ],
+      "answer": 0,
+      "commentary": "リストに別のリストの複数要素を一度に追加・結合したい場合は `extend()` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "送信時間 `time` の降順（新しい順）で並び替えて先頭から必要な件数を切り出すコードです。降順を表す記号は何ですか？<br><pre><code>talks = Talk.objects.order_by(\"___time\")[: 2 * len(user_ids)]</code></pre>",
+      "options": [
+        "-",
+        "+",
+        "!",
+        "~"
+      ],
+      "answer": 0,
+      "commentary": "Django ORMで降順ソート指定を行うには、フィールド名の頭に `-` （ハイフン/マイナス）を付けます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "すでに存在する複数のオブジェクトの特定フィールド（`time`）を一括で更新・保存するORMメソッドは何ですか？<br><pre><code>Talk.objects.___(talks, fields=[\"time\"])</code></pre>",
+      "options": [
+        "bulk_update",
+        "bulk_create",
+        "update_all",
+        "save_all"
+      ],
+      "answer": 0,
+      "commentary": "既存レコードの特定の複数カラムを一括更新するには `bulk_update()` メソッドを使用します。"
+    },
+    {
+      "id": 19,
+      "type": "用語理解",
+      "question": "`bulk_update()` を実行する際、更新対象とするモデルのフィールド名をリスト形式で指定する必須引数はどれですか？",
+      "options": [
+        "fields",
+        "columns",
+        "targets",
+        "values"
+      ],
+      "answer": 0,
+      "commentary": "`bulk_update` ではどの列を書き換えるかを `fields=['フィールド名']` で明示的に渡す必要があります。"
+    },
+    {
+      "id": 20,
+      "type": "文法チェック",
+      "question": "Pythonスクリプトがコマンドラインから直接実行されたときのみブロック内を動かすための正しい構文を選んでください。",
+      "options": [
+        "if __name__ == \"__main__\":",
+        "if __file__ == \"main\":",
+        "if __run__ == \"true\":",
+        "if name == main:"
+      ],
+      "answer": 0,
+      "commentary": "Pythonでスクリプトが直接実行されたかを判定する標準的なお約束構文は `if __name__ == \"__main__\":` です。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行した場合、`create_users` 関数によって作成が試みられるダミーユーザーの人数は何人ですか？<br><pre><code>if __name__ == \"__main__\":\n    create_users(1000)</code></pre>",
+      "options": [
+        "1000人",
+        "5人",
+        "100人",
+        "0人"
+      ],
+      "answer": 0,
+      "commentary": "引数に `1000` を渡して呼び出しているため、1000人分のデータ作成が処理されます。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "Webアプリの運用において、データベースへのアクセス（通信）回数が多すぎると発生する問題は何ですか？",
+      "options": [
+        "処理速度が重くなったり、遅くなったりする",
+        "ソースコードが勝手に書き換わってしまう",
+        "CSSのスタイルが崩れる",
+        "サーバーのハードディスクが物理的に破損する"
+      ],
+      "answer": 0,
+      "commentary": "DBアクセス（クエリ）の回数が増えすぎるとサーバーへの負荷が高まり、処理の遅延原因になります。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "次のコードを実行した際、`fakegen.text()` から生成される値の型は何ですか？<br><pre><code>message = fakegen.text()</code></pre>",
+      "options": [
+        "str型（文字列）",
+        "int型（数値）",
+        "list型（配列）",
+        "bool型（真偽値）"
+      ],
+      "answer": 0,
+      "commentary": "`text()` メソッドはダミーの文章（文字列テキスト）を生成します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "管理者サイト（admin）で `Talk` モデルを表示・操作できるように登録するコードです。空欄に入るメソッドは何ですか？<br><pre><code>from django.contrib import admin\nfrom .models import Talk\n\nadmin.site.___(Talk)</code></pre>",
+      "options": [
+        "register",
+        "add",
+        "connect",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "モデルを管理画面に表示登録するには `admin.site.register(モデル名)` を呼び出します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "`User.objects.bulk_create(users, ignore_conflicts=True)` で1000人分の生成を実行した際、Fakerが同じユーザー名を重複生成した場合はどうなりますか？",
+      "options": [
+        "重複したユーザーの登録はスキップされ、エラーで停止せずに完了する（合計数は1000より少し減る可能性がある）",
+        "重複した瞬間にプログラム全体がエラー停止する",
+        "古いデータが上書き削除される",
+        "データベース全体が初期化される"
+      ],
+      "answer": 0,
+      "commentary": "`ignore_conflicts=True` により衝突したデータはスキップされるため、生成数は指定値よりわずかに少なくなる場合があります。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "Fakerで生成する日時のタイムゾーンを「日本時間（東京）」に指定する正しいコードはどれですか？<br><pre><code>talk.time = fakegen.date_time_this_year(tzinfo=tz.gettz(\"___\"))</code></pre>",
+      "options": [
+        "Asia/Tokyo",
+        "Japan/Tokyo",
+        "JST",
+        "Tokyo/Japan"
+      ],
+      "answer": 0,
+      "commentary": "日本標準時のタイムゾーン指定文字列は `\"Asia/Tokyo\"` です。"
+    },
+    {
+      "id": 27,
+      "type": "用語理解",
+      "question": "PythonのWeb開発において `requirements.txt` というファイルが持つ重要な役割は何ですか？",
+      "options": [
+        "プロジェクトで必要な外部パッケージ（ライブラリ）とそのバージョン一覧を記録する",
+        "データベースのログインパスワードを保管する",
+        "HTMLのレイアウトテンプレートを保存する",
+        "サーバーの起動スクリプトを記述する"
+      ],
+      "answer": 0,
+      "commentary": "`requirements.txt` は依存するライブラリの一覧を保持し、別環境でも同じ環境を再現するために使います。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "Pythonのリスト内包表記を使って `n` 個の `User` インスタンスを要素に持つリストを作成する正しい書き方はどれですか？",
+      "options": [
+        "users = [User(...) for _ in range(n)]",
+        "users = for _ in range(n) { User(...) }",
+        "users = Array.from(n, User(...))",
+        "users = [range(n) => User(...)]"
+      ],
+      "answer": 0,
+      "commentary": "`[式 for 変数 in イテラブル]` がPythonのリスト内包表記の正文法です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "ユーザー名が一致する特定のユーザーを1件だけデータベースから検索して取得するメソッドは何ですか？<br><pre><code>my_id = User.objects.___(username=\"admin\").id</code></pre>",
+      "options": [
+        "get",
+        "filter",
+        "find",
+        "search"
+      ],
+      "answer": 0,
+      "commentary": "1件の特定のオブジェクトを取得する場合は `get()` を使用します。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "`Talk` モデルの `time` フィールドに `auto_now_add=True` がついている場合、`bulk_create()` 実行時に設定される日時はどうなりますか？",
+      "options": [
+        "すべてのデータに実行時の現在時刻が自動的にセットされる",
+        "過去のランダムな日付が自動設定される",
+        "null（空）がセットされる",
+        "エラーになってデータが作られない"
+      ],
+      "answer": 0,
+      "commentary": "`auto_now_add=True` が有効な場合、一括作成時にも全て現在時刻が自動で入ってしまうため、後から個別に更新処理を行っています。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "開発中のWebアプリにおいて、あらかじめユーザー数を1000人などの大量データに増やしてテストを行う主な理由は何ですか？",
+      "options": [
+        "実際の運用時にデータが増えても、動作が重くならず正しく動くか確認・改善するため",
+        "画面のデザイン（見た目の色）を綺麗にするため",
+        "Googleなどの検索エンジンで上位表示させるため",
+        "データベースの容量を無駄に消費させるため"
+      ],
+      "answer": 0,
+      "commentary": "データ数が少ない時は高速でも、大量データになると低速化するバグや問題点を発見・解消するためにダミーデータを作成します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "独立したPythonスクリプトファイル内でDjangoのモデル等を操作する際、設定読み込み直後に呼ぶ必須関数はどれですか？<br><pre><code>os.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"chat_app.settings\")\ndjango.___()</code></pre>",
+      "options": [
+        "setup",
+        "start",
+        "load",
+        "boot"
+      ],
+      "answer": 0,
+      "commentary": "環境変数をセットした後に `django.setup()` を呼ぶことでDjangoの機能をスタンドアロンスクリプトで使えます。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`range(5)` によって繰り返し処理が行われる回数は何回ですか？<br><pre><code>for _ in range(5):\n    print(\"Hello\")</code></pre>",
+      "options": [
+        "5回",
+        "4回",
+        "6回",
+        "0回"
+      ],
+      "answer": 0,
+      "commentary": "`range(5)` は 0, 1, 2, 3, 4 の計5回のループを行います。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "ターミナルで `python create_users.py` コマンドを実行した際の動作として正しい説明はどれですか？",
+      "options": [
+        "create_users.py スクリプトを実行し、ダミーユーザーやチャットデータを生成する",
+        "新しいDjangoプロジェクトを新規作成する",
+        "開発用ローカルWebサーバーを起動する",
+        "Pythonのバージョンを最新にアップデートする"
+      ],
+      "answer": 0,
+      "commentary": "`python ファイル名.py` は指定したPythonスクリプトファイルを直接実行するコマンドです。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "Fakerで今年（当年の範囲内）のランダムな日時を取得するメソッドは何ですか？<br><pre><code>talk.time = fakegen.___(tzinfo=tz.gettz(\"Asia/Tokyo\"))</code></pre>",
+      "options": [
+        "date_time_this_year",
+        "date_time_now",
+        "random_date",
+        "get_this_year_date"
+      ],
+      "answer": 0,
+      "commentary": "今年の日時データをランダム生成するには `fakegen.date_time_this_year()` を使います。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "Webアプリで「ユーザーのアイコン画像」などの画像データを取り扱えるようにする主な目的は何ですか？",
+      "options": [
+        "視覚的なユーザー体験（UX）や使いたくなる楽しさを向上させるため",
+        "データベースの読み込み速度を100倍速くするため",
+        "セキュリティエラーを自動的に防ぐため",
+        "文字の入力を不要にするため"
+      ],
+      "answer": 0,
+      "commentary": "画像を取り扱えるようにすることで画面が華やかになり、ユーザー体験や利便性が向上します。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "Talk（チャットメッセージ）インスタンスを作成する際、送信者（自分）のIDを設定するフィールド名は何ですか？<br><pre><code>sent_talk = Talk(\n    ___=my_id,\n    receiver_id=random.choice(user_ids),\n    message=fakegen.text(),\n)</code></pre>",
+      "options": [
+        "sender_id",
+        "user_id",
+        "from_user",
+        "author"
+      ],
+      "answer": 0,
+      "commentary": "チャットモデルの送信者IDフィールドとして `sender_id` が使用されています。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "次のコードで取得される `talks` のデータ内容として正しいものはどれですか？<br><pre><code>talks = Talk.objects.order_by(\"-time\")[:10]</code></pre>",
+      "options": [
+        "送信時間（time）が新しい順に並べた最新の10件のTalkオブジェクト",
+        "送信時間が古い順に並べた10件のTalkオブジェクト",
+        "ランダムに抽出された10件のTalkオブジェクト",
+        "IDが 1 から 10 までのTalkオブジェクト"
+      ],
+      "answer": 0,
+      "commentary": "`order_by(\"-time\")` で新しい順にソートし、スライス `[:10]` で最新の10件を取得しています。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "Fakerと一緒に導入した `python-dateutil` パッケージの主な役割は何ですか？",
+      "options": [
+        "日付や時刻（タイムゾーン等）を柔軟に扱うための拡張ライブラリ",
+        "画像ファイルをリサイズ・圧縮するためのライブラリ",
+        "データベースの自動バックアップを行うライブラリ",
+        "パスワードを暗号化するためのライブラリ"
+      ],
+      "answer": 0,
+      "commentary": "`python-dateutil` はPythonの標準 `datetime` モジュールを拡張し、タイムゾーン操作などを容易にするライブラリです。"
+    },
+    {
+      "id": 40,
+      "type": "コード穴埋め",
+      "question": "作成したユーザー生成スクリプト `create_users.py` をターミナルから実行する正しいコマンドを選んでください。<br><pre><code>___ create_users.py</code></pre>",
+      "options": [
+        "python",
+        "django-admin",
+        "pip",
+        "run"
+      ],
+      "answer": 0,
+      "commentary": "Pythonスクリプトを実行するには `python ファイル名.py` と入力します。"
+    }
+  ]
 }
