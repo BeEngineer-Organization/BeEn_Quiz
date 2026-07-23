@@ -30,21 +30,21 @@
             },
             {
               "id": "A-u6",
-              "title": "Python の基礎文法 - 演習と解説",
+              "title": "Python の基礎文法 - 演習",
               "jsonPath": "data/A/unit06.json"
             },
             { "id": "A-u7", "title": "条件分岐と反復", "jsonPath": "data/A/unit07.json" },
             { "id": "A-u8", "title": "関数の定義", "jsonPath": "data/A/unit08.json" },
             {
               "id": "A-u9",
-              "title": "条件分岐と反復・関数の定義 - 演習と解説",
+              "title": "条件分岐と反復・関数の定義 - 演習",
               "jsonPath": "data/A/unit09.json"
             },
             { "id": "A-u10", "title": "クラス", "jsonPath": "data/A/unit10.json" },
             { "id": "A-u11", "title": "モジュール", "jsonPath": "data/A/unit11.json" },
             {
               "id": "A-u12",
-              "title": "クラス・モジュール - 演習と解説",
+              "title": "クラス・モジュール - 演習",
               "jsonPath": "data/A/unit12.json"
             }
           ]
@@ -102,12 +102,12 @@
           "name": "Django 発展",
           "units": [
             { "id": "B1-u1", "title": "クラスベースビュー", "jsonPath": "data/B1/unit01.json" },
-            { "id": "B1-u2", "title": "Django 発展 1 - 演習と解説", "jsonPath": "data/B1/unit02.json" },
-            { "id": "B1-u3", "title": "Django 発展 2 - 演習と解説", "jsonPath": "data/B1/unit03.json" },
+            { "id": "B1-u2", "title": "Django 発展 1 - 演習", "jsonPath": "data/B1/unit02.json" },
+            { "id": "B1-u3", "title": "Django 発展 2 - 演習", "jsonPath": "data/B1/unit03.json" },
             { "id": "B1-u4", "title": "ユーザー検索機能の追加", "jsonPath": "data/B1/unit04.json" },
             { "id": "B1-u5", "title": "カスタムテンプレートタグ", "jsonPath": "data/B1/unit05.json" },
-            { "id": "B1-u6", "title": "Django 発展 3 - 演習と解説", "jsonPath": "data/B1/unit06.json" },
-            { "id": "B1-u7", "title": "Django 発展 4 - 演習と解説", "jsonPath": "data/B1/unit07.json" }
+            { "id": "B1-u6", "title": "Django 発展 3 - 演習", "jsonPath": "data/B1/unit06.json" },
+            { "id": "B1-u7", "title": "Django 発展 4 - 演習", "jsonPath": "data/B1/unit07.json" }
           ]
         },
         {
@@ -189,7 +189,7 @@
             { "id": "B2-u2", "title": "変数と定数・関数", "jsonPath": "data/B2/unit02.json" },
             { "id": "B2-u3", "title": "制御文", "jsonPath": "data/B2/unit03.json" },
             { "id": "B2-u4", "title": "クラス", "jsonPath": "data/B2/unit04.json" },
-            { "id": "B2-u5", "title": "Dart 演習と解説", "jsonPath": "data/B2/unit05.json" }
+            { "id": "B2-u5", "title": "Dart 演習", "jsonPath": "data/B2/unit05.json" }
           ]
         },
         {
@@ -263,12 +263,12 @@
             { "id": "C-u4", "title": "カテゴリ一覧画面の表示", "jsonPath": "data/C/unit04.json" },
             { "id": "C-u5", "title": "カテゴリデータ追加", "jsonPath": "data/C/unit05.json" },
             { "id": "C-u6", "title": "カテゴリデータ編集・削除", "jsonPath": "data/C/unit06.json" },
-            { "id": "C-u7", "title": "レシピデータの API 開発 - 演習と解説", "jsonPath": "data/C/unit07.json" },
-            { "id": "C-u8", "title": "レシピ一覧画面の表示 - 演習と解説", "jsonPath": "data/C/unit08.json" },
-            { "id": "C-u9", "title": "レシピデータ追加 - 演習と解説", "jsonPath": "data/C/unit09.json" },
-            { "id": "C-u10", "title": "レシピデータ編集・削除 - 演習と解説", "jsonPath": "data/C/unit10.json" },
-            { "id": "C-u11", "title": "コメントデータ API 開発 - 演習と解説", "jsonPath": "data/C/unit11.json" },
-            { "id": "C-u12", "title": "コメント投稿画面 - 演習と解説", "jsonPath": "data/C/unit12.json" }
+            { "id": "C-u7", "title": "レシピデータの API 開発 - 演習", "jsonPath": "data/C/unit07.json" },
+            { "id": "C-u8", "title": "レシピ一覧画面の表示 - 演習", "jsonPath": "data/C/unit08.json" },
+            { "id": "C-u9", "title": "レシピデータ追加 - 演習", "jsonPath": "data/C/unit09.json" },
+            { "id": "C-u10", "title": "レシピデータ編集・削除 - 演習", "jsonPath": "data/C/unit10.json" },
+            { "id": "C-u11", "title": "コメントデータ API 開発 - 演習", "jsonPath": "data/C/unit11.json" },
+            { "id": "C-u12", "title": "コメント投稿画面 - 演習", "jsonPath": "data/C/unit12.json" }
           ]
         },
         {
