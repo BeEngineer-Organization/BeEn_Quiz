@@ -1,4 +1,525 @@
 {
   "unit_title": "ホーム画面の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "Dartのフィールド名（`createdAt`）をJSONで一般的なスネークケース（`created_at`）に自動変換するために `build.yaml` で指定する設定値は何ですか？<br><pre><code>targets:\n  $default:\n    builders:\n      json_serializable:\n        options:\n          field_rename: ___</code></pre>",
+      "options": [
+        "snake",
+        "camel",
+        "kebab",
+        "pascal"
+      ],
+      "answer": 0,
+      "commentary": "スネークケースへの相互変換を行うには `field_rename: snake` を設定します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "JSONリストデータをDartの `Post` オブジェクトのリストに変換するコードです。<br><pre><code>final jsonList = response.data as List&lt;dynamic&gt;;\nreturn jsonList\n    .map((jsonItem) => Post.___(jsonItem as Map&lt;String, dynamic&gt;))\n    .toList();</code></pre>",
+      "options": [
+        "fromJson",
+        "toJson",
+        "fromMap",
+        "toMap"
+      ],
+      "answer": 0,
+      "commentary": "JSONマップデータからモデルインスタンスを生成するには `.fromJson()` メソッドを使います。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "Riverpodでプロバイダーコードを全自動生成（`@riverpod` アノテーションを使用）する大きなメリットとして適切なものはどれですか？",
+      "options": [
+        "AsyncNotifierProviderなどの冗長な型定義を手書きせず、ビジネスロジックだけをシンプルに書くことができる",
+        "データベースのマイグレーションが不要になる",
+        "アプリの通信速度が100倍速くなる",
+        "Flutter以外の言語でも動作するようになる"
+      ],
+      "answer": 0,
+      "commentary": "コード自動生成を使うことで、複雑なNotifier定義を省略し、必要なロジックのみを記述できるようになります。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Riverpodのコード生成を適用するために、クラスの直前に付与するアノテーション記述を選んでください。<br><pre><code>___ \nclass PostList extends _$PostList { ... }</code></pre>",
+      "options": [
+        "@riverpod",
+        "@Provider",
+        "@freezed",
+        "@injectable"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodのジェネレータに対象クラスを通知するため `@riverpod` を付与します。"
+    },
+    {
+      "id": 5,
+      "type": "実行結果予測",
+      "question": "`@riverpod` を付与した `class PostList extends _$PostList` から自動生成されるプロバイダー変数名は何になりますか？",
+      "options": [
+        "postListProvider",
+        "PostListProvider",
+        "postList",
+        "postListNotifier"
+      ],
+      "answer": 0,
+      "commentary": "クラス名を小文字キャメルケースにし、末尾に「Provider」がつくルールのため `postListProvider` になります。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "`@riverpod` アノテーションが付いたクラスの `build()` メソッドの戻り値の型が `Future<List<Post>>` のとき、自動生成されるプロバイダーの内部型はどうなりますか？",
+      "options": [
+        "AsyncNotifierProvider（非同期状態を扱うプロバイダー）",
+        "StateProvider",
+        "StreamProvider",
+        "ChangeNotifierProvider"
+      ],
+      "answer": 0,
+      "commentary": "戻り値が `Future`（非同期処理）の場合、Riverpodは自動的に `AsyncNotifierProvider` 相当として生成します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "プロバイダーの `build()` 内で発生した例外をそのまま上位（AsyncValue側）へ投げ直すキーワードを選んでください。<br><pre><code>try {\n  return await postServices.fetchPosts();\n} catch (e) {\n  ___;\n}</code></pre>",
+      "options": [
+        "rethrow",
+        "throw e",
+        "return null",
+        "break"
+      ],
+      "answer": 0,
+      "commentary": "キャッチした例外をそのまま元の情報のまま再送出するには `rethrow` を使用します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "Djangoの `settings.py` で、Webブラウザからアップロードメディア画像へアクセスするためのURLプレフィックスを設定する変数を選んでください。<br><pre><code>___ = \"/media/\"</code></pre>",
+      "options": [
+        "MEDIA_URL",
+        "MEDIA_ROOT",
+        "STATIC_URL",
+        "SITE_URL"
+      ],
+      "answer": 0,
+      "commentary": "メディアアクセス用URLの接頭辞は `MEDIA_URL = \"/media/\"` と指定します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "Djangoの開発環境で、`MEDIA_ROOT` 内のファイルをURL配信するために `urls.py` に追加する関数呼び出し記述です。<br><pre><code>urlpatterns += ___(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)</code></pre>",
+      "options": [
+        "static",
+        "media",
+        "file",
+        "route"
+      ],
+      "answer": 0,
+      "commentary": "開発用メディアファイル配信には `django.conf.urls.static.static()` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "アプリ全体でRiverpodのステート（プロバイダー）を利用できるようにするため、`main.dart` で `runApp` 内のルートウィジェットを囲むコンテナは何ですか？<br><pre><code>void main() async {\n  runApp(\n    const ___(\n      child: BeEnShotApp(),\n    ),\n  );\n}</code></pre>",
+      "options": [
+        "ProviderScope",
+        "RiverpodScope",
+        "ProviderContainer",
+        "MaterialScope"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodを有効化するには最上位で `ProviderScope` ウィジェットでラップします。"
+    },
+    {
+      "id": 11,
+      "type": "文法チェック",
+      "question": "画像ファイル `assets/images/default-user-icon.png` をFlutterアプリに読み込ませるため、`pubspec.yaml` に記述する正しい構文はどれですか？",
+      "options": [
+        "flutter:\n  assets:\n    - assets/images/default-user-icon.png",
+        "assets:\n  - images/default-user-icon.png",
+        "flutter_assets:\n  path: assets/images/",
+        "files:\n  - default-user-icon.png"
+      ],
+      "answer": 0,
+      "commentary": "`pubspec.yaml` の `flutter:` セクション直下に `assets:` リストでファイルパスを記述します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "Riverpodのプロバイダー（`postListProvider`）を監視し、データ変更時に画面を再描画するために `WidgetRef` で呼ぶメソッドは何ですか？<br><pre><code>Widget build(BuildContext context, WidgetRef ref) {\n  final asyncPosts = ref.___(postListProvider);</code></pre>",
+      "options": [
+        "watch",
+        "read",
+        "listen",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーの状態を監視して変化に追従するには `ref.watch(プロバイダー)` を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "画面を上から下に引っ張って（スワイプして）手動更新するUIを提供する標準ウィジェットは何ですか？<br><pre><code>body: ___(\n  onRefresh: () async {\n    ref.invalidate(postListProvider);\n  },\n  child: ...,\n)</code></pre>",
+      "options": [
+        "RefreshIndicator",
+        "PullToRefresh",
+        "SwipeRefresh",
+        "UpdateContainer"
+      ],
+      "answer": 0,
+      "commentary": "引っ張って更新するUXを実装するには `RefreshIndicator` ウィジェットを使います。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "プロバイダーのキャッシュ状態を破棄して、強制的に再読み込み（データ再取得）を行わせる Riverpod のメソッドは何ですか？<br><pre><code>onRefresh: () async {\n  ref.___(postListProvider);\n}</code></pre>",
+      "options": [
+        "invalidate",
+        "refresh",
+        "reset",
+        "reload"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーを無効化して再取得をトリガーするには `ref.invalidate(プロバイダー)` を呼び出します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`asyncPosts`（`AsyncValue`型）に対し `.when()` メソッドを呼んだ際、データ読み込み中に実行されるコールバックの指定プロパティは何ですか？<br><pre><code>asyncPosts.when(\n  ___: () => const Center(child: CircularProgressIndicator()),\n  error: (err, _) => ...,\n  data: (posts) => ...,\n)</code></pre>",
+      "options": [
+        "loading",
+        "waiting",
+        "pending",
+        "inProgress"
+      ],
+      "answer": 0,
+      "commentary": "`AsyncValue.when()` では、読み込み中（`loading`）、エラー（`error`）、成功（`data`）の3状態を分岐処理します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "取得したデータリスト（`posts`）の件数分だけ、動的にリスト項目を効率生成するウィジェット構築メソッドです。<br><pre><code>return ListView.___(\n  itemCount: posts.length,\n  itemBuilder: (context, index) => PostTile(post: posts[index]),\n);</code></pre>",
+      "options": [
+        "builder",
+        "generate",
+        "separated",
+        "custom"
+      ],
+      "answer": 0,
+      "commentary": "大量や可変の要素を画面に見える分だけ効率的に生成するには `ListView.builder` を使います。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "Riverpodを使用する画面で、`build` メソッドの第2引数として `WidgetRef ref` を受け取るために継承する親クラスは何ですか？",
+      "options": [
+        "ConsumerWidget",
+        "StatelessWidget",
+        "StatefulWidget",
+        "InheritedWidget"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodのプロバイダーを操作・監視する `ref` を使用するためには `ConsumerWidget` を継承します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "丸型のユーザーアイコン枠を描画するための標準ウィジェットは何ですか？<br><pre><code>CircleAvatar(\n  backgroundImage: post.user.icon != null\n      ? NetworkImage(post.user.icon!)\n      : const AssetImage('assets/images/default-user-icon.png') as ImageProvider,\n  radius: 10,\n)</code></pre>",
+      "options": [
+        "CircleAvatar",
+        "CircularImage",
+        "RoundAvatar",
+        "AvatarBox"
+      ],
+      "answer": 0,
+      "commentary": "アバター（プロフィール画像）を丸く表示するには `CircleAvatar` ウィジェットを使用します。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "ユーザーのアイコン画像URL（`post.user.icon`）が `null` だった場合、`PostTile` で表示される画像はどうなりますか？<br><pre><code>backgroundImage: post.user.icon != null\n    ? NetworkImage(post.user.icon!)\n    : const AssetImage('assets/images/default-user-icon.png') as ImageProvider</code></pre>",
+      "options": [
+        "アセット画像の 'assets/images/default-user-icon.png'（デフォルトアイコン）が表示される",
+        "インターネット上の画像をダウンロードして表示する",
+        "何も表示されず透明になる",
+        "エラーメッセージが表示される"
+      ],
+      "answer": 0,
+      "commentary": "`post.user.icon` が `null` の場合は偽側の三項演算子が評価され、`AssetImage` のデフォルト画像が表示されます。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "インターネット上の画像URLから動的に画像を取得・表示する画像ウィジェット指定です。<br><pre><code>Image.___(\n  post.photo!,\n  width: screenWidth - 40,\n  fit: BoxFit.cover,\n)</code></pre>",
+      "options": [
+        "network",
+        "asset",
+        "file",
+        "memory"
+      ],
+      "answer": 0,
+      "commentary": "Web（ネットワーク）経由の画像URLを表示するには `Image.network(URL)` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "四角い画像ウィジェットなどの四隅を角丸にクリッピング（丸め加工）するウィジェットは何ですか？<br><pre><code>ClipRRect(\n  borderRadius: BorderRadius.circular(10),\n  child: Image.network(...),\n)</code></pre>",
+      "options": [
+        "ClipRRect",
+        "ClipOval",
+        "CornerBox",
+        "RoundedContainer"
+      ],
+      "answer": 0,
+      "commentary": "子ウィジェットを角丸の長方形枠でクリッピング（くり抜き）するには `ClipRRect` を使用します。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "画像を切り抜いて表示する際、縦横比を崩さずに枠全体を覆うように拡大・トリミングしてフィットさせる `BoxFit` の設定値は何ですか？",
+      "options": [
+        "BoxFit.cover",
+        "BoxFit.fill",
+        "BoxFit.contain",
+        "BoxFit.fitWidth"
+      ],
+      "answer": 0,
+      "commentary": "アスペクト比を維持したまま領域全体をカバー表示させるには `BoxFit.cover` を使います。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "投稿データが0件のとき、リストが空でも引っ張り更新（`RefreshIndicator`）が動作できるように指定するスクロール設定です。<br><pre><code>ListView(\n  physics: const ___(),\n  children: [...],\n)</code></pre>",
+      "options": [
+        "AlwaysScrollableScrollPhysics",
+        "NeverScrollableScrollPhysics",
+        "BouncingScrollPhysics",
+        "ClampingScrollPhysics"
+      ],
+      "answer": 0,
+      "commentary": "中身が画面サイズより小さくても強制的にスワイプ（スクロール）できるようにするには `AlwaysScrollableScrollPhysics()` を設定します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "投稿リストが空（`posts.isEmpty == true`）のとき、`HomePage` 画面に表示される文言は何ですか？",
+      "options": [
+        "'投稿がありません'",
+        "'エラーが発生しました'",
+        "'読み込み中'",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "データ件数が0の場合の `if (posts.isEmpty)` 条件により、'投稿がありません' と中央表示されます。"
+    },
+    {
+      "id": 25,
+      "type": "文法チェック",
+      "question": "ISO 8601形式の投稿日時文字列（例: `\"2025-02-22T21:25:31+0900\"`）を Dart の `DateTime` オブジェクトに変換する正しい記述はどれですか？",
+      "options": [
+        "DateTime.parse(createdAt)",
+        "DateTime.from(createdAt)",
+        "DateTime.convert(createdAt)",
+        "createdAt.toDateTime()"
+      ],
+      "answer": 0,
+      "commentary": "日付形式の文字列を解析して `DateTime` インスタンスを作るには `DateTime.parse(文字列)` を使用します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "`DateTime` オブジェクトを世界協定時（UTC）からユーザーの端末（ローカル）のタイムゾーン時刻に変換するメソッドは何ですか？<br><pre><code>final dateTime = DateTime.parse(createdAt).___();</code></pre>",
+      "options": [
+        "toLocal",
+        "toUtc",
+        "toTimeZone",
+        "toSystem"
+      ],
+      "answer": 0,
+      "commentary": "端末のローカル時区に変換するには `.toLocal()` メソッドを呼出します。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "`DateFormat('M/d HH:mm')` を使って「2025年6月22日 12時30分」の `DateTime` をフォーマット変換した際、得られる文字列はどれですか？",
+      "options": [
+        "6/22 12:30",
+        "2025/06/22 12:30",
+        "06/22/2025",
+        "12:30 6/22"
+      ],
+      "answer": 0,
+      "commentary": "`M`（月）、`d`（日）、`HH`（24時間表記の時）、`mm`（分）のパターンに従い `6/22 12:30` と表示されます。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "各投稿カードの下に細いボーダー境界線を引くための `DecoratedBox` スタイル指定です。<br><pre><code>DecoratedBox(\n  decoration: BoxDecoration(\n    border: Border(\n      bottom: BorderSide(\n        color: Theme.of(context).colorScheme.outline,\n        width: 0.4,\n      ),\n    ),\n  ),\n)</code></pre>",
+      "options": [
+        "bottom",
+        "top",
+        "left",
+        "all"
+      ],
+      "answer": 0,
+      "commentary": "要素の下側のみに線を引きたい場合は `Border(bottom: BorderSide(...))` と指定します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "Row内で要素を水平方向に左右両端へ振り分けて配置する `mainAxisAlignment` のプロパティ値を選んでください。<br><pre><code>Row(\n  mainAxisAlignment: MainAxisAlignment.___,\n  children: [...],\n)</code></pre>",
+      "options": [
+        "spaceBetween",
+        "center",
+        "spaceAround",
+        "start"
+      ],
+      "answer": 0,
+      "commentary": "要素を左右両端に均等振り分け配置するには `MainAxisAlignment.spaceBetween` を指定します。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "デザインの崩れを防ぎ共通の見た目を保つため、投稿1件分のUI（アイコン・名前・本文・写真など）を別のファイルに切り出して繰り返し使い回せるようにした部品を何と呼びますか？",
+      "options": [
+        "コンポーネント（Component / Widget）",
+        "インターセプター（Interceptor）",
+        "プロバイダー（Provider）",
+        "シリアライザ（Serializer）"
+      ],
+      "answer": 0,
+      "commentary": "UIの特定パーツを独立したウィジェットクラスとして切り出し再利用可能にしたものを「コンポーネント」と呼びます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`post.photo` が `null`（投稿写真がない）のとき、`PostTile` 内の次の条件文はどう評価されますか？<br><pre><code>if (post.photo != null)\n  Padding(\n    child: ClipRRect(...),\n  )</code></pre>",
+      "options": [
+        "条件が false となり、画像領域のウィジェットは描画されない",
+        "条件が true となり、デフォルトの四角形が表示される",
+        "エラーが発生して画面が止まる",
+        "「画像なし」というテキストが表示される"
+      ],
+      "answer": 0,
+      "commentary": "`post.photo != null` が `false` になるため、`if` 直下の画像要素（`Padding`）はスキップされ何も描画されません。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "Dartの `freezed` で、NULLを許容するオプショナルな文字列プロパティを定義する正しい記法はどれですか？",
+      "options": [
+        "String? photo",
+        "required String photo",
+        "String photo = null",
+        "null String photo"
+      ],
+      "answer": 0,
+      "commentary": "DartでNULLを代入可能（オプショナル）にするには、型名の末尾にクエスチョンマークを付けて `String?` と指定します。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "投稿日時の文字色を、テーマで定義された見やすいバリエーションカラーに指定するコードです。<br><pre><code>style: TextStyle(\n  color: Theme.of(context).colorScheme.___,\n)</code></pre>",
+      "options": [
+        "onSurfaceVariant",
+        "primary",
+        "surface",
+        "outline"
+      ],
+      "answer": 0,
+      "commentary": "主張しすぎない補足テキストカラーとして `colorScheme.onSurfaceVariant` を利用します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "コンパイル時環境変数からドメイン名を取得し、未設定時のデフォルト値を `'localhost:8000'` にする正しいDart記述はどれですか？",
+      "options": [
+        "String.fromEnvironment('DOMAIN', defaultValue: 'localhost:8000')",
+        "Environment.get('DOMAIN') ?? 'localhost:8000'",
+        "const DOMAIN = 'localhost:8000'",
+        "String.env('DOMAIN', 'localhost:8000')"
+      ],
+      "answer": 0,
+      "commentary": "環境変数を安全に取得するには `String.fromEnvironment(キー, defaultValue: デフォルト値)` を使用します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "テキスト本文（`post.content`）を配置する際、左寄せに揃えて描画するウィジェットプロパティ指定です。<br><pre><code>Align(\n  alignment: Alignment.___,\n  child: Text(post.content),\n)</code></pre>",
+      "options": [
+        "centerLeft",
+        "topLeft",
+        "bottomLeft",
+        "center"
+      ],
+      "answer": 0,
+      "commentary": "垂直中央かつ水平左寄せにするには `Alignment.centerLeft` を指定します。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "プロバイダーの自動生成ツールを起動するためにターミナルで実行するコマンドは何ですか？",
+      "options": [
+        "dart run build_runner build",
+        "flutter build provider",
+        "flutter pub get",
+        "dart generate"
+      ],
+      "answer": 0,
+      "commentary": "RiverpodやFreezedなどのコード自動生成を行うには `dart run build_runner build` を実行します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "`HomePage` の `RefreshIndicator` で画面を下に引っ張った時、`ref.invalidate(postListProvider)` が呼ばれるとアプリはどう動きますか？",
+      "options": [
+        "`postListProvider` のキャッシュが破棄され、サーバーから最新の投稿一覧が再取得されて画面が更新される",
+        "アプリが即座にログアウトされる",
+        "すべての投稿データがデータベースから消去される",
+        "画面の背景色がランダムに変わる"
+      ],
+      "answer": 0,
+      "commentary": "`ref.invalidate()` によりプロバイダーの状態が破棄・再読み込みされ、最新の投稿がサーバーから取得されます。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`post_list.dart` で自動生成ファイルを取り込むための Dart 宣言文です。<br><pre><code>___ 'post_list.g.dart';</code></pre>",
+      "options": [
+        "part",
+        "import",
+        "export",
+        "include"
+      ],
+      "answer": 0,
+      "commentary": "生成される実装ファイルと結合させるには `part 'ファイル名.g.dart';` を記述します。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "`PostTile` クラスのコンストラクタで、必須パラメータとして `post` を受け取る正しい記述はどれですか？",
+      "options": [
+        "const PostTile({super.key, required this.post});",
+        "PostTile(this.post);",
+        "const PostTile(Post post);",
+        "PostTile({required post});"
+      ],
+      "answer": 0,
+      "commentary": "名前付き必須パラメータとして受け取るには `{super.key, required this.post}` と記述します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で作成したSNSアプリの「ホーム画面」の主な役割・表示機能として最も適切なものはどれですか？",
+      "options": [
+        "投稿されたメッセージや写真、投稿者情報、投稿日時などのタイムライン一覧を表示する機能",
+        "ユーザーのパスワードを変更する機能",
+        "データベースのマイグレーションを実行する機能",
+        "新しい友達を検索・登録する機能"
+      ],
+      "answer": 0,
+      "commentary": "ホーム画面は、投稿者アイコン・名前・本文・写真・日時から構成される投稿一覧（タイムライン）を表示する画面です。"
+    }
+  ]
 }

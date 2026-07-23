@@ -1,4 +1,525 @@
 {
   "unit_title": "投稿画面の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "投稿画面へのルートパスを定数として定義するコードです。空欄に入るパス文字列を選んでください。<br><pre><code>abstract class Routes {\n  static const postCreate = '___';\n}</code></pre>",
+      "options": [
+        "/post/create",
+        "/post_create",
+        "/create",
+        "/posts/new"
+      ],
+      "answer": 0,
+      "commentary": "教材に従い、新規投稿作成画面のパス定数 `Routes.postCreate` には `'/post/create'` を指定します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "画面下部から上に向かってスライドインするモーダル風の画面遷移を実現するため、`MaterialPage` に指定するプロパティは何ですか？<br><pre><code>GoRoute(\n  path: Routes.postCreate,\n  pageBuilder: (ctx, state) => const MaterialPage(\n    ___: true,\n    child: PostFormPage(),\n  ),\n),</code></pre>",
+      "options": [
+        "fullscreenDialog",
+        "isModal",
+        "slideUp",
+        "dialogMode"
+      ],
+      "answer": 0,
+      "commentary": "作業用ダイアログとして下から上へスライド表示させるには `fullscreenDialog: true` を指定します。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "GoRouterでデフォルとのページ遷移アニメーションやスタイル（モーダル表示など）をカスタマイズする際に、`builder` の代わりに使用するパラメータは何ですか？",
+      "options": [
+        "pageBuilder",
+        "transitionBuilder",
+        "customBuilder",
+        "routeBuilder"
+      ],
+      "answer": 0,
+      "commentary": "ページ遷移の構造やアニメーション（`MaterialPage` など）をカスタマイズするには `pageBuilder` パラメータを使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "FloatingActionButton を押したときに、現在の画面上に投稿作成画面をスタック追加（遷移）するコードです。<br><pre><code>onPressed: () {\n  context.___(Routes.postCreate);\n}</code></pre>",
+      "options": [
+        "push",
+        "go",
+        "replace",
+        "pop"
+      ],
+      "answer": 0,
+      "commentary": "現在の画面の上に新しい画面を重ねて遷移し、終了後に戻れるようにするには `context.push()` を使用します。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "端末のカメラを起動したり、フォトギャラリーから画像・動画を選択したりする機能を提供するFlutterの標準的な外部パッケージは何ですか？",
+      "options": [
+        "image_picker",
+        "flutter_secure_storage",
+        "dio",
+        "file_selector"
+      ],
+      "answer": 0,
+      "commentary": "ギャラリーやカメラから画像を取得するには `image_picker` パッケージを使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "`image_picker` パッケージをプロジェクトに追加するためのターミナルコマンドです。<br><pre><code>flutter pub add ___</code></pre>",
+      "options": [
+        "image_picker",
+        "flutter_image_picker",
+        "picker",
+        "gallery_picker"
+      ],
+      "answer": 0,
+      "commentary": "`flutter pub add image_picker` を実行してパッケージをインストールします。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "Riverpodのプロバイダー機能（`ref`）と、フォーム入力などの状態（`State`）を両方扱うウィジェットが継承するクラスは何ですか？<br><pre><code>class PostFormPage extends ___ {\n  const PostFormPage({super.key});\n  ...\n}</code></pre>",
+      "options": [
+        "ConsumerStatefulWidget",
+        "StatefulWidget",
+        "ConsumerWidget",
+        "StatelessWidget"
+      ],
+      "answer": 0,
+      "commentary": "StatefulWidgetでRiverpodを利用する場合は `ConsumerStatefulWidget` を継承します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "デバイスの写真ギャラリーを開いて、画像ファイルを1件選択する非同期コードです。<br><pre><code>final pickedFile = await _imagePicker.pickImage(\n  source: ImageSource.___,\n);</code></pre>",
+      "options": [
+        "gallery",
+        "camera",
+        "photos",
+        "album"
+      ],
+      "answer": 0,
+      "commentary": "端末のアルバム（ギャラリー）から画像を選択させるには `ImageSource.gallery` を指定します。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "`ImagePicker().pickImage()` で、端末のカメラを直接起動して撮影させる場合に指定する `source` パラメータの値は何ですか？",
+      "options": [
+        "ImageSource.camera",
+        "ImageSource.gallery",
+        "ImageSource.photo",
+        "ImageSource.device"
+      ],
+      "answer": 0,
+      "commentary": "カメラを直接起動して選択させるには `ImageSource.camera` を指定します。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "ユーザーがギャラリーを開いたものの、画像を何も選択せずにキャンセルした場合、`await _imagePicker.pickImage(...)` から返される `pickedFile` の値はどうなりますか？",
+      "options": [
+        "null",
+        "空の File オブジェクト",
+        "デフォルト画像のパス",
+        "エラー例外が発生する"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーが画像選択をキャンセルした場合は、`pickedFile` に `null` が返されます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`ImagePicker` で取得したファイルのパス情報から、Dartの `File` オブジェクトを生成するコードです。<br><pre><code>if (pickedFile != null) {\n  setState(() {\n    _selectedImage = ___(pickedFile.path);\n  });\n}</code></pre>",
+      "options": [
+        "File",
+        "MultipartFile",
+        "FormData",
+        "Image"
+      ],
+      "answer": 0,
+      "commentary": "ファイルシステム上のパス文字列から `File` インスタンスを作るには `File(パス)` と記述します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "新規投稿が完了した際、Riverpodの投稿一覧プロバイダー（`postListProvider`）の古いキャッシュを消去して再取得を行わせるコードです。<br><pre><code>await postService.createPost(formData);\nref.___(postListProvider);</code></pre>",
+      "options": [
+        "invalidate",
+        "refresh",
+        "reset",
+        "clean"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーのキャッシュを破棄し、次回参照時に最新データを再取得させるには `ref.invalidate()` を呼び出します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "投稿作成成功時に `ref.invalidate(postListProvider)` を実行しない場合、どのような問題が起こりますか？",
+      "options": [
+        "元のホーム画面に戻っても、プロバイダーの古いキャッシュが表示され続け、今投稿したばかりのデータが画面に反映されない",
+        "投稿データがデータベースから即座に削除される",
+        "アプリがエラーでクラッシュする",
+        "ユーザーが強制ログアウトされる"
+      ],
+      "answer": 0,
+      "commentary": "`invalidate` でキャッシュを更新しないと、プロバイダーが昔の投稿データを保持し続けるため、新規投稿が画面一覧に反映されません。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "投稿完了後に、モーダル表示されていた投稿画面を閉じて元のホーム画面に戻るためのコードです。<br><pre><code>ScaffoldMessenger.of(context).showSnackBar(...);\ncontext.___();</code></pre>",
+      "options": [
+        "pop",
+        "push",
+        "go",
+        "back"
+      ],
+      "answer": 0,
+      "commentary": "現在上に乗っている画面（モーダル）を閉じて前の画面に戻るには `context.pop()` を呼び出します。"
+    },
+    {
+      "id": 15,
+      "type": "文法チェック",
+      "question": "非同期処理完了後に、画面が破棄されていないか安全確認を行う正しいガードコードはどれですか？",
+      "options": [
+        "if (!context.mounted) return;",
+        "if (context.isDestroyed) return;",
+        "if (context == null) return;",
+        "if (!mounted) return;"
+      ],
+      "answer": 0,
+      "commentary": "BuildContextがまだ生存しているかを確かめるには `if (!context.mounted) return;` と書きます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "投稿本文の入力フィールド（`TextFormField`）を「3行分」の高さで表示させるための設定パラメータは何ですか？<br><pre><code>TextFormField(\n  ___: 3,\n  key: _contentKey,\n  decoration: const InputDecoration(...),\n)</code></pre>",
+      "options": [
+        "maxLines",
+        "lines",
+        "height",
+        "minLines"
+      ],
+      "answer": 0,
+      "commentary": "テキスト入力欄の表示行数を指定するには `maxLines` パラメータを使います。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "入力枠の周りの枠線（ボーダー）を消して、すっきりしたデザインにするための `InputDecoration` 設定です。<br><pre><code>decoration: const InputDecoration(\n  border: InputBorder.___,\n  hintText: '最近何があった？',\n)</code></pre>",
+      "options": [
+        "none",
+        "zero",
+        "clear",
+        "flat"
+      ],
+      "answer": 0,
+      "commentary": "入力欄の下線や外枠線を完全に消去するには `border: InputBorder.none` を指定します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "入力欄に何も文字が入っていないときに薄く表示する案内テキスト（プレースホルダー）を設定する属性は何ですか？<br><pre><code>decoration: const InputDecoration(\n  ___: '最近何があった？',\n)</code></pre>",
+      "options": [
+        "hintText",
+        "labelText",
+        "helperText",
+        "placeholder"
+      ],
+      "answer": 0,
+      "commentary": "入力ヒント文を表示させるプロパティは `hintText` です。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "投稿本文入力欄に501文字を入力して「投稿」ボタンを押した際、バリデーションで表示されるエラーメッセージは何ですか？<br><pre><code>validator: (value) {\n  if (value == null || value.isEmpty) {\n    return '内容を入力してください';\n  }\n  if (value.length > 500) {\n    return '内容は500文字以内にしてください';\n  }\n  return null;\n}</code></pre>",
+      "options": [
+        "'内容は500文字以内にしてください'",
+        "'内容を入力してください'",
+        "null",
+        "エラーは表示されない"
+      ],
+      "answer": 0,
+      "commentary": "文字数が500文字を超えている（`501 > 500`）ため、`'内容は500文字以内にしてください'` が返されます。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "投稿本文を空のまま「投稿」ボタンを押した際、`validator` から返されるエラーメッセージは何ですか？",
+      "options": [
+        "'内容を入力してください'",
+        "'内容は500文字以内にしてください'",
+        "'投稿に失敗しました'",
+        "エラーは表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`value.isEmpty` 条件を満たすため `'内容を入力してください'` が表示されます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "アイコンとテキストラベルが横並びになったテキストボタンを作成するコンストラクタは何ですか？<br><pre><code>TextButton.___\n(\n  onPressed: _pickImage,\n  label: const Text('画像を追加'),\n  icon: const Icon(Icons.add),\n)</code></pre>",
+      "options": [
+        "icon",
+        "withIcon",
+        "labeled",
+        "add"
+      ],
+      "answer": 0,
+      "commentary": "アイコン付きボタンを簡単に作るには `TextButton.icon()` を使用します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "選択された端末ローカル内の画像ファイル（`_selectedImage`）を画面に描画するウィジェットです。<br><pre><code>_selectedImage != null\n    ? ClipRRect(\n        borderRadius: BorderRadius.circular(10),\n        child: Image.___(\n          _selectedImage!,\n          width: MediaQuery.of(context).size.width * 0.9,\n        ),\n      )\n    : const SizedBox.shrink()</code></pre>",
+      "options": [
+        "file",
+        "network",
+        "asset",
+        "memory"
+      ],
+      "answer": 0,
+      "commentary": "端末のローカルファイル（`File` オブジェクト）を表示するには `Image.file()` を使用します。"
+    },
+    {
+      "id": 23,
+      "type": "用語理解",
+      "question": "Flutterで画像を読み込むためのメソッド `Image.file` / `Image.network` / `Image.asset` の使い分けとして正しいものはどれですか？",
+      "options": [
+        "file: 端末内のローカルファイル、network: インターネット上のURL画像、asset: アプリ内に直接同梱した画像",
+        "file: インターネット上の画像、network: 端末内のファイル、asset: データベースの画像",
+        "file: アプリ同梱画像、network: 端末内のファイル、asset: Web画像",
+        "3つともすべて同じ動作で違いはない"
+      ],
+      "answer": 0,
+      "commentary": "画像データがどこに存在するか（ファイルシステム/Web URL/アプリ内アセット）によって使い分けます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "画像が選択されていないとき（`_selectedImage == null` のとき）、レイアウトに影響を与えない完全に空の領域を返す標準ウィジェットは何ですか？<br><pre><code>_selectedImage != null\n    ? ClipRRect(...)\n    : const SizedBox.___()</code></pre>",
+      "options": [
+        "shrink",
+        "expand",
+        "empty",
+        "zero"
+      ],
+      "answer": 0,
+      "commentary": "サイズ幅高さともに 0px の完全に空な場所を取らないボックスを作るには `SizedBox.shrink()` を指定します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "横長で「投稿」などのテキストラベルが付いた浮き出たボタンを作成するクラスは何ですか？<br><pre><code>FloatingActionButton.___\n(\n  shape: RoundedRectangleBorder(...),\n  onPressed: () { ... },\n  label: const Text('投稿'),\n)</code></pre>",
+      "options": [
+        "extended",
+        "large",
+        "small",
+        "wide"
+      ],
+      "answer": 0,
+      "commentary": "丸型ではなくラベル付きで横長のアクションボタンを作るには `FloatingActionButton.extended` を使います。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "画面下部の中央付近に浮かせるように FloatingActionButton を配置する位置指定です。<br><pre><code>floatingActionButtonLocation: FloatingActionButtonLocation.___</code></pre>",
+      "options": [
+        "centerFloat",
+        "centerDocked",
+        "endFloat",
+        "bottomCenter"
+      ],
+      "answer": 0,
+      "commentary": "下部中央に浮かせて配置する位置指定は `FloatingActionButtonLocation.centerFloat` です。"
+    },
+    {
+      "id": 27,
+      "type": "文法チェック",
+      "question": "`ConsumerStatefulWidget` の `State` クラスを定義する正しいDart構文記述はどれですか？",
+      "options": [
+        "class _PostFormPageState extends ConsumerState<PostFormPage>",
+        "class _PostFormPageState extends State<PostFormPage>",
+        "class _PostFormPageState extends ConsumerWidget<PostFormPage>",
+        "class _PostFormPageState extends State<ConsumerStatefulWidget>"
+      ],
+      "answer": 0,
+      "commentary": "ConsumerStatefulWidgetと組み合わせるStateクラスは `ConsumerState<ウィジェットクラス名>` を継承します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "投稿ボタンを押した際に、フォーム全体の内容を一括チェックするコードです。<br><pre><code>onPressed: () {\n  if (_formKey.currentState?.____() ?? false) {\n    // 送信処理\n  }\n}</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "isValid",
+        "verify"
+      ],
+      "answer": 0,
+      "commentary": "フォームの全フィールドでバリデーションを動かすには `_formKey.currentState?.validate()` を呼び出します。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "投稿が正常に完了し、`handleSubmit` 内で `context.pop()` が実行されたとき、画面表示はどう変化しますか？",
+      "options": [
+        "投稿画面が閉じて元のホーム画面に戻り、「投稿が完了しました」スナックバーが表示される",
+        "ログイン画面に吹き飛ぶ",
+        "アプリが終了する",
+        "投稿画面の入力欄がリセットされてそのまま開いている"
+      ],
+      "answer": 0,
+      "commentary": "スナックバーの通知を出した後、`context.pop()` によって投稿ダイアログ画面が閉じ、ホーム画面に戻ります。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "`image_picker` パッケージで画像を選択した際に返される、ファイルのパスや情報を保持する専用オブジェクトの型は何ですか？",
+      "options": [
+        "XFile",
+        "File",
+        "PickFile",
+        "ImageFile"
+      ],
+      "answer": 0,
+      "commentary": "`image_picker` の `pickImage()` メソッドはクロスプラットフォーム対応の `XFile` オブジェクト（またはnull）を返します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "フォームで入力された本文テキストを取り出して `PostForm` を生成するコードです。<br><pre><code>final formData = PostForm(\n  content: _contentKey.currentState?.value,\n  photo: _selectedImage,\n);</code></pre>",
+      "options": [
+        "value",
+        "text",
+        "data",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "`GlobalKey<FormFieldState>` から入力値を取得するには `.currentState?.value` を使います。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "通信エラーなどで投稿作成に失敗し `catch (e)` ブロックに入った際、画面に通知されるメッセージは何ですか？",
+      "options": [
+        "'投稿に失敗しました'",
+        "'投稿が完了しました'",
+        "'予期せぬエラーが発生しました'",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`catch (e)` ブロック内のSnackBar処理により `'投稿に失敗しました'` と通知されます。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "`TextButton.icon` ウィジェットで、アイコンとラベル文言を指定する正解のプロパティ組み合わせはどれですか？",
+      "options": [
+        "icon: Icon(Icons.add), label: Text('画像を追加')",
+        "icon: Text('画像を追加'), label: Icon(Icons.add)",
+        "child: Icon(Icons.add), title: Text('画像を追加')",
+        "leading: Icon(Icons.add), trailing: Text('画像を追加')"
+      ],
+      "answer": 0,
+      "commentary": "`TextButton.icon()` では `icon:` と `label:` の名前付きパラメータで設定します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "投稿作成用ダイアログ画面のヘッダータイトルを設定する `AppBar` のコードです。<br><pre><code>appBar: AppBar(\n  title: const Text('___'),\n)</code></pre>",
+      "options": [
+        "ポストの作成",
+        "新規投稿",
+        "ホーム",
+        "投稿一覧"
+      ],
+      "answer": 0,
+      "commentary": "ヘッダーのタイトルには「ポストの作成」というテキストを設定します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "ユーザーが画像を選択して `_selectedImage` にファイルが保存されているとき、画面に表示される要素はどれですか？",
+      "options": [
+        "選択した画像が角丸（10px）でプレビュー表示される",
+        "「画像がありません」というテキストが表示される",
+        "何も表示されない",
+        "自動的に投稿が送信される"
+      ],
+      "answer": 0,
+      "commentary": "`_selectedImage != null` が真となるため、`ClipRRect` に囲まれた `Image.file` のプレビュー画像が表示されます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "`ImagePicker` オブジェクトを生成・初期化する正しいDartコードを選んでください。<br><pre><code>final _imagePicker = ___();</code></pre>",
+      "options": [
+        "ImagePicker",
+        "Picker",
+        "FilePicker",
+        "GalleryPicker"
+      ],
+      "answer": 0,
+      "commentary": "`ImagePicker` クラスのインスタンスを作成するため `ImagePicker()` を呼出します。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "ユーザーが現在の作業から一時的に離れて新しい入力タスクを行わせる際によく用いられる「下から上へ画面が覆いかぶさる」画面移動・ダイアログの表示形式を何と呼びますか？",
+      "options": [
+        "フルスクリーンダイアログ（モーダル表示）",
+        "プッシュ通知",
+        "サイドメニュー drawer",
+        "ボトムナビゲーション"
+      ],
+      "answer": 0,
+      "commentary": "画面全体を一時的な作業タスク画面で覆う形式を「フルスクリーンダイアログ（`fullscreenDialog`）」と呼びます。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "ボタンの背景色をアプリのテーマの主要コンテナカラー（`primaryContainer`）に合わせる正しいスタイル記述はどれですか？",
+      "options": [
+        "backgroundColor: Theme.of(context).colorScheme.primaryContainer",
+        "backgroundColor: Theme.colorScheme.primary",
+        "color: Colors.primaryContainer",
+        "backgroundColor: primaryContainer"
+      ],
+      "answer": 0,
+      "commentary": "コンテクストからテーマの配色スキームを取得するには `Theme.of(context).colorScheme.primaryContainer` と書きます。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "投稿作成画面で本文に何も入力せず、画像だけを選択して投稿ボタンを押した場合どうなりますか？",
+      "options": [
+        "本文のバリデーション（空文字チェック）に引っかかり、'内容を入力してください' とエラー表示されて送信されない",
+        "画像だけが問題なく送信・投稿される",
+        "アプリが強制終了する",
+        "ダミーの文章が自動で挿入される"
+      ],
+      "answer": 0,
+      "commentary": "本文は必須項目（`value.isEmpty` チェックあり）となっているため、バリデーションで弾かれます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で作成した「投稿画面（PostFormPage）」の開発ステップ・連携フローとして正しいものはどれですか？",
+      "options": [
+        "1. ルーティング設定（スライドイン） → 2. テキスト・画像選択UI作成 → 3. API（createPost）呼び出し → 4. キャッシュ破棄（invalidate）して画面を閉じる",
+        "1. ログイン画面に移動 → 2. 画像を削除 → 3. アプリを終了する",
+        "1. データベースを削除 → 2. API呼び出し → 3. 画面を作成する",
+        "1. キャッシュ破棄 → 2. ルーティング消去 → 3. エラーを表示する"
+      ],
+      "answer": 0,
+      "commentary": "モーダルルーティングを設定後、入力フォームを構成し、API呼び出しに成功したらプロバイダーのキャッシュをクリア（invalidate）して `pop()` で戻ります。"
+    }
+  ]
 }

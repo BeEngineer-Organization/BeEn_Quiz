@@ -1,4 +1,525 @@
 {
   "unit_title": "投稿詳細 API を呼び出す",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "Dartの `dart:io` パッケージに含まれる、スマートフォンやPC上のファイル（画像やテキストなど）を扱うための基本クラスは何ですか？",
+      "options": [
+        "File",
+        "FormData",
+        "MultipartFile",
+        "Path"
+      ],
+      "answer": 0,
+      "commentary": "ファイルシステム上のファイルを操作・参照するためのDartの基本クラスは `File` クラスです。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "HTTP通信において、画像などのファイルを含むフォームデータをサーバーに送信する際によく指定される `Content-Type` の形式は何ですか？",
+      "options": [
+        "multipart/form-data",
+        "application/json",
+        "text/html",
+        "application/x-www-form-urlencoded"
+      ],
+      "answer": 0,
+      "commentary": "画像などのバイナリファイルを含むフォームデータを送信する際は `multipart/form-data` が使用されます。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "Dioパッケージにおいて、HTTPリクエストのボディの一部としてファイルを送信するために使用されるクラスは何ですか？",
+      "options": [
+        "MultipartFile",
+        "File",
+        "FormData",
+        "ImageProvider"
+      ],
+      "answer": 0,
+      "commentary": "ファイルの内容やファイル名などの情報を保持し、HTTPリクエストで送信できるようにするDioのクラスは `MultipartFile` です。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "Dioパッケージにおいて、複数のテキストや `MultipartFile` をまとめて `multipart/form-data` 形式のリクエストボディを構築するクラスは何ですか？",
+      "options": [
+        "FormData",
+        "MultipartFile",
+        "Form",
+        "Map"
+      ],
+      "answer": 0,
+      "commentary": "テキストやファイルをキーと値のペアでまとめ、`multipart/form-data` 形式ボディを作るクラスは `FormData` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "`PostForm` モデルでアップロード画像を保持するプロパティの定義です。空欄に入る適切な型を選んでください。<br><pre><code>@freezed\nabstract class PostForm with _$PostForm {\n  const factory PostForm({\n    required String content,\n    ___? photo,\n  }) = _PostForm;\n}</code></pre>",
+      "options": [
+        "File",
+        "MultipartFile",
+        "FormData",
+        "Image"
+      ],
+      "answer": 0,
+      "commentary": "アプリ内で選択された画像のファイル参照を保持するため、`File?` 型を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "`PostForm` クラス内に `toFormData` などのカスタムメソッドを追加するために記述するプライベートコンストラクタは何ですか？<br><pre><code>@freezed\nabstract class PostForm with _$PostForm {\n  const factory PostForm({\n    required String content,\n    File? photo,\n  }) = _PostForm;\n  const PostForm.___();\n}</code></pre>",
+      "options": [
+        "._",
+        ".create",
+        ".init",
+        ".empty"
+      ],
+      "answer": 0,
+      "commentary": "freezedクラスにカスタムメソッドを追加する場合は `const PostForm._();` というプライベートコンストラクタを記述します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "画像ファイルのパスから非同期で `MultipartFile` オブジェクトを生成するDioのメソッド呼び出しです。<br><pre><code>if (photo != null) {\n  map['photo'] = await MultipartFile.___(photo!.path);\n}</code></pre>",
+      "options": [
+        "fromFile",
+        "fromPath",
+        "create",
+        "open"
+      ],
+      "answer": 0,
+      "commentary": "ファイルパスを指定して `MultipartFile` を生成するには `MultipartFile.fromFile()` メソッドを使用します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "Map型の辞書データから `FormData` オブジェクトを構築するコードです。<br><pre><code>return FormData.___(map);</code></pre>",
+      "options": [
+        "fromMap",
+        "create",
+        "fromData",
+        "parse"
+      ],
+      "answer": 0,
+      "commentary": "Mapオブジェクトから `FormData` を作成するには `FormData.fromMap()` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "`photo` が `null` の状態で `PostForm(content: 'こんにちは', photo: null).toFormData()` を実行した際、作成される `map` に含まれるキーは何ですか？",
+      "options": [
+        "'content' のみ",
+        "'content' と 'photo' の両方",
+        "'photo' のみ",
+        "何も含まれない（空）"
+      ],
+      "answer": 0,
+      "commentary": "`photo` が `null` の場合は `if (photo != null)` 内の処理がスキップされるため、`map` には `'content'` のみが追加されます。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "`photo` に画像ファイルがセットされているとき、`photo!.path` で取得できるデータの内容として最も適切なものはどれですか？",
+      "options": [
+        "端末のファイルシステム上における画像ファイルのパス文字列",
+        "画像ファイルそのもののバイナリデータ",
+        "画像ファイルのファイルサイズ（バイト数）",
+        "Web上の画像URL文字列"
+      ],
+      "answer": 0,
+      "commentary": "`File` オブジェクトの `.path` プロパティは、そのファイルが端末内に保存されているパス文字列を返します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`post_form.dart` を元に freezed の自動コード生成を実行するための管理コマンドは何ですか？<br><pre><code>___ build_runner build</code></pre>",
+      "options": [
+        "dart run",
+        "flutter pub",
+        "flutter run",
+        "dart build"
+      ],
+      "answer": 0,
+      "commentary": "`build_runner` を呼び出してコード自動生成を行うコマンドは `dart run build_runner build` です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "特定の投稿1件を取得する `getPost` メソッドの定義です。空欄に入る戻り値の型を選んでください。<br><pre><code>Future&lt;___&gt; getPost(int id) async {\n  final url = '$baseUrl/posts/$id/';\n  final response = await dioClient.get(url);\n  if (response.statusCode != 200) {\n    throw Exception('取得に失敗しました');\n  }\n  return Post.fromJson(response.data);\n}</code></pre>",
+      "options": [
+        "Post",
+        "List<Post>",
+        "void",
+        "PostForm"
+      ],
+      "answer": 0,
+      "commentary": "単一の投稿オブジェクトを取得するため、戻り値の型は `Future<Post>` になります。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "レスポンスのJSONマップデータを `Post` モデルインスタンスに変換するコードです。<br><pre><code>return Post.___(response.data);</code></pre>",
+      "options": [
+        "fromJson",
+        "toJson",
+        "fromMap",
+        "parse"
+      ],
+      "answer": 0,
+      "commentary": "JSON形式のデータからモデルクラスを復元するには `.fromJson()` メソッドを使用します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "`getPost` メソッドを実行した際、存在しないIDが指定されてサーバーからステータスコード `404` が返ってきた場合、どうなりますか？",
+      "options": [
+        "Exception('取得に失敗しました') という例外が投げられる",
+        "空の Post オブジェクトが返される",
+        "null が返される",
+        "処理が無視されて何事もなく継続する"
+      ],
+      "answer": 0,
+      "commentary": "`response.statusCode != 200` が成立するため、`throw Exception('取得に失敗しました');` が実行されます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "`getPost` メソッドで、取得成功（OK）を判定するHTTPステータスコード数値は何ですか？<br><pre><code>if (response.statusCode != ___) {\n  throw Exception('取得に失敗しました');\n}</code></pre>",
+      "options": [
+        "200",
+        "201",
+        "204",
+        "400"
+      ],
+      "answer": 0,
+      "commentary": "GETリクエストの標準的な成功ステータスコードは `200`（200 OK）です。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "新規投稿を作成する `createPost` メソッドで、`PostForm` から `FormData` を準備して送信するコードです。<br><pre><code>Future&lt;void&gt; createPost(PostForm post) async {\n  final url = '$baseUrl/posts/';\n  final formData = await post.___\n();\n  final response = await dioClient.post(url, data: formData);\n}</code></pre>",
+      "options": [
+        "toFormData",
+        "toJson",
+        "toMap",
+        "toMultipart"
+      ],
+      "answer": 0,
+      "commentary": "`PostForm` インスタンスから送信用の `FormData` を得るため `post.toFormData()` を呼出します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "新規投稿を作成する API（POST）で、作成成功（Created）を判定するステータスコードは何ですか？<br><pre><code>if (response.statusCode != ___) {\n  throw Exception('作成に失敗しました');\n}</code></pre>",
+      "options": [
+        "201",
+        "200",
+        "204",
+        "202"
+      ],
+      "answer": 0,
+      "commentary": "POSTでのリソース作成成功時の標準ステータスコードは `201`（201 Created）です。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "`createPost` メソッドで、サーバーからステータスコード `201` が返ってきたものの、`response.data` が `null` だった場合どうなりますか？<br><pre><code>if (response.data == null) {\n  throw Exception('レスポンスが null です');\n}</code></pre>",
+      "options": [
+        "Exception('レスポンスが null です') が発生する",
+        "成功扱いとなり静かに終了する",
+        "自動的に再投稿リクエストが送られる",
+        "400 Bad Request エラーに書き換わる"
+      ],
+      "answer": 0,
+      "commentary": "`response.data == null` のチェックに引っかかり、例外が投げられます。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "投稿を部分更新する `updatePost` メソッドで、PATCHリクエストを送るDioのメソッド呼び出しです。<br><pre><code>final response = await dioClient.___(url, data: formData);</code></pre>",
+      "options": [
+        "patch",
+        "put",
+        "post",
+        "update"
+      ],
+      "answer": 0,
+      "commentary": "部分更新用の通信を行うため `dioClient.patch()` を使用します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "投稿更新 API（PATCH）の成功をチェックするためのステータスコード数値は何ですか？<br><pre><code>if (response.statusCode != ___) {\n  throw Exception('保存に失敗しました');\n}</code></pre>",
+      "options": [
+        "200",
+        "201",
+        "204",
+        "302"
+      ],
+      "answer": 0,
+      "commentary": "PATCHでの更新成功時は `200`（200 OK）をチェックします。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "投稿を削除する `deletePost` メソッドで、DELETEリクエストを送信するコードです。<br><pre><code>final response = await dioClient.___(url);</code></pre>",
+      "options": [
+        "delete",
+        "remove",
+        "destroy",
+        "drop"
+      ],
+      "answer": 0,
+      "commentary": "削除リクエストを送信するには `dioClient.delete()` を使用します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "投稿削除 API（DELETE）で、削除成功（No Content）を示すステータスコード数値は何ですか？<br><pre><code>if (response.statusCode != ___) {\n  throw Exception('削除に失敗しました');\n}</code></pre>",
+      "options": [
+        "204",
+        "200",
+        "201",
+        "404"
+      ],
+      "answer": 0,
+      "commentary": "DELETE通信でボディを持たない成功レスポンスのステータスコードは `204`（204 No Content）です。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "`deletePost(5)` を呼び出し、サーバーからステータスコード `204` が返ってきたとき、メソッドの実行結果はどうなりますか？",
+      "options": [
+        "例外を出さずに正常にメソッドが終了する",
+        "Exception('削除に失敗しました') が投げられる",
+        "削除された Post オブジェクトが返される",
+        "自動的に画面がバックする"
+      ],
+      "answer": 0,
+      "commentary": "`statusCode != 204` の条件に入らないため例外は発生せず、正常終了（`Future<void>`）します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "特定の投稿詳細データを取得するプロバイダ関数 `postDetail` に付与するアノテーションを選んでください。<br><pre><code>___\nFuture&lt;Post&gt; postDetail(Ref ref, int id) async {\n  final postService = PostsService();\n  return postService.getPost(id);\n}</code></pre>",
+      "options": [
+        "@riverpod",
+        "@Provider",
+        "@freezed",
+        "@injectable"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodのプロバイダー自動生成アノテーションは `@riverpod` です。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "関数 `Future<Post> postDetail(Ref ref, int id)` から Riverpod のコードジェネレータによって生成されるプロバイダーの名称は何ですか？",
+      "options": [
+        "postDetailProvider",
+        "PostDetailProvider",
+        "postDetail",
+        "getPostProvider"
+      ],
+      "answer": 0,
+      "commentary": "関数名 `postDetail` に「Provider」が付与され、`postDetailProvider` という名前のプロバイダーが生成されます。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "`providers/post_detail.dart` で、特定IDの投稿詳細を取得するプロバイダ関数の正しい定義はどれですか？",
+      "options": [
+        "@riverpod\nFuture<Post> postDetail(Ref ref, int id) async",
+        "@riverpod\nPost postDetail(int id)",
+        "@riverpod\nvoid postDetail(Ref ref, Post post)",
+        "@Provider\nFuture<Post> postDetail(id)"
+      ],
+      "answer": 0,
+      "commentary": "第1引数に `Ref ref`、第2引数にパラメータ `int id` を取り、`Future<Post>` を返すのが正しい形式です。"
+    },
+    {
+      "id": 27,
+      "type": "文法チェック",
+      "question": "`post_detail.dart` で、自動生成されるコードファイルを取り込むための正しい `part` 記述はどれですか？",
+      "options": [
+        "part 'post_detail.g.dart';",
+        "import 'post_detail.g.dart';",
+        "include 'post_detail.g.dart';",
+        "export 'post_detail.g.dart';"
+      ],
+      "answer": 0,
+      "commentary": "ジェネレータが生成する `.g.dart` ファイルを取り込むには `part 'post_detail.g.dart';` を記述します。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "Web APIにおいて、POST通信などで新しいデータ作成に成功した際、サーバーから返される標準的なHTTPステータスコードは何ですか？",
+      "options": [
+        "201 Created",
+        "200 OK",
+        "204 No Content",
+        "302 Found"
+      ],
+      "answer": 0,
+      "commentary": "新規作成成功時には `201 Created` が返されます。"
+    },
+    {
+      "id": 29,
+      "type": "用語理解",
+      "question": "Web APIにおいて、DELETE通信などで削除に成功し、返すレスポンスデータが存在しない（空である）際、サーバーから返される標準的なHTTPステータスコードは何ですか？",
+      "options": [
+        "204 No Content",
+        "200 OK",
+        "201 Created",
+        "400 Bad Request"
+      ],
+      "answer": 0,
+      "commentary": "内容なしでの成功を示すコードは `204 No Content` です。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "`toFormData` メソッドの戻り値の型を指定する正しい記述はどれですか？<br><pre><code>Future&lt;___&gt; toFormData() async {\n  final map = &lt;String, dynamic&gt;{\n    'content': content,\n  };\n  ...\n  return FormData.fromMap(map);\n}</code></pre>",
+      "options": [
+        "FormData",
+        "Map<String, dynamic>",
+        "MultipartFile",
+        "File"
+      ],
+      "answer": 0,
+      "commentary": "`FormData.fromMap(map)` を返すため、戻り値の型は `Future<FormData>` です。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`PostForm` で `photo` に何も指定せず `null` のまま `toFormData()` を実行した場合、`MultipartFile.fromFile()` は実行されますか？",
+      "options": [
+        "実行されない（if(photo != null) でガードされているため）",
+        "Nullエラーを発生させて実行される",
+        "ダミー画像ファイルを使って実行される",
+        "空の文字列を渡して実行される"
+      ],
+      "answer": 0,
+      "commentary": "`if (photo != null)` 条件により、`photo` が `null` の場合はブロック内の `MultipartFile.fromFile()` は実行されません。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "Dioを使ってPOSTリクエストを送る際、リクエストボディに `formData` を設定する正しいパラメータ名を選んでください。<br><pre><code>await dioClient.post(url, ___: formData);</code></pre>",
+      "options": [
+        "data",
+        "body",
+        "payload",
+        "json"
+      ],
+      "answer": 0,
+      "commentary": "Dioのリクエスト送信メソッド（post/patchなど）でボディデータを渡す引数名は `data` です。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "`models/post_form.dart` 内で、freezedの自動生成ファイルを取り込む正しい宣言はどれですか？",
+      "options": [
+        "part 'post_form.freezed.dart';",
+        "import 'post_form.freezed.dart';",
+        "part 'post_form.g.dart';",
+        "include 'post_form.freezed.dart';"
+      ],
+      "answer": 0,
+      "commentary": "freezedの生成コードを取り込むには `part 'post_form.freezed.dart';` と記述します。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "`PostsService().getPost(10)` を呼び出し、サーバーから正常に投稿データJSONが返ってきた場合の関数の戻り値オブジェクトの型は何ですか？",
+      "options": [
+        "Post クラスのインスタンス",
+        "Map<String, dynamic> 辞書",
+        "String 文字列",
+        "List<Post> リスト"
+      ],
+      "answer": 0,
+      "commentary": "`Post.fromJson(response.data)` が実行されるため、パースされた `Post` インスタンスが返されます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "`postDetail` プロバイダの中で、`PostsService` の単一投稿取得メソッドを呼び出すコードです。<br><pre><code>@riverpod\nFuture&lt;Post&gt; postDetail(Ref ref, int id) async {\n  final postService = PostsService();\n  return postService.___(id);\n}</code></pre>",
+      "options": [
+        "getPost",
+        "fetchPosts",
+        "createPost",
+        "findPost"
+      ],
+      "answer": 0,
+      "commentary": "IDに対応する投稿1件を取得するメソッドは `getPost(id)` です。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "Riverpod 3系において `riverpod_annotation` をインポートすることで、`flutter_riverpod` の個別のインポートが不要になる理由は何ですか？",
+      "options": [
+        "riverpod_annotation が Ref などの必要な型を自動的にエクスポート（再提供）してくれるから",
+        "Flutterを使わずに動作するようになるから",
+        "ビルドランナーが不要になるから",
+        "Ref 型を使わなくても良くなるから"
+      ],
+      "answer": 0,
+      "commentary": "Riverpod 3系では `riverpod_annotation` パッケージがコード生成に必要な `Ref` などの型を内部でエクスポートしているためです。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "`File` オブジェクト（`photo`）から端末内の物理ファイルパスを取得するプロパティ記述です。<br><pre><code>MultipartFile.fromFile(photo!.___)</code></pre>",
+      "options": [
+        "path",
+        "name",
+        "uri",
+        "location"
+      ],
+      "answer": 0,
+      "commentary": "ファイルのフルパス文字列を参照するプロパティは `.path` です。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "`updatePost(3, form)` を実行した際、Dioが通信を試みるAPIのエンドポイントURLはどれになりますか？",
+      "options": [
+        "'$baseUrl/posts/3/'",
+        "'$baseUrl/posts/'",
+        "'$baseUrl/posts/update/3/'",
+        "'$baseUrl/posts?id=3'"
+      ],
+      "answer": 0,
+      "commentary": "`updatePost` 内のURL構築定義 `final url = '$baseUrl/posts/$id/';` により `'$baseUrl/posts/3/'` になります。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "Dioを使って指定URLに `FormData` を載せた PATCH 通信を行う正しいコードはどれですか？",
+      "options": [
+        "await dioClient.patch(url, data: formData);",
+        "await dioClient.patch(url, body: formData);",
+        "dioClient.patchUrl(url, formData);",
+        "await dioClient.send(url, method: 'PATCH', data: formData);"
+      ],
+      "answer": 0,
+      "commentary": "DioでPATCH送信を行うには `dioClient.patch(url, data: データ)` と記述します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で作成した `PostForm` モデルの主な役割として正しいものはどれですか？",
+      "options": [
+        "投稿の作成や更新時に、入力されたテキストや画像を保持し、API送信用に FormData 形式へ変換する役割",
+        "APIから返ってきた投稿一覧をListViewに並べて表示する役割",
+        "アクセストークンを暗号化して保存する役割",
+        "アプリのルートパスを判定する役割"
+      ],
+      "answer": 0,
+      "commentary": "`PostForm` は新規投稿・更新画面の入力フォームデータを保持し、APIに送信可能な `FormData` へ変換する役割を持ちます。"
+    }
+  ]
 }

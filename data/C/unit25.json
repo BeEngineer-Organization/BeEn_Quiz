@@ -1,4 +1,525 @@
 {
   "unit_title": "API エンドポイントの定義 - 投稿詳細",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "Web APIにおいて、既存のデータの一部（本文や写真など）だけを変更・更新したいときに使用する最も適切なHTTPメソッドは何ですか？",
+      "options": [
+        "PATCH",
+        "PUT",
+        "POST",
+        "GET"
+      ],
+      "answer": 0,
+      "commentary": "データを丸ごと置き換えるPUTに対して、一部のフィールドのみを部分更新する場合はPATCHメソッドを使用します。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "データを更新するHTTPメソッド「PUT」と「PATCH」の違いについての説明として、正しいものはどれですか？",
+      "options": [
+        "PUTはデータを丸ごと全置換し、PATCHは変更したい一部の項目だけを更新する",
+        "PUTは一部だけ更新し、PATCHはデータを削除する",
+        "PUTは新規作成のみに使われ、PATCHは一覧取得に使われる",
+        "両者で処理内容や仕組みに違いはない"
+      ],
+      "answer": 0,
+      "commentary": "PUTは全項目の上書き（置き換え）、PATCHは指定したフィールドのみの部分更新という違いがあります。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`posts/urls.py` で、特定の投稿のID（主キー）を数値として受け取るための動的パス記述です。空欄に入る記述を選んでください。<br><pre><code>urlpatterns = [\n    path(\"posts/\", views.PostListView.as_view(), name=\"post-list\"),\n    path(\"posts/&lt;___:pk&gt;/\", views.PostDetailView.as_view(), name=\"post-detail\"),\n]</code></pre>",
+      "options": [
+        "int",
+        "str",
+        "slug",
+        "uuid"
+      ],
+      "answer": 0,
+      "commentary": "整数値の主キー（pk）を安全に受け取るには `<int:pk>` パスコンバータを使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "クラスベースビュー `PostDetailView` を `urls.py` のルーティングに登録する際に呼び出す必須メソッドは何ですか？<br><pre><code>path(\"posts/&lt;int:pk&gt;/\", views.PostDetailView.___(), name=\"post-detail\")</code></pre>",
+      "options": [
+        "as_view",
+        "to_view",
+        "get_view",
+        "run_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをURLパターンに対応させるには `.as_view()` メソッドを呼び出します。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "Web APIにおいて、「ログイン済みか」「作成者本人か」などのユーザーのアクセス権限を制御・チェックする仕組みを何と呼びますか？",
+      "options": [
+        "パーミッション（Permission）",
+        "シリアライザ（Serializer）",
+        "ミドルウェア（Middleware）",
+        "バリデーション（Validation）"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーごとに操作や閲覧の権限を制御する仕組みを「パーミッション」と呼びます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "カスタムパーミッションクラスを作成するために継承する、Django REST framework の基本クラスは何ですか？<br><pre><code>from rest_framework import permissions\n\nclass IsOwnerOrReadOnly(permissions.___):\n    pass</code></pre>",
+      "options": [
+        "BasePermission",
+        "CustomPermission",
+        "AllowAny",
+        "ObjectPermission"
+      ],
+      "answer": 0,
+      "commentary": "独自のパーミッションクラスを作る際は `permissions.BasePermission` を継承します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "特定の1件のオブジェクトに対して権限チェックを行うためにオーバーライドするメソッドは何ですか？<br><pre><code>class IsOwnerOrReadOnly(permissions.BasePermission):\n    def ___(self, request, view, obj):\n        if request.method in permissions.SAFE_METHODS:\n            return True\n        return obj.user == request.user</code></pre>",
+      "options": [
+        "has_object_permission",
+        "has_permission",
+        "check_permission",
+        "is_owner"
+      ],
+      "answer": 0,
+      "commentary": "個別オブジェクト単位のアクセス制御には `has_object_permission(self, request, view, obj)` をオーバーライドします。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "GETやHEADなどの「データの変更を伴わない安全なHTTPメソッド」であるかを判定する定数指定を選んでください。<br><pre><code>if request.method in permissions.___:\n    return True</code></pre>",
+      "options": [
+        "SAFE_METHODS",
+        "READ_METHODS",
+        "GET_METHODS",
+        "ALLOWED_METHODS"
+      ],
+      "answer": 0,
+      "commentary": "GET, HEAD, OPTIONS リクエスト判定には `permissions.SAFE_METHODS` を使います。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "投稿データの作成者（`obj.user`）が、現在リクエストを送っているログインユーザー（`request.user`）と一致するか判定する記述です。<br><pre><code>return obj.user ___ request.user</code></pre>",
+      "options": [
+        "==",
+        "=",
+        "is",
+        "in"
+      ],
+      "answer": 0,
+      "commentary": "オブジェクトの投稿者とログインユーザーが等しいかチェックするには等価演算子 `==` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "`IsOwnerOrReadOnly` パーミッションが設定されているAPIに対し、ログインしていない第三者ユーザーが `GET` リクエスト（詳細取得）を送った場合の挙動はどうなりますか？",
+      "options": [
+        "`SAFE_METHODS` の判定により True が返され、誰でも投稿を閲覧できる",
+        "403 Forbidden エラーが返され、閲覧が拒否される",
+        "401 Unauthorized エラーが返される",
+        "自動的にその投稿が削除される"
+      ],
+      "answer": 0,
+      "commentary": "GETリクエストは `permissions.SAFE_METHODS` に含まれるため、`return True` となり閲覧が許可されます。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "パーミッションメソッドにおける `has_permission` と `has_object_permission` の役割の違いとして正しいものはどれですか？",
+      "options": [
+        "has_permissionはリクエスト全体（ビュー全般）のアクセス制御を行い、has_object_permissionは特定の1件のオブジェクト単位のアクセス制御を行う",
+        "has_permissionはPOST専用で、has_object_permissionはGET専用である",
+        "has_permissionはデータベースの接続確認を行い、has_object_permissionはログイン処理を行う",
+        "両者に機能上の違いはない"
+      ],
+      "answer": 0,
+      "commentary": "ビュー全体の権限は `has_permission`、取得・編集対象の個別レコードに対する権限判定は `has_object_permission` を使います。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "API経由での書き込み・上書きを禁止し、自動決定・読み取り専用とするフィールドを指定する `Meta` クラス内のプロパティは何ですか？<br><pre><code>class Meta:\n    model = Post\n    fields = [\"id\", \"user\", \"content\", \"photo\", \"created_at\"]\n    ___ = (\"id\", \"created_at\")</code></pre>",
+      "options": [
+        "read_only_fields",
+        "write_only_fields",
+        "disabled_fields",
+        "protected_fields"
+      ],
+      "answer": 0,
+      "commentary": "クライアント側からの直接書き込みを防止して取得専用にするには `read_only_fields` を設定します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "投稿作成時に、リクエストを送信したログインユーザーを自動的に投稿者（`user`）としてセットするためオーバーライドするメソッドは何ですか？<br><pre><code>class PostSerializer(serializers.ModelSerializer):\n    def ___(self, validated_data):\n        request = self.context.get(\"request\")\n        if request and request.user.is_authenticated:\n            validated_data[\"user\"] = request.user\n        return super().create(validated_data)</code></pre>",
+      "options": [
+        "create",
+        "save",
+        "build",
+        "insert"
+      ],
+      "answer": 0,
+      "commentary": "新規レコード作成ロジックをカスタマイズするには `create(self, validated_data)` メソッドをオーバーライドします。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "シリアライザ内部で、ビューから渡された現在のHTTPリクエスト（`request`）オブジェクトを取得する記述です。<br><pre><code>request = self.context.get(\"___\")</code></pre>",
+      "options": [
+        "request",
+        "user",
+        "http_request",
+        "auth"
+      ],
+      "answer": 0,
+      "commentary": "シリアライザのコンテキスト辞書からリクエストオブジェクトを取り出すには `self.context.get(\"request\")` と書きます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "検証済みデータ辞書（`validated_data`）の `user` キーに、ログイン中のユーザーオブジェクトをセットするコードです。<br><pre><code>if request and request.user.is_authenticated:\n    validated_data[\"___\"] = request.user</code></pre>",
+      "options": [
+        "user",
+        "author",
+        "owner",
+        "created_by"
+      ],
+      "answer": 0,
+      "commentary": "`Post` モデルの投稿者フィールド名である `\"user\"` をキーにして設定します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "ユーザー「alice」がログインして投稿新規作成API（POST）を呼び出した際、`PostSerializer` の `create` メソッドが実行されると投稿者の情報はどうなりますか？",
+      "options": [
+        "クライアント側から user ID を送らなくても、自動的に「alice」が投稿者として保存される",
+        "投稿者が NULL（空）のまま保存される",
+        "「admin」が代わりに投稿者として保存される",
+        "エラーになって保存が失敗する"
+      ],
+      "answer": 0,
+      "commentary": "`validated_data[\"user\"] = request.user` により、認証中のログインユーザー「alice」が投稿者として自動設定されます。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "`read_only_fields = (\"id\", \"created_at\")` と設定することのセキュリティ上の役割として、正しい説明はどれですか？",
+      "options": [
+        "クライアントがPOSTやPATCHで id や created_at を送信してデータを不正改ざんしようとしても、サーバー側で無視・無効化する",
+        "データベースの id カラムを削除する",
+        "id や created_at をレスポンスJSONから隠して見えなくする",
+        "作成日時を常に1時間遅らせて保存する"
+      ],
+      "answer": 0,
+      "commentary": "`read_only_fields` を指定することで、不正なリクエストによる重要フィールド（IDや作成日時等）の上書きを防ぎます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "同じURL（`/posts/`）で「一覧取得（GET）」と「新規作成（POST）」の両方を扱えるように拡張する組み込みビュークラスは何ですか？<br><pre><code>class PostListView(generics.___):\n    permission_classes = [IsAuthenticated]\n    serializer_class = PostSerializer\n    queryset = Post.objects.filter(is_deleted=False).order_by(\"-created_at\")</code></pre>",
+      "options": [
+        "ListCreateAPIView",
+        "ListAPIView",
+        "CreateAPIView",
+        "ModelViewSet"
+      ],
+      "answer": 0,
+      "commentary": "GETでの一覧取得とPOSTでの新規作成を1つのビューで両立させるには `generics.ListCreateAPIView` を継承します。"
+    },
+    {
+      "id": 19,
+      "type": "用語理解",
+      "question": "Django REST frameworkの `generics.ListCreateAPIView` の特徴についての正確な説明はどれですか？",
+      "options": [
+        "GETリクエストでデータ一覧を取得し、POSTリクエストで新規データを追加できる組み込みビュークラス",
+        "データの編集（PATCH）と削除（DELETE）を行う専用クラス",
+        "未認証ユーザーでも誰でも投稿が作成できるようになるクラス",
+        "HTMLテンプレートを自動的に生成して返すクラス"
+      ],
+      "answer": 0,
+      "commentary": "`ListCreateAPIView` はGET（一覧取得）とPOST（新規データ登録）の基本ロジックがあらかじめ組み込まれたジェネリックビューです。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "単一の投稿オブジェクトに対して「詳細取得（GET）」「更新（PUT/PATCH）」「削除（DELETE）」の機能を備えた組み込みビュークラスは何ですか？<br><pre><code>class PostDetailView(generics.___):\n    permission_classes = [IsOwnerOrReadOnly]\n    serializer_class = PostSerializer\n    queryset = Post.objects.filter(is_deleted=False)</code></pre>",
+      "options": [
+        "RetrieveUpdateDestroyAPIView",
+        "RetrieveAPIView",
+        "UpdateDestroyAPIView",
+        "DetailAPIView"
+      ],
+      "answer": 0,
+      "commentary": "1件の詳細取得・更新・削除をまとめて扱う汎用ビューは `generics.RetrieveUpdateDestroyAPIView` です。"
+    },
+    {
+      "id": 21,
+      "type": "用語理解",
+      "question": "`RetrieveUpdateDestroyAPIView` が標準で対応している4つのHTTPメソッドの組み合わせとして正しいものはどれですか？",
+      "options": [
+        "GET（取得）、PUT（全更新）、PATCH（部分更新）、DELETE（削除）",
+        "GET（取得）、POST（新規作成）、PUT（更新）、DELETE（削除）",
+        "POST（新規作成）、PATCH（部分更新）、DELETE（削除）、OPTION（オプション）",
+        "GET（取得）のみ"
+      ],
+      "answer": 0,
+      "commentary": "`RetrieveUpdateDestroyAPIView` は単一オブジェクトに対する GET, PUT, PATCH, DELETE に対応しています。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "DELETEリクエスト時に物理削除を行わず、カスタムの削除処理（論理削除）をフック（割り込み実行）するためのビューのメソッドは何ですか？<br><pre><code>class PostDetailView(generics.RetrieveUpdateDestroyAPIView):\n    # ...\n    def ___(self, instance):\n        instance.is_deleted = True\n        instance.save()</code></pre>",
+      "options": [
+        "perform_destroy",
+        "destroy",
+        "delete_object",
+        "soft_delete"
+      ],
+      "answer": 0,
+      "commentary": "削除処理の直前・実行ロジックをカスタマイズするには `perform_destroy(self, instance)` をオーバーライドします。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "`perform_destroy` 内で投稿を論理削除状態にするため、削除フラグ（`is_deleted`）を更新してデータベースに保存するコードです。<br><pre><code>def perform_destroy(self, instance):\n    instance.is_deleted = ___\n    instance.save()</code></pre>",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "論理削除済みとするため `instance.is_deleted = True` に更新して `.save()` を呼び出します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "`perform_destroy` で論理削除が実装された投稿（ID: 11）に対し `DELETE` リクエストを実行した場合、データベース内のそのレコードはどうなりますか？",
+      "options": [
+        "レコード自体はDBに残ったまま、`is_deleted` 列の値が True に変わる",
+        "レコードがデータベースのテーブルから完全に消去（物理削除）される",
+        "投稿本文（content）の文字が消去されて空になる",
+        "新しいIDが割り振られて別レコードになる"
+      ],
+      "answer": 0,
+      "commentary": "論理削除のためレコード削除はされず、`is_deleted` フラグのみが `True` に変更されます。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "Django REST frameworkのビューにおける `perform_destroy` メソッドの引数 `instance` に入っているオブジェクトは何ですか？",
+      "options": [
+        "get_object() メソッドによって特定された、削除対象となるモデルインスタンス",
+        "現在ログインしているユーザーインスタンス",
+        "HTTPリクエストのパラメータ辞書",
+        "シリアライザのインスタンス"
+      ],
+      "answer": 0,
+      "commentary": "`instance` には、リクエストされたURLのID（pk）から取得された対象のデータオブジェクトが渡されます。"
+    },
+    {
+      "id": 26,
+      "type": "用語理解",
+      "question": "詳細ビュー（`PostDetailView` など）で、URLのパラメータ（`<int:pk>`）から該当する単一のモデルオブジェクトを検索・取得する内部メソッドは何ですか？",
+      "options": [
+        "get_object()",
+        "get_queryset()",
+        "filter_object()",
+        "find_by_pk()"
+      ],
+      "answer": 0,
+      "commentary": "クエリセットからURLの主キーに対応する特定の1件を取り出す内部処理は `get_object()` です。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "アクセストークンを添えて `curl -X GET http://127.0.0.1:8000/api/posts/2/` を送信し、処理が成功した場合に返ってくるレスポンスJSONの形式として正しいものはどれですか？",
+      "options": [
+        "{\"id\":2,\"user\":{\"id\":2,\"username\":\"test1\",\"icon\":null},\"content\":\"おはようございます\", ...}",
+        "[{\"id\":2,\"user\":{\"id\":2,\"username\":\"test1\",\"icon\":null}, ...}]（配列形式）",
+        "{\"status\": \"deleted\"}",
+        "空の文字列"
+      ],
+      "answer": 0,
+      "commentary": "単一オブジェクト取得（詳細ビュー）のため、配列 `[...]` ではなく単一のオブジェクト `{...}` 形式で返ります。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "`curl -X POST http://127.0.0.1:8000/api/posts/ ... -d '{\"content\":\"test\",\"photo\":null}'` で新規投稿を作成し成功した場合、サーバーから返されるステータスコード数値は何ですか？",
+      "options": [
+        "201（Created）",
+        "200（OK）",
+        "204（No Content）",
+        "400（Bad Request）"
+      ],
+      "answer": 0,
+      "commentary": "`ListCreateAPIView` での新規作成成功時には、HTTPステータス `201 Created` が返されます。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "自分（ID: 11）の投稿の本文を「test1」に更新するため、`curl -X PATCH http://127.0.0.1:8000/api/posts/11/ -d '{\"content\":\"test1\"}'` を実行して成功したときのレスポンスはどうなりますか？",
+      "options": [
+        "更新された投稿オブジェクトJSON（content が \"test1\" に変更された状態）が返る",
+        "\"deleted\" という文字列が返る",
+        "全投稿のリストが返る",
+        "エラー（400）が返る"
+      ],
+      "answer": 0,
+      "commentary": "PATCHリクエストの成功時には、部分更新が反映された最新の投稿オブジェクトJSONが返されます。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "Authorization ヘッダー（アクセストークン）を付けずに `/api/posts/2/` にアクセスした場合、返されるエラー応答JSONはどれですか？",
+      "options": [
+        "{\"detail\":\"認証情報が含まれていません。\"}",
+        "{\"detail\":\"このアクションを実行する権限がありません。\"}",
+        "{\"status\": 500}",
+        "200 OK"
+      ],
+      "answer": 0,
+      "commentary": "トークンが付与されていない未認証リクエストに対しては、「認証情報が含まれていません。」（401）が返ります。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "ユーザー「alice」が、他のユーザー「admin」が作成した投稿（ID: 1）を削除しようとして `DELETE /api/posts/1/` を実行した場合、返されるエラーレスポンスJSONはどれですか？",
+      "options": [
+        "{\"detail\":\"このアクションを実行する権限がありません。\"}",
+        "{\"detail\":\"認証情報が含まれていません。\"}",
+        "{\"status\":\"success\"}",
+        "404 Not Found"
+      ],
+      "answer": 0,
+      "commentary": "`IsOwnerOrReadOnly` パーミッションにより他人の投稿の削除（書き込み操作）は拒否され、「このアクションを実行する権限がありません。」（403）が返ります。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "curlコマンドで既存データを「部分更新（PATCH）」するために指定するHTTPメソッドのフラグ記述です。<br><pre><code>curl ___ PATCH http://127.0.0.1:8000/api/posts/11/ \\\n  -H \"Authorization: Bearer &lt;トークン&gt;\" \\\n  -d '{\"content\":\"test1\"}'</code></pre>",
+      "options": [
+        "-X",
+        "-M",
+        "-H",
+        "-d"
+      ],
+      "answer": 0,
+      "commentary": "curlでHTTPメソッドを指定するフラグは `-X` です。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "curlコマンドでデータを「削除（DELETE）」するために指定するHTTPメソッドのフラグ記述です。<br><pre><code>curl ___ DELETE http://127.0.0.1:8000/api/posts/11/ \\\n  -H \"Authorization: Bearer &lt;トークン&gt;\"</code></pre>",
+      "options": [
+        "-X",
+        "-D",
+        "-H",
+        "-d"
+      ],
+      "answer": 0,
+      "commentary": "HTTPメソッドを指定するフラグは `-X` です。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "投稿詳細ビュー `PostDetailView` で `IsOwnerOrReadOnly` パーミッションを指定する正しいプロパティ記述はどれですか？",
+      "options": [
+        "permission_classes = [IsOwnerOrReadOnly]",
+        "permission_classes = IsOwnerOrReadOnly",
+        "permissions = [IsOwnerOrReadOnly()]",
+        "auth_classes = [IsOwnerOrReadOnly]"
+      ],
+      "answer": 0,
+      "commentary": "パーミッション指定は `permission_classes` にリスト形式（`[クラス名]`）で設定します。"
+    },
+    {
+      "id": 35,
+      "type": "文法チェック",
+      "question": "Django REST frameworkのカスタムパーミッションクラスを定義する正しい構文はどれですか？",
+      "options": [
+        "class IsOwnerOrReadOnly(permissions.BasePermission):",
+        "def IsOwnerOrReadOnly(permissions.BasePermission):",
+        "class IsOwnerOrReadOnly extends BasePermission:",
+        "class IsOwnerOrReadOnly(permissions):"
+      ],
+      "answer": 0,
+      "commentary": "Pythonのクラス継承構文に従い `class クラス名(permissions.BasePermission):` と記述します。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "オーバーライドした `create` メソッドの最後で、親クラス（`ModelSerializer`）の標準作成処理を呼び出すPythonコードです。<br><pre><code>def create(self, validated_data):\n    # 追加処理\n    return ___().create(validated_data)</code></pre>",
+      "options": [
+        "super",
+        "parent",
+        "base",
+        "self"
+      ],
+      "answer": 0,
+      "commentary": "継承元の親クラスの同名メソッドを呼ぶには `super().create(...)` を使用します。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "REST APIのWeb設計原則において、URLとHTTPメソッドがそれぞれ表すべき役割の組み合わせとして正しいものはどれですか？",
+      "options": [
+        "URLは「操作対象のリソース名」を表し、HTTPメソッドは「リソースに対する操作内容（取得・登録・更新・削除など）」を表す",
+        "URLは「操作内容」を表し、HTTPメソッドは「ユーザーの暗号キー」を表す",
+        "URLは「画面の見た目」を表し、HTTPメソッドは「データベースのテーブル名」を表す",
+        "URLとHTTPメソッドの両方で「操作内容」を表す"
+      ],
+      "answer": 0,
+      "commentary": "REST APIでは URL＝リソース（何に対して）、HTTPメソッド＝アクション（どうするか）で役割を明確に分けるのが原則です。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "`has_object_permission` メソッドが受け取る正しい3つの引数の順番はどれですか？",
+      "options": [
+        "def has_object_permission(self, request, view, obj):",
+        "def has_object_permission(self, obj, request, view):",
+        "def has_object_permission(self, view, request):",
+        "def has_object_permission(self, request, obj):"
+      ],
+      "answer": 0,
+      "commentary": "メソッドの引数は第1引数に `request`、第2引数に `view`、第3引数に対象の `obj` を取ります。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "次のコードで、リクエストメソッドが `\"GET\"` であった場合の条件判定（`if`）の結果はどうなりますか？<br><pre><code>if request.method in permissions.SAFE_METHODS:\n    return True</code></pre>",
+      "options": [
+        "条件式は True となり、即座に True（アクセス許可）が返される",
+        "条件式は False となり、次のユーザーチェックに進む",
+        "エラーが発生する",
+        "False が返される"
+      ],
+      "answer": 0,
+      "commentary": "`GET` は `permissions.SAFE_METHODS` に含まれるため、`if` 条件が真となり `return True` が実行されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で開発した「投稿詳細API（/posts/<pk>/）」で提供される機能の組み合わせとして正しいものはどれですか？",
+      "options": [
+        "特定の1件の投稿の閲覧（GET）、本人による編集（PATCH）、本人による論理削除（DELETE）",
+        "全投稿の一括削除のみ",
+        "ユーザーのパスワード変更とメールアドレス変更",
+        "投稿画像のダウンロードのみ"
+      ],
+      "answer": 0,
+      "commentary": "本節では `/posts/<pk>/` に対する詳細取得（GET）、本人限定の編集（PATCH）、本人限定の論理削除（DELETE）を実装しました。"
+    }
+  ]
 }

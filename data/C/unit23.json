@@ -1,4 +1,525 @@
 {
   "unit_title": "アクセストークンの更新",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "アクセストークンの有効期限が切れた際、ユーザーに再ログインさせずに新しいアクセストークンを自動取得するために使用するトークンは何ですか？",
+      "options": [
+        "リフレッシュトークン",
+        "セッショントークン",
+        "ワンタイムトークン",
+        "パブリックキー"
+      ],
+      "answer": 0,
+      "commentary": "アクセストークンの期限が切れたときは、長命な「リフレッシュトークン」をサーバーへ送ることで、新しいアクセストークンを再取得できます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoの `settings.py` で、アクセストークンの有効期限を10分間に設定する記述です。空欄に入る適切なコードを選んでください。<br><pre><code>SIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(___=10),\n}</code></pre>",
+      "options": [
+        "minutes",
+        "days",
+        "seconds",
+        "hours"
+      ],
+      "answer": 0,
+      "commentary": "分単位の期限を指定するには `timedelta(minutes=10)` を使用します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "Djangoの `settings.py` で、リフレッシュトークンの有効期限を7日間に設定する記述です。空欄に入る適切なコードを選んでください。<br><pre><code>SIMPLE_JWT = {\n    'REFRESH_TOKEN_LIFETIME': timedelta(___=7),\n}</code></pre>",
+      "options": [
+        "days",
+        "weeks",
+        "hours",
+        "minutes"
+      ],
+      "answer": 0,
+      "commentary": "日単位の期限を指定するには `timedelta(days=7)` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "有効期限が切れたアクセストークンを使って認証必須のAPIにリクエストを送った際、サーバーから返される一般的なHTTPステータスコードは何ですか？",
+      "options": [
+        "401",
+        "200",
+        "404",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "アクセストークンの期限切れや認証失敗時には `401 Unauthorized` エラーが返されます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "リフレッシュトークンを送って新しいアクセストークンを取得するAPIのエンドポイントURLとして正しいものはどれですか？<br><pre><code>final url = '$baseUrl/___/';</code></pre>",
+      "options": [
+        "token/refresh",
+        "token/verify",
+        "users/refresh",
+        "auth/login"
+      ],
+      "answer": 0,
+      "commentary": "SimpleJWTにおけるトークン再取得のエンドポイントは `/token/refresh/` です。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "リフレッシュトークンをサーバーへ送信する際、リクエストボディに載せるキー名は何ですか？<br><pre><code>await dioClient.unauthDio.post(url, data: {'___': refreshToken});</code></pre>",
+      "options": [
+        "refresh",
+        "access",
+        "token",
+        "refresh_token"
+      ],
+      "answer": 0,
+      "commentary": "`/token/refresh/` エンドポイントへ送るJSONデータのキー名は `'refresh'` です。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "`/token/refresh/` へのアクセスが成功した際、サーバーから返されるレスポンスJSON内に含まれる新しいアクセストークンのキー名は何ですか？",
+      "options": [
+        "access",
+        "refresh",
+        "token",
+        "bearer"
+      ],
+      "answer": 0,
+      "commentary": "レスポンスデータには `{'access': '（新しいアクセストークン）'}` の形式でトークンが含まれます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "再取得したアクセストークンを `SecureStorage` に保存するコードです。空欄に入るメソッド名を選んでください。<br><pre><code>final secureStorage = SecureStorage();\nawait secureStorage.___(\n  'access',\n  newAccessToken,\n);</code></pre>",
+      "options": [
+        "saveToken",
+        "writeToken",
+        "setToken",
+        "putToken"
+      ],
+      "answer": 0,
+      "commentary": "`SecureStorage` クラスで定義された保存メソッドは `saveToken(key, value)` です。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "トークンの更新処理が失敗した際に、Dartで例外を投げるコードです。空欄に入るキーワードを選んでください。<br><pre><code>if (response.statusCode == 200) {\n  // ...\n} else {\n  ___ Exception('アクセストークンの更新に失敗しました');\n}</code></pre>",
+      "options": [
+        "throw",
+        "raise",
+        "return",
+        "error"
+      ],
+      "answer": 0,
+      "commentary": "Dartで例外（エラー）を発生させるには `throw` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "文法チェック",
+      "question": "`AccountService` クラスに定義する `refreshAccessToken` 関数の正解のシグネチャ（定義文）はどれですか？",
+      "options": [
+        "Future<String?> refreshAccessToken(String refreshToken) async",
+        "void refreshAccessToken(String refreshToken)",
+        "String refreshAccessToken(String refreshToken) async",
+        "Future<void> refreshAccessToken(refreshToken)"
+      ],
+      "answer": 0,
+      "commentary": "新しいアクセストークン（文字列またはnull）を非同期で返すため `Future<String?>` 型で定義します。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "Dioにおいて、HTTP通信の送信前・エラー発生時などに割り込んで処理を実行できる基本クラスは何ですか？",
+      "options": [
+        "QueuedInterceptor",
+        "BaseClient",
+        "HttpHandler",
+        "NetworkFilter"
+      ],
+      "answer": 0,
+      "commentary": "複数の非同期処理を順番に安全に処理するため `QueuedInterceptor` クラスを継承します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "Dioで通信エラーが起きしたときに自動的に呼び出されるインターセプターのメソッドは何ですか？<br><pre><code>@override\nFuture&lt;void&gt; ___(\n  DioException err,\n  ErrorInterceptorHandler handler,\n) async</code></pre>",
+      "options": [
+        "onError",
+        "catchError",
+        "handleError",
+        "onRequestError"
+      ],
+      "answer": 0,
+      "commentary": "Dioのエラー時に割り込むには `onError` メソッドをオーバーライドします。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "`onError` メソッド内で、エラーの原因が「認証エラー（アクセストークンの有効期限切れ等）」であるかを判定する条件式として正しいものはどれですか？",
+      "options": [
+        "if (err.response?.statusCode == 401)",
+        "if (err.response?.statusCode == 200)",
+        "if (err.response?.statusCode == 404)",
+        "if (err.response?.statusCode == 500)"
+      ],
+      "answer": 0,
+      "commentary": "ステータスコードが `401`（Unauthorized）である場合を判定してトークン更新処理を行います。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "`onError` 内でストレージから保存済みのリフレッシュトークンを取り出すコードです。<br><pre><code>final secureStorage = SecureStorage();\nfinal refreshToken = await secureStorage.___('refresh');</code></pre>",
+      "options": [
+        "getToken",
+        "readToken",
+        "fetchToken",
+        "loadToken"
+      ],
+      "answer": 0,
+      "commentary": "保存したトークンを取得するには `getToken(key)` メソッドを呼び出します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "失敗したリクエストの `Authorization` ヘッダーを新しいアクセストークンで書き換えるコードです。<br><pre><code>err.requestOptions.headers['Authorization'] =\n    '___ $newAccessToken';</code></pre>",
+      "options": [
+        "Bearer",
+        "Token",
+        "JWT",
+        "Access"
+      ],
+      "answer": 0,
+      "commentary": "認証ヘッダーのスキームとして `'Bearer $newAccessToken'` の形式で設定します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "新しいトークンを設定し直したリクエスト情報を使い、もう一度サーバーへHTTPリクエストを再実行（再送）するメソッドは何ですか？<br><pre><code>final response = await dio.___(err.requestOptions);</code></pre>",
+      "options": [
+        "fetch",
+        "retry",
+        "request",
+        "resend"
+      ],
+      "answer": 0,
+      "commentary": "構築済みの `RequestOptions` をそのまま渡して再実行するには `dio.fetch()` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "再送信で成功したレスポンスを「エラーではなく正常な結果」として呼び出し元に返すためのハンドラーのメソッドは何ですか？<br><pre><code>return handler.___(response);</code></pre>",
+      "options": [
+        "resolve",
+        "next",
+        "reject",
+        "complete"
+      ],
+      "answer": 0,
+      "commentary": "エラー状態を解除して正常なレスポンスとして処理を継続させるには `handler.resolve(response)` を呼び出します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "トークンの再取得やリトライ処理に失敗した場合に、通常通りエラーとして次の処理へ流すためのコードです。<br><pre><code>} catch (e) {\n  return handler.___(err);\n}</code></pre>",
+      "options": [
+        "next",
+        "resolve",
+        "reject",
+        "pass"
+      ],
+      "answer": 0,
+      "commentary": "復旧できなかったエラーをそのまま次のエラーハンドラへ引き渡すには `handler.next(err)` を呼び出します。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "アクセストークンの期限が切れた状態で投稿一覧を取得しようとした際、`AuthInterceptor` の `onError` が正しく機能した場合のアプリの挙動はどうなりますか？",
+      "options": [
+        "裏側でトークンが自動更新されてリトライされ、ユーザーにはエラー画面を出さずに投稿一覧が表示される",
+        "「401 Unauthorized」というエラー画面が表示される",
+        "自動的にログイン画面にリダイレクトされる",
+        "投稿一覧が空（0件）の状態で表示される"
+      ],
+      "answer": 0,
+      "commentary": "`onError` 内でトークン更新とリクエストの自動再送信（fetch & resolve）を行うため、画面側ではエラーにならずデータが表示されます。"
+    },
+    {
+      "id": 20,
+      "type": "用語理解",
+      "question": "画面右下に固定で配置され、丸い形状で「投稿する」などの主要なアクションを促すボタンウィジェットは何ですか？",
+      "options": [
+        "FloatingActionButton",
+        "ElevatedButton",
+        "IconButton",
+        "PopupMenuButton"
+      ],
+      "answer": 0,
+      "commentary": "画面上に浮いた円形のアクションボタンを作るには `FloatingActionButton` ウィジェットを使用します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "FloatingActionButton の形状を「完全な丸型（円形）」に設定するプロパティ指定を選んでください。<br><pre><code>FloatingActionButton(\n  shape: const ___(),\n)</code></pre>",
+      "options": [
+        "CircleBorder",
+        "RoundedRectangleBorder",
+        "StadiumBorder",
+        "OutlineInputBorder"
+      ],
+      "answer": 0,
+      "commentary": "ボタンを真円にするには `shape: const CircleBorder()` を指定します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "ボタンにホバーした際や長押し時に表示される補足説明テキストを設定するプロパティは何ですか？<br><pre><code>FloatingActionButton(\n  ___: '投稿する',\n)</code></pre>",
+      "options": [
+        "tooltip",
+        "label",
+        "hint",
+        "title"
+      ],
+      "answer": 0,
+      "commentary": "ボタンの補足説明ツールチップを設定するには `tooltip` プロパティを使用します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "画面下部に「Home」「Favorites」「Mypage」などのナビゲーションタブを表示するウィジェットは何ですか？<br><pre><code>return ___(\n  items: const [...],\n);</code></pre>",
+      "options": [
+        "BottomNavigationBar",
+        "NavigationBar",
+        "TabBar",
+        "BottomAppBar"
+      ],
+      "answer": 0,
+      "commentary": "画面下部のタブ型ナビゲーションバーを作るには `BottomNavigationBar` を使用します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "`BottomNavigationBar` の各アイテム要素を定義するクラスは何ですか？<br><pre><code>items: const [\n  ___(\n    icon: Icon(Icons.home),\n    label: 'Home',\n  ),\n]</code></pre>",
+      "options": [
+        "BottomNavigationBarItem",
+        "NavigationDestination",
+        "Tab",
+        "BottomItem"
+      ],
+      "answer": 0,
+      "commentary": "`BottomNavigationBar` の `items` リストには `BottomNavigationBarItem` を配置します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "`Scaffold` ウィジェットにボトムナビゲーションバーをセットするためのパラメータ名は何ですか？<br><pre><code>return Scaffold(\n  body: RefreshIndicator(...),\n  ___: const CustomBottomBar(),\n);</code></pre>",
+      "options": [
+        "bottomNavigationBar",
+        "bottomBar",
+        "footer",
+        "bottomSheet"
+      ],
+      "answer": 0,
+      "commentary": "`Scaffold` にナビゲーションバーを配置するには `bottomNavigationBar` パラメータを使用します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "`Scaffold` ウィジェットに右下のアクションボタンをセットするためのパラメータ名は何ですか？<br><pre><code>return Scaffold(\n  body: RefreshIndicator(...),\n  ___: const CustomFloatingActionButton(),\n);</code></pre>",
+      "options": [
+        "floatingActionButton",
+        "actionButton",
+        "floatingButton",
+        "rightButton"
+      ],
+      "answer": 0,
+      "commentary": "`Scaffold` の右下にボタンを配置するパラメータは `floatingActionButton` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "「いいね」のハートアイコン（`Icons.favorite`）のように、タップ動作（`onTap`）を検知するための透明な検出ウィジェットは何ですか？<br><pre><code>___(\n  onTap: () {},\n  child: const Icon(Icons.favorite),\n)</code></pre>",
+      "options": [
+        "GestureDetector",
+        "InkWell",
+        "ClickListener",
+        "TouchContainer"
+      ],
+      "answer": 0,
+      "commentary": "アイコンやテキストなどのタップイベントを検出するには `GestureDetector` ウィジェットを使います。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "ハートアイコンと「いいね数」のカウントテキストを横並びで左寄せ配置するための `Row` の設定として正しいものはどれですか？",
+      "options": [
+        "mainAxisAlignment: MainAxisAlignment.start",
+        "mainAxisAlignment: MainAxisAlignment.spaceBetween",
+        "mainAxisAlignment: MainAxisAlignment.center",
+        "mainAxisAlignment: MainAxisAlignment.end"
+      ],
+      "answer": 0,
+      "commentary": "横並びの要素を左側に詰めて配置するには `MainAxisAlignment.start` を使用します。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "Dioの `DioException` オブジェクトから、エラーが発生した元のリクエスト設定情報を取り出すプロパティ記述として正しいものはどれですか？",
+      "options": [
+        "err.requestOptions",
+        "err.options",
+        "err.requestData",
+        "err.config"
+      ],
+      "answer": 0,
+      "commentary": "エラー発生時のリクエスト情報を取得するには `err.requestOptions` を参照します。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "画面を上から下へ引っ張って手動更新した際、Riverpodのプロバイダーの状態（キャッシュ）をクリアして再取得させるためのメソッドは何ですか？",
+      "options": [
+        "ref.invalidate()",
+        "ref.refresh()",
+        "ref.reset()",
+        "ref.clean()"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーの状態を破棄して再読み込みさせるには `ref.invalidate(provider)` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "アクセストークンの有効期限テストを行うため、`settings.py` で `ACCESS_TOKEN_LIFETIME` を1分に変更する記述です。<br><pre><code>SIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(___=1),\n}</code></pre>",
+      "options": [
+        "minutes",
+        "seconds",
+        "hours",
+        "days"
+      ],
+      "answer": 0,
+      "commentary": "1分間に指定するには `timedelta(minutes=1)` と記述します。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "`onError` メソッドの自動リカバリ処理をコメントアウトした状態で、アクセストークンの期限切れ後にスワイプリフレッシュを実行した場合どうなりますか？",
+      "options": [
+        "401認証エラーが補獲され、画面上にエラーメッセージが表示される",
+        "自動的に新しいアクセストークンが取得されて更新される",
+        "投稿データが正常に取得される",
+        "アプリが即座に強制終了する"
+      ],
+      "answer": 0,
+      "commentary": "インターセプターによる自動リカバリがないため、401エラーが発生してUI上にエラーが表示されます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "`AccountService` で未認証用Dioクライアント（`unauthDio`）を使用してリフレッシュAPIを呼ぶ理由として正しい記述を選んでください。<br><pre><code>final response = await dioClient.___.post(url, data: {'refresh': refreshToken});</code></pre>",
+      "options": [
+        "unauthDio",
+        "authDio",
+        "dio",
+        "clientDio"
+      ],
+      "answer": 0,
+      "commentary": "トークンリフレッシュリクエスト自体には古い（切れた）アクセストークンを添付させないため、`unauthDio` を使用します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Dioのレスポンスオブジェクト `response` から、ステータスコードが 200 であるか判定する正しい条件文はどれですか？",
+      "options": [
+        "if (response.statusCode == 200)",
+        "if (response.status == 200)",
+        "if (response.code == 200)",
+        "if (response.isSuccess())"
+      ],
+      "answer": 0,
+      "commentary": "HTTPステータスコードを比較するには `response.statusCode == 200` と書きます。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "ユーザーが画面上で特定のボタンなどを長押し・ホバーした際に浮き出て表示される小さな説明文を何と呼びますか？",
+      "options": [
+        "ツールチップ（tooltip）",
+        "スナックバー（snackBar）",
+        "ダイアログ（dialog）",
+        "プレースホルダー（placeholder）"
+      ],
+      "answer": 0,
+      "commentary": "操作の補助説明を表示する小さな補足バルーンを「ツールチップ」と呼びます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "「プラス（＋）」マークのアイコンを指定するFlutterの標準アイコン定数はどれですか？<br><pre><code>child: Icon(Icons.___, color: Theme.of(context).colorScheme.onPrimary),</code></pre>",
+      "options": [
+        "add",
+        "plus",
+        "create",
+        "new_label"
+      ],
+      "answer": 0,
+      "commentary": "プラスマークのアイコンは `Icons.add` です。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "「ハート」マークのアイコンを指定するFlutterの標準アイコン定数はどれですか？<br><pre><code>child: const Icon(Icons.___),</code></pre>",
+      "options": [
+        "favorite",
+        "heart",
+        "like",
+        "love"
+      ],
+      "answer": 0,
+      "commentary": "ハートのアイコンは `Icons.favorite` です。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "ストレージ内にリフレッシュトークンが存在しない（`null` の）状態で `onError` が呼ばれた場合、どのような動きになりますか？<br><pre><code>final refreshToken = await secureStorage.getToken('refresh');\nif (refreshToken != null) {\n  // トークン更新処理\n}\nreturn handler.next(err);</code></pre>",
+      "options": [
+        "トークン更新処理はスキップされ、そのまま `handler.next(err)` が実行されてエラーとして処理される",
+        "新しいリフレッシュトークンが自動生成される",
+        "無限ループが発生する",
+        "アプリがクラッシュする"
+      ],
+      "answer": 0,
+      "commentary": "`refreshToken` が `null` のため `if` ブロックを通り抜け、そのまま `handler.next(err)` でエラーが引き渡されます。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "`AuthInterceptor` クラスの定義で、Dioインスタンスをコンストラクタで受け取る正しい記述はどれですか？",
+      "options": [
+        "class AuthInterceptor extends QueuedInterceptor {\n  AuthInterceptor(this.dio);\n  final Dio dio;\n}",
+        "class AuthInterceptor {\n  Dio dio;\n  AuthInterceptor(Dio dio) { this.dio = dio; }\n}",
+        "class AuthInterceptor(this.dio) extends QueuedInterceptor {}",
+        "def AuthInterceptor(dio):"
+      ],
+      "answer": 0,
+      "commentary": "Dartのフィールド初期化簡略文法を使い `AuthInterceptor(this.dio);` と記述します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で実装した「アクセストークン更新機能」の全体的な目的として最も適切な説明はどれですか？",
+      "options": [
+        "アクセストークンの有効期限が切れても、アプリが裏側でリフレッシュトークンを使って自動更新し、ユーザーにストレスなくアプリを使わせるため",
+        "サーバーのデータベース容量を節約するため",
+        "パスワードを完全に不要にしてログインを廃止するため",
+        "画面の背景色を自動的にダークモードに変更するため"
+      ],
+      "answer": 0,
+      "commentary": "短命なアクセストークンでセキュリティを保ちつつ、裏側で自動更新することでユーザーが頻繁にログインし直す手間を無くすことが目的です。"
+    }
+  ]
 }

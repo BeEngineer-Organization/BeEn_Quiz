@@ -1,4 +1,525 @@
 {
   "unit_title": "初期画面の制御",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "アクセストークンの有効性を確認し、真偽値を非同期で返す `verify` 関数の定義です。空欄に入る適切な型指定を選んでください。<br><pre><code>Future&lt;___&gt; verify() async { ... }</code></pre>",
+      "options": [
+        "bool",
+        "String",
+        "void",
+        "int"
+      ],
+      "answer": 0,
+      "commentary": "トークンが有効か無効かを `true` または `false` で返すため、戻り値の型には `Future<bool>` を指定します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "トークンの有効性を確認するためのAPIエンドポイントのURLを指定するコードです。空欄に入るパスを選んでください。<br><pre><code>final url = '$baseUrl/___/';</code></pre>",
+      "options": [
+        "token/verify",
+        "token/refresh",
+        "token/check",
+        "users/verify"
+      ],
+      "answer": 0,
+      "commentary": "トークンの有効性を検証するAPIエンドポイントは `/token/verify/` です。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`SecureStorage` からアクセストークンを取り出す非同期コードです。空欄に入るキー名は何ですか？<br><pre><code>final accessToken = await secureStorage.getToken('___');</code></pre>",
+      "options": [
+        "access",
+        "refresh",
+        "token",
+        "accessToken"
+      ],
+      "answer": 0,
+      "commentary": "保存時に使用したキー名 `'access'` を指定してアクセストークンを取得します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "取得した `accessToken` が `null` または空文字であるかを判定し、該当する場合に `false` を返す条件文です。<br><pre><code>if (accessToken?.isEmpty ___ true) return false;</code></pre>",
+      "options": [
+        "??",
+        "||",
+        "&&",
+        "?:"
+      ],
+      "answer": 0,
+      "commentary": "`accessToken` が `null` の場合に `true` として判定させるため、null合体演算子 `??` を使用します。"
+    },
+    {
+      "id": 5,
+      "type": "実行結果予測",
+      "question": "ストレージにアクセストークンが保存されていない（`null` の）状態で `verify()` 関数を実行した場合、どのような値が返されますか？",
+      "options": [
+        "false",
+        "true",
+        "null",
+        "例外エラー（DioException）が発生する"
+      ],
+      "answer": 0,
+      "commentary": "`if (accessToken?.isEmpty ?? true) return false;` の処理により、通信を行わずに即座に `false` が返されます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "未認証用の Dio クライアントを使い、アクセストークンを検証APIへPOST送信するコードです。<br><pre><code>final response = await dioClient.unauthDio.post(\n  url, \n  data: {'___': accessToken}\n);</code></pre>",
+      "options": [
+        "token",
+        "access",
+        "jwt",
+        "key"
+      ],
+      "answer": 0,
+      "commentary": "`/token/verify/` エンドポイントへ送信するJSONのデータキー名は `'token'` です。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "アクセストークンの検証リクエストに対し、サーバーからレスポンスステータスコード `200` が返ってきた場合、`verify()` 関数が返す値は何ですか？",
+      "options": [
+        "true",
+        "false",
+        "200",
+        "Routes.home"
+      ],
+      "answer": 0,
+      "commentary": "ステータスコード200はトークンが有効であることを示すため、`true` を返します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "アクセストークンが期限切れ（401エラー）だった場合、ストレージからリフレッシュトークンを取り出すコードです。<br><pre><code>if (statusCode == 401) {\n  final refreshToken = await secureStorage.getToken('___');\n}</code></pre>",
+      "options": [
+        "refresh",
+        "access",
+        "re_token",
+        "refresh_token"
+      ],
+      "answer": 0,
+      "commentary": "リフレッシュトークンの保存キー名である `'refresh'` を渡して取得します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "アクセストークンが期限切れで、かつストレージ内にリフレッシュトークンも存在しなかった（`refreshToken == null`）場合、処理はどうなりますか？",
+      "options": [
+        "`if (refreshToken == null) return false;` が実行され、`false` を返して終了する",
+        "自動的に会員登録画面へリダイレクトされる",
+        "新しいリフレッシュトークンがダミーで生成される",
+        "無限ループが発生する"
+      ],
+      "answer": 0,
+      "commentary": "リフレッシュトークンもない場合は再取得が不可能なため、即座に `false` を返してログイン画面へ誘導させます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "取得したリフレッシュトークンを使って、新しいアクセストークンを再取得するメソッド呼び出しです。<br><pre><code>final newAccessToken = await ___(refreshToken);</code></pre>",
+      "options": [
+        "refreshAccessToken",
+        "getNewToken",
+        "verifyToken",
+        "updateAccessToken"
+      ],
+      "answer": 0,
+      "commentary": "`AccountService` 内に定義済みの `refreshAccessToken()` メソッドを呼び出します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "再取得した新しいアクセストークン（`newAccessToken`）を再度検証APIへ送信して確認するコードです。<br><pre><code>final response = await dioClient.unauthDio.post(\n  url, \n  data: {'token': ___}\n);</code></pre>",
+      "options": [
+        "newAccessToken",
+        "refreshToken",
+        "accessToken",
+        "latestToken"
+      ],
+      "answer": 0,
+      "commentary": "新しく更新されたアクセストークン `newAccessToken` を渡して検証を行います。"
+    },
+    {
+      "id": 12,
+      "type": "用語理解",
+      "question": "Riverpodのコード生成で、プロバイダーの状態をアプリ動作中に破棄せず保持し続けるために指定するアノテーションのオプションは何ですか？",
+      "options": [
+        "@Riverpod(keepAlive: true)",
+        "@Riverpod(autoDispose: false)",
+        "@Riverpod(cache: true)",
+        "@Riverpod(singleton: true)"
+      ],
+      "answer": 0,
+      "commentary": "状態を自動破棄させずに保持し続けるには `@Riverpod(keepAlive: true)` を指定します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "初期ルートプロバイダー `InitialRoute` を自動生成クラスを継承して定義するコードです。<br><pre><code>@Riverpod(keepAlive: true)\nclass InitialRoute extends ___ {\n  @override\n  Future&lt;String&gt; build() async { ... }\n}</code></pre>",
+      "options": [
+        "_$InitialRoute",
+        "_InitialRoute",
+        " _$InitialRouteProvider",
+        "AsyncNotifier"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodのジェネレータが作成する `_$InitialRoute` クラスを継承します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "`InitialRoute` クラス内で、初期ルートの文字列を非同期で決定して返すメソッド定義です。<br><pre><code>@override\nFuture&lt;String&gt; ___() async {\n  final isVerified = await AccountService().verify();\n  return isVerified ? Routes.home : Routes.login;\n}</code></pre>",
+      "options": [
+        "build",
+        "create",
+        "init",
+        "getRoute"
+      ],
+      "answer": 0,
+      "commentary": "Notifierクラスの初期化・値生成を行うメソッドは `build()` です。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`AccountService().verify()` が `true` を返した場合、`InitialRoute` の `build()` メソッドが返すルート定数はどれですか？<br><pre><code>return isVerified ? Routes.home : Routes.login;</code></pre>",
+      "options": [
+        "Routes.home",
+        "Routes.login",
+        "Routes.loading",
+        "Routes.signup"
+      ],
+      "answer": 0,
+      "commentary": "三項演算子により、`isVerified` が `true` の場合は `Routes.home`（ホーム画面）が返されます。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "`AccountService().verify()` の処理中で通信エラーなどの例外が発生し `catch (e)` ブロックへ入った場合、返されるルート定数はどれですか？<br><pre><code>try {\n  final isVerified = await AccountService().verify();\n  return isVerified ? Routes.home : Routes.login;\n} catch (e) {\n  return Routes.login;\n}</code></pre>",
+      "options": [
+        "Routes.login",
+        "Routes.home",
+        "Routes.loading",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "例外キャッチ時は安全のためログイン画面を示す `Routes.login` を返します。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "`InitialRoute` クラスから `build_runner` によって自動生成されるプロバイダー変数名は何になりますか？",
+      "options": [
+        "initialRouteProvider",
+        "InitialRouteProvider",
+        "initialRoute",
+        "initialRouteNotifier"
+      ],
+      "answer": 0,
+      "commentary": "クラス名（InitialRoute）の先頭を小文字にし、末尾に「Provider」が付いた `initialRouteProvider` になります。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`initial_route.dart` などのアノテーションファイルを元にコード自動生成を実行する管理コマンドです。<br><pre><code>___ build_runner build</code></pre>",
+      "options": [
+        "dart run",
+        "flutter pub",
+        "flutter run",
+        "dart build"
+      ],
+      "answer": 0,
+      "commentary": "`build_runner` を起動するには `dart run build_runner build` を実行します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "ローディング画面ウィジェット `LoadingPage` のクラス定義です。空欄に入る親クラス名を選んでください。<br><pre><code>class LoadingPage extends ___ {\n  const LoadingPage({super.key});\n\n  @override\n  Widget build(BuildContext context) {\n    return const Scaffold(\n      body: Center(\n        child: CircularProgressIndicator(),\n      ),\n    );\n  }\n}</code></pre>",
+      "options": [
+        "StatelessWidget",
+        "StatefulWidget",
+        "ConsumerWidget",
+        "Widget"
+      ],
+      "answer": 0,
+      "commentary": "内部で状態（State）を持たない固定のローディング画面のため `StatelessWidget` を継承します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "`LoadingPage` の画面中央にグルグル回るインジケーターを配置するための標準ウィジェットは何ですか？<br><pre><code>body: Center(\n  child: ___(),\n)</code></pre>",
+      "options": [
+        "CircularProgressIndicator",
+        "LinearProgressIndicator",
+        "LoadingSpinner",
+        "ProgressView"
+      ],
+      "answer": 0,
+      "commentary": "円形の読み込み中表示には `CircularProgressIndicator` ウィジェットを使います。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` でローディング画面用のパス定数を定義するコードです。<br><pre><code>abstract class Routes {\n  static const login = '/login';\n  static const signup = '/signup';\n  static const home = '/home';\n  static const loading = '___';\n}</code></pre>",
+      "options": [
+        "/loading",
+        "loading",
+        "/load",
+        "/spinner"
+      ],
+      "answer": 0,
+      "commentary": "ローディング画面のルートパス定数として `'/loading'` を設定します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` の `routes` リストに `LoadingPage` のルーティングを追加するコードです。<br><pre><code>GoRoute(\n  path: Routes.loading,\n  builder: (ctx, state) => const ___(),\n),</code></pre>",
+      "options": [
+        "LoadingPage",
+        "HomePage",
+        "LoginPage",
+        "ProgressPage"
+      ],
+      "answer": 0,
+      "commentary": "`Routes.loading` パスに対して `LoadingPage()` ウィジェットを紐付けます。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "`main.dart` の `BeEnShotApp` でRiverpodのプロバイダーを読み取るために継承クラスを変更する記述です。<br><pre><code>class BeEnShotApp extends ___ {\n  const BeEnShotApp({super.key});\n  ...\n}</code></pre>",
+      "options": [
+        "ConsumerWidget",
+        "StatelessWidget",
+        "StatefulWidget",
+        "InheritedWidget"
+      ],
+      "answer": 0,
+      "commentary": "`build` メソッド内で `WidgetRef ref` を使ってプロバイダーを監視するために `ConsumerWidget` を継承します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "`ConsumerWidget` の `build` メソッドの引数定義です。空欄に入る第2引数の型名は何ですか？<br><pre><code>@override\nWidget build(BuildContext context, ___ ref)</code></pre>",
+      "options": [
+        "WidgetRef",
+        "Ref",
+        "ProviderRef",
+        "ContainerRef"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodの参照オブジェクトを受け取る型は `WidgetRef` です。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "`GoRouter` の初期表示ルート（`initialLocation`）を非同期プロバイダーから取得し、未完了時はローディング画面にする記述です。<br><pre><code>routerConfig: GoRouter(\n  routes: routes,\n  initialLocation:\n      ref.watch(initialRouteProvider).___ ?? Routes.loading,\n)</code></pre>",
+      "options": [
+        "value",
+        "data",
+        "state",
+        "asData"
+      ],
+      "answer": 0,
+      "commentary": "`AsyncValue` から現在保持されているデータ（値）を取り出すプロパティは `.value` です。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "アプリ起動直後、`initialRouteProvider` の非同期処理（トークン検証）がまだ完了しておらず `value` が `null` のとき、`initialLocation` に渡されるルートは何になりますか？<br><pre><code>ref.watch(initialRouteProvider).value ?? Routes.loading</code></pre>",
+      "options": [
+        "Routes.loading（/loading）",
+        "Routes.login（/login）",
+        "Routes.home（/home）",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`value` が `null` のため、null合体演算子 `??` の右辺である `Routes.loading` が評価されます。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "有効なアクセストークンを保持しているユーザーがアプリを起動した際、一連の初期画面制御によって最終的に表示される画面はどれですか？",
+      "options": [
+        "ホーム画面（HomePage）",
+        "ログイン画面（LoginPage）",
+        "会員登録画面（SignupPage）",
+        "ローディング画面（LoadingPage）で停止する"
+      ],
+      "answer": 0,
+      "commentary": "トークン検証が成功して `verify()` が `true` となるため、`initialRouteProvider` は `Routes.home` を返しホーム画面が開きます。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "一度もログインしたことがなくトークンが存在しないユーザーがアプリを起動した場合、表示される画面はどれですか？",
+      "options": [
+        "ログイン画面（LoginPage）",
+        "ホーム画面（HomePage）",
+        "会員登録画面（SignupPage）",
+        "エラー画面"
+      ],
+      "answer": 0,
+      "commentary": "トークンがないため `verify()` が `false` となり、`initialRouteProvider` から `Routes.login` が返されてログイン画面が開きます。"
+    },
+    {
+      "id": 29,
+      "type": "用語理解",
+      "question": "アプリ起動時にログイン状態を判定して初期画面を動的に決定する処理において、判定中に画面が真っ白になったり崩れたりするのを防ぐために表示する画面を何と呼びますか？",
+      "options": [
+        "ローディング画面（スプラッシュ/読み込み画面）",
+        "モーダルダイアログ",
+        "スナックバー",
+        "ボトムシート"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理の実行完了を待つ間、ユーザーに処理中であることを伝える画面を「ローディング画面」と呼びます。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "`services/account.dart` 内で `verify` メソッドを呼び出し、その結果に応じて画面ルートを返す三項演算子の正しい記述はどれですか？",
+      "options": [
+        "final isVerified = await AccountService().verify();\nreturn isVerified ? Routes.home : Routes.login;",
+        "if (AccountService().verify()) { Routes.home } else { Routes.login }",
+        "return verify() == true -> Routes.home : Routes.login;",
+        "return isVerified ? Routes.login : Routes.home;"
+      ],
+      "answer": 0,
+      "commentary": "条件式 `isVerified` が真なら `Routes.home`、偽なら `Routes.login` を返す三項演算子 `条件 ? 真の値 : 偽の値` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "Dioの例外処理で、レスポンスのステータスコードを取り出す正しいプロパティアクセスはどれですか？<br><pre><code>on DioException catch (e) {\n  final statusCode = e.response?.___;\n}</code></pre>",
+      "options": [
+        "statusCode",
+        "status",
+        "code",
+        "httpStatus"
+      ],
+      "answer": 0,
+      "commentary": "Dioのレスポンスオブジェクトからステータスコードを取得するプロパティは `statusCode` です。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "`providers/initial_route.dart` で作成した `initial_route.g.dart` ファイルを読み込むための Dart 宣言文はどれですか？",
+      "options": [
+        "part 'initial_route.g.dart';",
+        "import 'initial_route.g.dart';",
+        "include 'initial_route.g.dart';",
+        "export 'initial_route.g.dart';"
+      ],
+      "answer": 0,
+      "commentary": "生成されたコードとファイルを分割結合するため `part 'initial_route.g.dart';` を記述します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "アクセストークンが有効期限切れ（401）で、リフレッシュトークンによる新アクセストークン取得と再検証（`/token/verify/`）が共に成功（200）した場合、`verify()` 関数の最終的な戻り値はどうなりますか？",
+      "options": [
+        "true",
+        "false",
+        "null",
+        "401"
+      ],
+      "answer": 0,
+      "commentary": "リフレッシュトークンによるトークン再発行と再検証が成功したため、ユーザーは認証済みとみなされ `true` を返します。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "アプリを終了して再起動しても、ユーザーが再度ログイン情報を入力することなく利用を継続できる機能を何と呼びますか？",
+      "options": [
+        "自動ログイン（ログイン状態の保持）",
+        "シングルサインオン",
+        "マルチファクタ認証",
+        "パスキー認証"
+      ],
+      "answer": 0,
+      "commentary": "ストレージに保存されたトークンを起動時にチェックして自動でホーム画面に遷移させる機能を「自動ログイン」と呼びます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "`main.dart` で `initialRouteProvider` を監視（状態取得）するための正解コード記述はどれですか？<br><pre><code>ref.___(initialRouteProvider)</code></pre>",
+      "options": [
+        "watch",
+        "read",
+        "listen",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーの状態を監視して変化時に自動再描画させるには `ref.watch()` を使います。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "Dioの非同期リクエストで発生した通信例外（エラー）を捕獲する正しい `catch` ブロックの書き方はどれですか？",
+      "options": [
+        "try { ... } on DioException catch (e) { ... }",
+        "try { ... } catch (DioException e) { ... }",
+        "try { ... } except (DioException e) { ... }",
+        "catchDio (e) { ... }"
+      ],
+      "answer": 0,
+      "commentary": "特定の例外型を指定して捕まえるには `on 例外型 catch (変数)` と記述します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "アプリ起動時の初期画面決定処理において編集・作成を行った5つのファイルの組み合わせとして正しいものはどれですか？",
+      "options": [
+        "account.dart, initial_route.dart, loading.dart, routes.dart, main.dart",
+        "login.dart, signup.dart, home.dart, post_list.dart, main.dart",
+        "models.py, views.py, urls.py, serializers.py, settings.py",
+        "dio.dart, secure_storage.dart, posts.dart, build.yaml, pubspec.yaml"
+      ],
+      "answer": 0,
+      "commentary": "教科書で解説されている通り、`account.dart`（検証関数）、`initial_route.dart`（プロバイダー）、`loading.dart`（画面）、`routes.dart`（ルート追加）、`main.dart`（初期画面制御）の5ファイルを編集します。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`GoRouter` の設定で、アプリのルート定義一覧を渡すパラメータ名は何ですか？<br><pre><code>GoRouter(\n  ___: routes,\n  initialLocation: ...,\n)</code></pre>",
+      "options": [
+        "routes",
+        "routeList",
+        "pages",
+        "navigation"
+      ],
+      "answer": 0,
+      "commentary": "`GoRouter` に定義済みのルートリストを渡すパラメータは `routes` です。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "本節で作成した `initialRouteProvider` が提供するデータの型（`Future<String>`）が表している情報は何ですか？",
+      "options": [
+        "非同期で決定される、アプリ起動時に最初に表示すべき画面のルーターパス文字列",
+        "ログインしているユーザーのパスワード文字列",
+        "サーバーのIPアドレス",
+        "アプリのバージョン番号"
+      ],
+      "answer": 0,
+      "commentary": "`initialRouteProvider` はトークン検証後に表示すべき画面のパス（`'/home'` や `'/login'`）を非同期文字列として返します。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "本節の実装を完了した後、ログイン済みの状態でアプリを一度完全に終了し、再度アプリを起動した際の挙動はどうなりますか？",
+      "options": [
+        "一瞬ローディング画面が表示された後、ログイン画面を経由せずに自動でホーム画面が表示される",
+        "毎回必ずログイン画面が表示され、メールアドレスの入力を求められる",
+        "会員登録画面が開く",
+        "エラーダイアログが表示されてアプリが停止する"
+      ],
+      "answer": 0,
+      "commentary": "セキュアストレージのアクセストークンが有効と判定されるため、ログイン画面をスキップして直接ホーム画面がロードされます。"
+    }
+  ]
 }
