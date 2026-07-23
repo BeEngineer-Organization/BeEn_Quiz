@@ -1,4 +1,525 @@
 {
   "unit_title": "API エンドポイントの定義 - 投稿一覧",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "投稿に関する処理をまとめルための新しいアプリケーション「posts」を作成するコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>django-admin ___ posts</code></pre>",
+      "options": [
+        "startapp",
+        "createapp",
+        "startproject",
+        "initapp"
+      ],
+      "answer": 0,
+      "commentary": "新しいアプリを作成するには `django-admin startapp アプリ名` または `python manage.py startapp アプリ名` を使います。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "作成した「posts」アプリをプロジェクトに認識させるため、`config/settings.py` に追加する設定項目は何ですか？<br><pre><code>INSTALLED_APPS = [\n    # ...\n    \"___\",\n]</code></pre>",
+      "options": [
+        "posts",
+        "posts.apps.PostsConfig",
+        "post_app",
+        "posts_module"
+      ],
+      "answer": 0,
+      "commentary": "作成したアプリケーション名「posts」を `INSTALLED_APPS` に追加して有効化します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`Post` モデルで、ユーザーが削除された時にそのユーザーの投稿を削除せず、投稿者（user）列を「空（NULL）」にする設定です。<br><pre><code>user = models.ForeignKey(\n    settings.AUTH_USER_MODEL,\n    on_delete=models.___,\n    null=True,\n)</code></pre>",
+      "options": [
+        "SET_NULL",
+        "CASCADE",
+        "PROTECT",
+        "DO_NOTHING"
+      ],
+      "answer": 0,
+      "commentary": "親オブジェクト（ユーザー）が消えても投稿を残し、参照列を NULL にするには `on_delete=models.SET_NULL` を指定します。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "データベースからデータを物理的に消さず、「削除された」という目印（フラグ）だけを立てて隠す仕組みを何と呼びますか？",
+      "options": [
+        "論理削除",
+        "物理削除",
+        "完全削除",
+        "カスケード削除"
+      ],
+      "answer": 0,
+      "commentary": "データをDB上に残したまま、削除フラグ（is_deletedなど）で削除済み扱いにする方法を「論理削除」と言います。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "投稿が「削除済み」かどうかを表す論理削除フラグのフィールド定義です。空欄に入る型クラスは何ですか？<br><pre><code>is_deleted = models.___(\"削除済み\", default=False)</code></pre>",
+      "options": [
+        "BooleanField",
+        "CharField",
+        "IntegerField",
+        "FlagField"
+      ],
+      "answer": 0,
+      "commentary": "真か偽（True / False）の二値を扱うフラグには `BooleanField` を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "投稿された「写真」を `media/post_photos/` フォルダに保存するためのモデルフィールド定義です。<br><pre><code>photo = models.___(\n    \"添付画像\", upload_to=\"post_photos/\", null=True, blank=True\n)</code></pre>",
+      "options": [
+        "ImageField",
+        "FileField",
+        "MediaField",
+        "PictureField"
+      ],
+      "answer": 0,
+      "commentary": "画像ファイルを扱うためのモデルフィールドは `models.ImageField` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "データが最初に作成された日時（投稿日時）を自動的に記録するオプション設定を選んでください。<br><pre><code>created_at = models.DateTimeField(\"投稿日時\", ___=True)</code></pre>",
+      "options": [
+        "auto_now_add",
+        "auto_now",
+        "default_now",
+        "auto_create"
+      ],
+      "answer": 0,
+      "commentary": "最初の作成時だけ現在日時を自動記録するには `auto_now_add=True` を使います。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "データが更新されるたびに、その時刻を自動で最新日時に書き換えるオプション設定を選んでください。<br><pre><code>updated_at = models.DateTimeField(\"更新日時\", ___=True)</code></pre>",
+      "options": [
+        "auto_now",
+        "auto_now_add",
+        "auto_update",
+        "always_now"
+      ],
+      "answer": 0,
+      "commentary": "保存・更新されるたびに最新日時へ自動更新するには `auto_now=True` を指定します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "次のように `__str__` が定義された `Post` オブジェクト（content: \"こんにちは\", user.username: \"ken\"）を文字列表示したときの出力は何ですか？<br><pre><code>def __str__(self):\n    return f\"{self.content}({self.user.username})\"</code></pre>",
+      "options": [
+        "こんにちは(ken)",
+        "ken(こんにちは)",
+        "Post object (1)",
+        "content(user)"
+      ],
+      "answer": 0,
+      "commentary": "f文字列により `本文(ユーザー名)` の形式に組み合わさるため、「こんにちは(ken)」となります。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "`settings.py` で設定されたカスタムユーザーモデルを参照して外部キー（ForeignKey）を設定する際の正しい指定記述はどれですか？<br><pre><code>user = models.ForeignKey(\n    settings.___,\n    on_delete=models.SET_NULL,\n    null=True,\n)</code></pre>",
+      "options": [
+        "AUTH_USER_MODEL",
+        "USER_MODEL",
+        "CUSTOM_USER",
+        "DEFAULT_USER_MODEL"
+      ],
+      "answer": 0,
+      "commentary": "プロジェクトで設定したユーザーモデルを参照するには `settings.AUTH_USER_MODEL` を指定します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`models.py` の変更を検出してマイグレーションファイルを作成するコマンドです。<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "makemigrations",
+        "migrate",
+        "buildmigrations",
+        "createmodel"
+      ],
+      "answer": 0,
+      "commentary": "モデルの変更からマイグレーションファイルを生成するには `makemigrations` を実行します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "マイグレーションファイルを実際のデータベースに適用・反映させるコマンドです。<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "dbupdate",
+        "apply"
+      ],
+      "answer": 0,
+      "commentary": "データベースにテーブル構造を反映させるには `migrate` コマンドを使います。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "`sample_data.json` 内のサンプルデータをデータベースへ読み込んで初期登録するコマンドは何ですか？<br><pre><code>python manage.py ___ sample_data.json</code></pre>",
+      "options": [
+        "loaddata",
+        "importdata",
+        "readdata",
+        "dumpdata"
+      ],
+      "answer": 0,
+      "commentary": "JSONなどのフィクスチャデータをDBに流し込むには `loaddata` を実行します。"
+    },
+    {
+      "id": 14,
+      "type": "用語理解",
+      "question": "Djangoが `config/urls.py` 内の `urlpatterns` リストを上から順番にチェックしていく仕組みにおいて、注意すべきルールは何ですか？",
+      "options": [
+        "より範囲の狭い（具体的な）URLパターンを、広範囲で汎用的なURLパターンよりも上に書く必要がある",
+        "アルファベット順に並べ替えて書く必要がある",
+        "すべてのURLパターンを1行にまとめて書く必要がある",
+        "最も長いURLパターンを一番下に書く必要がある"
+      ],
+      "answer": 0,
+      "commentary": "Djangoは上から順にマッチ判定を行うため、汎用的なパターンを上に置くと具体パターンに到達する前に誤マッチしてしまいます。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`path(\"api/\", include(\"posts.urls\"))` を `path(\"api/auth/\", include(\"accounts.urls\"))` より「上」に書いてしまい、`posts.urls` に `path(\"<slug:slug>/\", ...)` が定義されていた場合、`/api/auth/login/` へアクセスするとどうなりますか？",
+      "options": [
+        "accounts アプリではなく、posts アプリの slug パターンにマッチして誤ったビューが呼び出される",
+        "正常に accounts アプリのログインビューが呼ばれる",
+        "自動的に404エラーになる",
+        "Djangoが自動で順番を入れ替えて正しくルーティングする"
+      ],
+      "answer": 0,
+      "commentary": "上にある `api/` が先にマッチし、その配下の `<slug:slug>/` に `auth/login/` が引っかかって誤作動を起こします。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "`config/urls.py` に `posts.urls` のルーティングを追加するコードです。空欄に入る関数名を選んでください。<br><pre><code>urlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"api/auth/\", include(\"accounts.urls\")),\n    path(\"api/\", ___(\"posts.urls\")),\n]</code></pre>",
+      "options": [
+        "include",
+        "import_urls",
+        "load",
+        "route"
+      ],
+      "answer": 0,
+      "commentary": "他のアプリの `urls.py` を取り込むには `django.urls.include` 関数を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "`posts/urls.py` で、投稿一覧表示用クラスベースビューに対応させるパス設定です。<br><pre><code>urlpatterns = [\n    path(\"posts/\", views.PostListView.___(), name=\"post-list\"),\n]</code></pre>",
+      "options": [
+        "as_view",
+        "to_view",
+        "get_view",
+        "run_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをURLパターンに対応させるには `.as_view()` メソッドを呼び出します。"
+    },
+    {
+      "id": 18,
+      "type": "用語理解",
+      "question": "投稿一覧APIのように、データベースから情報を取得して画面（またはクライアント）へ返す際に行う適切なHTTPメソッドは何ですか？",
+      "options": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
+      ],
+      "answer": 0,
+      "commentary": "リソースの取得・閲覧にはGETメソッドを使用するのがWeb標準のルールです。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "`Post` モデルをJSON形式に変換するための基本シリアライザ定義です。空欄に入る親クラス名は何ですか？<br><pre><code>class PostSerializer(serializers.___):\n    class Meta:\n        model = Post\n        fields = [\"id\", \"user\", \"content\", \"photo\", \"created_at\"]</code></pre>",
+      "options": [
+        "ModelSerializer",
+        "Serializer",
+        "BaseSerializer",
+        "ObjectSerializer"
+      ],
+      "answer": 0,
+      "commentary": "モデルデータと連動して簡単にJSON変換を行うシリアライザは `serializers.ModelSerializer` です。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "`PostSerializer` で `user` フィールドの定義を何もカスタマイズしない場合、シリアライズされたJSON内の `\"user\"` キーに入る値はどうなりますか？",
+      "options": [
+        "ユーザーの ID（数値）",
+        "ユーザー名とアイコン画像が入ったオブジェクト",
+        "ユーザーのメールアドレス",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "ForeignKeyのデフォルト動作では、参照先の主キー（IDの数値）だけが出力されてしまいます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "ユーザー名とアイコン画像をシリアライズするための `UserSerializer` の定義です。<br><pre><code>class UserSerializer(serializers.ModelSerializer):\n    class Meta:\n        model = User\n        fields = [\"id\", \"username\", \"icon\"]\n        ___ = [\"id\", \"username\", \"icon\"]</code></pre>",
+      "options": [
+        "read_only_fields",
+        "write_only_fields",
+        "readonly",
+        "disabled_fields"
+      ],
+      "answer": 0,
+      "commentary": "読み取り専用フィールドとして一括指定するには `read_only_fields` を使用します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "`PostSerializer` 内で `user` フィールドに `UserSerializer` をネスト（埋め込み）して、ユーザーの詳細情報を取得する記述です。<br><pre><code>class PostSerializer(serializers.ModelSerializer):\n    user = UserSerializer(___=True)</code></pre>",
+      "options": [
+        "read_only",
+        "write_only",
+        "required",
+        "allow_null"
+      ],
+      "answer": 0,
+      "commentary": "埋め込んだシリアライザを読み取り専用（取得専用）にするには `read_only=True` を渡します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "`user = UserSerializer(read_only=True)` を設定した後の `PostSerializer` が出力するJSONの `user` 部分の構造例として正しいものはどれですか？",
+      "options": [
+        "\"user\": {\"id\": 1, \"username\": \"admin\", \"icon\": null}",
+        "\"user\": 1",
+        "\"user\": \"admin\"",
+        "\"user\": [1, \"admin\"]"
+      ],
+      "answer": 0,
+      "commentary": "`UserSerializer` で指定されたフィールド（id, username, icon）が入れ子構造のJSONオブジェクトとして取得されます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "`PostSerializer` の `Meta` クラス内で、対象のモデルを指定する正しい記述はどれですか？<br><pre><code>class Meta:\n    ___ = Post\n    fields = [...]</code></pre>",
+      "options": [
+        "model",
+        "target",
+        "db_table",
+        "class_name"
+      ],
+      "answer": 0,
+      "commentary": "ModelSerializerでは `model = モデルクラス名` で対象モデルを指定します。"
+    },
+    {
+      "id": 25,
+      "type": "文法チェック",
+      "question": "`accounts/serializers.py` で定義した `UserSerializer` を `posts/serializers.py` に読み込む正解のインポート記述はどれですか？",
+      "options": [
+        "from accounts.serializers import UserSerializer",
+        "import UserSerializer from accounts.serializers",
+        "from .serializers import UserSerializer",
+        "using accounts.UserSerializer"
+      ],
+      "answer": 0,
+      "commentary": "別アプリ `accounts` の `serializers.py` から読み込むため `from accounts.serializers import UserSerializer` と書きます。"
+    },
+    {
+      "id": 26,
+      "type": "用語理解",
+      "question": "シリアライザ内で、別のシリアライザをプロパティとして含めて「IDだけでなく関連する相手のデータもまとめて1つのJSONにする」手法を何と呼びますか？",
+      "options": [
+        "ネストされたシリアライザ（入れ子シリアライザ）",
+        "カスケードシリアライザ",
+        "ハイブリッドシリアライザ",
+        "ミックスインシリアライザ"
+      ],
+      "answer": 0,
+      "commentary": "シリアライザの中に別のシリアライザを持たせる構成を「ネスト（入れ子）されたシリアライザ」と呼びます。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "`fields = [\"id\", \"user\", \"content\", \"photo\", \"created_at\"]` と設定した `PostSerializer` でシリアライズした際、レスポンスJSONに含まれないものはどれですか？",
+      "options": [
+        "updated_at（更新日時）",
+        "content（本文）",
+        "photo（写真URL）",
+        "created_at（投稿日時）"
+      ],
+      "answer": 0,
+      "commentary": "`fields` リストに `updated_at` が含まれていないため、レスポンスJSONには出力されません。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "一覧取得機能（GET）専用の汎用ジェネリックビューを継承するクラス定義です。空欄に入る適切なクラス名は何ですか？<br><pre><code>class PostListView(generics.___):\n    permission_classes = [IsAuthenticated]\n    serializer_class = PostSerializer\n    queryset = Post.objects.filter(is_deleted=False).order_by(\"-created_at\")</code></pre>",
+      "options": [
+        "ListAPIView",
+        "GenericAPIView",
+        "RetrieveAPIView",
+        "CreateAPIView"
+      ],
+      "answer": 0,
+      "commentary": "GETでの一覧取得に特化した組み込み汎用ビューは `generics.ListAPIView` です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "ビューへのアクセス権限として「ログイン認証済みのユーザーのみ許可する」設定を行うプロパティ記述です。<br><pre><code>class PostListView(generics.ListAPIView):\n    permission_classes = [___]</code></pre>",
+      "options": [
+        "IsAuthenticated",
+        "AllowAny",
+        "IsAdminUser",
+        "IsOwner"
+      ],
+      "answer": 0,
+      "commentary": "ログイン済みユーザーのみアクセス許可するには `IsAuthenticated` クラスを指定します。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "ビューで処理対象とするレコード一覧（クエリセット）を指定するプロパティ名は何ですか？<br><pre><code>class PostListView(generics.ListAPIView):\n    ___ = Post.objects.filter(is_deleted=False).order_by(\"-created_at\")</code></pre>",
+      "options": [
+        "queryset",
+        "objects",
+        "records",
+        "query_list"
+      ],
+      "answer": 0,
+      "commentary": "取得・操作対象のクエリセットを指定するプロパティは `queryset` です。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "削除フラグ（`is_deleted`）が `False`（未削除）の投稿だけを絞り込むORM記述です。<br><pre><code>Post.objects.___(is_deleted=False)</code></pre>",
+      "options": [
+        "filter",
+        "exclude",
+        "get",
+        "where"
+      ],
+      "answer": 0,
+      "commentary": "条件に一致するデータを抽出するには `.filter(条件)` を使用します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "投稿一覧を作成日時の「新しい順（降順）」に並び替えるソート指定の記述です。空欄に入る先頭の記号は何ですか？<br><pre><code>Post.objects.filter(is_deleted=False).order_by(\"___created_at\")</code></pre>",
+      "options": [
+        "-",
+        "+",
+        "!",
+        "~"
+      ],
+      "answer": 0,
+      "commentary": "`order_by` で降順（新しい順）ソートにするには、フィールド名の前にハイフン `-` をつけます。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "`queryset = Post.objects.filter(is_deleted=False).order_by(\"-created_at\")` を実行した場合、どのようなデータが取得されますか？",
+      "options": [
+        "削除されていない投稿が、投稿日時の新しい順で並んだデータ",
+        "削除済みの投稿だけが、投稿日時の古い順で並んだデータ",
+        "すべての投稿が、ユーザーID順で並んだデータ",
+        "投稿データは1件も取得されない"
+      ],
+      "answer": 0,
+      "commentary": "`is_deleted=False`（未削除）で絞り込み、`-created_at`（新しい順）で並び替えて取得します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "`generics.ListAPIView` を使ってビューを定義する際、自分で記述する必要が「ない」メソッドはどれですか？",
+      "options": [
+        "get() や list()",
+        "queryset の設定",
+        "serializer_class の設定",
+        "permission_classes の設定"
+      ],
+      "answer": 0,
+      "commentary": "`ListAPIView` にはGETリクエストを受けて一覧を返す `get()` や `list()` の仕組みがあらかじめ組み込まれているため自作不要です。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "Django REST frameworkにおける `permission_classes = [IsAuthenticated]` の働きとして正しい説明はどれですか？",
+      "options": [
+        "未認証（未ログイン）のユーザーがアクセスした場合、401 Unauthorized エラーを返してアクセスをブロックする",
+        "ログインしていないユーザーでも誰でもアクセスを許可する",
+        "管理者権限（スーパーユーザー）のみアクセスを許可する",
+        "リクエストデータを自動的に暗号化する"
+      ],
+      "answer": 0,
+      "commentary": "`IsAuthenticated` は有効なトークン等でログイン認証されたリクエストのみを通過させる権限設定です。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "curlコマンドでアクセストークンをヘッダーに載せてGETリクエストを送るコードです。空欄に入る標準の通信ヘッダー名は何ですか？<br><pre><code>curl -X GET http://127.0.0.1:8000/api/posts/ \\\n  -H \"___: Bearer &lt;アクセストークン&gt;\"</code></pre>",
+      "options": [
+        "Authorization",
+        "Authentication",
+        "Token",
+        "Access-Control"
+      ],
+      "answer": 0,
+      "commentary": "認証トークンを渡すための標準HTTPリクエストヘッダー名は `Authorization` です。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "`Authorization` ヘッダーでJWT形式のトークンを送る際に、トークン文字列の直前に置く標準キーワードは何ですか？<br><pre><code>-H \"Authorization: ___ &lt;アクセストークン&gt;\"</code></pre>",
+      "options": [
+        "Bearer",
+        "Token",
+        "JWT",
+        "Basic"
+      ],
+      "answer": 0,
+      "commentary": "JWTトークンを伝送する際の認証スキームの標準キーワードは `Bearer` です。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "ヘッダーに `Authorization`（アクセストークン）を付けずに `curl -X GET http://127.0.0.1:8000/api/posts/` を実行した際、サーバーから返される応答JSONはどれですか？",
+      "options": [
+        "{\"detail\":\"認証情報が含まれていません。\"}",
+        "{\"status\":\"ok\"}",
+        "投稿の一覧リストデータ",
+        "200 OK"
+      ],
+      "answer": 0,
+      "commentary": "`IsAuthenticated` により未認証リクエストは拒否され、「認証情報が含まれていません。」というエラーが返ります。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "有効期限が切れてしまった（Expired）アクセストークンを使って `/api/posts/` にGETアクセスを送った場合、返されるHTTPステータスコード数値は何ですか？",
+      "options": [
+        "401",
+        "200",
+        "404",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "トークンが無効または有効期限切れの場合、認証エラーとして HTTPステータスコード `401 Unauthorized` が返されます。"
+    },
+    {
+      "id": 40,
+      "type": "コード穴埋め",
+      "question": "`settings.py` の `SIMPLE_JWT` 設定で、アクセストークンの有効期限を変更・設定するパラメータ名は何ですか？<br><pre><code>SIMPLE_JWT = {\n    '___': timedelta(minutes=1),\n}</code></pre>",
+      "options": [
+        "ACCESS_TOKEN_LIFETIME",
+        "REFRESH_TOKEN_LIFETIME",
+        "TOKEN_EXPIRE_TIME",
+        "JWT_LIMIT_TIME"
+      ],
+      "answer": 0,
+      "commentary": "アクセストークンの寿命（有効期間）を設定するキーは `ACCESS_TOKEN_LIFETIME` です。"
+    }
+  ]
 }

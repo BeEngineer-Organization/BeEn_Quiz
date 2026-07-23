@@ -1,4 +1,525 @@
 {
   "unit_title": "投稿一覧取得 API を 呼び出す",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "クライアントがサーバーに対してアクセストークンなどの認証情報を渡すために使用する標準的なHTTPヘッダーは何ですか？",
+      "options": [
+        "Authorization",
+        "Authentication",
+        "Access-Token",
+        "Security-Key"
+      ],
+      "answer": 0,
+      "commentary": "サーバーへ認証情報を送るための標準的なHTTPヘッダーは `Authorization` です。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "OAuth2やJWTなどのトークンを `Authorization` ヘッダーで送る際に指定する認証スキーム名は何ですか？",
+      "options": [
+        "Bearer",
+        "Basic",
+        "ApiKey",
+        "Digest"
+      ],
+      "answer": 0,
+      "commentary": "JWTなどのトークン認証では `Authorization: Bearer <トークン>` のように Bearer スキームが使用されます。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "Flutterアプリでアクセストークンなどの機密性の高いデータを、OSの安全な領域に暗号化して保存するためのパッケージは何ですか？",
+      "options": [
+        "flutter_secure_storage",
+        "shared_preferences",
+        "path_provider",
+        "hive"
+      ],
+      "answer": 0,
+      "commentary": "端末の安全な領域（Keychain/Keystore）に暗号化保存するには `flutter_secure_storage` パッケージを使用します。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "`flutter_secure_storage` が内部で利用している、iOSおよびAndroidの暗号化データ保存領域の正しい組み合わせはどれですか？",
+      "options": [
+        "iOS: Keychain / Android: Keystore",
+        "iOS: SecureStore / Android: Keychain",
+        "iOS: LocalStorage / Android: InternalDB",
+        "iOS: KeyValue / Android: SafeStorage"
+      ],
+      "answer": 0,
+      "commentary": "`flutter_secure_storage` は iOSの Keychain と Androidの Keystore を使って暗号化保存します。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "HTTPリクエストの送信直前やレスポンス受信直後に、処理を割り込ませて共通ヘッダーの付与などのカスタマイズを行う仕組みを何と呼びますか？",
+      "options": [
+        "インターセプター（Interceptor）",
+        "シリアライザ（Serializer）",
+        "ミドルウェア（Middleware）",
+        "プロキシ（Proxy）"
+      ],
+      "answer": 0,
+      "commentary": "通信処理の前後で処理を挟み込む仕組みを「インターセプター（Interceptor）」と呼びます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "プロジェクトに `flutter_secure_storage` パッケージを追加するためのコマンドです。空欄に入る記述を選んでください。<br><pre><code>flutter pub add ___</code></pre>",
+      "options": [
+        "flutter_secure_storage",
+        "secure_storage",
+        "flutter_storage",
+        "keychain_storage"
+      ],
+      "answer": 0,
+      "commentary": "セキュアストレージパッケージの追加コマンドは `flutter pub add flutter_secure_storage` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`SecureStorage` クラスをシングルトン構造にするため、外部からの呼び出しで常に同一インスタンスを返すコンストラクタの記述です。<br><pre><code>class SecureStorage {\n  factory SecureStorage() => ___;\n  SecureStorage._createSingleton();\n  static final SecureStorage _instance = SecureStorage._createSingleton();\n}</code></pre>",
+      "options": [
+        "_instance",
+        "SecureStorage()",
+        "_createSingleton()",
+        "this"
+      ],
+      "answer": 0,
+      "commentary": "ファクトリコンストラクタ内で静的変数 `_instance` を返すことで、常に同じインスタンスが共有されます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`FlutterSecureStorage` を使って、指定したキーでトークン文字列を暗号化保存するメソッドです。<br><pre><code>Future&lt;void&gt; saveToken(String key, String token) async {\n  await _secureStorage.___(key: key, value: token);\n}</code></pre>",
+      "options": [
+        "write",
+        "save",
+        "put",
+        "set"
+      ],
+      "answer": 0,
+      "commentary": "`FlutterSecureStorage` でキーと値を保存するには `write(key: ..., value: ...)` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "`FlutterSecureStorage` から指定したキーの保存トークンを読み出すメソッドです。<br><pre><code>Future&lt;String?&gt; getToken(String key) async {\n  return _secureStorage.___(key: key);\n}</code></pre>",
+      "options": [
+        "read",
+        "get",
+        "fetch",
+        "load"
+      ],
+      "answer": 0,
+      "commentary": "保存データを取得するには `read(key: ...)` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "`FlutterSecureStorage` に保存されている全データを削除するメソッドです。<br><pre><code>Future&lt;void&gt; deleteAllToken() async {\n  return _secureStorage.___();\n}</code></pre>",
+      "options": [
+        "deleteAll",
+        "clear",
+        "reset",
+        "removeAll"
+      ],
+      "answer": 0,
+      "commentary": "全保存データを一括消去するには `deleteAll()` メソッドを使用します。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "次のコードを実行してキー `'access'` のデータを取得した際、`token` 変数に入ってくる型は何ですか？<br><pre><code>final token = await storage.read(key: 'access');</code></pre>",
+      "options": [
+        "String?（文字列または null）",
+        "String（非 null の文字列）",
+        "Map<String, dynamic>",
+        "bool"
+      ],
+      "answer": 0,
+      "commentary": "データが存在しない場合は null が返る可能性があるため、型は `String?` となります。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "ログイン成功レスポンスからアクセストークン（`access`）を取得して代入するコードです。<br><pre><code>final accessToken = response.data['___'] as String;</code></pre>",
+      "options": [
+        "access",
+        "token",
+        "access_token",
+        "bearer"
+      ],
+      "answer": 0,
+      "commentary": "SimpleJWTの標準ログインレスポンスのアクセストークンのキー名は `'access'` です。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "ログイン成功レスポンスからリフレッシュトークン（`refresh`）を取得して代入するコードです。<br><pre><code>final refreshToken = response.data['___'] as String;</code></pre>",
+      "options": [
+        "refresh",
+        "refresh_token",
+        "renew",
+        "update"
+      ],
+      "answer": 0,
+      "commentary": "SimpleJWTの標準ログインレスポンスのリフレッシュトークンのキー名は `'refresh'` です。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "取得したアクセストークンをセキュアストレージに保存するコードです。<br><pre><code>final secureStorage = SecureStorage();\nawait secureStorage.___('access', accessToken);</code></pre>",
+      "options": [
+        "saveToken",
+        "writeToken",
+        "storeToken",
+        "setToken"
+      ],
+      "answer": 0,
+      "commentary": "`SecureStorage` クラスで定義した保存用メソッド `saveToken(key, value)` を呼び出します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "ログインAPI呼び出し後に以下のコードが実行されたとき、ストレージに保存される2つのキー名は何ですか？<br><pre><code>await secureStorage.saveToken('access', accessToken);\nawait secureStorage.saveToken('refresh', refreshToken);</code></pre>",
+      "options": [
+        "'access' と 'refresh'",
+        "'accessToken' と 'refreshToken'",
+        "'token' と 'renew'",
+        "'user' と 'pass'"
+      ],
+      "answer": 0,
+      "commentary": "第1引数に指定されている `'access'` と `'refresh'` というキー名でそれぞれ保存されます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "Dioで複数のインターセプターを順番に実行管理するために継承するクラスは何ですか？<br><pre><code>class AuthInterceptor extends ___ {\n  AuthInterceptor(this.dio);\n  final Dio dio;\n}</code></pre>",
+      "options": [
+        "QueuedInterceptor",
+        "Interceptor",
+        "DioInterceptor",
+        "BaseInterceptor"
+      ],
+      "answer": 0,
+      "commentary": "リクエストやエラーの非同期処理をキュー（順序）管理して確実に実行する `QueuedInterceptor` を継承します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "DioがHTTPリクエストを実際に送信する「直前」に自動呼び出しされるインターセプターメソッドです。<br><pre><code>@override\nFuture&lt;void&gt; ____(\n  RequestOptions options,\n  RequestInterceptorHandler handler,\n) async</code></pre>",
+      "options": [
+        "onRequest",
+        "beforeRequest",
+        "sendRequest",
+        "handleRequest"
+      ],
+      "answer": 0,
+      "commentary": "リクエスト送信前に割り込んで処理を行うメソッドは `onRequest` です。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "送信予定のリクエスト情報（URLやヘッダーなど）を保持しているオブジェクトの型は何ですか？<br><pre><code>Future&lt;void&gt; onRequest(\n  ___ options,\n  RequestInterceptorHandler handler,\n) async</code></pre>",
+      "options": [
+        "RequestOptions",
+        "DioOptions",
+        "HttpOptions",
+        "HeaderOptions"
+      ],
+      "answer": 0,
+      "commentary": "送信パラメータやヘッダー群を保持するオブジェクトは `RequestOptions` 型です。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "ヘッダーに `Authorization` がまだ設定されていないか確認する条件式の記述です。<br><pre><code>if (options.headers['Authorization']?.___ ?? true)</code></pre>",
+      "options": [
+        "isEmpty",
+        "isNull",
+        "isClear",
+        "blank"
+      ],
+      "answer": 0,
+      "commentary": "文字列が空か null であるかを確かめるために `.isEmpty` と null合体演算子 `?? true` を組み合わせて判断します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "`options.headers` に Bearer 形式でアクセストークンを自動セットするコードです。<br><pre><code>if (accessToken != null) {\n  options.headers['Authorization'] = '___ $accessToken';\n}</code></pre>",
+      "options": [
+        "Bearer",
+        "Token",
+        "JWT",
+        "Key"
+      ],
+      "answer": 0,
+      "commentary": "認証スキーム名として `'Bearer $accessToken'` のように Bearer を指定します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "インターセプター内の処理を終了し、次の処理または実際の通信へ進めるためのコールバック呼び出しです。<br><pre><code>return handler.___(options);</code></pre>",
+      "options": [
+        "next",
+        "pass",
+        "send",
+        "continue"
+      ],
+      "answer": 0,
+      "commentary": "次のステップ（後続のインターセプターやリクエスト送信）へ進めるには `handler.next(options)` を呼び出します。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "`AuthInterceptor` が組み込まれた Dio クライアントでリクエストを送信する際、ストレージにアクセストークンが保存されていた場合、サーバーに届く `Authorization` ヘッダーの値はどうなりますか？",
+      "options": [
+        "\"Bearer <保存されていたアクセストークン>\"",
+        "\"<保存されていたアクセストークン>\"",
+        "\"Token <保存されていたアクセストークン>\"",
+        "null（ヘッダーは送られない）"
+      ],
+      "answer": 0,
+      "commentary": "`onRequest` 内で `options.headers['Authorization'] = 'Bearer $accessToken'` が自動付与されます。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "認証が必要な通信を行うための Dio インスタンス（`authDio`）に `AuthInterceptor` を登録するコードです。<br><pre><code>authDio = _createDio();\nauthDio.interceptors.___(AuthInterceptor(authDio));</code></pre>",
+      "options": [
+        "add",
+        "register",
+        "use",
+        "append"
+      ],
+      "answer": 0,
+      "commentary": "Dioの `interceptors` リストにインターセプターを追加するには `add()` メソッドを使います。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "本教材の `DioClient` における `authDio` と `unauthDio` の使い分けとして正しい説明はどれですか？",
+      "options": [
+        "authDioは自動でAuthorizationヘッダーを付与するクライアントで、unauthDioはログイン前などヘッダー不要な通信用のクライアント",
+        "authDioはPOST用で、unauthDioはGET用",
+        "authDioはデータ保存用で、unauthDioはデータ削除用",
+        "authDioとunauthDioに機能上の違いはない"
+      ],
+      "answer": 0,
+      "commentary": "`authDio` には認証インターセプターが登録されており、認証必須APIの呼び出しに使われます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "`PostsService` 内で、環境変数からAPIベースURLを組み立てる記述です。<br><pre><code>static String baseUrl = '$_protocol://$_domain/___';</code></pre>",
+      "options": [
+        "api",
+        "api/v1",
+        "posts",
+        "auth"
+      ],
+      "answer": 0,
+      "commentary": "投稿APIのベースURLとして `'$_protocol://$_domain/api'` を構成します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "`PostsService` で投稿一覧を取得するため、GETリクエストを送信するコードです。<br><pre><code>Future&lt;Response&gt; fetchPosts() async {\n  final url = '$baseUrl/posts/';\n  final response = await dioClient.___(url);\n  return response;\n}</code></pre>",
+      "options": [
+        "get",
+        "post",
+        "fetch",
+        "request"
+      ],
+      "answer": 0,
+      "commentary": "投稿一覧データを取得するため `dioClient.get(url)` を呼び出します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "`PostsService` で使う Dio クライアントとして、認証ヘッダー付きのインスタンスを取得する記述です。<br><pre><code>final dioClient = DioClient().___;</code></pre>",
+      "options": [
+        "authDio",
+        "unauthDio",
+        "dio",
+        "client"
+      ],
+      "answer": 0,
+      "commentary": "投稿一覧取得APIは認証必須のため `DioClient().authDio` を取得して利用します。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "ビルド時の環境変数から `PROTOCOL` の値を文字列として取得し、未設定時の初期値を `'http'` にする正しいDartコードはどれですか？",
+      "options": [
+        "String.fromEnvironment('PROTOCOL', defaultValue: 'http')",
+        "Environment.get('PROTOCOL', default: 'http')",
+        "String.getEnv('PROTOCOL') ?? 'http'",
+        "const PROTOCOL = env['PROTOCOL'] || 'http'"
+      ],
+      "answer": 0,
+      "commentary": "コンパイル時環境変数を取得する標準メソッドは `String.fromEnvironment(キー, defaultValue: デフォルト値)` です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "`HomePage` の状態管理クラスの定義部分です。空欄に入る親クラスの型指定を選んでください。<br><pre><code>class HomePage extends StatefulWidget {\n  const HomePage({super.key});\n\n  @override\n  State&lt;HomePage&gt; createState() =&gt; _PostsTestPageState();\n}\n\nclass _PostsTestPageState extends State&lt;___&gt;</code></pre>",
+      "options": [
+        "HomePage",
+        "StatefulWidget",
+        "_PostsTestPageState",
+        "Widget"
+      ],
+      "answer": 0,
+      "commentary": "`State<T>` の型引数 `T` には対応する `StatefulWidget` のクラス名（`HomePage`）を指定します。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "`_checkFetchPosts` メソッドで投稿取得APIを実行し、結果のステータスコードを画面表示用変数に代入するコードです。<br><pre><code>final response = await postServices.fetchPosts();\nsetState(() {\n  _result = '成功: ステータスコード=${response.___}';\n});</code></pre>",
+      "options": [
+        "statusCode",
+        "status",
+        "code",
+        "httpStatus"
+      ],
+      "answer": 0,
+      "commentary": "ResponseオブジェクトからHTTPステータスコードを取り出すには `response.statusCode` を参照します。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`fetchPosts()` の呼び出しが成功して HTTP 200 が返ってきた場合、`response.data` に入っている内容の型（データ構造）は何ですか？",
+      "options": [
+        "投稿データオブジェクトが並んだ List（配列）",
+        "単一の String 文字列",
+        "int 型の数値",
+        "bool 型の真偽値"
+      ],
+      "answer": 0,
+      "commentary": "バックエンドの `/api/posts/` は投稿一覧を返すため、JSONの配列（Dartの `List`）が入ります。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "通信失敗時に Dio 由来の例外を特定してキャッチする構文です。<br><pre><code>try {\n  final response = await postServices.fetchPosts();\n} on ___ catch (e) {\n  setState(() {\n    _result = 'DioException: コード=${e.response?.statusCode}';\n  });\n}</code></pre>",
+      "options": [
+        "DioException",
+        "HttpException",
+        "ApiException",
+        "NetworkError"
+      ],
+      "answer": 0,
+      "commentary": "Dioの通信エラー例外を捕まえるには `on DioException catch (e)` と書きます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "通信完了後にローディングフラグを解除して画面を再描画する `finally` ブロックのコードです。<br><pre><code>} finally {\n  setState(() {\n    _isLoading = ___;\n  });\n}</code></pre>",
+      "options": [
+        "false",
+        "true",
+        "null",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "処理終了時には `_isLoading = false;` に戻してインジケーターを非表示にします。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` にホーム画面（`/home`）へのルートを追加する記述です。<br><pre><code>abstract class Routes {\n  static const login = '/login';\n  static const signup = '/signup';\n  static const home = '___';\n}</code></pre>",
+      "options": [
+        "/home",
+        "home",
+        "/index",
+        "/main"
+      ],
+      "answer": 0,
+      "commentary": "ホーム画面の定数 `Routes.home` にはパス文字列 `'/home'` を定義します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ログイン成功時に画面スタックを置き換えてホーム画面（`Routes.home`）へ遷移する記述です。<br><pre><code>await GoRouter.of(context).___(Routes.home);</code></pre>",
+      "options": [
+        "replace",
+        "go",
+        "push",
+        "pop"
+      ],
+      "answer": 0,
+      "commentary": "ログイン完了後に戻るボタンでログイン画面に戻れないよう、画面を置換移動する `.replace()` を使用します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "ホーム画面の「fetchPosts を実行」ボタンを押した際、`_isLoading` が `true` の間にボタンに表示されるウィジェットは何ですか？",
+      "options": [
+        "CircularProgressIndicator（回転するローディング表示）",
+        "「fetchPosts を実行」というテキスト",
+        "「成功」というメッセージ",
+        "何も表示されない（空ボックス）"
+      ],
+      "answer": 0,
+      "commentary": "`_isLoading` が `true` の間は三項演算子により `CircularProgressIndicator` が表示されます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "テキストが長い場合に画面からはみ出さず、スクロール可能にするためのウィジェットは何ですか？<br><pre><code>Expanded(\n  flex: 2,\n  child: ___(\n    child: Text(_result),\n  ),\n)</code></pre>",
+      "options": [
+        "SingleChildScrollView",
+        "ListView",
+        "Container",
+        "Column"
+      ],
+      "answer": 0,
+      "commentary": "単一の子ウィジェットを縦スクロール可能にするには `SingleChildScrollView` を使用します。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "`DioClient().authDio.get(url)` を呼び出してデータを取得する際、非同期通信の完了を待つためのキーワード記述として正しいものはどれですか？",
+      "options": [
+        "final response = await dioClient.get(url);",
+        "final response = yield dioClient.get(url);",
+        "final response = dioClient.get(url).wait();",
+        "final response = async dioClient.get(url);"
+      ],
+      "answer": 0,
+      "commentary": "Futureを返す非同期処理の完了を待つには `await` キーワードを呼び出しの直前に付けます。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "アクセストークンが未設定（ストレージにない）の状態で `fetchPosts()` を実行し、APIサーバー（`/api/posts/`）へアクセスした場合、どうなりますか？",
+      "options": [
+        "認証エラーとなり、Catchブロックで `DioException`（401 Unauthorized）が捕獲される",
+        "空の投稿リストが正常に取得される",
+        "自動的に新しいユーザーアカウントが登録される",
+        "アプリがエラーなしで即座に終了する"
+      ],
+      "answer": 0,
+      "commentary": "`Authorization` ヘッダーなしでアクセスするため、サーバー側から401エラーが返され `DioException` が発生します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で実装した「アクセストークンを使った自動認証付き通信」の仕組みの利点として、最も適切なものはどれですか？",
+      "options": [
+        "一度ログインすれば、次回以降アプリを開いた際も自動的にトークンがセットされて手間なくAPIを利用できる",
+        "パスワードを暗号化せずにそのまま平文で送信できるようになる",
+        "通信速度が100倍速くなりサーバー負荷が0になる",
+        "インターネット接続がない状態でもリアルタイムに最新投稿を取得できる"
+      ],
+      "answer": 0,
+      "commentary": "ストレージに保存されたトークンをインターセプターで自動付与することで、ユーザーが再ログインすることなく安全にサービスを利用できます。"
+    }
+  ]
 }

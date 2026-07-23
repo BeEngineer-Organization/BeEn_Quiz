@@ -1,4 +1,525 @@
 {
   "unit_title": "アプリの初期設定",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "このSNSアプリの開発で、バックエンド（サーバー側）のAPI作成に使用するDjangoの拡張ライブラリは何ですか？",
+      "options": [
+        "Django REST framework",
+        "Django Forms",
+        "Django Channels",
+        "Django Admin"
+      ],
+      "answer": 0,
+      "commentary": "バックエンドでAPIサーバーを簡単に構築するために「Django REST framework」を使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Django REST frameworkを有効化するために、`settings.py` の `INSTALLED_APPS` に追加する文字列は何ですか？<br><pre><code>INSTALLED_APPS = [\n    # ...\n    \"___\",\n    \"accounts\",\n]</code></pre>",
+      "options": [
+        "rest_framework",
+        "djangorestframework",
+        "rest_api",
+        "django_rest"
+      ],
+      "answer": 0,
+      "commentary": "Django REST frameworkを使用する際は、`INSTALLED_APPS` に `\"rest_framework\"` を追加します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "作成したユーザー管理用アプリケーションを `settings.py` に追加する記述です。空欄に入る名前は何ですか？<br><pre><code>INSTALLED_APPS = [\n    # ...\n    \"rest_framework\",\n    \"___\",\n]</code></pre>",
+      "options": [
+        "accounts",
+        "users",
+        "members",
+        "auth_app"
+      ],
+      "answer": 0,
+      "commentary": "ユーザー関連のAPIを定義するために作成したアプリケーション名 `\"accounts\"` を追加します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Djangoの表示言語を日本語に設定する `settings.py` の記述です。空欄に入るコードを選んでください。<br><pre><code>LANGUAGE_CODE = \"___\"</code></pre>",
+      "options": [
+        "ja",
+        "ja-jp",
+        "japanese",
+        "JP"
+      ],
+      "answer": 0,
+      "commentary": "言語設定を日本語にするには `LANGUAGE_CODE = \"ja\"` と記述します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "タイムゾーンを日本時間に設定する `settings.py` の記述です。空欄に入るコードを選んでください。<br><pre><code>TIME_ZONE = \"___\"</code></pre>",
+      "options": [
+        "Asia/Tokyo",
+        "Japan/Tokyo",
+        "JST",
+        "Tokyo"
+      ],
+      "answer": 0,
+      "commentary": "タイムゾーンを日本に設定するには `TIME_ZONE = \"Asia/Tokyo\"` と指定します。"
+    },
+    {
+      "id": 6,
+      "type": "用語理解",
+      "question": "Django標準のユーザー機能を持ちつつ、アイコンやステータスメッセージなどを自由に追加・拡張するために継承するクラスは何ですか？",
+      "options": [
+        "AbstractUser",
+        "BaseUser",
+        "UserModel",
+        "UserCreationForm"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの組み込みユーザー機能を拡張したカスタムユーザーモデルを作るには `AbstractUser` を継承します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "独自のユーザーモデルを作るために、`AbstractUser` をインポートする正しいコードを選んでください。<br><pre><code>from django.contrib.auth.models import ___</code></pre>",
+      "options": [
+        "AbstractUser",
+        "BaseUser",
+        "User",
+        "CustomUser"
+      ],
+      "answer": 0,
+      "commentary": "`django.contrib.auth.models` モジュールから `AbstractUser` をインポートします。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`AbstractUser` を継承して自作の `User` モデルを定義するコードです。空欄に入る記述を選んでください。<br><pre><code>class User(___):\n    pass</code></pre>",
+      "options": [
+        "AbstractUser",
+        "models.Model",
+        "BaseUser",
+        "User"
+      ],
+      "answer": 0,
+      "commentary": "`class User(AbstractUser):` と書くことで、標準のユーザー機能をベースに拡張できます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "メールアドレスを保存し、重複登録を防ぐためのユニーク制約をつけるフィールド定義です。空欄に入るパラメータは何ですか？<br><pre><code>email = models.EmailField(\n    \"メールアドレス\",\n    ___=True,\n)</code></pre>",
+      "options": [
+        "unique",
+        "primary_key",
+        "distinct",
+        "single"
+      ],
+      "answer": 0,
+      "commentary": "データベース全体で重複する値を許さない設定（ユニーク制約）をするには `unique=True` を指定します。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "データベースのテーブル内で、特定のカラム（列）に重複した値を保存させないようにする仕組みを何と呼びますか？",
+      "options": [
+        "ユニーク制約",
+        "外部キー制約",
+        "NOT NULL制約",
+        "チェック制約"
+      ],
+      "answer": 0,
+      "commentary": "メールアドレスなどの重複登録を防ぐために設定するデータベースのルールを「ユニーク制約」と呼びます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "ユーザーのアイコン画像を保存するためのフィールド定義です。空欄に入るクラス名は何ですか？<br><pre><code>icon = models.___(\n    \"アイコン\",\n    upload_to=\"user_icons/\",\n    blank=True,\n    null=True,\n)</code></pre>",
+      "options": [
+        "ImageField",
+        "FileField",
+        "MediaField",
+        "PictureField"
+      ],
+      "answer": 0,
+      "commentary": "画像ファイルを扱うためのモデルフィールドは `models.ImageField` です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "アップロードされた画像を `MEDIA_ROOT` 配下の指定フォルダに保存するための属性設定です。空欄に入る記述を選んでください。<br><pre><code>icon = models.ImageField(\n    \"アイコン\",\n    ___=\"user_icons/\",\n)</code></pre>",
+      "options": [
+        "upload_to",
+        "save_path",
+        "file_location",
+        "folder"
+      ],
+      "answer": 0,
+      "commentary": "ファイルの保存先サブディレクトリルートを指定するには `upload_to` 属性を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "モデルのフィールド設定において、`blank=True` と `null=True` の役割の違いとして正しい説明はどれですか？",
+      "options": [
+        "blank=Trueはフォーム等の入力で空を許し、null=Trueはデータベース上でNULL値を許可する",
+        "blank=Trueはデータベース上でNULL値を許可し、null=Trueはフォーム等の入力で空を許す",
+        "両方ともデータベース上の制約であり違いはない",
+        "両方ともフォームのバリデーション専用であり違いはない"
+      ],
+      "answer": 0,
+      "commentary": "`blank=True` はフォーム/バリデーション層での空入力を許可し、`null=True` はDB上でNULL値を保存できるようにする設定です。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "最大100文字までのステータスメッセージを保存するフィールド定義です。空欄に入るクラス名は何ですか？<br><pre><code>status_message = models.___(\n    \"ステータスメッセージ\",\n    max_length=100,\n    blank=True,\n)</code></pre>",
+      "options": [
+        "CharField",
+        "TextField",
+        "StringField",
+        "MessageField"
+      ],
+      "answer": 0,
+      "commentary": "文字数制限付きの短文～中規模テキストを保存するには `models.CharField` を使用します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "`CharField` で最大文字数を100文字に制限する設定です。空欄に入る属性名は何ですか？<br><pre><code>status_message = models.CharField(\n    \"ステータスメッセージ\",\n    ___=100,\n)</code></pre>",
+      "options": [
+        "max_length",
+        "limit_length",
+        "length",
+        "max_words"
+      ],
+      "answer": 0,
+      "commentary": "`CharField` で最大長を指定する必須パラメータは `max_length` です。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "ユーザー名ではなく「メールアドレス」を認証（ログイン）用の一意な識別子として指定する設定です。空欄に入る記述を選んでください。<br><pre><code>class User(AbstractUser):\n    # ...\n    ___ = \"email\"</code></pre>",
+      "options": [
+        "USERNAME_FIELD",
+        "LOGIN_FIELD",
+        "AUTH_FIELD",
+        "IDENTIFIER_FIELD"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの認証システムでログインIDとして扱うフィールド名を変更するには `USERNAME_FIELD` を上書きします。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "Djangoの `AbstractUser` において、`USERNAME_FIELD` という属性が果たす役割は何ですか？",
+      "options": [
+        "ログイン処理の際、内部的に「ユーザーを一意に識別するID」として使用するフィールド名を指定する",
+        "ユーザーの画面表示名を指定する",
+        "管理画面に表示するモデルのタイトルを指定する",
+        "パスワード暗号化のアルゴリズム名を指定する"
+      ],
+      "answer": 0,
+      "commentary": "`USERNAME_FIELD` に指定されたフィールド（デフォルトは \"username\"）がログイン認証のキーとして使用されます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "メールアドレスで認証する場合に、`createsuperuser` コマンドで「ユーザー名」を入力必須とするための設定です。<br><pre><code>class User(AbstractUser):\n    # ...\n    USERNAME_FIELD = \"email\"\n    ___ = [\n        \"username\",\n    ]</code></pre>",
+      "options": [
+        "REQUIRED_FIELDS",
+        "MANDATORY_FIELDS",
+        "INPUT_FIELDS",
+        "MUST_FIELDS"
+      ],
+      "answer": 0,
+      "commentary": "管理者（スーパーユーザー）作成時に追加で入力させる必須フィールドの一覧は `REQUIRED_FIELDS` にリスト形式で指定します。"
+    },
+    {
+      "id": 19,
+      "type": "用語理解",
+      "question": "Djangoで `REQUIRED_FIELDS` 属性を設定する主な目的は何ですか？",
+      "options": [
+        "createsuperuser コマンドで管理者アカウントを作成する際に、入力必須とするフィールドを指定するため",
+        "通常の会員登録画面で入力を省略不可能にするため",
+        "データベースの NOT NULL 制約を全自動で適用するため",
+        "APIのレスポンスに必ず含めるデータを指定するため"
+      ],
+      "answer": 0,
+      "commentary": "`REQUIRED_FIELDS` は `python manage.py createsuperuser` を実行した際に対話形式で入力が求められる必須項目のリストです。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "管理画面などでオブジェクトを表示した際、ユーザーのメールアドレスを文字列として返す特殊メソッドの記述です。<br><pre><code>def __str__(self):\n    return ___</code></pre>",
+      "options": [
+        "self.email",
+        "self.username",
+        "self.id",
+        "\"User\""
+      ],
+      "answer": 0,
+      "commentary": "`__str__` メソッドで `return self.email` を返すことで、管理画面上でユーザーがメールアドレス表示となり識別しやすくなります。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "`def __str__(self): return self.email` と定義された `User` インスタンス（email: \"test@example.com\"）を Pythonの `print(user)` で表示した場合、どのような出力になりますか？",
+      "options": [
+        "test@example.com",
+        "<User object (1)>",
+        "username",
+        "None"
+      ],
+      "answer": 0,
+      "commentary": "`__str__` の戻り値として定義した `self.email` の内容（`test@example.com`）が出力されます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "管理画面でのモデル表示名を日本語の「ユーザー」に変更するための `Meta` クラスの設定です。<br><pre><code>class Meta:\n    ___ = \"ユーザー\"\n    verbose_name_plural = \"ユーザー\"</code></pre>",
+      "options": [
+        "verbose_name",
+        "model_name",
+        "display_name",
+        "label"
+      ],
+      "answer": 0,
+      "commentary": "管理画面上での単数形の表示名を指定するには `verbose_name` を設定します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "ユーザーがアップロードしたファイルを保存するプロジェクト直下の `media` ディレクトリを `settings.py` に指定するコードです。<br><pre><code>MEDIA_ROOT = ___ / \"media\"</code></pre>",
+      "options": [
+        "BASE_DIR",
+        "ROOT_DIR",
+        "PROJECT_DIR",
+        "MAIN_DIR"
+      ],
+      "answer": 0,
+      "commentary": "プロジェクトのルートパスを表す `BASE_DIR` と `\"media\"` を結合して `MEDIA_ROOT` を設定します。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "Djangoの `settings.py` における `MEDIA_ROOT` の役割として正しいものはどれですか？",
+      "options": [
+        "ユーザーがアップロードした画像などのファイルが実際に保存されるサーバー上のパスを設定する",
+        "ブラウザからメディアファイルにアクセスするためのURLを指定する",
+        "CSSやJavaScriptなどの静的ファイルの置き場所を指定する",
+        "データベースファイルの保存場所を指定する"
+      ],
+      "answer": 0,
+      "commentary": "`MEDIA_ROOT` はユーザーがアップロードした動的ファイルが物理的に保存されるディスク上のパスを指定します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "`ImageField` を使用するために必要な画像処理用パッケージをインストールするコマンドです。<br><pre><code>pip install ___</code></pre>",
+      "options": [
+        "pillow",
+        "image",
+        "opencv-python",
+        "python-image"
+      ],
+      "answer": 0,
+      "commentary": "Djangoで `ImageField` を動かすには `Pillow` ライブラリのインストールが必須です。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "独自定義した `accounts` アプリの `User` モデルをプロジェクト全体の認証用ユーザーモデルとして指定する `settings.py` の設定です。<br><pre><code>___ = \"accounts.User\"</code></pre>",
+      "options": [
+        "AUTH_USER_MODEL",
+        "CUSTOM_USER_MODEL",
+        "USER_MODEL",
+        "ACCOUNT_USER_CLASS"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの認証システムで使用するユーザーモデルを変更するには `AUTH_USER_MODEL = \"アプリ名.モデル名\"` を指定します。"
+    },
+    {
+      "id": 27,
+      "type": "用語理解",
+      "question": "`settings.py` の `AUTH_USER_MODEL` 設定に関する説明として適切なものはどれですか？",
+      "options": [
+        "Django標準のUserモデルの代わりに、プロジェクト内で使用するカスタムユーザーモデルを指定する設定",
+        "ログイン画面のURLパターン名を指定する設定",
+        "ユーザーの権限レベルを設定する変数",
+        "認証のセッション保持時間を設定する変数"
+      ],
+      "answer": 0,
+      "commentary": "`AUTH_USER_MODEL` にアプリ名とモデル名を記述することで、デフォルトのユーザーモデルから自作モデルへと切り替えます。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "`models.py` の変更を検出してマイグレーションファイルを作成する管理コマンドです。<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "makemigrations",
+        "migrate",
+        "createmodel",
+        "buildmigrations"
+      ],
+      "answer": 0,
+      "commentary": "モデル定義の差分からマイグレーションファイルを新しく作るコマンドは `makemigrations` です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "マイグレーションファイルを実際のデータベースに適用・反映させる管理コマンドです。<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "runserver",
+        "dbupdate"
+      ],
+      "answer": 0,
+      "commentary": "マイグレーション内容をデータベース構造に反映させるコマンドは `migrate` です。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "`accounts/admin.py` で管理者画面に `User` モデルを表示・操作できるように登録するコードです。<br><pre><code>from django.contrib import admin\nfrom .models import User\n\nadmin.site.___(User)</code></pre>",
+      "options": [
+        "register",
+        "add",
+        "connect",
+        "push"
+      ],
+      "answer": 0,
+      "commentary": "管理サイトにモデルを登録するには `admin.site.register(モデル名)` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "`sample_data.json` などのJSONファイルからデータをデータベースに初期登録（ロード）する管理コマンドです。<br><pre><code>python manage.py ___ sample_data.json</code></pre>",
+      "options": [
+        "loaddata",
+        "importdata",
+        "readdata",
+        "dumpdata"
+      ],
+      "answer": 0,
+      "commentary": "フィクスチャ（JSONデータ等）をデータベースへ流し込むコマンドは `loaddata` です。"
+    },
+    {
+      "id": 32,
+      "type": "用語理解",
+      "question": "データベースに初期データやテスト用データを一括投入するために用意するデータファイル（JSONなど）をDjangoでは何と呼びますか？",
+      "options": [
+        "Fixture（フィクスチャ）",
+        "Migration（マイグレーション）",
+        "Schema（スキーマ）",
+        "Payload（ペイロード）"
+      ],
+      "answer": 0,
+      "commentary": "データベースにインポート可能な事前に準備されたデータセットを「Fixture（フィクスチャ）」と呼びます。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "`USERNAME_FIELD = \"email\"` と設定したカスタムユーザーモデルを作成した場合、Djangoの標準ログイン処理で認証キーとして入力が求められる情報はどれになりますか？",
+      "options": [
+        "メールアドレス",
+        "ユーザー名",
+        "電話番号",
+        "ユーザーID（数値）"
+      ],
+      "answer": 0,
+      "commentary": "`USERNAME_FIELD` に `\"email\"` を指定したため、ログイン時のID識別子としてメールアドレスが使用されます。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "`status_message` フィールドに `blank=True` のみが設定されており、`null=True` がついていない状態で、フォームから何も入力せずに送信された場合、データベースには何が保存されますか？",
+      "options": [
+        "空文字（\"\"）",
+        "NULL（None）",
+        "エラーになって保存されない",
+        "\"default\""
+      ],
+      "answer": 0,
+      "commentary": "文字列フィールドで `null=True` がない場合、未入力時は NULL ではなく空文字 `\"\"` が保存されます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "管理画面でモデルの「複数形表記」を日本語の「ユーザー」と設定するプロパティです。<br><pre><code>class Meta:\n    verbose_name = \"ユーザー\"\n    ___ = \"ユーザー\"</code></pre>",
+      "options": [
+        "verbose_name_plural",
+        "verbose_names",
+        "plural_name",
+        "display_name_plural"
+      ],
+      "answer": 0,
+      "commentary": "管理画面での複数形表記をカスタマイズするには `verbose_name_plural` を指定します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "`python manage.py loaddata sample_data.json` を実行して成功した場合、データベースはどうなりますか？",
+      "options": [
+        "sample_data.json 内に記述されたユーザーデータ（pk: 1〜5）がデータベースのテーブルに追加登録される",
+        "既存の全テーブルが完全に削除されて初期化される",
+        "sample_data.json ファイルが自動で削除される",
+        "Djangoサーバーが起動する"
+      ],
+      "answer": 0,
+      "commentary": "`loaddata` コマンドによりJSONファイル内のレコード情報が指定のテーブルに登録されます。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "Djangoで管理画面へのログイン権限などを持つ最上位のアカウントを作成するための管理コマンドは何ですか？",
+      "options": [
+        "createsuperuser",
+        "createadmin",
+        "addsuperuser",
+        "inituser"
+      ],
+      "answer": 0,
+      "commentary": "管理者アカウント（スーパーユーザー）を作成するコマンドは `createsuperuser` です。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "`email = models.EmailField(unique=True)` と定義されているとき、既に `test@example.com` が登録されているデータベースに、同じ `test@example.com` でもう一度登録しようとするとどうなりますか？",
+      "options": [
+        "ユニーク制約違反（IntegrityErrorなど）のエラーが発生し、保存が拒否される",
+        "既存のデータが上書き更新される",
+        "エラーは起きず同じメールアドレスのユーザーが2人作成される",
+        "メールアドレスの末尾に自動で数字がついて保存される"
+      ],
+      "answer": 0,
+      "commentary": "`unique=True`（ユニーク制約）が設定されているため、重複する値の挿入はデータベースによって拒否されます。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "メールアドレスをログインIDとしつつ、ユーザー名も登録必須とする custom user の構成として正しい組み合わせはどれですか？",
+      "options": [
+        "USERNAME_FIELD = \"email\"\nREQUIRED_FIELDS = [\"username\"]",
+        "USERNAME_FIELD = \"username\"\nREQUIRED_FIELDS = [\"email\"]",
+        "USERNAME_FIELD = [\"email\"]\nREQUIRED_FIELDS = \"username\"",
+        "USER_FIELD = \"email\"\nREQUIRED_FIELD = [\"username\"]"
+      ],
+      "answer": 0,
+      "commentary": "`USERNAME_FIELD` には認証用カラム名の文字列を指定し、`REQUIRED_FIELDS` にはそれ以外の必須入力カラム名をリストで指定します。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "`User` モデルの定義と必須属性の配置として、文法的に正しいものはどれですか？",
+      "options": [
+        "class User(AbstractUser):\n    email = models.EmailField(unique=True)\n    USERNAME_FIELD = \"email\"\n    REQUIRED_FIELDS = [\"username\"]",
+        "class User():\n    email = models.EmailField(unique=True)\n    USERNAME_FIELD = \"email\"",
+        "def User(AbstractUser):\n    email = models.EmailField(unique=True)",
+        "class User(models.Model):\n    USERNAME_FIELD = \"email\""
+      ],
+      "answer": 0,
+      "commentary": "`AbstractUser` を継承したクラス定義の中に `EmailField(unique=True)` や `USERNAME_FIELD` などの属性を記述するのが正しい構文です。"
+    }
+  ]
 }

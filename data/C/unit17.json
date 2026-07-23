@@ -1,4 +1,525 @@
 {
   "unit_title": "ログイン画面におけるロジックの実装",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "アプリ内でクラスのインスタンスを「ただ1つだけ」生成し、どこからでも同じオブジェクトを参照できるようにするデザインパターンは何ですか？",
+      "options": [
+        "シングルトン パターン",
+        "ファクトリ パターン",
+        "ビルダー パターン",
+        "オブザーバー パターン"
+      ],
+      "answer": 0,
+      "commentary": "アプリ全体で同一のインスタンス（設定や状態）を共有する仕組みを「シングルトン パターン」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Flutterプロジェクトに HTTPクライアントパッケージ `dio` を追加するためのコマンドです。空欄に入る記述を選んでください。<br><pre><code>flutter pub add ___</code></pre>",
+      "options": [
+        "dio",
+        "http",
+        "dio_client",
+        "rest_client"
+      ],
+      "answer": 0,
+      "commentary": "Dioパッケージをインストールするには `flutter pub add dio` を実行します。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "今回設計したフォルダ構成において、APIから取得したデータやアプリ内で使用するデータ構造を定義するフォルダはどれですか？",
+      "options": [
+        "models",
+        "screens",
+        "services",
+        "routes"
+      ],
+      "answer": 0,
+      "commentary": "データ構造やモデルクラスをまとめるフォルダは `models` です。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "今回設計したフォルダ構成において、API呼び出し処理やHTTP通信の設定などをまとめるフォルダはどれですか？",
+      "options": [
+        "services",
+        "models",
+        "screens",
+        "widgets"
+      ],
+      "answer": 0,
+      "commentary": "API通信などのビジネスロジックやサービス処理をまとめるフォルダは `services` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "Dioの共通設定で、サーバーとの接続確立までのタイムアウト時間を10秒に設定するコードです。空欄に入る記述を選んでください。<br><pre><code>BaseOptions(\n  connectTimeout: const Duration(___: 10),\n)</code></pre>",
+      "options": [
+        "seconds",
+        "minutes",
+        "milliseconds",
+        "hours"
+      ],
+      "answer": 0,
+      "commentary": "10秒を指定するため `Duration(seconds: 10)` を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "用語理解",
+      "question": "Dioのオプションで、サーバーに接続してからデータを受信し始めるまでの許容最大時間を指定するプロパティは何ですか？",
+      "options": [
+        "receiveTimeout",
+        "connectTimeout",
+        "sendTimeout",
+        "requestTimeout"
+      ],
+      "answer": 0,
+      "commentary": "レスポンス受信までの制限時間を指定するプロパティは `receiveTimeout` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "Dioの共通ヘッダーで、JSON形式のデータやり取りを行うために `Content-Type` を指定するコードです。<br><pre><code>headers: {HttpHeaders.contentTypeHeader: ContentType.___ .value}</code></pre>",
+      "options": [
+        "json",
+        "text",
+        "html",
+        "binary"
+      ],
+      "answer": 0,
+      "commentary": "JSON形式であることを伝えるには `ContentType.json.value` を指定します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "HTTPレスポンスのステータスコードが 400 未満（200〜399）の場合を「成功」とみなすルールを設定する `validateStatus` の記述です。<br><pre><code>validateStatus: (status) {\n  return status != null && status < ___\n;\n}</code></pre>",
+      "options": [
+        "400",
+        "300",
+        "200",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "400番台以上のエラーで例外を投げるようにするため `status < 400` と判定します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "`validateStatus` に `status != null && status < 400` を設定した場合、サーバーからステータスコード `302`（リダイレクト）が返ってきたときDioはどう判定しますか？",
+      "options": [
+        "エラー例外を出さず「成功（正常なレスポンス）」として処理する",
+        "DioException エラーを発生させる",
+        "リクエストを自動的にキャンセルする",
+        "アプリを強制終了する"
+      ],
+      "answer": 0,
+      "commentary": "`302 < 400` のため成功扱いとなり、Dioがリダイレクト処理を正常に継続できます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "クラス内部から常に同じ唯一のインスタンスを返すファクトリコンストラクタの記述です。<br><pre><code>class DioClient {\n  static final DioClient _instance = DioClient._createSingleton();\n  ___ DioClient() => _instance;\n}</code></pre>",
+      "options": [
+        "factory",
+        "static",
+        "const",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "既存のインスタンスを返すコンストラクタを作るには `factory` キーワードを使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "freezedなどの自動生成パッケージを実行して、コード生成用ファイルを作成するコマンドです。空欄に入る記述を選んでください。<br><pre><code>dart run ___ build</code></pre>",
+      "options": [
+        "build_runner",
+        "freezed",
+        "code_builder",
+        "generator"
+      ],
+      "answer": 0,
+      "commentary": "コード自動生成ツールを実行するには `dart run build_runner build` を使用します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "`login_user.dart` に対して `dart run build_runner build` を実行した際、生成される2つのファイル名として正しいものはどれですか？",
+      "options": [
+        "login_user.freezed.dart と login_user.g.dart",
+        "login_user.dart.freezed と login_user.dart.g",
+        "login_user_build.dart と login_user_json.dart",
+        "login_user.model.dart と login_user.service.dart"
+      ],
+      "answer": 0,
+      "commentary": "freezedとjson_serializableにより `login_user.freezed.dart` と `login_user.g.dart` が作成されます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "`login_user.dart` で自動生成ファイルを読み込むための Dart の記述です。<br><pre><code>___ 'login_user.freezed.dart';\n___ 'login_user.g.dart';</code></pre>",
+      "options": [
+        "part",
+        "import",
+        "export",
+        "include"
+      ],
+      "answer": 0,
+      "commentary": "生成される相互依存コードを取り込むには `part 'ファイル名';` と記述します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "コンパイル時（ビルド時）の環境変数から文字列を取得し、未設定時のデフォルト値を指定する記述です。<br><pre><code>static const _protocol = String.fromEnvironment('PROTOCOL', defaultValue: '___');</code></pre>",
+      "options": [
+        "http",
+        "https",
+        "localhost",
+        "api"
+      ],
+      "answer": 0,
+      "commentary": "教材のコードではデフォルトのプロトコルに `'http'` を指定しています。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "次のコードで `PROTOCOL` や `DOMAIN` を指定せずに起動した場合、`baseUrl` の文字列はどうなりますか？<br><pre><code>static const _protocol = String.fromEnvironment('PROTOCOL', defaultValue: 'http');\nstatic const _domain = String.fromEnvironment('DOMAIN', defaultValue: 'localhost:8000');\nstatic String baseUrl = '$_protocol://$_domain/api/auth';</code></pre>",
+      "options": [
+        "'http://localhost:8000/api/auth'",
+        "'https://localhost:8000/api/auth'",
+        "'http://127.0.0.1:8000/api/auth'",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "デフォルト値である `http` と `localhost:8000` が埋め込まれて `'http://localhost:8000/api/auth'` になります。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "Dioを使って指定のURLへPOSTリクエストを送り、リクエストボディにJSONデータを渡すコードです。<br><pre><code>await dioClient.unauthDio.post(\n  url,\n  ___: loginUser.toJson(),\n);</code></pre>",
+      "options": [
+        "data",
+        "body",
+        "payload",
+        "json"
+      ],
+      "answer": 0,
+      "commentary": "Dioで送信データを渡すパラメータ名は `data` です。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "`LoginUser(email: 'alice@example.com', password: 'Secret123!')` に対し `toJson()` を呼んで Dio の `post(url, data: ...)` に渡した場合、送信されるJSONデータはどれですか？",
+      "options": [
+        "{\"email\":\"alice@example.com\",\"password\":\"Secret123!\"}",
+        "{\"username\":\"alice@example.com\",\"password\":\"Secret123!\"}",
+        "[\"alice@example.com\", \"Secret123!\"]",
+        "\"alice@example.com:Secret123!\""
+      ],
+      "answer": 0,
+      "commentary": "モデルの属性名に従って `{\"email\": \"...\", \"password\": \"...\"}` の形式に変換されて送信されます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "ログインボタンを押した後に実行する、API呼び出しと画面制御をまとめた非同期メソッドの定義です。<br><pre><code>___ <void> handleSubmit(\n  BuildContext context, {\n  required LoginUser formData,\n}) async</code></pre>",
+      "options": [
+        "Future",
+        "Stream",
+        "Task",
+        "void"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理を行う関数は `Future<戻り値の型>` を指定します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "API通信が開始されたとき、ローディング状態フラグを `true` に更新して画面を再描画するコードです。<br><pre><code>___(() {\n  _isLoading = true;\n});</code></pre>",
+      "options": [
+        "setState",
+        "updateState",
+        "rebuild",
+        "refresh"
+      ],
+      "answer": 0,
+      "commentary": "変数の変化を画面に反映させるには `setState()` を呼び出します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "非同期処理の実行後に、ウィジェットがまだツリー上に存在しているか（安全に画面操作できるか）を確認するプロパティです。<br><pre><code>if (!context.___) return;</code></pre>",
+      "options": [
+        "mounted",
+        "active",
+        "isAlive",
+        "valid"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理後の画面操作でクラッシュを防ぐには `context.mounted` のチェックを行います。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "非同期のログイン処理中にユーザーが画面を閉じてしまい `context.mounted` が `false` になった場合、次のコードはどう動きますか？<br><pre><code>if (!context.mounted) return;\nScaffoldMessenger.of(context).showSnackBar(...);</code></pre>",
+      "options": [
+        "`return` が実行されて処理を安全に中断し、スナックバーの表示処理はスキップされる",
+        "エラーが発生してアプリがクラッシュする",
+        "スナックバーが前の画面に表示される",
+        "自動的に再ログインが試みられる"
+      ],
+      "answer": 0,
+      "commentary": "`!context.mounted` が成立するため即座に `return` し、破棄されたコンテキストの操作による例外クラッシュを防ぎます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "画面下部にメッセージ（「ログインしました」など）を一時的にポップアップ表示する標準ウィジェットは何ですか？<br><pre><code>ScaffoldMessenger.of(context).showSnackBar(\n  const ___(\n    content: Text('ログインしました'),\n  ),\n);</code></pre>",
+      "options": [
+        "SnackBar",
+        "Toast",
+        "AlertDialog",
+        "Banner"
+      ],
+      "answer": 0,
+      "commentary": "下部通知メッセージを表示するには `SnackBar` ウィジェットを使用します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "Dioによる通信例外（エラー）をキャッチするための型指定記述です。空欄に入る例外クラスを選んでください。<br><pre><code>try {\n  // 通信処理\n} on ___ catch (e) {\n  // エラー処理\n}</code></pre>",
+      "options": [
+        "DioException",
+        "HttpException",
+        "NetworkException",
+        "ApiException"
+      ],
+      "answer": 0,
+      "commentary": "Dioの通信中に発生する例外を捕まえるには `DioException` クラスを指定します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "通信エラーレスポンスの HTTP ステータスコードを取得するプロパティ記述です。<br><pre><code>final statusCode = e.response?.___;</code></pre>",
+      "options": [
+        "statusCode",
+        "code",
+        "status",
+        "httpStatus"
+      ],
+      "answer": 0,
+      "commentary": "レスポンスのステータスコードを参照するには `e.response?.statusCode` を使用します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "ログインで誤ったパスワードを送信して認証エラー（HTTP 401）になったとき、`statusCode` の値は何になりますか？",
+      "options": [
+        "401",
+        "200",
+        "400",
+        "500"
+      ],
+      "answer": 0,
+      "commentary": "認証失敗時の標準的なHTTPステータスコードは `401 Unauthorized` です。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "APIから返されたエラーJSON内の `detail` 文字列を取得し、`_invalidFieldError` に代入するコードです。<br><pre><code>if (statusCode == 401 && data is Map<String, dynamic>) {\n  final errors = data;\n  setState(() {\n    _invalidFieldError = errors['___'] as String?;\n  });\n}</code></pre>",
+      "options": [
+        "detail",
+        "message",
+        "error",
+        "reason"
+      ],
+      "answer": 0,
+      "commentary": "Django REST frameworkの標準認証エラーメッセージは `'detail'` キーに入っています。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "`_invalidFieldError` に `'No active account found...'` という文字列がセットされたとき、`TextFormField` の表示はどう変わりますか？<br><pre><code>TextFormField(\n  decoration: InputDecoration(\n    labelText: 'メールアドレス',\n    errorText: _invalidFieldError,\n  ),\n)</code></pre>",
+      "options": [
+        "入力欄の下に赤字で 'No active account found...' というエラーメッセージが表示される",
+        "入力欄が非表示になる",
+        "入力欄の文字が消去される",
+        "変化は起きない"
+      ],
+      "answer": 0,
+      "commentary": "`InputDecoration` の `errorText` に文字列が入ると、入力欄の下にエラーテキストが表示されます。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "ユーザーが再入力をしてバリデーションが走った際、過去のエラー表示（`_invalidFieldError`）を消去・リセットするコードです。<br><pre><code>validator: (value) {\n  setState(() {\n    _invalidFieldError = ___;\n  });\n}</code></pre>",
+      "options": [
+        "null",
+        "''",
+        "false",
+        "'none'"
+      ],
+      "answer": 0,
+      "commentary": "エラー表示を解除するには `_invalidFieldError = null;` とします。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "成功時も失敗時も、非同期処理の最後に必ず実行してローディング表示を解除するブロックはどれですか？<br><pre><code>try {\n  // ログイン処理\n} catch (e) {\n  // エラー処理\n} ___ {\n  setState(() {\n    _isLoading = false;\n  });\n}</code></pre>",
+      "options": [
+        "finally",
+        "always",
+        "complete",
+        "after"
+      ],
+      "answer": 0,
+      "commentary": "例外の有無に関わらず必ず最後に通過する後処理ブロックは `finally` です。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "ローディング中（`_isLoading == true`）にボタン内に表示する、ぐるぐる回るプログレス表示ウィジェットは何ですか？<br><pre><code>child: _isLoading\n    ? const SizedBox(\n        width: 20,\n        height: 20,\n        child: ___(),\n      )\n    : const Text('ログイン')</code></pre>",
+      "options": [
+        "CircularProgressIndicator",
+        "LinearProgressIndicator",
+        "LoadingSpinner",
+        "ProgressView"
+      ],
+      "answer": 0,
+      "commentary": "円形の読み込み中インジケーターには `CircularProgressIndicator` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`_isLoading` が `true` のとき、ログインボタン（`ElevatedButton`）の中身は何が表示されますか？<br><pre><code>child: _isLoading\n    ? const SizedBox(\n        width: 20,\n        height: 20,\n        child: CircularProgressIndicator(),\n      )\n    : const Text('ログイン')</code></pre>",
+      "options": [
+        "20x20サイズの「円形プログレスインジケーター（ぐるぐる）」が表示される",
+        "「ログイン」というテキストが表示される",
+        "ボタンが透明になって消える",
+        "「エラー」というテキストが表示される"
+      ],
+      "answer": 0,
+      "commentary": "`_isLoading` が `true` の場合は三項演算子の真側（`CircularProgressIndicator`）が描画されます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "フォームで入力されたメールアドレスの現在値を取得する記述です。<br><pre><code>final formData = LoginUser(\n  email: _emailKey.currentState?.___,\n  password: _passwordlKey.currentState?.value,\n);</code></pre>",
+      "options": [
+        "value",
+        "text",
+        "data",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "`GlobalKey<FormFieldState>` から現在の入力値を取り出すプロパティは `.value` です。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "Dioクライアントを使ってバックエンドの `token/` エンドポイントへログイン要求（POST）を送信する正しい呼び出しはどれですか？",
+      "options": [
+        "await dioClient.unauthDio.post(url, data: loginUser.toJson());",
+        "await dioClient.unauthDio.get(url, body: loginUser.toJson());",
+        "dioClient.unauthDio.sendPost(url, loginUser);",
+        "await Dio.post(url, json: loginUser);"
+      ],
+      "answer": 0,
+      "commentary": "`dioClient.unauthDio.post(url, data: ...)` の形式で非同期POST送信します。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "サーバー通信中などでボタンが何度も連打され、同じリクエストが複数回送信されてしまう現象を防ぐ対策を何と呼びますか？",
+      "options": [
+        "二重送信防止（二重リクエスト防止）",
+        "リファクタリング",
+        "セッションハイジャック",
+        "デッドロック"
+      ],
+      "answer": 0,
+      "commentary": "通信中にボタンを非活性にしたりローディング状態にして連続タップを防ぐ対策を「二重送信防止」と言います。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "プライベートコンストラクタを定義して外部から直接インスタンス化されるのを防ぐ Dart の記法です。<br><pre><code>class DioClient {\n  DioClient.___();\n}</code></pre>",
+      "options": [
+        "_createSingleton",
+        "create",
+        "init",
+        "new"
+      ],
+      "answer": 0,
+      "commentary": "先頭に `_`（アンダースコア）を付けた名前付きコンストラクタを定義することでプライベート化します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "バックエンドからサーバーエラー（500）など、401以外の予期せぬエラーが返された場合、`catch (_)` ブロックでユーザーに通知されるメッセージはどれですか？",
+      "options": [
+        "'予期せぬエラーが発生しました'",
+        "'ログインに失敗しました'",
+        "'ログインしました'",
+        "メッセージは何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "その他の例外を拾う `catch (_)` 内で '予期せぬエラーが発生しました' とスナックバー表示されます。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "ログイン成功時に「ログインしました」というテキストをスナックバーで表示する正しいFlutterコードはどれですか？",
+      "options": [
+        "ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('ログインしました')));",
+        "SnackBar.show(context, 'ログインしました');",
+        "Context.of(scaffold).showSnackBar('ログインしました');",
+        "showDialog(context: context, builder: (_) => const SnackBar('ログインしました'));"
+      ],
+      "answer": 0,
+      "commentary": "スナックバーを表示するには `ScaffoldMessenger.of(context).showSnackBar(...)` を使用します。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "フォーム全体の `validate()` を実行し、結果が null の場合に `false` を返す安全な条件式の記述です。<br><pre><code>if (_formKey.currentState?.validate() ___ false) { ... }</code></pre>",
+      "options": [
+        "??",
+        "||",
+        "&&",
+        "?:"
+      ],
+      "answer": 0,
+      "commentary": "左辺が null の場合に代わりの値を返す null 合体演算子は `??` です。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "本節で導入した `dio` パッケージが、標準の `http` パッケージと比べて優れている点についての適切な説明はどれですか？",
+      "options": [
+        "タイムアウト設定、共通ヘッダー、インターセプターなどの複雑な通信設定を簡潔に書くことができる",
+        "Flutter以外の言語でもそのまま動く",
+        "データベースのマイグレーションが自動で行われる",
+        "画面のCSSスタイルを自動で生成してくれる"
+      ],
+      "answer": 0,
+      "commentary": "Dioは共通設定（BaseOptions）やタイムアウト、エラー処理などを高度かつシンプルに記述できるライブラリです。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "正しいメールアドレスとパスワードを入力してログインボタンを押し、API通信が成功した場合の処理フローとして正しい順番はどれですか？",
+      "options": [
+        "1. ローディング表示ON → 2. API実行 → 3. 「ログインしました」スナックバー表示 → 4. ローディング表示OFF",
+        "1. 「ログインしました」スナックバー表示 → 2. API実行 → 3. ローディング表示ON",
+        "1. API実行 → 2. エラーメッセージ表示 → 3. ローディング表示ON",
+        "1. ローディング表示OFF → 2. API実行 → 3. ローディング表示ON"
+      ],
+      "answer": 0,
+      "commentary": "まず通信開始時にローディングをONにし、API成功後にメッセージを出答し、finallyでローディングをOFFにします。"
+    }
+  ]
 }

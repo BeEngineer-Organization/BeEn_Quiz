@@ -1,4 +1,525 @@
 {
   "unit_title": "API エンドポイントの定義 - ユーザー登録機能",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "Web APIにおいて、クライアントとサーバーがデータをやり取りするための特定の接続先URLのことを何と呼びますか？",
+      "options": [
+        "エンドポイント",
+        "データベース",
+        "ミドルウェア",
+        "シリアライザ"
+      ],
+      "answer": 0,
+      "commentary": "クライアントとサーバーが通信を行うための特定のURLを「エンドポイント」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "データベースへ新しいユーザー情報などの新規リソースを登録する際、使用する適切なHTTPメソッドは何ですか？",
+      "options": [
+        "POST",
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "answer": 0,
+      "commentary": "新規データの作成・登録を行う処理にはPOSTメソッドを使用します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "プロジェクト全体の `config/urls.py` から `accounts/urls.py` を読み込むルーティングコードです。空欄に入る関数名を選んでください。<br><pre><code>from django.urls import include, path\n\nurlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"api/auth/\", ___(\"accounts.urls\")),\n]</code></pre>",
+      "options": [
+        "include",
+        "import_urls",
+        "load",
+        "route"
+      ],
+      "answer": 0,
+      "commentary": "別のアプリの `urls.py` を読み込むには `django.urls.include` 関数を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "`accounts/urls.py` 内でクラスベースビューをURLパターンに対応させる記述です。空欄に入るメソッド名を選んでください。<br><pre><code>urlpatterns = [\n    path(\"users/\", views.RegisterView.___(), name=\"users\"),\n]</code></pre>",
+      "options": [
+        "as_view",
+        "to_view",
+        "get_view",
+        "run_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをルーティングに登録する際は `.as_view()` メソッドを呼び出します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "パスワード入力フィールドで、レスポンスには含めず入力専用（書き込み専用）にするための設定指定を選んでください。<br><pre><code>password = serializers.CharField(___=True, validators=[validate_password])</code></pre>",
+      "options": [
+        "write_only",
+        "read_only",
+        "input_only",
+        "secret_only"
+      ],
+      "answer": 0,
+      "commentary": "パスワードなどの機密情報を入力時のみ受け取りレスポンスから除外するには `write_only=True` を指定します。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "`password` フィールドに `write_only=True` が設定されたシリアライザで登録処理が成功した場合、サーバーから返されるレスポンスJSONに含まれないデータはどれですか？",
+      "options": [
+        "password",
+        "username",
+        "email",
+        "id"
+      ],
+      "answer": 0,
+      "commentary": "`write_only=True` を設定すると、シリアライズ（レスポンス出力）時にそのフィールド（`password`）は完全に除外されます。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "パスワードフィールドに対してDjango標準の強度チェック（最小文字数や類似度など）を適用するためのパラメータ指定です。<br><pre><code>password = serializers.CharField(write_only=True, ___=[validate_password])</code></pre>",
+      "options": [
+        "validators",
+        "checks",
+        "rules",
+        "filters"
+      ],
+      "answer": 0,
+      "commentary": "バリデーション関数を適用する引数名は `validators` であり、リスト形式で渡します。"
+    },
+    {
+      "id": 8,
+      "type": "文法チェック",
+      "question": "Django標準のパスワード強度検証関数 `validate_password` をインポートするための正しい記述はどれですか？",
+      "options": [
+        "from django.contrib.auth.password_validation import validate_password",
+        "from django.auth.validators import validate_password",
+        "from rest_framework.password import validate_password",
+        "from django.core.validators import validate_password"
+      ],
+      "answer": 0,
+      "commentary": "`validate_password` は `django.contrib.auth.password_validation` モジュールからインポートします。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "ユーザー登録用のシリアライザ定義です。対象のモデルとフィールドを指定する `Meta` クラス内の記述を選んでください。<br><pre><code>class RegisterSerializer(serializers.ModelSerializer):\n    class Meta:\n        ___ = User\n        fields = [\"username\", \"email\", \"password\"]</code></pre>",
+      "options": [
+        "model",
+        "target",
+        "db_model",
+        "class_name"
+      ],
+      "answer": 0,
+      "commentary": "`ModelSerializer` の内部 `Meta` クラスでは `model = モデルクラス` を設定します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "シリアライザ内で、複数フィールドに跨がる全体的なバリデーションやルールを追加するためにオーバーライドするメソッドは何ですか？<br><pre><code>def ___(self, attrs):\n    username = attrs.get(\"username\", \"\")\n    if not username.isalnum():\n        raise serializers.ValidationError(self.default_error_messages)\n    return attrs</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "is_valid",
+        "verify"
+      ],
+      "answer": 0,
+      "commentary": "シリアライザ全体（データ辞書）のカスタム検証を行うには `validate(self, attrs)` を定義します。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "`validate(self, attrs)` メソッドの引数 `attrs` に渡されてくるデータの内容として最も適切なものはどれですか？",
+      "options": [
+        "クライアントから送られ、型変換や個別バリデーションを通過した後の全データ辞書",
+        "データベースに既に保存されているユーザー一覧データ",
+        "HTTPリクエストのヘッダー情報",
+        "DjangoのURL設定パラメータ"
+      ],
+      "answer": 0,
+      "commentary": "`attrs` 引数には、前処理の基本検証を通過した入力値の辞書オブジェクトが渡されます。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "文字列が英字（A-Z, a-z）および数字（0-9）のみで構成されているか判定するPythonの標準文字列メソッドは何ですか？<br><pre><code>if not username.___():\n    raise serializers.ValidationError(...)</code></pre>",
+      "options": [
+        "isalnum",
+        "isalpha",
+        "isdigit",
+        "isascii"
+      ],
+      "answer": 0,
+      "commentary": "英字または数字のみで構成されているかを確かめるPython標準メソッドは `.isalnum()` です。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "`username = \"alice_123\"`（アンダースコアを含む）のとき、`username.isalnum()` の実行結果はどうなりますか？",
+      "options": [
+        "False（記号が含まれているため）",
+        "True",
+        "None",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "アンダースコア（_）などの記号が含まれていると `isalnum()` は `False` を返します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "`username = \"alice123\"`（英字と数字のみ）のとき、`username.isalnum()` の実行結果はどうなりますか？",
+      "options": [
+        "True",
+        "False",
+        "123",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "英字と数字のみで構成されているため、`isalnum()` は `True` を返します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "バリデーションでエラーが発生した際、REST frameworkに通知して処理を中断させるために発生させる例外クラスは何ですか？<br><pre><code>if not username.isalnum():\n    raise serializers.___(self.default_error_messages)</code></pre>",
+      "options": [
+        "ValidationError",
+        "InvalidError",
+        "CheckError",
+        "ParamError"
+      ],
+      "answer": 0,
+      "commentary": "シリアライザ内で検証エラーを発生させるには `serializers.ValidationError` を raise します。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "ユーザー登録処理で、`ModelSerializer` の標準 `create()` をそのまま使わず、オーバーライドして `create_user()` を呼び出す最大の理由は何ですか？",
+      "options": [
+        "パスワードを平文のまま保存せず、暗号化（ハッシュ化）して安全に保存するため",
+        "ユーザー登録時に自動でメールを送信するため",
+        "データベースのマイグレーションを回避するため",
+        "登録処理の実行速度を100倍速くするため"
+      ],
+      "answer": 0,
+      "commentary": "標準の `create` では平文保存されてしまうため、内部でハッシュ化を行う `User.objects.create_user()` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "パスワードを自動ハッシュ化して安全にユーザーを作成する `AbstractUser` 標準のORMメソッドは何ですか？<br><pre><code>def create(self, validated_data):\n    return User.objects.___(**validated_data)</code></pre>",
+      "options": [
+        "create_user",
+        "create",
+        "add_user",
+        "save_user"
+      ],
+      "answer": 0,
+      "commentary": "パスワードのハッシュ化を含めて安全にユーザーを作成するには `create_user()` を使います。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "辞書オブジェクト（`validated_data`）を展開し、キーワード引数として関数に渡すためのPython構文の記号を選んでください。<br><pre><code>return User.objects.create_user(___validated_data)</code></pre>",
+      "options": [
+        "**",
+        "*",
+        "&",
+        "$$"
+      ],
+      "answer": 0,
+      "commentary": "辞書要素をキーワード引数としてアンパック（展開）して渡すには `**` 記号を使います。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "新規オブジェクト作成機能を提供するDjango REST frameworkのミックスインクラスは何ですか？<br><pre><code>class RegisterView(generics.GenericAPIView, mixins.___):\n    serializer_class = RegisterSerializer</code></pre>",
+      "options": [
+        "CreateModelMixin",
+        "PostModelMixin",
+        "AddModelMixin",
+        "SaveModelMixin"
+      ],
+      "answer": 0,
+      "commentary": "新規作成（POST）機能の処理メソッド `create()` を提供するのは `mixins.CreateModelMixin` です。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "ビュークラス内で使用するシリアライザを指定するための属性名を選んでください。<br><pre><code>class RegisterView(generics.GenericAPIView, mixins.CreateModelMixin):\n    ___ = RegisterSerializer</code></pre>",
+      "options": [
+        "serializer_class",
+        "serializer",
+        "form_class",
+        "target_serializer"
+      ],
+      "answer": 0,
+      "commentary": "GenericAPIViewで連携するシリアライザを指定する属性は `serializer_class` です。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "`RegisterView` でPOSTリクエストを受けた際、`CreateModelMixin` のデータ作成処理を実行・呼び出すコードです。<br><pre><code>def post(self, request, *args, **kwargs):\n    return self.___(request, *args, **kwargs)</code></pre>",
+      "options": [
+        "create",
+        "save",
+        "post",
+        "build"
+      ],
+      "answer": 0,
+      "commentary": "`CreateModelMixin` が提供するデータ検証・保存・レスポンス返却メソッドは `create()` です。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "クエリセットの一覧取得（GET）機能を提供するミックスインクラス名はどれですか？",
+      "options": [
+        "ListModelMixin",
+        "GetModelMixin",
+        "ReadModelMixin",
+        "FetchModelMixin"
+      ],
+      "answer": 0,
+      "commentary": "一覧取得機能の `list()` を提供するミックスインは `ListModelMixin` です。"
+    },
+    {
+      "id": 23,
+      "type": "用語理解",
+      "question": "単一オブジェクトの詳細取得機能（1件GET）を提供するミックスインクラス名はどれですか？",
+      "options": [
+        "RetrieveModelMixin",
+        "DetailModelMixin",
+        "FindModelMixin",
+        "GetOneModelMixin"
+      ],
+      "answer": 0,
+      "commentary": "単一詳細取得の `retrieve()` を提供するミックスインは `RetrieveModelMixin` です。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "オブジェクトの全体更新・部分更新（PUT / PATCH）機能を提供するミックスインクラス名はどれですか？",
+      "options": [
+        "UpdateModelMixin",
+        "EditModelMixin",
+        "ModifyModelMixin",
+        "PatchModelMixin"
+      ],
+      "answer": 0,
+      "commentary": "更新機能の `update()` や `partial_update()` を提供するミックスインは `UpdateModelMixin` です。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "単一オブジェクトの削除機能（DELETE）を提供するミックスインクラス名はどれですか？",
+      "options": [
+        "DestroyModelMixin",
+        "DeleteModelMixin",
+        "RemoveModelMixin",
+        "DropModelMixin"
+      ],
+      "answer": 0,
+      "commentary": "削除機能の `destroy()` を提供するミックスインは `DestroyModelMixin` です。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "`CreateModelMixin` による新規データ作成が成功した際、サーバーが返す標準的なHTTPステータスコード数値は何ですか？",
+      "options": [
+        "201（Created）",
+        "200（OK）",
+        "302（Found）",
+        "400（Bad Request）"
+      ],
+      "answer": 0,
+      "commentary": "新規作成に成功した際、REST APIではステータスコード `201 Created` が返されます。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "正しいユーザー名・メールアドレス・パスワードをPOST送信し、ユーザー登録APIが成功した場合に返ってくるレスポンスJSONの例として正しいものはどれですか？",
+      "options": [
+        "{\"username\":\"alice\",\"email\":\"alice@example.com\"}",
+        "{\"username\":\"alice\",\"email\":\"alice@example.com\",\"password\":\"Secret123!\"}",
+        "{\"status\":\"success\"}",
+        "空の文字列"
+      ],
+      "answer": 0,
+      "commentary": "`password` は `write_only=True` により除外されるため、`username` と `email` などのフィールドが含まれたJSONが返ります。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "短すぎるパスワード（例: \"123\"）を送ってバリデーションエラーになった場合、`password` キーの返却配列に含まれるメッセージ例として適切なものはどれですか？",
+      "options": [
+        "This password is too short. It must contain at least 8 characters.",
+        "Password is fine.",
+        "User created successfully.",
+        "200 OK"
+      ],
+      "answer": 0,
+      "commentary": "Djangoの `validate_password` により、文字数不足のエラーメッセージ（英語または日本語）が返されます。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "不正な形式のメールアドレス（例: \"not-an-email\"）を送信した際、`email` キーに対して返されるエラー内容として正しいものはどれですか？",
+      "options": [
+        "[\"有効なメールアドレスを入力してください。\"]",
+        "[\"Success\"]",
+        "[\"メールアドレスは必須ではありません\"]",
+        "エラーは返されずそのまま保存される"
+      ],
+      "answer": 0,
+      "commentary": "`EmailField` のバリデーションにより「有効なメールアドレスを入力してください。」というエラーメッセージが返ります。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "POST通信のみを許可している `/api/auth/users/` に対し、誤って `GET` リクエストを送信した場合、サーバーから返されるレスポンスJSONはどれですか？",
+      "options": [
+        "{\"detail\":\"メソッド \\\"GET\\\" は許されていません。\"}",
+        "{\"status\":\"ok\"}",
+        "全ユーザーのリストデータ",
+        "何も返ってこない（タイムアウト）"
+      ],
+      "answer": 0,
+      "commentary": "許可されていないHTTPメソッドでリクエストした場合は405エラーとなり、「メソッド \"GET\" は許されていません。」等のメッセージが返ります。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "Django REST frameworkで、単一のCRUD操作（作成や取得など）を効率よく切り出して実装するのに適した基本ビューは何ですか？",
+      "options": [
+        "汎用ジェネリックビュー（GenericAPIView）",
+        "APIView",
+        "ModelViewSet",
+        "FunctionView"
+      ],
+      "answer": 0,
+      "commentary": "単一機能に絞り込み、ミックスインと組み合わせてコード量を抑えるには「汎用ジェネリックビュー（GenericAPIView）」が適しています。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "`RegisterView` を `GenericAPIView` と `CreateModelMixin` を使って定義する正しい多重継承の記述はどれですか？",
+      "options": [
+        "class RegisterView(generics.GenericAPIView, mixins.CreateModelMixin):",
+        "class RegisterView(mixins.CreateModelMixin -> generics.GenericAPIView):",
+        "def RegisterView(generics.GenericAPIView):",
+        "class RegisterView extends GenericAPIView, CreateModelMixin:"
+      ],
+      "answer": 0,
+      "commentary": "Pythonの多重継承文法に従い `class RegisterView(generics.GenericAPIView, mixins.CreateModelMixin):` と書きます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "curlコマンドでJSONデータを伴うPOSTリクエストを送信する際、リクエストヘッダーにデータ形式を指定するパラメータです。<br><pre><code>curl -X POST http://127.0.0.1:8000/api/auth/users/ \\\n  -H 'Content-Type: ___' \\\n  -d '{\"username\":\"alice\", ...}'</code></pre>",
+      "options": [
+        "application/json",
+        "text/html",
+        "multipart/form-data",
+        "application/x-www-form-urlencoded"
+      ],
+      "answer": 0,
+      "commentary": "APIサーバーにJSONフォーマットでデータを送る際は `-H 'Content-Type: application/json'` を指定します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "curlコマンドでHTTPリクエストメソッドを「POST」に明示的に指定するオプションは何ですか？<br><pre><code>curl ___ POST http://127.0.0.1:8000/api/auth/users/</code></pre>",
+      "options": [
+        "-X",
+        "-M",
+        "-H",
+        "-d"
+      ],
+      "answer": 0,
+      "commentary": "curlでHTTPメソッドを指定するオプションは `-X`（または `--request`）です。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "curlコマンドで送信するデータ（ペイロード）本文を指定するオプションは何ですか？<br><pre><code>curl -X POST http://... -H 'Content-Type: application/json' ___ '{\"username\":\"alice\"}'</code></pre>",
+      "options": [
+        "-d",
+        "-data-json",
+        "-b",
+        "-p"
+      ],
+      "answer": 0,
+      "commentary": "リクエストボディ（データ）を添付して送信するオプションは `-d`（または `--data`）です。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "既に「alice」というユーザー名が登録されている状態で、再度 `username: \"alice\"` でPOST送信した場合に返ってくるエラーメッセージの例はどれですか？",
+      "options": [
+        "[\"同じユーザー名が既に登録済みです。\"]",
+        "[\"Success\"]",
+        "[\"登録に成功しました\"]",
+        "エラーは起きず上書きされる"
+      ],
+      "answer": 0,
+      "commentary": "モデルのユニーク制約チェックにより「同じユーザー名が既に登録済みです。」というエラーが返ります。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "シリアライザの `validate` メソッドで、`attrs` 辞書から安全に `username` の値を取り出す正しいPythonコードはどれですか？",
+      "options": [
+        "username = attrs.get(\"username\", \"\")",
+        "username = attrs.fetch(\"username\")",
+        "username = attrs[\"username\"].getValue()",
+        "username = attrs->username"
+      ],
+      "answer": 0,
+      "commentary": "辞書からキーが存在しない場合のデフォルト値を指定しつつ安全に取得するには `.get(\"キー名\", デフォルト値)` を使用します。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "Django REST frameworkにおける「ビューセット（ViewSet）」の特徴についての正しい説明はどれですか？",
+      "options": [
+        "1つのクラス内で一覧取得・詳細取得・作成・更新・削除などの標準的なCRUD操作をまとめて定義できる仕組み",
+        "URLのルーティング設定を行う専用のファイル",
+        "データベースのテーブルを作成するコマンド",
+        "HTMLテンプレートを描画するための専用クラス"
+      ],
+      "answer": 0,
+      "commentary": "ビューセットはリソースに対する一連の標準的CRUD処理を1つのクラスで一括定義する仕組みです。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "Django REST frameworkにおける「APIView」の特徴についての正しい説明はどれですか？",
+      "options": [
+        "最も基本的で自由度が高く、get()やpost()などのメソッドを直接記述してリクエスト処理を細かく制御できるクラス",
+        "コードを一切書かずに全自動でデータベースを操作してくれるクラス",
+        "ログイン画面の見た目を作るCSS用クラス",
+        "JSONデータをHTMLに自動変換する機能"
+      ],
+      "answer": 0,
+      "commentary": "`APIView` は基底クラスであり、HTTPメソッドに対応する関数を直接オーバーライドして柔軟なロジックを実装できます。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "`serializers.CharField` に `validators` を渡す際の正解コード記述はどれですか？",
+      "options": [
+        "password = serializers.CharField(write_only=True, validators=[validate_password])",
+        "password = serializers.CharField(write_only=True, validator=validate_password())",
+        "password = serializers.CharField(write_only=True, rules=\"validate_password\")",
+        "password = serializers.CharField(write_only=True, check_with=[validate_password])"
+      ],
+      "answer": 0,
+      "commentary": "`validators=[関数名]` の形式でバリデーション関数のリストを渡します。"
+    }
+  ]
 }

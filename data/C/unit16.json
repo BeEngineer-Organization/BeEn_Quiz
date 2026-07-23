@@ -1,4 +1,525 @@
 {
   "unit_title": "ログイン画面の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "「been_shot_fe」という名前で新しいFlutterプロジェクトを作成するためのコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>flutter ___ been_shot_fe</code></pre>",
+      "options": [
+        "create",
+        "init",
+        "start",
+        "new"
+      ],
+      "answer": 0,
+      "commentary": "Flutterで新しいプロジェクトを作成するときは `flutter create <プロジェクト名>` コマンドを使います。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "Flutterアプリで画面のルーティング（画面遷移やURL管理）を一元管理するために導入した、公式推奨のパッケージ名は何ですか？",
+      "options": [
+        "go_router",
+        "flutter_navigation",
+        "route_manager",
+        "path_provider"
+      ],
+      "answer": 0,
+      "commentary": "GoRouter（`go_router`）は、パス名と画面ウィジェットを紐付けて一元管理できるFlutter公式推奨パッケージです。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "プロジェクトに `go_router` パッケージを追加するためのコマンドです。空欄に入る正しいサブコマンドを選んでください。<br><pre><code>flutter ___ add go_router</code></pre>",
+      "options": [
+        "pub",
+        "package",
+        "get",
+        "install"
+      ],
+      "answer": 0,
+      "commentary": "Flutterで新しいパッケージを追加するときは `flutter pub add <パッケージ名>` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "ルートパス文字列を安全に一元管理するためのクラス定義です。空欄に入るキーワードを選んでください。<br><pre><code>___ class Routes {\n  static const login = '/login';\n}</code></pre>",
+      "options": [
+        "abstract",
+        "interface",
+        "static",
+        "final"
+      ],
+      "answer": 0,
+      "commentary": "インスタンス化させずに定数管理用として使うクラスは `abstract class` と定義します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "`GoRoute` を定義するとき、アクセスするURLパスと画面描画関数を指定するパラメータの組み合わせとして正しいものを選んでください。<br><pre><code>GoRoute(\n  ___: Routes.login,\n  ___: (ctx, state) => const LoginPage(),\n)</code></pre>",
+      "options": [
+        "path / builder",
+        "url / page",
+        "route / widget",
+        "location / child"
+      ],
+      "answer": 0,
+      "commentary": "`GoRoute` では URLのパスを指定する `path` と、画面を返す関数を指定する `builder` を指定します。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "次のコードで `Routes.login` の値を別のファイルから参照した場合、取得できる文字列は何ですか？<br><pre><code>abstract class Routes {\n  static const login = '/login';\n}</code></pre>",
+      "options": [
+        "'/login'",
+        "'Routes.login'",
+        "'login'",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`Routes.login` には文字列 `'/login'` が定数として代入されています。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "GoRouterを使ったルーティングをアプリアプリ全体に適用するため、`MaterialApp` で呼び出すコンストラクタは何ですか？<br><pre><code>return MaterialApp.___(\n  title: 'BeEn Shot',\n  routerConfig: GoRouter(...),\n);</code></pre>",
+      "options": [
+        "router",
+        "route",
+        "go",
+        "navigation"
+      ],
+      "answer": 0,
+      "commentary": "GoRouterなどの外部ルーターを使用する場合は `MaterialApp.router()` コンストラクタを使います。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`MaterialApp.router` の中で、GoRouterの設定オブジェクトを渡すためのパラメータ名は何ですか？<br><pre><code>MaterialApp.router(\n  ___: GoRouter(routes: routes, initialLocation: Routes.login),\n)</code></pre>",
+      "options": [
+        "routerConfig",
+        "router",
+        "routes",
+        "navigationDelegate"
+      ],
+      "answer": 0,
+      "commentary": "ルーター設定オブジェクト（`GoRouter`）は `routerConfig` パラメータに渡します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "アプリ起動時に一番最初に表示する場所（初期ルート）を指定する `GoRouter` のパラメータは何ですか？<br><pre><code>GoRouter(\n  routes: routes,\n  ___: Routes.login,\n)</code></pre>",
+      "options": [
+        "initialLocation",
+        "startDestination",
+        "home",
+        "firstRoute"
+      ],
+      "answer": 0,
+      "commentary": "起動時の初期画面パスを指定するには `initialLocation` パラメータを使います。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "赤・緑・青・不透明度の数値からカラーを作成する `Color` のメソッドを選んでください。<br><pre><code>seedColor: Color.___(83, 226, 103, 1)</code></pre>",
+      "options": [
+        "fromRGBO",
+        "fromARGB",
+        "hex",
+        "rgb"
+      ],
+      "answer": 0,
+      "commentary": "Red(赤), Green(緑), Blue(青), Opacity(不透明度) を指定して色を作るには `Color.fromRGBO()` を使います。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "メールアドレスの形式（@の有無や不正な文字がないかなど）を簡単にチェックするために導入したパッケージ名は何ですか？",
+      "options": [
+        "email_validator",
+        "flutter_email_check",
+        "validator_pack",
+        "mail_checker"
+      ],
+      "answer": 0,
+      "commentary": "メールアドレスの形式判定には `email_validator` パッケージを使用します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "メールアドレス検証パッケージをプロジェクトに追加するコマンドです。空欄に入る記述を選んでください。<br><pre><code>flutter pub add ___</code></pre>",
+      "options": [
+        "email_validator",
+        "validator",
+        "check_email",
+        "mail_validation"
+      ],
+      "answer": 0,
+      "commentary": "`flutter pub add email_validator` を実行してパッケージをインストールします。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "ユーザーの入力によってパスワードの伏せ字（表示・非表示）が切り替わるなど、状態（データ）の変化を扱うウィジェットが継承するクラスは何ですか？",
+      "options": [
+        "StatefulWidget",
+        "StatelessWidget",
+        "InheritedWidget",
+        "SingleChildRenderObjectWidget"
+      ],
+      "answer": 0,
+      "commentary": "画面内で変化する状態を扱うUIを作成するときは `StatefulWidget` を継承します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "フォーム全体の入力検証（バリデーション）を一括でコントロールするために作成するキーの記述です。<br><pre><code>final _formKey = GlobalKey<___>();</code></pre>",
+      "options": [
+        "FormState",
+        "FormFieldState",
+        "WidgetState",
+        "ScaffoldState"
+      ],
+      "answer": 0,
+      "commentary": "フォーム全体の検証やリセットを管理するキーは `GlobalKey<FormState>()` で作成します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "パスワード入力欄の文字を隠す（伏せ字にする）かどうかを制御する boolean 型の変数定義です。<br><pre><code>bool ___ = true;</code></pre>",
+      "options": [
+        "_isObscure",
+        "_showPassword",
+        "_isPassword",
+        "_hiddenText"
+      ],
+      "answer": 0,
+      "commentary": "教材では伏せ字（隠す）状態を表すフラグ変数として `bool _isObscure = true;` を定義しています。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "画面の横幅（幅サイズ）を動的に取得するための記述です。空欄に入るコードを選んでください。<br><pre><code>final screenWidth = MediaQuery.of(context).___ .width;</code></pre>",
+      "options": [
+        "size",
+        "display",
+        "screen",
+        "bounds"
+      ],
+      "answer": 0,
+      "commentary": "画面サイズ情報を取得するには `MediaQuery.of(context).size` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "入力欄に枠線（丸みのある四角い枠）をつけるための `InputDecoration` の設定です。<br><pre><code>decoration: InputDecoration(\n  border: ___(\n    borderRadius: BorderRadius.circular(8),\n  ),\n  labelText: 'メールアドレス',\n)</code></pre>",
+      "options": [
+        "OutlineInputBorder",
+        "UnderlineInputBorder",
+        "InputBorder",
+        "RoundedBorder"
+      ],
+      "answer": 0,
+      "commentary": "テキストフィールドの周りを枠線で囲むスタイルには `OutlineInputBorder` を使用します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "入力されたメールアドレス文字列が正当な形式かどうかを `EmailValidator` パッケージで調べるメソッド呼び出しです。<br><pre><code>if (!EmailValidator.___(value)) {\n  return '有効なメールアドレスを入力してください';\n}</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "isValid",
+        "verify"
+      ],
+      "answer": 0,
+      "commentary": "文字列がメールアドレス形式か検証するには `EmailValidator.validate(文字列)` を使います。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "メールアドレス入力欄の `validator` 内で、`value` が空（`\"\"`）のときに返されるテキストは何ですか？<br><pre><code>validator: (value) {\n  if (value == null || value.isEmpty) {\n    return 'メールアドレスを入力してください';\n  }\n  ...\n}</code></pre>",
+      "options": [
+        "'メールアドレスを入力してください'",
+        "'有効なメールアドレスを入力してください'",
+        "null",
+        "エラーは表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`value.isEmpty` 条件が成立するため `'メールアドレスを入力してください'` というエラー文字が返されます。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "メールアドレス入力欄に「abc-example.com」（`@` が含まれない文字）を入力してバリデーションを実行した際、表示されるエラーメッセージは何ですか？",
+      "options": [
+        "'有効なメールアドレスを入力してください'",
+        "'メールアドレスを入力してください'",
+        "'パスワードを入力してください'",
+        "エラーは発生せず通過する"
+      ],
+      "answer": 0,
+      "commentary": "`@` がない不適切な文字列は `EmailValidator.validate()` で `false` と判定されるため、'有効なメールアドレスを入力してください' と表示されます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "入力欄の「右端（末尾）」に目のアイコンボタンを配置するための `InputDecoration` のパラメータは何ですか？<br><pre><code>decoration: InputDecoration(\n  labelText: 'パスワード',\n  ___: IconButton(...),\n)</code></pre>",
+      "options": [
+        "suffixIcon",
+        "prefixIcon",
+        "icon",
+        "trailing"
+      ],
+      "answer": 0,
+      "commentary": "入力フィールドの内側右端にアイコンを置くには `suffixIcon` を指定します。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "次の三項演算子の評価で、`_isObscure` が `true` の場合に表示されるアイコンはどれですか？<br><pre><code>_isObscure ? Icons.visibility_off : Icons.visibility</code></pre>",
+      "options": [
+        "Icons.visibility_off（目が斜線で消えているアイコン）",
+        "Icons.visibility（開いた目のアイコン）",
+        "Icons.lock",
+        "Icons.error"
+      ],
+      "answer": 0,
+      "commentary": "`_isObscure` が `true`（隠し状態）の時は、伏せ字であることを示す `Icons.visibility_off` が選択されます。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "目のアイコンボタンを押したときに、状態を反転させて画面を再描画するための関数呼び出しです。<br><pre><code>onPressed: () {\n  ___(() {\n    _isObscure = !_isObscure;\n  });\n}</code></pre>",
+      "options": [
+        "setState",
+        "updateState",
+        "rebuild",
+        "refresh"
+      ],
+      "answer": 0,
+      "commentary": "StatefulWidgetで変数の値を変更し、UIを更新・再描画するには `setState()` を呼び出します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "TextFormFieldの入力テキストを伏せ字（●●●）表示にするための属性指定は何ですか？<br><pre><code>TextFormField(\n  ___: _isObscure,\n)</code></pre>",
+      "options": [
+        "obscureText",
+        "hideText",
+        "isPassword",
+        "secureText"
+      ],
+      "answer": 0,
+      "commentary": "入力文字をマスク（伏せ字）にするには `obscureText` パラメータに `true` または条件変数を渡します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "初期状態（`_isObscure = true`）でパスワード入力欄に「Secret123」と入力した場合、画面上の入力文字はどのように表示されますか？",
+      "options": [
+        "●●●●●●●●●（伏せ字で隠された表示）",
+        "Secret123（生のテキスト表示）",
+        "空文字",
+        "*****（アスタリスク表示）"
+      ],
+      "answer": 0,
+      "commentary": "`obscureText: true` のため、入力した文字は伏せ字（黒丸など）で隠されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "子ウィジェットの位置を「左寄せ」に揃えて配置するための `Align` の属性指定です。<br><pre><code>Align(\n  alignment: Alignment.___,\n  child: TextButton(...),\n)</code></pre>",
+      "options": [
+        "centerLeft",
+        "topLeft",
+        "bottomLeft",
+        "left"
+      ],
+      "answer": 0,
+      "commentary": "垂直方向中央かつ水平方向左寄せにするには `Alignment.centerLeft` を指定します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "「アカウントを作成する」のようなテキスト形式のシンプルで枠線がないボタンウィジェットは何ですか？<br><pre><code>child: ___(\n  onPressed: () {},\n  child: const Text('アカウントを作成する'),\n)</code></pre>",
+      "options": [
+        "TextButton",
+        "ElevatedButton",
+        "OutlinedButton",
+        "IconButton"
+      ],
+      "answer": 0,
+      "commentary": "背景や明確な影を持たないテキスト表示メインのボタンには `TextButton` を使います。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "ボタンの角を丸めるスタイル（角丸半径16）を適用するための形状指定クラスは何ですか？<br><pre><code>shape: ___(\n  borderRadius: BorderRadius.circular(16),\n)</code></pre>",
+      "options": [
+        "RoundedRectangleBorder",
+        "CircleBorder",
+        "BorderRadius",
+        "OutlineBorder"
+      ],
+      "answer": 0,
+      "commentary": "四角形ボタンの角を丸く指定するには `RoundedRectangleBorder` を使用します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "フォーム全体の入力値を一括でバリデーションチェックし、問題がないか判定するコードです。<br><pre><code>if (_formKey.currentState?.____() ?? false) {\n  // ログイン処理\n}</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "isValid",
+        "verify"
+      ],
+      "answer": 0,
+      "commentary": "フォーム内の各FormFieldの `validator` を一斉実行させるには `_formKey.currentState?.validate()` を呼出します。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "「ログイン」ボタンを押した際、メールアドレス欄が「valid@example.com」、パスワード欄が「password123」と正しく入力されていた場合、`_formKey.currentState?.validate()` が返す値は何ですか？",
+      "options": [
+        "true",
+        "false",
+        "null",
+        "エラーメッセージ文字列"
+      ],
+      "answer": 0,
+      "commentary": "すべてのフィールドのバリデーションを通過した場合、`validate()` は `true` を返します。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "Flutterプロジェクトのコード品質ルールや警告を設定するために修正するYAMLファイル名はどれですか？",
+      "options": [
+        "analysis_options.yaml",
+        "pubspec.yaml",
+        "flutter_lints.yaml",
+        "config.yaml"
+      ],
+      "answer": 0,
+      "commentary": "Dart/Flutterの静的解析（リンター）ルールを設定するファイルは `analysis_options.yaml` です。"
+    },
+    {
+      "id": 32,
+      "type": "文法チェック",
+      "question": "Dartの `Theme.of(context)` からテーマで設定されたプライマリカラーコンテナの色を取得する正解の記述はどれですか？",
+      "options": [
+        "Theme.of(context).colorScheme.primaryContainer",
+        "Theme.of(context).primaryColor",
+        "Theme.colorScheme.primary",
+        "Color.of(context).primaryContainer"
+      ],
+      "answer": 0,
+      "commentary": "ColorSchemeから目的の色を取得するには `Theme.of(context).colorScheme.<カラー名>` を参照します。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "テキストのフォントの太さを「太字」に指定するプロパティ記述です。<br><pre><code>style: TextStyle(\n  fontWeight: FontWeight.___,\n  fontSize: 16,\n)</code></pre>",
+      "options": [
+        "bold",
+        "w400",
+        "heavy",
+        "normal"
+      ],
+      "answer": 0,
+      "commentary": "テキストを太字にするには `FontWeight.bold` を指定します。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "プログラミングコードが標準的なルールやスタイルに従っているかをチェックし、崩れた記述や潜在的なミスを注意してくれる静的解析ツールのことを何と呼びますか？",
+      "options": [
+        "リンター（Linter）",
+        "コンパイラ（Compiler）",
+        "デバッガ（Debugger）",
+        "ビルダー（Builder）"
+      ],
+      "answer": 0,
+      "commentary": "コードの命名規則やスタイルなどの書き方をチェック・統一してくれるルールツールを「リンター」と言います。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "次のコードで `screenWidth * 0.9` を横幅に指定した場合、ボタンの幅はどのような大きさになりますか？<br><pre><code>SizedBox(\n  width: screenWidth * 0.9,\n  child: ElevatedButton(...),\n)</code></pre>",
+      "options": [
+        "画面全体幅の 90% の長さ",
+        "常に 90 ピクセルの長さ",
+        "画面全体の 9% の長さ",
+        "画面サイズに関わらず固定サイズ"
+      ],
+      "answer": 0,
+      "commentary": "`screenWidth`（画面幅）に対して `0.9` を掛けているため、画面横幅の90%（9割）の長さになります。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "ボタンの「影（立体感）」を消してフラットな見た目（影の高さ0）にするための設定パラメータは何ですか？<br><pre><code>ElevatedButton.styleFrom(\n  ___: 0,\n)</code></pre>",
+      "options": [
+        "elevation",
+        "shadow",
+        "depth",
+        "blurRadius"
+      ],
+      "answer": 0,
+      "commentary": "ボタンの影の高さ（シャドウの深さ）を調整するプロパティは `elevation` です。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "入力フォーム全体を囲み、各入力欄（TextFormField）の状態やバリデーションを一括管理する親ウィジェットは何ですか？<br><pre><code>child: ___(\n  key: _formKey,\n  child: Column(...),\n)</code></pre>",
+      "options": [
+        "Form",
+        "FormField",
+        "InputGroup",
+        "TextFieldGroup"
+      ],
+      "answer": 0,
+      "commentary": "複数の入力フィールドをまとめてグループ管理・検証するには `Form` ウィジェットで囲みます。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "Flutterアプリで画面全体（AppBarやBodyなど）の基本的なページレイアウト構造を提供するウィジェットは何ですか？",
+      "options": [
+        "Scaffold",
+        "Container",
+        "MaterialApp",
+        "Center"
+      ],
+      "answer": 0,
+      "commentary": "ヘッダー（AppBar）やボディ（body）を持つ一般的な画面土台を作るには `Scaffold` を使います。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "パスワード入力欄の目のアイコンをタップした際、`setState()` 内で `_isObscure = !_isObscure;` が実行されたとき、画面上で起こる変化として正しいものはどれですか？",
+      "options": [
+        "伏せ字（●●●）と生テキスト（文字表示）の切り替えが行われ、アイコンの形も変わる",
+        "入力したパスワード文字が全消去される",
+        "ログイン処理が即座に実行される",
+        "画面が閉じて前のページに戻る"
+      ],
+      "answer": 0,
+      "commentary": "`_isObscure` の真偽値が反転し、`obscureText` と `suffixIcon` の両方に反映されて表示が切り替わります。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "アプリ開発において「FE」という略称が指している役割・層として正しいものはどれですか？",
+      "options": [
+        "Frontend（フロントエンド：画面やユーザー操作部分）",
+        "File Engine（ファイルエンジン）",
+        "Format Element（フォーマットエレメント）",
+        "Fast Execute（高速実行）"
+      ],
+      "answer": 0,
+      "commentary": "プロジェクト名 `been_shot_fe` の `fe` は「Frontend（フロントエンド）」の略称です。"
+    }
+  ]
 }

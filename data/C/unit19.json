@@ -1,4 +1,525 @@
 {
   "unit_title": "会員登録画面におけるロジックの実装",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "バックエンドのユーザー登録API（`/api/auth/users/`）へ新規アカウント登録をリクエストする際、使用するHTTPメソッドは何ですか？",
+      "options": [
+        "POST",
+        "GET",
+        "PUT",
+        "DELETE"
+      ],
+      "answer": 0,
+      "commentary": "新規リソース（ユーザー情報）をデータベースに追加・登録するためにはPOSTメソッドを使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "会員登録用のモデルクラス `SignupUser` を freezed パッケージを使って定義するコードです。空欄に入るキーワードを選んでください。<br><pre><code>@freezed\nabstract class SignupUser with _$SignupUser {\n  const factory SignupUser({\n    required String ___,\n    required String email,\n    required String password,\n  }) = _SignupUser;\n}</code></pre>",
+      "options": [
+        "username",
+        "name",
+        "user_id",
+        "account_name"
+      ],
+      "answer": 0,
+      "commentary": "会員登録に必要な3つのフィールドは `username`（ユーザー名）、`email`（メールアドレス）、`password`（パスワード）です。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`signup_user.dart` からモデル生成用の自動コードをビルド・作成するための管理コマンドは何ですか？<br><pre><code>dart run ___ build</code></pre>",
+      "options": [
+        "build_runner",
+        "freezed",
+        "generator",
+        "code_builder"
+      ],
+      "answer": 0,
+      "commentary": "freezedなどのコード自動生成ツールを実行するには `dart run build_runner build` コマンドを使用します。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "`SignupUser` モデル作成後に `dart run build_runner build` を実行して成功した場合、`models/` フォルダ配下に生成される2つのファイル名はどれですか？",
+      "options": [
+        "signup_user.freezed.dart と signup_user.g.dart",
+        "signup_user.build.dart と signup_user.json.dart",
+        "signup_user.model.dart と signup_user.service.dart",
+        "signup_user.dart.freezed と signup_user.dart.g"
+      ],
+      "answer": 0,
+      "commentary": "freezedとjson_serializableによって `signup_user.freezed.dart` と `signup_user.g.dart` が作成されます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "会員登録処理を行う `signup()` メソッドの定義です。非同期処理を行うための戻り値の型を選んでください。<br><pre><code>___ <void> signup({\n  required SignupUser signupUser,\n}) async</code></pre>",
+      "options": [
+        "Future",
+        "Stream",
+        "Task",
+        "void"
+      ],
+      "answer": 0,
+      "commentary": "Dioなどを使った非同期通信処理を行うメソッドの戻り値には `Future<戻り値の型>` を指定します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "`AccountService` 内の `signup` メソッドで、会員登録API（`/users/`）へPOST通信を行うコードです。<br><pre><code>final dioClient = DioClient();\nfinal url = '$baseUrl/users/';\nawait dioClient.unauthDio.___\n(\n  url,\n  data: signupUser.toJson(),\n);</code></pre>",
+      "options": [
+        "post",
+        "get",
+        "put",
+        "send"
+      ],
+      "answer": 0,
+      "commentary": "APIのエンドポイントに対してPOSTリクエストを送信するため `post()` メソッドを使用します。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "`signupUser.toJson()` を呼び出して Dio の `post()` に渡した場合、送信されるJSONデータ形式として正しいものはどれですか？",
+      "options": [
+        "{\"username\":\"alice\",\"email\":\"alice@example.com\",\"password\":\"Secret123!\"}",
+        "[\"alice\", \"alice@example.com\", \"Secret123!\"]",
+        "\"alice:alice@example.com:Secret123!\"",
+        "{\"user\": \"alice\"}"
+      ],
+      "answer": 0,
+      "commentary": "モデルの属性値が `username`, `email`, `password` をキーとするJSONオブジェクトに変換されて送信されます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "会員登録ボタンタップ時の処理で、通信中（`_isLoading == true`）にボタンを無効化して二重送信を防ぐための条件分岐コードです。<br><pre><code>onPressed: _isLoading\n    ? ___\n    : () {\n        // 会員登録処理\n      }</code></pre>",
+      "options": [
+        "null",
+        "false",
+        "() {}",
+        "disabled"
+      ],
+      "answer": 0,
+      "commentary": "ボタンの `onPressed` に `null` を指定すると、Flutterのボタンは自動的に非活性（無効化）状態になります。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "`_isLoading` が `true` になっている間、`ElevatedButton` の見た目と動作はどう変化しますか？",
+      "options": [
+        "ボタンが非活性（グレーアウト）表示になり、タップしても何も反応しなくなる（二重送信防止）",
+        "ボタンが画面から消去されて消える",
+        "ボタンをタップすると即座にアプリが再起動する",
+        "ボタンが赤色に点滅する"
+      ],
+      "answer": 0,
+      "commentary": "`onPressed` に `null` がセットされるため、ボタンが無効化され連打による二重送信が防止されます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "アカウント作成成功後、会員登録画面をスタックから置き換えてログイン画面へ遷移（置き換え移動）する GoRouter の記述です。<br><pre><code>await GoRouter.of(context).___(Routes.login);</code></pre>",
+      "options": [
+        "replace",
+        "go",
+        "push",
+        "pop"
+      ],
+      "answer": 0,
+      "commentary": "現在の画面を新しい画面で置換（元の画面に戻れなくする）には `.replace()` メソッドを使用します。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "アカウント作成成功時に `GoRouter.of(context).replace(Routes.login)` を実行する理由として最も適しているものはどれですか？",
+      "options": [
+        "登録完了後にスマホの「戻る」ボタンを押しても、再度会員登録画面に戻ってしまうのを防ぐため",
+        "データベースを初期化するため",
+        "ユーザーのパスワードを消去するため",
+        "画面のテーマをダークモードに変更するため"
+      ],
+      "answer": 0,
+      "commentary": "`replace` を使うことで履歴スタック上の会員登録画面をログイン画面に置き換え、戻る操作で登録画面へ逆戻りするのを防ぎます。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "会員登録が成功したことを画面下部に通知するスナックバーの記述です。<br><pre><code>ScaffoldMessenger.of(context).showSnackBar(\n  const SnackBar(content: Text('___')),\n);</code></pre>",
+      "options": [
+        "アカウントが作成されました",
+        "ログインしました",
+        "会員登録に失敗しました",
+        "エラーが発生しました"
+      ],
+      "answer": 0,
+      "commentary": "登録成功時には「アカウントが作成されました」というメッセージを表示します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "通信エラー発生時、バックエンドから返された HTTP ステータスコードを取得するプロパティです。<br><pre><code>final statusCode = e.response?.___;</code></pre>",
+      "options": [
+        "statusCode",
+        "code",
+        "status",
+        "errorCode"
+      ],
+      "answer": 0,
+      "commentary": "Dioのレスポンスオブジェクトからステータスコードを取り出すには `e.response?.statusCode` を参照します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "入力したユーザー名やメールアドレスが既に存在し、サーバー側でバリデーションエラーとなった際に返される一般的な HTTP ステータスコード数値は何ですか？",
+      "options": [
+        "400（Bad Request）",
+        "200（OK）",
+        "401（Unauthorized）",
+        "500（Internal Server Error）"
+      ],
+      "answer": 0,
+      "commentary": "クライアントからの入力データ不備（重複や不正形式）に対するエラーレスポンスは `400 Bad Request` です。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "サーバーから返されたエラーレスポンス（`errors` JSON）から、ユーザー名に関する最初の主要メッセージを取り出す記述です。<br><pre><code>_invalidUsernameError = (errors['username'] as List?)?.___;</code></pre>",
+      "options": [
+        "first",
+        "last",
+        "get(0)",
+        "primary"
+      ],
+      "answer": 0,
+      "commentary": "エラーメッセージの配列から1番目の要素を取得するには List の `.first` プロパティを使います。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "サーバーから `{\"username\": [\"同じユーザー名が既に登録済みです。\"]}` という400エラーJSONが返ってきた場合、`_invalidUsernameError` に代入される値は何ですか？",
+      "options": [
+        "\"同じユーザー名が既に登録済みです。\"",
+        "[\"同じユーザー名が既に登録済みです。\"]",
+        "\"username\"",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`errors['username']` の配列の最初の要素（`.first`）が取り出されるため、エラー文字列そのものが代入されます。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "`_invalidUsernameError` にエラーメッセージがセットされたとき、`TextFormField` の見た目はどう変化しますか？<br><pre><code>TextFormField(\n  decoration: InputDecoration(\n    labelText: 'ユーザー名',\n    errorText: _invalidUsernameError,\n  ),\n)</code></pre>",
+      "options": [
+        "ユーザー名入力欄の下に赤文字で「同じユーザー名が既に登録済みです。」が表示される",
+        "入力欄が黒く塗りつぶされる",
+        "入力したユーザー名が削除される",
+        "何も変化しない"
+      ],
+      "answer": 0,
+      "commentary": "`InputDecoration` の `errorText` に文字列が渡されると、入力フィールド直下にエラーメッセージが描画されます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "ユーザーがユーザー名入力欄の入力をやり直した際、以前のエラー表示を消去リセットするコードです。<br><pre><code>validator: (value) {\n  setState(() {\n    _invalidUsernameError = ___;\n  });\n}</code></pre>",
+      "options": [
+        "null",
+        "''",
+        "false",
+        "'none'"
+      ],
+      "answer": 0,
+      "commentary": "エラー表示をクリアするには対応する変数を `null` に戻します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "サーバーエラー（400以外の通信エラー）が発生した際にキャッチするブロックの記述です。<br><pre><code>} catch (_) {\n  if (!context.mounted) return;\n  ScaffoldMessenger.of(context).showSnackBar(\n    const SnackBar(content: Text('___')),\n  );\n}</code></pre>",
+      "options": [
+        "予期せぬエラーが発生しました",
+        "会員登録に失敗しました",
+        "成功しました",
+        "ログインしてください"
+      ],
+      "answer": 0,
+      "commentary": "予期せぬ通信障害やネットワークエラー時は「予期せぬエラーが発生しました」と通知します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "成功・失敗のどちらの場合でも、最後（後処理）に必ずローディングフラグを `false` に戻すブロック記述です。<br><pre><code>try {\n  // 会員登録API呼び出し\n} catch (e) {\n  // エラー処理\n} ___ {\n  setState(() {\n    _isLoading = false;\n  });\n}</code></pre>",
+      "options": [
+        "finally",
+        "always",
+        "complete",
+        "after"
+      ],
+      "answer": 0,
+      "commentary": "処理の終わりに確実に実行するブロックは `finally` です。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "非同期処理の途中で画面が破棄されていないかを安全に確認する Flutter のプロパティチェック記述はどれですか？",
+      "options": [
+        "if (!context.mounted) return;",
+        "if (context.isDestroyed) return;",
+        "if (context == null) return;",
+        "if (!mounted.context) return;"
+      ],
+      "answer": 0,
+      "commentary": "BuildContextがまだ生存（有効）しているか調べるには `if (!context.mounted) return;` と書きます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "会員登録ボタンを押した直後に、前回のエラー表示変数をすべてリセットクリアする記述です。<br><pre><code>setState(() {\n  _isLoading = true;\n  _invalidUsernameError = null;\n  _invalidEmailError = null;\n  _invalidPasswordError = ___;\n});</code></pre>",
+      "options": [
+        "null",
+        "''",
+        "false",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "新しく送信を試みる際は、過去のエラー表示（`_invalidPasswordError` 等）を一度すべて `null` に初期化します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "ローディング中（`_isLoading == true`）に会員登録ボタンの内部に表示する進行中ウィジェットは何ですか？<br><pre><code>child: _isLoading\n    ? const SizedBox(\n        width: 20,\n        height: 20,\n        child: ___(),\n      )\n    : const Text('会員登録')</code></pre>",
+      "options": [
+        "CircularProgressIndicator",
+        "LinearProgressIndicator",
+        "LoadingSpinner",
+        "ProgressView"
+      ],
+      "answer": 0,
+      "commentary": "ボタン内に小さなグルグル回転アイコンを表示するため `CircularProgressIndicator` を置きます。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "フォームバリデーションを通過した後、`SignupUser` インスタンスを生成する正しいコードはどれですか？",
+      "options": [
+        "final formData = SignupUser(username: _usernameKey.currentState?.value, email: _emailKey.currentState?.value, password: _passwordKey.currentState?.value);",
+        "final formData = SignupUser(_usernameKey, _emailKey, _passwordKey);",
+        "final formData = SignupUser.fromForm(_formKey);",
+        "final formData = SignupUser(value: _formKey.value);"
+      ],
+      "answer": 0,
+      "commentary": "各 `FormFieldState` のキーから `.currentState?.value` で入力テキスト値を取り出して渡します。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "サーバーから送信されてくる `{\"username\": [\"エラー文\"]}` のようなJSON形式データをFlutterで受け取った際、型キャストして扱うDartの基本データ型は何ですか？",
+      "options": [
+        "Map<String, dynamic>",
+        "List<String>",
+        "String",
+        "Set<dynamic>"
+      ],
+      "answer": 0,
+      "commentary": "JSONオブジェクトはDart内ではキーが文字列の辞書構造である `Map<String, dynamic>` として扱います。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "すでに登録済みのメールアドレス（例: `alice@example.com`）を使って会員登録を申請した場合、サーバーから返されるレスポンスの例として正しいものはどれですか？",
+      "options": [
+        "{\"email\": [\"同じメールアドレスが既に登録済みです。\"]}",
+        "{\"status\": \"ok\"}",
+        "201 Created",
+        "空のレスポンス"
+      ],
+      "answer": 0,
+      "commentary": "重複メールアドレスでの登録時には、400 Bad Request と共に `email` キーでエラー配列が返されます。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "`handleSubmit` 内で、`AccountService` のインスタンスを作って `signup` メソッドを呼び出すコードです。<br><pre><code>final accountService = AccountService();\nawait accountService.___(signupUser: formData);</code></pre>",
+      "options": [
+        "signup",
+        "register",
+        "createUser",
+        "postUser"
+      ],
+      "answer": 0,
+      "commentary": "`AccountService` に定義した会員登録呼び出しメソッド名は `signup()` です。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "`DioException` を補獲してレスポンスデータを取り出す正しいDartの `try-catch` 構文はどれですか？",
+      "options": [
+        "try { ... } on DioException catch (e) { final data = e.response?.data; }",
+        "try { ... } catch (DioException e) { final data = e.data; }",
+        "try { ... } catchDio (e) { final data = e.response; }",
+        "try { ... } except (DioException e) { ... }"
+      ],
+      "answer": 0,
+      "commentary": "特定型の例外を特定して捕まえるには `on 例外型 catch (e)` の構文を使用します。"
+    },
+    {
+      "id": 29,
+      "type": "用語理解",
+      "question": "API通信が失敗した際、原因となったフィールド（ユーザー名、メール、パスワードなど）の真下に個別の警告文章を表示するプロパティは何ですか？",
+      "options": [
+        "InputDecoration の errorText",
+        "InputDecoration の labelText",
+        "Text の style",
+        "SnackBar の content"
+      ],
+      "answer": 0,
+      "commentary": "`TextFormField` の `InputDecoration` に用意されている `errorText` にメッセージを渡すことで、入力枠直下に個別警告を出せます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "メールアドレス入力欄の `TextFormField` にサーバー側からのエラー（`_invalidEmailError`）をバインドするコードです。<br><pre><code>TextFormField(\n  key: _emailKey,\n  decoration: InputDecoration(\n    labelText: 'メールアドレス',\n    ___: _invalidEmailError,\n  ),\n)</code></pre>",
+      "options": [
+        "errorText",
+        "helperText",
+        "hintText",
+        "warningText"
+      ],
+      "answer": 0,
+      "commentary": "サーバー側のバリデーション結果を表示させるには `errorText` プロパティを指定します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "パスワード入力欄の `TextFormField` にサーバー側からのエラー（`_invalidPasswordError`）をバインドするコードです。<br><pre><code>TextFormField(\n  key: _passwordKey,\n  decoration: InputDecoration(\n    labelText: 'パスワード',\n    ___: _invalidPasswordError,\n  ),\n)</code></pre>",
+      "options": [
+        "errorText",
+        "labelText",
+        "displayText",
+        "alarmText"
+      ],
+      "answer": 0,
+      "commentary": "エラーメッセージ表示属性は `errorText` です。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "400 Bad Requestエラー時に `(errors['password'] as List?)?.first` が実行されたとき、`errors['password']` が `[\"このパスワードは短すぎます。\"]` であった場合の返り値は何ですか？",
+      "options": [
+        "\"このパスワードは短すぎます。\"",
+        "[\"このパスワードは短すぎます。\"]",
+        "1",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "リストの最初の要素である文字列 `\"このパスワードは短すぎます。\"` が返されます。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "エラー情報 `errors['password']` が存在しない（`null`）場合、`(errors['password'] as List?)?.first` の評価結果はどうなりますか？",
+      "options": [
+        "null（安全に null が返る）",
+        "エラーが発生してアプリがクラッシュする",
+        "空の文字列（\"\"）が返る",
+        "0 が返る"
+      ],
+      "answer": 0,
+      "commentary": "オプショナルチェイニング演算子 `?.` が使われているため、`null` の場合は安全に `null` が評価結果となります。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "会員登録ボタンのクリックイベント（onPressed）で、入力チェックを通過した後に `handleSubmit` を呼ぶ正解コードはどれですか？",
+      "options": [
+        "if (_formKey.currentState?.validate() ?? false) { final formData = SignupUser(...); handleSubmit(context, formData: formData); }",
+        "if (_formKey.validate()) { handleSubmit(formData); }",
+        "onPressed: handleSubmit(context)",
+        "if (SignupUser.isValid) { handleSubmit(); }"
+      ],
+      "answer": 0,
+      "commentary": "フォームの `validate()` の戻り値を確認後、`SignupUser` オブジェクトを構築して `handleSubmit()` に渡します。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "ネットワーク通信中やAPI応答待ちの間に、ユーザーによる二重タップや画面誤操作を防ぐために画面表示やボタン状態を変更することを何と呼びますか？",
+      "options": [
+        "ローディング状態制御（二重送信防止）",
+        "データバインディング",
+        "ホットリロード",
+        "ビルドランナー"
+      ],
+      "answer": 0,
+      "commentary": "通信中にボタンを非活性（null）にしたりインジケーターを表示したりして制御することを「ローディング状態制御（二重送信防止）」と呼びます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "`screens/signup.dart` 内で自作の `AccountService` を読み込む正しいインポート記述です。<br><pre><code>import '___/services/account.dart';</code></pre>",
+      "options": [
+        "..",
+        ".",
+        "package",
+        "src"
+      ],
+      "answer": 0,
+      "commentary": "現在の `screens/` ディレクトリから1つ上の親ディレクトリに遡るには `..` を指定します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "登録処理で例外が発生し `catch (_)` ブロックへ入ったとき、ユーザーに表示されるスナックバーの文言はどれですか？",
+      "options": [
+        "'予期せぬエラーが発生しました'",
+        "'会員登録に失敗しました'",
+        "'アカウントが作成されました'",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`catch (_)` 内の処理により '予期せぬエラーが発生しました' と通知されます。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "Dartで `Map<String, dynamic>` 型であるかを判定するための `is` 演算子を使った正しい条件文はどれですか？",
+      "options": [
+        "if (data is Map<String, dynamic>)",
+        "if (data == Map<String, dynamic>)",
+        "if (data.type == Map)",
+        "if (data.isMap())"
+      ],
+      "answer": 0,
+      "commentary": "変数の型をチェックするには `data is 型名` 構文を使用します。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "スナックバーメッセージを表示する際に使用するFlutterの標準クラスはどれですか？<br><pre><code>___ .of(context).showSnackBar(...);</code></pre>",
+      "options": [
+        "ScaffoldMessenger",
+        "Scaffold",
+        "SnackBarManager",
+        "OverlayMessenger"
+      ],
+      "answer": 0,
+      "commentary": "スナックバーの表示制御は `ScaffoldMessenger.of(context)` を使って行います。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "会員登録機能において、フロントエンド（Flutter）とバックエンド（Django REST framework）の連携フローとして正しいものはどれですか？",
+      "options": [
+        "1. 入力値バリデーション → 2. APIにPOSTリクエスト送信 → 3. 201成功ならログイン画面へ移動、400ならエラーを画面表示",
+        "1. APIにリクエスト送信 → 2. 入力値バリデーション → 3. アプリを終了する",
+        "1. ログイン画面へ移動 → 2. 入力値バリデーション → 3. データベースを削除する",
+        "1. 201成功ならエラーを表示 → 2. 400なら画面を移動する"
+      ],
+      "answer": 0,
+      "commentary": "まず入力値を画面側で検証し、APIにデータを送信。成功（201）時はログイン画面へ遷移し、失敗（400等）時はエラーを出力します。"
+    }
+  ]
 }

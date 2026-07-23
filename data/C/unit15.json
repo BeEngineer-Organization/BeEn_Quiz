@@ -1,4 +1,525 @@
 {
   "unit_title": "API エンドポイントの定義 - ログイン機能",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "Webサイトが利用者のブラウザに一時的にデータを保存しておくための仕組み（テキストファイル）を何と呼びますか？",
+      "options": [
+        "Cookie",
+        "Session",
+        "Token",
+        "Cache"
+      ],
+      "answer": 0,
+      "commentary": "Cookie（クッキー）は、Webサイトがブラウザ側にデータを保存しておく仕組みのことです。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "サーバー側でログイン状態を保存せず、トークン自体に認証情報を持たせてやり取りする仕組みを何と呼びますか？",
+      "options": [
+        "JWT 認証",
+        "セッション認証",
+        "Basic 認証",
+        "OAuth 認証"
+      ],
+      "answer": 0,
+      "commentary": "JWT（JSON Web Token）認証は、サーバーにセッション情報を持たせずにトークン自体で安全に認証を行う仕組みです。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "アクセスが増えたときに、サーバーの台数を増やすだけで簡単にシステムの処理能力を上げられる性質を何と呼びますか？",
+      "options": [
+        "スケーラブル（スケーラビリティ）",
+        "リファクタリング",
+        "マルチタスク",
+        "ポータビリティ"
+      ],
+      "answer": 0,
+      "commentary": "システムの規模やアクセス拡大に柔軟に対応できる能力のことをスケーラブル（スケーラビリティ）と言います。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "JWT認証で使われる「アクセストークン」の説明として、正しいものはどれですか？",
+      "options": [
+        "ログイン成功時に発行される、APIリクエストの認証に使う有効期限が短いトークン",
+        "有効期限がなく永久に使えるトークン",
+        "新しいアクセストークンを発行するためだけに使われる有効期限が長いトークン",
+        "サーバーのデータベースにログイン情報を保存するためのトークン"
+      ],
+      "answer": 0,
+      "commentary": "アクセストークンはAPI呼び出し時に認証用として送信する短命（有効期限が短い）のトークンです。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "JWT認証で使われる「リフレッシュトークン」の説明として、正しいものはどれですか？",
+      "options": [
+        "アクセストークンの期限が切れた際に、新しいアクセストークンを取得するための長命なトークン",
+        "APIリクエストごとに毎回ヘッダーにつけて送信する短命なトークン",
+        "ユーザーのパスワードを再設定するためだけのトークン",
+        "データベースを初期化するためのトークン"
+      ],
+      "answer": 0,
+      "commentary": "リフレッシュトークンは、有効期限が切れたアクセストークンを新しく再取得するために使われます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "DjangoでJWT認証を扱うためのパッケージ `djangorestframework-simplejwt` をインストールするコマンドです。空欄に入るパッケージ名を選んでください。<br><pre><code>pip install ___</code></pre>",
+      "options": [
+        "djangorestframework-simplejwt",
+        "django-jwt-auth",
+        "rest_framework_jwt",
+        "simple_jwt_django"
+      ],
+      "answer": 0,
+      "commentary": "Django REST frameworkでJWTを簡単に扱う定番パッケージは `djangorestframework-simplejwt` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "インストールしたSimpleJWTを有効化するため、`settings.py` の `INSTALLED_APPS` に追加する文字列を選んでください。<br><pre><code>INSTALLED_APPS = [\n    # ...\n    \"rest_framework\",\n    \"___\",\n]</code></pre>",
+      "options": [
+        "rest_framework_simplejwt",
+        "djangorestframework_simplejwt",
+        "simplejwt",
+        "jwt_authentication"
+      ],
+      "answer": 0,
+      "commentary": "`INSTALLED_APPS` には `\"rest_framework_simplejwt\"` と記述して登録します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`settings.py` で、Django REST frameworkの標準認証方式としてSimpleJWTのクラスを指定する設定です。空欄に入る記述を選んでください。<br><pre><code>REST_FRAMEWORK = {\n    \"DEFAULT_AUTHENTICATION_CLASSES\": (\n        \"___\",\n        \"rest_framework.authentication.SessionAuthentication\",\n    ),\n}</code></pre>",
+      "options": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework_simplejwt.JWTAuth",
+        "django.contrib.auth.JWTAuthentication",
+        "simplejwt.auth.JWTAuthentication"
+      ],
+      "answer": 0,
+      "commentary": "SimpleJWTの認証クラスパスは `rest_framework_simplejwt.authentication.JWTAuthentication` です。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "`settings.py` の `SIMPLE_JWT` 設定で、アクセストークンの有効期限を「10分間」に設定するコードです。空欄に入る記述を選んでください。<br><pre><code>SIMPLE_JWT = {\n    'ACCESS_TOKEN_LIFETIME': timedelta(___=10),\n}</code></pre>",
+      "options": [
+        "minutes",
+        "hours",
+        "days",
+        "seconds"
+      ],
+      "answer": 0,
+      "commentary": "分単位の期間を指定するには `timedelta(minutes=10)` を使用します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "`settings.py` の `SIMPLE_JWT` 設定で、リフレッシュトークンの有効期限を「7日間」に設定するコードです。空欄に入る記述を選んでください。<br><pre><code>SIMPLE_JWT = {\n    'REFRESH_TOKEN_LIFETIME': timedelta(___=7),\n}</code></pre>",
+      "options": [
+        "days",
+        "weeks",
+        "hours",
+        "minutes"
+      ],
+      "answer": 0,
+      "commentary": "日単位の期間を指定するには `timedelta(days=7)` を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`accounts/urls.py` で、SimpleJWTが提供するビューをインポートする正しい記述を選んでください。<br><pre><code>from ___ import (\n    TokenObtainPairView,\n    TokenRefreshView,\n    TokenVerifyView,\n)</code></pre>",
+      "options": [
+        "rest_framework_simplejwt.views",
+        "rest_framework.jwt_views",
+        "django.contrib.auth.jwt",
+        "simplejwt.views"
+      ],
+      "answer": 0,
+      "commentary": "トークン操作用ビューは `rest_framework_simplejwt.views` からインポートします。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "ログインしてトークンを発行するためのルーティング記述です。空欄に入るビュークラスを選んでください。<br><pre><code>urlpatterns = [\n    path(\"token/\", ___ .as_view(), name=\"token_obtain_pair\"),\n]</code></pre>",
+      "options": [
+        "TokenObtainPairView",
+        "TokenRefreshView",
+        "TokenVerifyView",
+        "JWTLoginView"
+      ],
+      "answer": 0,
+      "commentary": "ユーザー認証を行ってアクセストークンとリフレッシュトークンを発行するビューは `TokenObtainPairView` です。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "リフレッシュトークンを使って新しいアクセストークンを再発行するルーティング記述です。空欄に入るビュークラスを選んでください。<br><pre><code>urlpatterns = [\n    path(\"token/refresh/\", ___ .as_view(), name=\"token_refresh\"),\n]</code></pre>",
+      "options": [
+        "TokenRefreshView",
+        "TokenObtainPairView",
+        "TokenVerifyView",
+        "JWTRefreshView"
+      ],
+      "answer": 0,
+      "commentary": "リフレッシュトークンを受け取って新しいアクセストークンを返すビューは `TokenRefreshView` です。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "トークンが有効期限内かどうかを検証するルーティング記述です。空欄に入るビュークラスを選んでください。<br><pre><code>urlpatterns = [\n    path(\"token/verify/\", ___ .as_view(), name=\"token_verify\"),\n]</code></pre>",
+      "options": [
+        "TokenVerifyView",
+        "TokenObtainPairView",
+        "TokenRefreshView",
+        "JWTCheckView"
+      ],
+      "answer": 0,
+      "commentary": "トークンの有効性をチェックするビューは `TokenVerifyView` です。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`/api/auth/token/` エンドポイントに対し、正しいメールアドレスとパスワードをPOST送信したとき、返されるJSONデータに含まれるプロパティ（鍵）の組み合わせはどれですか？",
+      "options": [
+        "\"access\" と \"refresh\"",
+        "\"username\" と \"password\"",
+        "\"session_id\" と \"cookie\"",
+        "\"token_type\" のみ"
+      ],
+      "answer": 0,
+      "commentary": "ログイン成功時には `access`（アクセストークン）と `refresh`（リフレッシュトークン）のペアが返されます。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "`/api/auth/token/refresh/` エンドポイントに対し、有効なリフレッシュトークンをPOST送信したとき、成功レスポンスとして返ってくるJSONデータはどれですか？",
+      "options": [
+        "{\"access\": \"（新しいアクセストークン）\"}",
+        "{\"refresh\": \"（新しいリフレッシュトークン）\"}",
+        "{\"status\": \"ok\"}",
+        "空のレスポンス（{}）"
+      ],
+      "answer": 0,
+      "commentary": "リフレッシュエンドポイントに有効なリフレッシュトークンを送ると、再発行された `access` トークンが返ってきます。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "`/api/auth/token/verify/` エンドポイントに対し、有効なアクセストークンをPOST送信して検証が成功した場合、返ってくるレスポンスJSONの内容はどうなりますか？",
+      "options": [
+        "{}（空のJSONオブジェクト）",
+        "{\"valid\": true}",
+        "{\"status\": 200}",
+        "ユーザーのユーザー名とメールアドレス"
+      ],
+      "answer": 0,
+      "commentary": "トークン検証が成功（有効）した場合、`TokenVerifyView` は空のJSONオブジェクト `{}` とステータス200を返します。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "`/api/auth/token/` エンドポイントに対し、間違ったパスワードをPOST送信した場合に返ってくるレスポンスJSONはどれですか？",
+      "options": [
+        "{\"detail\":\"No active account found with the given credentials\"}",
+        "{\"detail\":\"Token is invalid\",\"code\":\"token_not_valid\"}",
+        "{\"error\":\"Wrong Password\"}",
+        "{\"status\": 500}"
+      ],
+      "answer": 0,
+      "commentary": "認証情報（メールアドレスやパスワード）が正しくない場合、「No active account found...」というメッセージが返されます。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "`/api/auth/token/refresh/` に期限切れや無効な文字列のリフレッシュトークンを送信した場合に返ってくるレスポンスJSONはどれですか？",
+      "options": [
+        "{\"detail\":\"Token is invalid\",\"code\":\"token_not_valid\"}",
+        "{\"detail\":\"No active account found with the given credentials\"}",
+        "{\"access\": null}",
+        "何も返ってこない"
+      ],
+      "answer": 0,
+      "commentary": "無効なトークンを送った場合は `{\"detail\":\"Token is invalid\",\"code\":\"token_not_valid\"}` エラーが返ります。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "クライアントがAPIリクエストを送る際、HTTPヘッダーにアクセストークンを添付する標準的な記述です。空欄に入るキーワードを選んでください。<br><pre><code>Authorization: ___ &lt;access-token&gt;</code></pre>",
+      "options": [
+        "Bearer",
+        "Token",
+        "JWT",
+        "Basic"
+      ],
+      "answer": 0,
+      "commentary": "JWTを送信する際の `Authorization` ヘッダーのスキームは `Bearer <トークン>` と記述します。"
+    },
+    {
+      "id": 21,
+      "type": "用語理解",
+      "question": "JWTの構造を構成する3つの要素の正しい組み合わせはどれですか？",
+      "options": [
+        "ヘッダー、ペイロード、署名",
+        "ユーザー名、パスワード、暗号キー",
+        "タイトル、本文、フッター",
+        "Cookie、セッション、キャッシュ"
+      ],
+      "answer": 0,
+      "commentary": "JWTは「ヘッダー」「ペイロード」「署名」の3つの部分で構成されています。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "JWTの文字列 `eyJhbGci... . eyJzdWIi... . dBjftJeZ...` のように、3つの構成要素をつなぐ区切り記号は何ですか？",
+      "options": [
+        ". (ドット)",
+        "- (ハイフン)",
+        "/ (スラッシュ)",
+        ": (コロン)"
+      ],
+      "answer": 0,
+      "commentary": "JWTのヘッダー、ペイロード、署名はそれぞれエンコードされ、ドット（`.`）で連結されます。"
+    },
+    {
+      "id": 23,
+      "type": "用語理解",
+      "question": "JWTの「ヘッダー（Header）」に含まれる情報として正しいものはどれですか？",
+      "options": [
+        "署名アルゴリズム（alg）やトークンの種類（typ）",
+        "ユーザーID（sub）や有効期限（exp）",
+        "秘密鍵で暗号化されたハッシュ値",
+        "データベースのテーブル名"
+      ],
+      "answer": 0,
+      "commentary": "ヘッダーには、アルゴリズム（例: HS256）やトークンのタイプ（JWT）などの管理情報が入ります。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "JWTの「ペイロード（Payload）」に含まれる情報として正しいものはどれですか？",
+      "options": [
+        "ユーザーIDや権限、発行時刻、有効期限などの本体データ",
+        "使用している署名アルゴリズム名",
+        "サーバーの秘密鍵そのもの",
+        "HTMLやCSSのデータ"
+      ],
+      "answer": 0,
+      "commentary": "ペイロードには、トークンの主体（ユーザー情報）や有効期限（exp）など伝送したい本体データが入ります。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "JWTの「署名（Signature）」の役割として、最も適切な説明はどれですか？",
+      "options": [
+        "ヘッダーとペイロードが途中で書き換えられていないか（改ざんされていないか）を検証・保証する",
+        "トークンの文字列を圧縮して短くする",
+        "パスワードを自動生成して保存する",
+        "ブラウザのCookieにデータを書き込む"
+      ],
+      "answer": 0,
+      "commentary": "署名はサーバーの秘密鍵を使って作成され、データが改ざんされていないかをチェックするために使われます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "curlコマンドを使って `/api/auth/token/` にログインリクエストを送るコードです。空欄に入るHTTPメソッドオプションを選んでください。<br><pre><code>curl ___ POST http://127.0.0.1:8000/api/auth/token/ \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"email\":\"alice@example.com\",\"password\":\"Secret123!\"}'</code></pre>",
+      "options": [
+        "-X",
+        "-M",
+        "-H",
+        "-d"
+      ],
+      "answer": 0,
+      "commentary": "curlでHTTPリクエストメソッドを指定するフラグは `-X` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "curlコマンドで送信するJSONデータを指定するオプションは何ですか？<br><pre><code>curl -X POST http://127.0.0.1:8000/api/auth/token/ \\\n  -H 'Content-Type: application/json' \\\n  ___ '{\"email\":\"alice@example.com\",\"password\":\"Secret123!\"}'</code></pre>",
+      "options": [
+        "-d",
+        "-j",
+        "-p",
+        "-b"
+      ],
+      "answer": 0,
+      "commentary": "送信するリクエストボディ（データ）を指定するフラグは `-d`（または `--data`）です。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "JWTのペイロードで「有効期限（Expiration Time）」を表す標準のキー名は何ですか？",
+      "options": [
+        "exp",
+        "expire_at",
+        "limit",
+        "timeout"
+      ],
+      "answer": 0,
+      "commentary": "JWTの予約クレーム（標準プロパティ）で有効期限を表すキーは `exp` です。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "JWTのペイロードで「発行時刻（Issued At）」を表す標準のキー名は何ですか？",
+      "options": [
+        "iat",
+        "created_at",
+        "issue_time",
+        "start"
+      ],
+      "answer": 0,
+      "commentary": "発行時刻を表す標準キーは `iat`（Issued At）です。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "従来の「セッション認証」と比べたときの「JWT認証」のメリットとして適切なものはどれですか？",
+      "options": [
+        "サーバー側にログイン状態を保持しないため、モバイルアプリや複数サーバー環境でも扱いやすく拡張しやすい",
+        "データベースが完全に不要になる",
+        "ユーザーがパスワードを覚える必要がなくなる",
+        "通信速度が100倍速くなる"
+      ],
+      "answer": 0,
+      "commentary": "JWT認証はステートレス（サーバー側に状態を持たない）であるため、モバイルアプリとの連携やサーバーの増設（スケールアウト）が容易です。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "`SIMPLE_JWT` 設定で、時間差分を計算・指定するためにインポートするPython標準モジュールは何ですか？<br><pre><code>from datetime import ___</code></pre>",
+      "options": [
+        "timedelta",
+        "datetime",
+        "time",
+        "timezone"
+      ],
+      "answer": 0,
+      "commentary": "期間（10分、7日間など）を表現するには `datetime` モジュールの `timedelta` クラスを使用します。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "アクセストークンの有効期限が切れた状態で、APIサーバーにリクエストを送った場合、サーバーから返される一般的な応答はどうなりますか？",
+      "options": [
+        "認証エラー（401 Unauthorized）が返され、リクエストが拒否される",
+        "自動的に新しいアクセストークンが作成されて成功する",
+        "500 Server Error が発生する",
+        "サーバーのデータベースからユーザーが削除される"
+      ],
+      "answer": 0,
+      "commentary": "アクセストークンが期限切れの場合、認証が通らず 401 Unauthorized エラーになります。クライアントはリフレッシュトークンを使って更新する必要があります。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "`accounts/urls.py` 内のルーティング設定で、`TokenObtainPairView` に対応させる正解コードはどれですか？",
+      "options": [
+        "path(\"token/\", TokenObtainPairView.as_view(), name=\"token_obtain_pair\")",
+        "path(\"token/\", TokenObtainPairView, name=\"token_obtain_pair\")",
+        "path(\"token/\", TokenObtainPairView.run(), name=\"token_obtain_pair\")",
+        "path(\"token/\", views(TokenObtainPairView), name=\"token_obtain_pair\")"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをURLパターンに登録するには、必ず `.as_view()` メソッドを呼び出します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "curlコマンドでAPIに送信するコンテンツタイプを「JSON形式」と宣言するヘッダーの指定記述です。<br><pre><code>-H 'Content-Type: ___'</code></pre>",
+      "options": [
+        "application/json",
+        "text/html",
+        "multipart/form-data",
+        "application/x-www-form-urlencoded"
+      ],
+      "answer": 0,
+      "commentary": "JSON形式のデータを送る際は `Content-Type: application/json` を指定します。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "セッション認証において、サーバーが生成してクライアントのブラウザへ送信し、ログイン中のユーザーを判別するための識別子を何と呼びますか？",
+      "options": [
+        "セッション ID",
+        "アクセストークン",
+        "リフレッシュトークン",
+        "API キー"
+      ],
+      "answer": 0,
+      "commentary": "セッション認証では、サーバーが生成した「セッション ID」をCookie等でやり取りしてユーザーを識別します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "JWTの検証プロセスで、サーバーが受け取ったトークンに対して最初に行う操作はどれですか？",
+      "options": [
+        "トークン文字列をドット（`.`）で分割する",
+        "データベースの全ユーザーを検索する",
+        "新しいリフレッシュトークンを発行する",
+        "クライアントにログイン画面を送信する"
+      ],
+      "answer": 0,
+      "commentary": "検証の最初の手順として、トークン文字列をドット（`.`）で3つの部分（ヘッダー、ペイロード、署名）に分割します。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "curlコマンドで、リフレッシュトークンを使ってアクセストークンを再取得する正しいPOST送信コードはどれですか？",
+      "options": [
+        "curl -X POST http://127.0.0.1:8000/api/auth/token/refresh/ -H 'Content-Type: application/json' -d '{\"refresh\":\"(トークン)\"}'",
+        "curl -X GET http://127.0.0.1:8000/api/auth/token/refresh/ -d 'refresh=(トークン)'",
+        "curl -X POST http://127.0.0.1:8000/api/auth/token/ -d '{\"token\":\"(トークン)\"}'",
+        "curl http://127.0.0.1:8000/api/auth/token/refresh/ --get"
+      ],
+      "answer": 0,
+      "commentary": "`/api/auth/token/refresh/` に対して `-d '{\"refresh\":\"...\"}'` をPOST送信するのが正しい手順です。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "インストールされているパッケージ一覧を `requirements.txt` に出力・保存するコマンドを選んでください。<br><pre><code>pip ___ > requirements.txt</code></pre>",
+      "options": [
+        "freeze",
+        "list",
+        "save",
+        "export"
+      ],
+      "answer": 0,
+      "commentary": "現在の環境のパッケージ一覧をファイルに書き出すには `pip freeze > requirements.txt` を使用します。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "「ステートレス（無状態）」な認証に関する説明として正しいものはどれですか？",
+      "options": [
+        "サーバー側がクライアントのログイン状態（セッション）を保持せず、各リクエストに含まれるトークンのみで認証すること",
+        "ネットワークに接続せずにローカルだけで認証を完結させること",
+        "データベースを一切使用せずにユーザーを登録すること",
+        "ログイン状態が1秒ごとにリセットされること"
+      ],
+      "answer": 0,
+      "commentary": "ステートレスとは、サーバー側で状態（セッション情報）を持たず、送られてきたトークン情報だけでリクエストごとに認証を行う仕組みです。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "`TokenVerifyView` に送るJSONのデータ構造で、検証対象のトークンを指定するための正解のキー名は何ですか？",
+      "options": [
+        "\"token\"",
+        "\"access_token\"",
+        "\"key\"",
+        "\"auth\""
+      ],
+      "answer": 0,
+      "commentary": "`TokenVerifyView`（`/api/auth/token/verify/`）には `{\"token\": \"(検証したいトークン)\"}` という形式でデータを送ります。"
+    }
+  ]
 }

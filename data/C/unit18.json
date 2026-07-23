@@ -1,4 +1,525 @@
 {
   "unit_title": "会員登録画面の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "会員登録画面へのパス名を定数として定義するコードです。空欄に入る文字列は何ですか？<br><pre><code>abstract class Routes {\n  static const login = '/login';\n  static const signup = '___';\n}</code></pre>",
+      "options": [
+        "/signup",
+        "/register",
+        "signup",
+        "/user/signup"
+      ],
+      "answer": 0,
+      "commentary": "会員登録画面（`SignupPage`）へのルーターパスとして `'/signup'` を指定します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` で会員登録画面へのルーティングを追加するコードです。空欄に入るキーワードを選んでください。<br><pre><code>GoRoute(\n  path: Routes.signup,\n  builder: (ctx, state) => const ___(),\n),</code></pre>",
+      "options": [
+        "SignupPage",
+        "LoginPage",
+        "RegisterPage",
+        "UserPage"
+      ],
+      "answer": 0,
+      "commentary": "`Routes.signup` パスに対応する画面ウィジェットとして `SignupPage()` を指定します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "GoRouter を使って「アカウントを作成する」ボタンから会員登録画面へ遷移するコードです。空欄に入るメソッドは何ですか？<br><pre><code>onPressed: () {\n  context.___(Routes.signup);\n}</code></pre>",
+      "options": [
+        "go",
+        "push",
+        "navigate",
+        "to"
+      ],
+      "answer": 0,
+      "commentary": "GoRouter で指定したパスの画面へ遷移するには `context.go(パス)` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "ログイン画面で「アカウントを作成する」ボタンを押し、`context.go(Routes.signup)` が実行されたとき、何が起きますか？",
+      "options": [
+        "画面が会員登録画面（`/signup`）に切り替わる",
+        "アプリが終了する",
+        "ログイン処理が即座に実行される",
+        "エラーメッセージが表示される"
+      ],
+      "answer": 0,
+      "commentary": "`context.go(Routes.signup)` が実行されると、会員登録画面に画面が遷移します。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "GoRouter で画面遷移を行う際、`context.go()` の引数として渡すものは何ですか？",
+      "options": [
+        "画面に対応するパス（URL文字列）",
+        "Widget オブジェクトのインスタンス",
+        "BuildContext オブジェクト",
+        "データベースのユーザーID"
+      ],
+      "answer": 0,
+      "commentary": "`context.go()` には遷移先画面のパス（`'/signup'` など）を文字列または定数で渡します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "会員登録画面の初期定義（`StatelessWidget`版）です。空欄に入る適切な記述を選んでください。<br><pre><code>class SignupPage extends ___ {\n  const SignupPage({super.key});\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(...);\n  }\n}</code></pre>",
+      "options": [
+        "StatelessWidget",
+        "StatefulWidget",
+        "Widget",
+        "Container"
+      ],
+      "answer": 0,
+      "commentary": "初期状態として状態を持たない単純な画面ウィジェットを作る場合、`StatelessWidget` を継承します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "入力フォームや伏せ字のオン/オフなど、変化する UI（状態）を扱うために `SignupPage` が継承するクラスは何ですか？<br><pre><code>class SignupPage extends ___ {\n  const SignupPage({super.key});\n\n  @override\n  State&lt;SignupPage&gt; createState() =&gt; _SignupPageState();\n}</code></pre>",
+      "options": [
+        "StatefulWidget",
+        "StatelessWidget",
+        "InheritedWidget",
+        "FormWidget"
+      ],
+      "answer": 0,
+      "commentary": "フォームの入力状態や切り替えフラグを管理するため、`StatefulWidget` を継承して実装します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "フォーム全体のバリデーションを管理するためのキーを定義する記述です。空欄に入る型名は何ですか？<br><pre><code>final _formKey = GlobalKey&lt;___&gt;();</code></pre>",
+      "options": [
+        "FormState",
+        "FormFieldState",
+        "WidgetState",
+        "ScaffoldState"
+      ],
+      "answer": 0,
+      "commentary": "フォーム全体の検証（`validate()`）をまとめるキーには `GlobalKey<FormState>()` を使います。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "ユーザー名入力フィールド個別のキーを定義する記述です。空欄に入る型名は何ですか？<br><pre><code>final _usernameKey = GlobalKey&lt;___&gt;();</code></pre>",
+      "options": [
+        "FormFieldState",
+        "FormState",
+        "InputState",
+        "TextState"
+      ],
+      "answer": 0,
+      "commentary": "個々の入力フィールドを識別・管理するキーには `GlobalKey<FormFieldState>()` を使います。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "ユーザー名入力欄（`TextFormField`）のバリデーション記述です。空欄に入るメソッドは何ですか？<br><pre><code>validator: (value) {\n  if (value == null || value.___)\n {\n    return 'ユーザー名を入力してください';\n  }\n  return null;\n}</code></pre>",
+      "options": [
+        "isEmpty",
+        "isNull",
+        "clear",
+        "blank"
+      ],
+      "answer": 0,
+      "commentary": "文字列が空（0文字）かどうかを確かめるには `.isEmpty` プロパティを使います。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "ユーザー名入力欄に何も入力せずに会員登録ボタンを押した場合、画面には何が表示されますか？",
+      "options": [
+        "入力欄の下に「ユーザー名を入力してください」というエラーメッセージが表示される",
+        "「メールアドレスを入力してください」と表示される",
+        "何も起こらず成功する",
+        "アプリが強制終了する"
+      ],
+      "answer": 0,
+      "commentary": "`value.isEmpty` 条件が成立するため、'ユーザー名を入力してください' というエラー文が表示されます。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "ユーザー名入力欄に「たろう」と入力してバリデーションを実行した際、`validator` から返される値は何ですか？<br><pre><code>validator: (value) {\n  if (value == null || value.isEmpty) {\n    return 'ユーザー名を入力してください';\n  }\n  return null;\n}</code></pre>",
+      "options": [
+        "null",
+        "'ユーザー名を入力してください'",
+        "'たろう'",
+        "true"
+      ],
+      "answer": 0,
+      "commentary": "入力値が空でないため `if` 条件を通過し、エラーなしを示す `null` が返されます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "メールアドレス入力欄で、メールのフォーマットが正しいかを外部ライブラリで判定するコードです。<br><pre><code>if (!EmailValidator.___(value)) {\n  return '有効なメールアドレスを入力してください';\n}</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "isValid",
+        "verify"
+      ],
+      "answer": 0,
+      "commentary": "`email_validator` パッケージの `EmailValidator.validate(value)` を使用して形式チェックを行います。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "会員登録画面のメールアドレス欄に「test-example.com」（@マークなし）を入力して送信しようとした際、表示されるエラーは何ですか？",
+      "options": [
+        "「有効なメールアドレスを入力してください」",
+        "「メールアドレスを入力してください」",
+        "「パスワードを入力してください」",
+        "エラーメッセージは出ない"
+      ],
+      "answer": 0,
+      "commentary": "@マークのない不正なメール形式は `EmailValidator.validate()` で偽となり、「有効なメールアドレスを入力してください」と表示されます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "パスワードが「6文字以上」入力されているかをチェックするバリデーション条件のコードです。<br><pre><code>if (value.___ < 6) {\n  return 'パスワードは6文字以上で設定してください';\n}</code></pre>",
+      "options": [
+        "length",
+        "size",
+        "count",
+        "countText"
+      ],
+      "answer": 0,
+      "commentary": "文字列の長さ（文字数）を取得するには `.length` プロパティを使います。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "パスワード入力欄に「12345」（5文字）と入力して会員登録ボタンを押した場合、どのようなエラーが表示されますか？",
+      "options": [
+        "「パスワードは6文字以上で設定してください」",
+        "「パスワードを入力してください」",
+        "「ユーザー名を入力してください」",
+        "エラーは表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`value.length < 6`（5 < 6）が成立するため、「パスワードは6文字以上で設定してください」が表示されます。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "パスワード入力欄に「pass123」（7文字）と入力してバリデーションを行った場合、文字数チェック（`value.length < 6`）の結果はどうなりますか？",
+      "options": [
+        "条件式は false となり、文字数制限エラーは発生しない",
+        "条件式は true となり、エラーが表示される",
+        "null エラーが発生する",
+        "自動的に 6 文字に削られる"
+      ],
+      "answer": 0,
+      "commentary": "7文字は6文字以上のため `value.length < 6` は `false` となり、エラーは発生しません。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "パスワード入力欄の伏せ字フラグ（`_isObscure`）の値を真偽反転させるコードです。<br><pre><code>onPressed: () {\n  setState(() {\n    _isObscure = ___;\n  });\n}</code></pre>",
+      "options": [
+        "!_isObscure",
+        "false",
+        "true",
+        "_isObscure == false"
+      ],
+      "answer": 0,
+      "commentary": "現在の boolean 値（true / false）を反転させるには否定演算子 `!` を使って `!_isObscure` と書きます。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "`_isObscure` が `false`（パスワードが表示されている状態）のとき、目のアイコンボタンを押すと状態はどう変化しますか？<br><pre><code>setState(() {\n  _isObscure = !_isObscure;\n});</code></pre>",
+      "options": [
+        "`_isObscure` が `true` になり、パスワードが伏せ字（●●●）に隠される",
+        "`_isObscure` は `false` のまま変化しない",
+        "入力欄の内容が削除される",
+        "ログイン画面へリダイレクトされる"
+      ],
+      "answer": 0,
+      "commentary": "`!false` は `true` になるため、パスワード入力欄がマスク（伏せ字）状態に戻ります。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "パスワード入力欄の右端に表示する「目のアイコン」の切り替え処理です。空欄に入るプロパティ名は何ですか？<br><pre><code>_isObscure\n    ? Icons.___ \n    : Icons.visibility</code></pre>",
+      "options": [
+        "visibility_off",
+        "visibility_none",
+        "lock",
+        "eye_off"
+      ],
+      "answer": 0,
+      "commentary": "文字が非表示（隠されている）状態のときは、斜線付きの目のアイコン `Icons.visibility_off` を使用します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "会員登録画面内にある「ログインする」テキストリンクを押したとき、ログイン画面へ移動するコードです。<br><pre><code>child: TextButton(\n  onPressed: () {\n    context.go(___);\n  },\n  child: const Text('ログインする'),\n)</code></pre>",
+      "options": [
+        "Routes.login",
+        "Routes.signup",
+        "'/home'",
+        "'/index'"
+      ],
+      "answer": 0,
+      "commentary": "ログイン画面へのルーターパス定数 `Routes.login` を指定して移動します。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "会員登録画面で「ログインする」ボタンをタップした際、アプリの表示画面はどうなりますか？",
+      "options": [
+        "ログイン画面（`/login`）へ切り替わる",
+        "会員登録が即座に完了する",
+        "入力データがリセットされる",
+        "画面の上部に警告ダイアログが出る"
+      ],
+      "answer": 0,
+      "commentary": "`context.go(Routes.login)` が実行され、ログイン画面へ切り替わります。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "「会員登録」ボタン（`ElevatedButton`）を押したときに、全入力項目のバリデーションを一括実行するコードです。<br><pre><code>onPressed: () {\n  if (_formKey.currentState?.___() ?? false) {}\n}</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "isValid",
+        "verify"
+      ],
+      "answer": 0,
+      "commentary": "Formに属する全ての入力フィールドの検証を動かすには `_formKey.currentState?.validate()` を呼び出します。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "`TextFormField` で、角丸（半径8）の枠線スタイルを正しく適用する記述はどれですか？",
+      "options": [
+        "border: OutlineInputBorder(borderRadius: BorderRadius.circular(8))",
+        "border: Border.all(radius: 8)",
+        "border: RoundedBorder(8)",
+        "border: InputDecoration.border(8)"
+      ],
+      "answer": 0,
+      "commentary": "`InputDecoration` 内の `border` には `OutlineInputBorder(borderRadius: BorderRadius.circular(8))` をセットします。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "入力枠（TextFormField）の上に表示するラベルテキスト（見出し）を設定する属性名は何ですか？<br><pre><code>decoration: InputDecoration(\n  ___: 'ユーザー名',\n)</code></pre>",
+      "options": [
+        "labelText",
+        "hintText",
+        "title",
+        "header"
+      ],
+      "answer": 0,
+      "commentary": "入力フィールドにラベル文字を表示させるプロパティは `labelText` です。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "パスワード入力欄の末尾に「目のアイコンボタン」を追加するための `InputDecoration` のパラメータ名は何ですか？<br><pre><code>decoration: InputDecoration(\n  labelText: 'パスワード',\n  ___: IconButton(...),\n)</code></pre>",
+      "options": [
+        "suffixIcon",
+        "prefixIcon",
+        "trailingIcon",
+        "icon"
+      ],
+      "answer": 0,
+      "commentary": "入力フィールド内右側のアイコンには `suffixIcon` を指定します。"
+    },
+    {
+      "id": 27,
+      "type": "文法チェック",
+      "question": "Flutterで `TextFormField` の入力文字を隠す（伏せ字にする）正しいパラメータ記述はどれですか？",
+      "options": [
+        "obscureText: _isObscure",
+        "hideText: _isObscure",
+        "isPassword: true",
+        "secureText: true"
+      ],
+      "answer": 0,
+      "commentary": "テキストの隠蔽（伏せ字）表示の指定は `obscureText: 真偽値` です。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "会員登録機能で、サーバーへの送信前に入力データ（ユーザー名、メール、パスワード）に不備がないかアプリ側で確認する処理を何と呼びますか？",
+      "options": [
+        "バリデーション（入力検証）",
+        "エンコード",
+        "ルーティング",
+        "シリアライズ"
+      ],
+      "answer": 0,
+      "commentary": "入力されたデータが必要な条件や形式を満たしているかチェックすることを「バリデーション」と呼びます。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "ユーザー名「taro」、メール「taro@example.com」、パスワード「secret123」を正しく入力して会員登録ボタンを押した場合、`_formKey.currentState?.validate()` が返す値は何ですか？",
+      "options": [
+        "true",
+        "false",
+        "null",
+        "エラーメッセージ"
+      ],
+      "answer": 0,
+      "commentary": "すべてのフィールドのバリデーションチェックを合格（問題なし）で通過すると `true` が返されます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "会員登録ボタンの横幅を画面の90%（`screenWidth * 0.9`）に広げるための親ウィジェットは何ですか？<br><pre><code>___(\n  width: screenWidth * 0.9,\n  child: ElevatedButton(...),\n)</code></pre>",
+      "options": [
+        "SizedBox",
+        "Container",
+        "Padding",
+        "Align"
+      ],
+      "answer": 0,
+      "commentary": "子ウィジェットの幅や高さをピンポイントで固定・制限するには `SizedBox` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "ボタンのスタイル設定で、ボタンの四角い影（立体感）をフラット（影なし）にするコードです。<br><pre><code>ElevatedButton.styleFrom(\n  ___: 0,\n)</code></pre>",
+      "options": [
+        "elevation",
+        "shadow",
+        "depth",
+        "flat"
+      ],
+      "answer": 0,
+      "commentary": "ボタンのシャドウ標高（影の高さ）を0にして平らにするには `elevation: 0` を指定します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "アプリのテーマカラーからコンテナ用のメイン背景色を取得するコードです。<br><pre><code>backgroundColor: Theme.of(context).colorScheme.___</code></pre>",
+      "options": [
+        "primaryContainer",
+        "primaryColor",
+        "secondaryContainer",
+        "surface"
+      ],
+      "answer": 0,
+      "commentary": "ColorSchemeから主要コンテナカラーを取得するには `primaryContainer` を参照します。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "ボタン内の文字を「太字」にするための `TextStyle` 設定です。<br><pre><code>style: TextStyle(\n  fontWeight: FontWeight.___,\n  fontSize: 16,\n)</code></pre>",
+      "options": [
+        "bold",
+        "w400",
+        "normal",
+        "heavy"
+      ],
+      "answer": 0,
+      "commentary": "テキストを太字にするには `FontWeight.bold` を指定します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Flutterの `routes.dart` で、新規に `SignupPage` のルートを登録する正しい記述はどれですか？",
+      "options": [
+        "GoRoute(path: Routes.signup, builder: (ctx, state) => const SignupPage())",
+        "GoRoute(url: Routes.signup, page: SignupPage())",
+        "Route(path: '/signup', widget: SignupPage())",
+        "GoRoute(Routes.signup, const SignupPage())"
+      ],
+      "answer": 0,
+      "commentary": "`GoRoute` のパラメータには `path:` と `builder: (ctx, state) => ウィジェット` を指定します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ヘッダータイトルに「会員登録」と表示する `AppBar` の記述です。<br><pre><code>appBar: AppBar(\n  title: const Text('___'),\n)</code></pre>",
+      "options": [
+        "会員登録",
+        "ログイン",
+        "マイページ",
+        "設定"
+      ],
+      "answer": 0,
+      "commentary": "会員登録画面のヘッダータイトルとして「会員登録」を表示します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "会員登録画面で、ユーザー名欄・メールアドレス欄・パスワード欄の「すべて」を空のまま「会員登録」ボタンを押すとどうなりますか？",
+      "options": [
+        "それぞれの入力欄の下に同時に3つのエラーメッセージが表示される",
+        "一番上のユーザー名のエラーだけが1つ表示される",
+        "エラーは一切表示されずそのまま画面が切り替わる",
+        "アプリが即座に強制終了する"
+      ],
+      "answer": 0,
+      "commentary": "`_formKey.currentState?.validate()` が実行されると、Form内の全ての `TextFormField` で一斉に検証が走りエラーが表示されます。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "画面要素の間隔（スペース）を空けるために、`height: 20` などを指定して配置するよく使われる空のウィジェットは何ですか？",
+      "options": [
+        "SizedBox",
+        "Container",
+        "Spacer",
+        "Divider"
+      ],
+      "answer": 0,
+      "commentary": "縦や横に特定の固定隙間を設けるには `const SizedBox(height: 20)` や `SizedBox(width: ...)` を使用します。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "`email_validator` パッケージを利用するために、ファイルの先頭で記述する正しいインポート文はどれですか？",
+      "options": [
+        "import 'package:email_validator/email_validator.dart';",
+        "import 'package:flutter/email_validator.dart';",
+        "import 'email_validator.dart';",
+        "using email_validator;"
+      ],
+      "answer": 0,
+      "commentary": "外部パッケージを取り込む際は `import 'package:email_validator/email_validator.dart';` と記述します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "会員登録画面のレイアウトで `Expanded` ウィジェットを使用している目的として正しいものはどれですか？",
+      "options": [
+        "Column内の残りの画面領域いっぱいに子ウィジェットを広げて配置するため",
+        "入力欄の文字数を自動的に2倍に拡張するため",
+        "画面の背景色をアニメーションで変化させるため",
+        "ボタンを非表示にして隠すため"
+      ],
+      "answer": 0,
+      "commentary": "`Expanded` ウィジェットは、Flex（ColumnやRow）の中で利用可能な残りのスペースをいっぱいに広げて占有させるために使います。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で作成した「会員登録画面」で入力が必要なユーザー情報の組み合わせとして正しいものはどれですか？",
+      "options": [
+        "ユーザー名、メールアドレス、パスワード",
+        "ユーザー名、電話番号、住所",
+        "メールアドレス、パスワード、クレジットカード番号",
+        "ユーザー名、生年月日、アイコン画像"
+      ],
+      "answer": 0,
+      "commentary": "本節で実装した会員登録画面の入力項目は「ユーザー名」「メールアドレス」「パスワード」の3つです。"
+    }
+  ]
 }
