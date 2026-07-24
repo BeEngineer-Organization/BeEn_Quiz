@@ -69,9 +69,9 @@
       "id": 9,
       "type": "コード穴埋め",
       "question": "テンプレート内で、商品の詳細ページへpk（ID）を渡して移動するリンクを完成させてください。<pre><code>&lt;a href=\"{% url 'product_detail' ___ %}\"&gt;</code></pre>",
-      "options": ["product.pk", "id=product.pk", "product.id", "どちらも正しい"],
+      "options": ["product.pk", "id=product.pk", "product.key", "product.number"],
       "answer": 0,
-      "commentary": "urlタグの後にスペースを空けて、pk（プライマリキー）を渡します。product.pk または product.id が使われます。"
+      "commentary": "urlタグの後にスペースを空けて、pk（プライマリキー）を渡します。ここでは product.pk と書きます。"
     },
     {
       "id": 10,

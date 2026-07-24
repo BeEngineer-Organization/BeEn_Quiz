@@ -108,7 +108,7 @@
     {
       "id": 9,
       "type": "用語理解",
-      "question": "システムとユーザーとの接点や境界目を意味する「UI」とは何の略ですか？",
+      "question": "システムとユーザーとの接点や境界面を意味する「UI」とは何の略ですか？",
       "options": [
         "User Interface",
         "Universal Internet",

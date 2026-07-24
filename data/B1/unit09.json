@@ -85,7 +85,7 @@
       "id": 11,
       "type": "コード穴埋め",
       "question": "テンプレート内で複数行のコメントアウト（Djangoタグとして無視）をするためのタグは何ですか？<pre><code>___ \n  複数行の内容 \n___</code></pre>",
-      "options": ["{# #}", "", "{% comment %} / {% endcomment %}", "{# comment #}"],
+      "options": ["{# #}", "{% hidden %} / {% endhidden %}", "{% comment %} / {% endcomment %}", "{# comment #}"],
       "answer": 2,
       "commentary": "{% comment %} タグを使うと、その間のコードは一切実行・表示されません。"
     },

@@ -108,7 +108,7 @@
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "メールをターミナル上に出力させるための `settings.py` の設定コードです。空欄に入る記述はどれですか？<br><pre><code>EMAIL_BACKEND = 'django.core.mail.backends.console.___ '</code></pre>",
+      "question": "メールをターミナル上に出力させるための `settings.py` の設定コードです。空欄に入る記述はどれですか？<br><pre><code>EMAIL_BACKEND = 'django.core.mail.backends.console.___'</code></pre>",
       "options": [
         "EmailBackend",
         "ConsoleBackend",

@@ -77,7 +77,7 @@
       "id": 10,
       "type": "コード穴埋め",
       "question": "「カートに入れる」ボタンを押した際、現在の商品のIDを送信先URLに含めるための記述を完成させてください。<pre><code>&lt;form method=\"POST\" action=\"{% url 'product_detail' ___ %}\"&gt;</code></pre>",
-      "options": ["object.id", "object.pk", "pk=object.pk", "どれでもよい"],
+      "options": ["object.key", "object.pk", "pk=object.pk", "object.number"],
       "answer": 1,
       "commentary": "pk（プライマリキー）を渡すことで、どの商品に対するアクションかをサーバーに伝えます。"
     },

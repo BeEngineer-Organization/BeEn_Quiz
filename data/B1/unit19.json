@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "ルーティング（`urls.py`）でクラスベースビューを指定する際に呼び出す必須のメソッドは何ですか？<br><pre><code>urlpatterns = [\n    path(\"talk_room/&lt;user_id&gt;\", views.TalkRoomView.___\n(), name=\"talk_room\"),\n]</code></pre>",
+      "question": "ルーティング（`urls.py`）でクラスベースビューを指定する際に呼び出す必須のメソッドは何ですか？<br><pre><code>urlpatterns = [\n    path(\"talk_room/&lt;user_id&gt;\", views.TalkRoomView.___(), name=\"talk_room\"),\n]</code></pre>",
       "options": [
         "as_view",
         "run_view",

@@ -290,7 +290,7 @@
     {
       "id": 23,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、返信元の「ユーザー名」と「本文」の両方が存在する場合にのみヘッダーを表示する条件タグの論理演算子を選んでください。<br><pre><code>{% if message.parent_message_username ___ message.parent_message_content %}\n>> {{ message.parent_message_username }}: {{ message.parent_message_content }}\n<br>\n{% endif %}</code></pre>",
+      "question": "テンプレート内で、返信元の「ユーザー名」と「本文」の両方が存在する場合にのみヘッダーを表示する条件タグの論理演算子を選んでください。<br><pre><code>{% if message.parent_message_username ___ message.parent_message_content %}\n&gt;&gt; {{ message.parent_message_username }}: {{ message.parent_message_content }}\n&lt;br&gt;\n{% endif %}</code></pre>",
       "options": [
         "and",
         "or",
@@ -316,7 +316,7 @@
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "掲示板一覧の全メッセージを取得する際、各投稿者（`user`）の情報を1回のSQLで事前に結合取得して N+1 問題を解消するコードです。<br><pre><code>queryset = (\n    Message.objects.filter(topic=topic)\n    .___\n(\"user\")\n    .annotate(...)\n    .order_by(\"created_at\")\n)</code></pre>",
+      "question": "掲示板一覧の全メッセージを取得する際、各投稿者（`user`）の情報を1回のSQLで事前に結合取得して N+1 問題を解消するコードです。<br><pre><code>queryset = (\n    Message.objects.filter(topic=topic)\n    .___(\"user\")\n    .annotate(...)\n    .order_by(\"created_at\")\n)</code></pre>",
       "options": [
         "select_related",
         "prefetch_related",

@@ -157,7 +157,7 @@
       "id": 20,
       "type": "用語理解",
       "question": "教科書の「home」ページの説明で、商品一覧に付けるとされている「ページを分ける機能」のことを何と呼びますか？",
-      "options": ["ページング", "ページネーション", "データスライス", "リスト分割"],
+      "options": ["無限スクロール", "ページネーション", "データスライス", "リスト分割"],
       "answer": 1,
       "commentary": "大量のデータを複数ページに分けて表示する仕組みをページネーションと呼びます。"
     },
@@ -228,7 +228,7 @@
     {
       "id": 29,
       "type": "コード穴埋め",
-      "question": "アイコンフォント「Font Awesome」を読み込むためのlinkタグは、HTMLのどの部分に書きますか？<pre><code>&lt;head&gt;\n  ___\n&lt;/head&gt;</code></pre>",
+      "question": "アイコンフォント「Font Awesome」を読み込む link タグは、HTMLのどの要素の中に書きますか？",
       "options": ["<header>", "<body>", "<head>", "<footer>"],
       "answer": 2,
       "commentary": "外部リソースの読み込みは &lt;head&gt; 内で行います。"
@@ -308,7 +308,7 @@
     {
       "id": 39,
       "type": "用語理解",
-      "question": "「signup」ページと「login」ページのテンプレートで、最後に実行すべきデータベース反映のコマンドは何ですか？",
+      "question": "モデルを定義・変更した後、データベースに反映するために実行するコマンドは何ですか？",
       "options": ["makemigrations", "migrate", "python start", "pip install"],
       "answer": 1,
       "commentary": "モデルを定義したり変更したりした後は、migrateでデータベースに適用します。"

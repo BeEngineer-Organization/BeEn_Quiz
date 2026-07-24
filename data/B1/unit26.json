@@ -225,7 +225,7 @@
     {
       "id": 18,
       "type": "実行結果予測",
-      "question": "存在しないページや正常にアクセスできたページでHTTPステータスコード 200 が返ってきたかを検証するコードはどれですか？<br><pre><code>res = self.client.get(\"/ja/signup/\")\nself.assertEqual(res.status_code, ___)</code></pre>",
+      "question": "正常にアクセスできたページでHTTPステータスコード 200 が返ってきたかを検証するコードはどれですか？<br><pre><code>res = self.client.get(\"/ja/signup/\")\nself.assertEqual(res.status_code, ___)</code></pre>",
       "options": [
         "200",
         "302",

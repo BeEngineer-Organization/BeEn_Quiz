@@ -277,7 +277,7 @@
     {
       "id": 22,
       "type": "実行結果予測",
-      "question": "教科書内の教科書例にある「Studentモデル」のコードを実行したとき、一人暮らしの生徒（`parents_address` と `address` が異なる）の `vacation_address` に入る値は何ですか？<br><pre><code>Student.objects.all().annotate(\n    vacation_address=NullIf(\"parents_address\", \"address\"),\n)</code></pre>",
+      "question": "教科書の例にある「Studentモデル」のコードを実行したとき、一人暮らしの生徒（`parents_address` と `address` が異なる）の `vacation_address` に入る値は何ですか？<br><pre><code>Student.objects.all().annotate(\n    vacation_address=NullIf(\"parents_address\", \"address\"),\n)</code></pre>",
       "options": [
         "parents_address の値（実家の住所）",
         "address の値（現在の住所）",
@@ -459,7 +459,7 @@
     {
       "id": 36,
       "type": "実行結果予測",
-      "question": "自分宛ての返信が投稿されているJavaScript掲示板があり、まだ自分が返信・投稿を行っていないとき、その掲示板の `untouched_reply_time` に入る値はどうなりますか？",
+      "question": "自分宛ての返信が投稿されているある掲示板があり、まだ自分が返信・投稿を行っていないとき、その掲示板の `untouched_reply_time` に入る値はどうなりますか？",
       "options": [
         "返信メッセージが投稿された日時（`latest_reply_time` の値）",
         "None",
