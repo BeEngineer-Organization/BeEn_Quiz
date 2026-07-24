@@ -1,4 +1,525 @@
 {
   "unit_title": "投稿編集機能の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "画面下部からスライドして現れ、選択肢メニュー（「編集する」「削除する」など）を表示するUIウィジェットを何と呼びますか？",
+      "options": [
+        "ボトムシート（Bottom Sheet）",
+        "ダイアログ（Dialog）",
+        "スナックバー（SnackBar）",
+        "ドロワー（Drawer）"
+      ],
+      "answer": 0,
+      "commentary": "画面の下からせり上がってくる操作メニュー用ウィジェットを「ボトムシート」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "ボトムシートを表示するために呼び出すFlutter標準の関数は何ですか？<br><pre><code>void onMoreVertPressed(BuildContext context) {\n  ___&lt;void&gt;(\n    context: context,\n    useRootNavigator: true,\n    showDragHandle: true,\n    builder: (context) => ActionSheet(...),\n  );\n}</code></pre>",
+      "options": [
+        "showModalBottomSheet",
+        "showBottomSheet",
+        "openBottomSheet",
+        "displayModalSheet"
+      ],
+      "answer": 0,
+      "commentary": "モーダル形式のボトムシートを画面下に表示するには `showModalBottomSheet()` を呼び出します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`showModalBottomSheet` のパラメータで、シート最上部にグレーの持ち手（つまみ）を表示する設定です。<br><pre><code>showModalBottomSheet<void>(\n  context: context,\n  ___: true,\n  builder: ...,\n)</code></pre>",
+      "options": [
+        "showDragHandle",
+        "enableDrag",
+        "hasHandle",
+        "dragBar"
+      ],
+      "answer": 0,
+      "commentary": "ボトムシート上部にドラッグ可能であることを示す小さなハンドルを表示するには `showDragHandle: true` を指定します。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "`ActionItem` 内のボタンをタップした際、`Navigator.pop(context)` が実行された直後の画面の変化はどうなりますか？<br><pre><code>onTap: () {\n  Navigator.pop(context);\n  onTap?.call();\n}</code></pre>",
+      "options": [
+        "表示されていたボトムシートが自動的に閉じる",
+        "アプリがバックグラウンドに移動する",
+        "ダイアログが開く",
+        "何も起こらない"
+      ],
+      "answer": 0,
+      "commentary": "`Navigator.pop(context)` により、最前面に表示されているボトムシートが閉じます。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "投稿編集画面へ遷移する際、Postオブジェクトそのものを渡すのではなく `postId` を渡す設計にした主なメリットは何ですか？",
+      "options": [
+        "常に最新の投稿データをAPIから再取得でき、データの一貫性を保ち古い情報のまま上書きするのを防げるから",
+        "通信速度が10倍速くなるから",
+        "画像ファイルが自動的に圧縮されるから",
+        "GoRouterが使えなくなるから"
+      ],
+      "answer": 0,
+      "commentary": "IDのみを渡し画面側で最新データを取得することで、データ不整合を防ぎ最新状態を編集可能にします。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "GoRouterでパスパラメータ（`:postId`）を含む編集画面へのルートを定義する記述です。<br><pre><code>GoRoute(\n  path: '${Routes.postCreate}/___',\n  pageBuilder: (ctx, state) => ...,\n)</code></pre>",
+      "options": [
+        ":postId",
+        "{postId}",
+        "<postId>",
+        "postId"
+      ],
+      "answer": 0,
+      "commentary": "GoRouterの動的パラメータ宣言は `:パラメータ名`（例: `:postId`）の形式で記述します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "GoRouterの `state.pathParameters` から文字列の `postId` を取得し、`int` 型に変換して画面に渡すコードです。<br><pre><code>child: PostFormPage(\n  postId: int.___(state.pathParameters['postId']!),\n)</code></pre>",
+      "options": [
+        "parse",
+        "from",
+        "valueOf",
+        "convert"
+      ],
+      "answer": 0,
+      "commentary": "文字列を整数値に変換するには `int.parse(文字列)` を呼び出します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "`/post/create/10` というパスで画面遷移が発生した際、`state.pathParameters['postId']` から取得できる文字列は何ですか？",
+      "options": [
+        "'10'",
+        "10（数値）",
+        "'/post/create/10'",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "URLの `:postId` 部分に入った `'10'` という文字列が `pathParameters` 辞書から取得されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "テキスト入力欄（TextFormField）の表示テキストを動的にセット・プログラムから操作するためのコントローラー定義です。<br><pre><code>final _contentController = ___();</code></pre>",
+      "options": [
+        "TextEditingController",
+        "InputController",
+        "FormController",
+        "FieldController"
+      ],
+      "answer": 0,
+      "commentary": "テキストフィールドの値を外部から制御・読み書きするには `TextEditingController` を使います。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "メモリリークを防ぐため、`State` が破棄される際にコントローラーの解体処理を行うLifecycleメソッドは何ですか？<br><pre><code>@override\ndef void ___() {\n  _contentController.dispose();\n  super.dispose();\n}</code></pre>",
+      "options": [
+        "dispose",
+        "destroy",
+        "close",
+        "stop"
+      ],
+      "answer": 0,
+      "commentary": "ウィジェット破棄時の後始末には `dispose()` メソッドをオーバーライドします。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "コントローラー自体の破棄（メモリ解放）を実行するメソッド呼び出しです。<br><pre><code>_contentController.___();</code></pre>",
+      "options": [
+        "dispose",
+        "clear",
+        "close",
+        "remove"
+      ],
+      "answer": 0,
+      "commentary": "コントローラーの破棄メソッドは `.dispose()` です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "`handleSubmit` 内で、`widget.postId` の有無によって新規作成と更新APIを切り替える条件分岐コードです。<br><pre><code>if (widget.postId == null) {\n  await postService.createPost(formData);\n} else {\n  await postService.___(widget.postId!, formData);\n}</code></pre>",
+      "options": [
+        "updatePost",
+        "editPost",
+        "patchPost",
+        "savePost"
+      ],
+      "answer": 0,
+      "commentary": "既存投稿の更新を行うサービスメソッド名は `updatePost(id, formData)` です。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "`widget.postId` が `null` の場合、処理の完了時にスナックバーで表示されるテキストはどれですか？<br><pre><code>content: Text(\n  widget.postId == null ? '投稿が完了しました' : '保存が完了しました',\n)</code></pre>",
+      "options": [
+        "'投稿が完了しました'",
+        "'保存が完了しました'",
+        "'投稿に失敗しました'",
+        "''"
+      ],
+      "answer": 0,
+      "commentary": "`postId == null` は新規作成を意味するため、'投稿が完了しました' が表示されます。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "`widget.postId` に数値（例: 10）が入っている投稿編集モードのとき、完了スナックバーに表示されるテキストはどれですか？",
+      "options": [
+        "'保存が完了しました'",
+        "'投稿が完了しました'",
+        "'編集不可'",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`postId` が存在（`!= null`）する場合は更新処理なので、'保存が完了しました' が表示されます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "特定の投稿詳細プロバイダー（`postDetailProvider`）から非同期データ取得が完了した時に初期値をコントローラーにセットするコードです。<br><pre><code>if (widget.postId != null) {\n  ref.watch(postDetailProvider(widget.postId!)).___((post) {\n    if (_contentController.text.isEmpty) {\n      _contentController.text = post.content;\n      _initialImageUrl = post.photo;\n    }\n  });\n}</code></pre>",
+      "options": [
+        "whenData",
+        "when",
+        "then",
+        "onData"
+      ],
+      "answer": 0,
+      "commentary": "`AsyncValue` からデータ成功時（`data`）のコールバックのみを取り扱うには `whenData()` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "投稿編集画面を開いた際、`_contentController.text.isEmpty` が真である最初の描画時に、`_contentController.text` の値はどうなりますか？",
+      "options": [
+        "取得した既存の投稿本文（`post.content`）がセットされ、入力欄に表示される",
+        "空文字のまま変わらない",
+        "「新規投稿」という文字列で上書きされる",
+        "エラーになって画面が止まる"
+      ],
+      "answer": 0,
+      "commentary": "`whenData` 内で `_contentController.text = post.content;` が実行され、入力欄に元々の本文が表示されます。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "新規投稿時と投稿編集時で AppBar のタイトルを切り替える三項演算子コードです。<br><pre><code>appBar: AppBar(\n  title: Text(widget.postId == null ? 'ポストの作成' : '___'),\n)</code></pre>",
+      "options": [
+        "ポストの編集",
+        "ポストの更新",
+        "投稿詳細",
+        "設定"
+      ],
+      "answer": 0,
+      "commentary": "`postId` がある場合は「ポストの編集」というタイトルを表示させます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`TextFormField` に `_contentController` を紐付けるパラメータ名は何ですか？<br><pre><code>TextFormField(\n  maxLines: 3,\n  ___: _contentController,\n  decoration: const InputDecoration(...),\n)</code></pre>",
+      "options": [
+        "controller",
+        "key",
+        "value",
+        "textController"
+      ],
+      "answer": 0,
+      "commentary": "`TextEditingController` を入力欄にセットするには `controller:` パラメータを使用します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "画像がまだ新しく選択されておらず（`_selectedImage == null`）、既存の登録画像URL（`_initialImageUrl`）が存在する場合にWeb画像を表示する指定です。<br><pre><code>_selectedImage != null\n    ? ClipRRect(child: Image.file(_selectedImage!))\n    : _initialImageUrl != null\n        ? ClipRRect(child: Image.___(_initialImageUrl!))\n        : const SizedBox.shrink()</code></pre>",
+      "options": [
+        "network",
+        "file",
+        "asset",
+        "memory"
+      ],
+      "answer": 0,
+      "commentary": "サーバー上の画像URLを表示するため `Image.network(_initialImageUrl!)` を使用します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "投稿編集画面で新しい画像を選択し `_selectedImage` にファイルが保存された場合、プレビューとして表示されるのはどの画像になりますか？",
+      "options": [
+        "新しく選択したローカル画像（`Image.file(_selectedImage!)`）",
+        "元々登録されていたサーバー画像（`_initialImageUrl`）",
+        "デフォルトアイコン画像",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "三項演算子の最初の条件 `_selectedImage != null` が成立するため、新選択の `Image.file` が優先表示されます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "画面下部のアクションボタンのラベル文言を、新規作成時（'投稿'）と編集時（'保存'）で切り替える記述です。<br><pre><code>label: Text(\n  widget.postId == null ? '投稿' : '___',\n)</code></pre>",
+      "options": [
+        "保存",
+        "更新",
+        "送信",
+        "完了"
+      ],
+      "answer": 0,
+      "commentary": "編集モードのときのボタンラベルは「保存」にします。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "ボトムシートの「投稿を編集する」タップ時に、該当ポストの編集画面へ GoRouter で遷移するコードです。<br><pre><code>ActionItem(\n  icon: Icons.edit_note_outlined,\n  text: '投稿を編集する',\n  onTap: () => context.push('${Routes.postCreate}/___'),\n)</code></pre>",
+      "options": [
+        "${widget.post.id}",
+        "edit",
+        "postId",
+        "update"
+      ],
+      "answer": 0,
+      "commentary": "URL末尾にIDを付与するため `'${Routes.postCreate}/${widget.post.id}'` と指定します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "IDが 15 の投稿の「投稿を編集する」をタップした際、`context.push(...)` で遷移しようとするURLパス文字列は何になりますか？",
+      "options": [
+        "'/post/create/15'",
+        "'/post/create'",
+        "'/post/edit/15'",
+        "'/posts/15'"
+      ],
+      "answer": 0,
+      "commentary": "`Routes.postCreate`（'/post/create'）と `15` が結合され `'/post/create/15'` となります。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "アクションシート（ボトムシート）の縦方向の最大高さを 300px に制限するために使用されているウィジェットは何ですか？",
+      "options": [
+        "ConstrainedBox",
+        "SizedBox",
+        "Container",
+        "FittedBox"
+      ],
+      "answer": 0,
+      "commentary": "高さや幅の最小・最大制約（`BoxConstraints`）を設けるには `ConstrainedBox` を使用します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "`ConstrainedBox` で高さの上限を 300px に設定するプロパティ指定です。<br><pre><code>ConstrainedBox(\n  constraints: const BoxConstraints(___: 300),\n  child: Column(...),\n)</code></pre>",
+      "options": [
+        "maxHeight",
+        "minHeight",
+        "height",
+        "maxLines"
+      ],
+      "answer": 0,
+      "commentary": "最大高さを制限するには `BoxConstraints(maxHeight: 300)` を使用します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "`Column` ウィジェットで、垂直方向のサイズを子要素が必要とする最小限の高さに縮める設定です。<br><pre><code>Column(\n  mainAxisSize: MainAxisSize.___,\n  children: actions,\n)</code></pre>",
+      "options": [
+        "min",
+        "max",
+        "shrink",
+        "auto"
+      ],
+      "answer": 0,
+      "commentary": "`Column` をコンテンツに必要な最小高さに抑えるには `mainAxisSize: MainAxisSize.min` を指定します。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "`Column` に `mainAxisSize: MainAxisSize.max`（デフォルト）を指定した場合、ボトムシート内のレイアウトはどうなりますか？",
+      "options": [
+        "Columnが親の許す最大高さまで上下に広がろうとする",
+        "Columnの高さが0になる",
+        "子要素が横並びになる",
+        "要素が非表示になる"
+      ],
+      "answer": 0,
+      "commentary": "`MainAxisSize.max` の場合、Columnは縦方向に可能な限りの高さを確保しようと伸長します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "アイコン・タイトル・タップ処理を1行にまとめたリスト項目UIを作る標準ウィジェットは何ですか？<br><pre><code>return ListTile(\n  leading: Icon(icon, size: 32),\n  title: Text(text),\n  onTap: () { ... },\n);</code></pre>",
+      "options": [
+        "ListTile",
+        "Row",
+        "Container",
+        "ItemTile"
+      ],
+      "answer": 0,
+      "commentary": "アイコンと文字が並んだリスト用行UIを作るには `ListTile` ウィジェットが最適です。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "`ListTile` の「先頭（左端）」にアイコンを配置するプロパティ名は何ですか？<br><pre><code>ListTile(\n  ___: Icon(icon, size: 32),\n  title: Text(text),\n)</code></pre>",
+      "options": [
+        "leading",
+        "trailing",
+        "icon",
+        "prefix"
+      ],
+      "answer": 0,
+      "commentary": "`ListTile` の左側に配置するウィジェットには `leading:` パラメータを使用します。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "オプショナルな関数変数 `onTap`（`VoidCallback?`）が `null` でない場合のみ安全に呼び出すDartの記法はどれですか？",
+      "options": [
+        "onTap?.call();",
+        "onTap();",
+        "if (onTap) onTap();",
+        "call(onTap);"
+      ],
+      "answer": 0,
+      "commentary": "Nullableな関数を実行するには `onTap?.call()` 記法を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "ノートとペンが描かれた編集用アイコンを指定するFlutterの標準アイコン定数はどれですか？<br><pre><code>ActionItem(\n  icon: Icons.___,\n  text: '投稿を編集する',\n)</code></pre>",
+      "options": [
+        "edit_note_outlined",
+        "edit",
+        "pencil",
+        "create"
+      ],
+      "answer": 0,
+      "commentary": "教材コードで使用されている編集アイコン定数は `Icons.edit_note_outlined` です。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "ゴミ箱マークの削除用アイコンを指定するFlutterの標準アイコン定数はどれですか？<br><pre><code>ActionItem(\n  icon: Icons.___,\n  text: '投稿を削除する',\n)</code></pre>",
+      "options": [
+        "delete",
+        "trash",
+        "remove",
+        "bin"
+      ],
+      "answer": 0,
+      "commentary": "ゴミ箱アイコンの定数は `Icons.delete` です。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "`_contentController.text` から入力された文字列を取得して `PostForm` を生成する正しいコードはどれですか？",
+      "options": [
+        "final formData = PostForm(content: _contentController.text, photo: _selectedImage);",
+        "final formData = PostForm(content: _contentController.value, photo: _selectedImage);",
+        "final formData = PostForm(content: _contentKey.text, photo: _selectedImage);",
+        "final formData = PostForm.fromController(_contentController);"
+      ],
+      "answer": 0,
+      "commentary": "`TextEditingController` から現在の入力テキスト文字列を取り出すには `._contentController.text` を使用します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Dartの `TextEditingController` で入力文字列を取得・変更する正しいプロパティはどれですか？",
+      "options": [
+        ".text",
+        ".valueText",
+        ".getText()",
+        ".string"
+      ],
+      "answer": 0,
+      "commentary": "テキストの取得や書き換えは `.text` プロパティで行います。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ボトムシートを表示する際、アプリの最上位ナビゲーターを使用して表示する設定プロパティです。<br><pre><code>showModalBottomSheet<void>(\n  context: context,\n  ___: true,\n  builder: ...,\n)</code></pre>",
+      "options": [
+        "useRootNavigator",
+        "rootOnly",
+        "useAppNavigator",
+        "globalNavigator"
+      ],
+      "answer": 0,
+      "commentary": "最上位のルートナビゲーターでモーダルを開くには `useRootNavigator: true` を指定します。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "画像の追加・変更ボタンで、既存画像がない場合は「画像を追加」、ある場合は「画像を変更」とラベル表示を切り替える正しい三項演算子はどれですか？",
+      "options": [
+        "label: Text(_initialImageUrl == null ? '画像を追加' : '画像を変更')",
+        "label: Text(_initialImageUrl != null ? '画像を追加' : '画像を変更')",
+        "label: Text(if (_initialImageUrl) '画像を追加' else '画像を変更')",
+        "label: Text(_initialImageUrl ?? '画像を追加')"
+      ],
+      "answer": 0,
+      "commentary": "`_initialImageUrl == null` が真のとき（画像なし）は '画像を追加'、偽のとき（画像あり）は '画像を変更' にします。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "投稿編集画面で「保存」ボタンを押し、`updatePost` の非同期API通信に成功したときに実行される一連の処理として正しいものはどれですか？",
+      "options": [
+        "1. postListProviderのキャッシュが破棄される → 2. 「保存が完了しました」スナックバー表示 → 3. 画面が閉じる（context.pop）",
+        "1. ログイン画面に移動する → 2. アプリが終了する",
+        "1. エラーメッセージが表示される → 2. 画面がフリーズする",
+        "1. 投稿が削除される → 2. マイページが開く"
+      ],
+      "answer": 0,
+      "commentary": "更新成功後は `ref.invalidate(postListProvider)` で一覧を更新し、成功スナックバーを出して `context.pop()` で画面を閉じます。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "投稿フォーム画面で、`postId` を渡せるオプショナル名前付き引数コンストラクタの定義です。<br><pre><code>class PostFormPage extends ConsumerStatefulWidget {\n  const PostFormPage({super.key, ___});\n  final int? postId;\n}</code></pre>",
+      "options": [
+        "this.postId",
+        "required this.postId",
+        "int? postId",
+        "this.id"
+      ],
+      "answer": 0,
+      "commentary": "クラスのフィールド `postId` をオプショナル受け取りするには `{super.key, this.postId}` と記述します。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "本節で作成した `ActionSheet` と `ActionItem` の役割についての正しい説明はどれですか？",
+      "options": [
+        "ActionSheetはボトムシート全体のコンテナ枠、ActionItemはシート内に並ぶ個別のアクション項目（編集・削除など）",
+        "ActionSheetは画面のヘッダー、ActionItemはフッターである",
+        "ActionSheetはデータベースのテーブル、ActionItemはカラムである",
+        "両者に役割の違いはない"
+      ],
+      "answer": 0,
+      "commentary": "ボトムシートの土台コンテナを `ActionSheet`、各操作アイテムを `ActionItem` としてコンポーネント分けしています。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "投稿編集機能の一連の開発フローとして正しい順序はどれですか？",
+      "options": [
+        "1. ボトムシートUI（ActionSheet/ActionItem）作成 → 2. 編集画面ルーティング（/post/create/:postId）設定 → 3. PostFormPageの編集モード化（postId受取・既存データ表示） → 4. updatePost API呼び出し連携",
+        "1. updatePost API呼び出し → 2. データベース消去 → 3. アプリ作成",
+        "1. ルーティング消去 → 2. 画像削除 → 3. 画面作成",
+        "1. ログイン処理 → 2. バリデーション消去 → 3. ボトムシート作成"
+      ],
+      "answer": 0,
+      "commentary": "三点ボタンのボトムシートを構成し、ID付きルーティングと `PostFormPage` の編集モード対応（既存値のセット・updatePostの呼出）を実装します。"
+    }
+  ]
 }

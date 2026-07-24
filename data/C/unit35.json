@@ -1,4 +1,525 @@
 {
   "unit_title": "アカウント情報の編集",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "アカウント情報（ユーザー名やステータスメッセージなど）の一部だけを更新する際に使用する、最も適切なHTTPメソッドは何ですか？",
+      "options": [
+        "PATCH",
+        "PUT",
+        "POST",
+        "GET"
+      ],
+      "answer": 0,
+      "commentary": "リソースの一部のデータだけを変更・更新（部分更新）する際には PATCH メソッドを使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Dartの `File` オブジェクトと JSON（文字列パス）相互変換を定義するため、`JsonConverter` を継承するクラスのコードです。<br><pre><code>class FileConverter implements JsonConverter&lt;___, String?&gt; {\n  const FileConverter();\n  ...\n}</code></pre>",
+      "options": [
+        "File?",
+        "String",
+        "FormData",
+        "MultipartFile"
+      ],
+      "answer": 0,
+      "commentary": "変換対象となるDart側の型は nullable な `File?` です。"
+    },
+    {
+      "id": 3,
+      "type": "実行結果予測",
+      "question": "`FileConverter` クラスの `fromJson(null)` が実行されたとき、返される値は何ですか？<br><pre><code>@override\nFile? fromJson(String? json) {\n  if (json == null) {\n    return null;\n  }\n  return File(json);\n}</code></pre>",
+      "options": [
+        "null",
+        "File('')",
+        "File('default')",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "`json == null` の判定に入り、安全に `null` が返されます。"
+    },
+    {
+      "id": 4,
+      "type": "実行結果予測",
+      "question": "`FileConverter` クラスの `toJson(File('path/to/icon.png'))` が実行されたとき、返される文字列は何ですか？<br><pre><code>@override\nString? toJson(File? object) {\n  return object?.path;\n}</code></pre>",
+      "options": [
+        "'path/to/icon.png'",
+        "File('path/to/icon.png')",
+        "null",
+        "'icon.png'"
+      ],
+      "answer": 0,
+      "commentary": "`object?.path` により、`File` オブジェクトが持つファイルパス文字列 `'path/to/icon.png'` が返されます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "`ProfileForm` モデルクラスのカスタムコンバータ指定部分です。空欄に入るアノテーションを選んでください。<br><pre><code>@freezed\nabstract class ProfileForm with _$ProfileForm {\n  const factory ProfileForm({\n    required String username,\n    String? statusMessage,\n    ___() File? icon,\n  }) = _ProfileForm;\n}</code></pre>",
+      "options": [
+        "@FileConverter",
+        "@JsonConverter",
+        "@freezed",
+        "@File"
+      ],
+      "answer": 0,
+      "commentary": "定義した `FileConverter` をアノテーションとして `@FileConverter()` と指定します。"
+    },
+    {
+      "id": 6,
+      "type": "文法チェック",
+      "question": "freezedクラス内に `toFormData()` などのカスタムメソッドを定義する際、必要となるコンストラクタ記述はどれですか？",
+      "options": [
+        "const ProfileForm._();",
+        "ProfileForm();",
+        "factory ProfileForm.create() = _ProfileForm;",
+        "const ProfileForm.empty();"
+      ],
+      "answer": 0,
+      "commentary": "freezedで作成したデータクラスに自作メソッドを追加する場合は `const クラス名._();` というプライベートコンストラクタを追加します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`ProfileForm` の `toFormData` 内で、選択された画像ファイル（`icon`）を `MultipartFile` に非同期変換するコードです。<br><pre><code>if (icon != null) {\n  map['icon'] = await MultipartFile.___(icon!.path);\n}</code></pre>",
+      "options": [
+        "fromFile",
+        "fromPath",
+        "create",
+        "open"
+      ],
+      "answer": 0,
+      "commentary": "ファイルパスを指定して `MultipartFile` オブジェクトを生成するには `MultipartFile.fromFile()` を使用します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "Mapデータから `FormData` オブジェクトを生成して返すコードです。<br><pre><code>return FormData.___(map);</code></pre>",
+      "options": [
+        "fromMap",
+        "create",
+        "fromData",
+        "parse"
+      ],
+      "answer": 0,
+      "commentary": "MapからFormDataを生成するには `FormData.fromMap(map)` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "`ProfileForm(username: 'alice', statusMessage: 'hello', icon: null)` の `toFormData()` を実行したとき、生成される `map` に含まれるキーの組み合わせはどれですか？",
+      "options": [
+        "'username' と 'status_message' のみ",
+        "'username', 'status_message', 'icon' の3つ全て",
+        "'username' のみ",
+        "'icon' のみ"
+      ],
+      "answer": 0,
+      "commentary": "`icon` が `null` のため `if (icon != null)` の処理がスキップされ、`map` には 'username' と 'status_message' のみがセットされます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "`AccountService` に定義する `updateProfile` メソッドで、認証付きDioを使ってプロフィール更新API（PATCH）を呼ぶコードです。<br><pre><code>Future&lt;void&gt; updateProfile(ProfileForm profile) async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/';\n  final formData = await profile.toFormData();\n  await dioClient.authDio.___(url, data: formData);\n}</code></pre>",
+      "options": [
+        "patch",
+        "put",
+        "post",
+        "update"
+      ],
+      "answer": 0,
+      "commentary": "アカウント情報の部分更新のため `dioClient.authDio.patch()` を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "プロフィール情報を更新するバックエンドのエンドポイントURL指定です。<br><pre><code>final url = '$baseUrl/___/';</code></pre>",
+      "options": [
+        "accounts/me",
+        "users/me",
+        "profile/update",
+        "account/profile"
+      ],
+      "answer": 0,
+      "commentary": "自分のアカウント情報を取得・更新する標準URLは `/accounts/me/` です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` でプロフィール編集画面のパス名を定義するコードです。<br><pre><code>abstract class Routes {\n  // ...\n  static const profile = '___';\n}</code></pre>",
+      "options": [
+        "/profile",
+        "/edit_profile",
+        "/user/profile",
+        "profile"
+      ],
+      "answer": 0,
+      "commentary": "プロフィール編集画面のパス定数 `Routes.profile` には `'/profile'` を指定します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` で `ProfilePage` へのルーティングを追加するコードです。<br><pre><code>GoRoute(\n  path: Routes.profile,\n  builder: (context, state) {\n    return const ___();\n  },\n)</code></pre>",
+      "options": [
+        "ProfilePage",
+        "MyPage",
+        "EditPage",
+        "UserPage"
+      ],
+      "answer": 0,
+      "commentary": "`Routes.profile` パスに対応する画面ウィジェットとして `ProfilePage()` を渡します。"
+    },
+    {
+      "id": 14,
+      "type": "用語理解",
+      "question": "Flutterで、入力フォームのテキスト内容を初期化したりプログラムから参照・操作したりするために使うクラスは何ですか？",
+      "options": [
+        "TextEditingController",
+        "FormController",
+        "InputController",
+        "FieldController"
+      ],
+      "answer": 0,
+      "commentary": "テキスト入力欄の表示制御や文字取得を行う標準クラスは `TextEditingController` です。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "プロフィール編集画面の初期化時（`initState`）に、プロバイダーから現在のアカウント情報を1度だけ読み取るコードです。<br><pre><code>@override\nvoid initState() {\n  super.initState();\n  final account = ref.___(accountInfoProvider);\n  if (account.value != null) { ... }\n}</code></pre>",
+      "options": [
+        "read",
+        "watch",
+        "listen",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "イベントや初期化処理内で状態を1度だけ取得したい場合は `ref.read()` を使います。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "`account.value` のユーザー名が `'ken'` のとき、`ProfilePage` が開いた直後のユーザー名入力欄（`_usernameController.text`）には何が表示されますか？<br><pre><code>if (account.value != null) {\n  _usernameController.text = account.value!.username;\n  _statusMessageController.text = account.value!.statusMessage ?? '';\n}</code></pre>",
+      "options": [
+        "'ken'",
+        "空文字（\"\"）",
+        "'新しいユーザー名を入力してください'",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`initState()` 内で `_usernameController.text = account.value!.username;` が実行されるため、既存のユーザー名 `'ken'` が入力欄にセットされます。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "`account.value!.statusMessage` が `null` のユーザーがプロフィール編集画面を開いた際、ステータスメッセージ入力欄の初期テキストはどうなりますか？",
+      "options": [
+        "空文字（\"\"）",
+        "'null'",
+        "'ステータスメッセージを編集してください'",
+        "エラーが発生して画面が開かない"
+      ],
+      "answer": 0,
+      "commentary": "Null合体演算子 `?? ''` により、`null` の場合は空文字 `''` がコントローラーにセットされます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`ProfilePage` 破棄時にテキストコントローラーのリソースを解放するコードです。<br><pre><code>@override\nvoid dispose() {\n  _usernameController.___();\n  _statusMessageController.dispose();\n  super.dispose();\n}</code></pre>",
+      "options": [
+        "dispose",
+        "clear",
+        "close",
+        "destroy"
+      ],
+      "answer": 0,
+      "commentary": "コントローラーの破棄メソッドは `.dispose()` です。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "アイコン選択処理 `_pickImage` 内で、フォトギャラリーを呼び出す記述です。<br><pre><code>final pickedFile = await _imagePicker.pickImage(\n  source: ImageSource.___,\n);</code></pre>",
+      "options": [
+        "gallery",
+        "camera",
+        "photos",
+        "album"
+      ],
+      "answer": 0,
+      "commentary": "画像ギャラリーを開くには `ImageSource.gallery` を指定します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "ユーザーがギャラリーから画像を選択し、`pickedFile` にパスが返ってきた際、`_selectedImage` に代入されるオブジェクトの型は何ですか？<br><pre><code>if (pickedFile != null) {\n  setState(() {\n    _selectedImage = File(pickedFile.path);\n  });\n}</code></pre>",
+      "options": [
+        "File",
+        "XFile",
+        "String",
+        "Image"
+      ],
+      "answer": 0,
+      "commentary": "`File(pickedFile.path)` が実行されるため、`File` 型のオブジェクトが保存されます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "プロフィール送信処理中に通信中フラグを立てて二重送信を防止するコードです。<br><pre><code>Future&lt;void&gt; _handleSubmit(BuildContext context, ProfileForm profile) async {\n  setState(() {\n    _isLoading = ___;\n  });\n  try { ... }\n}</code></pre>",
+      "options": [
+        "true",
+        "false",
+        "null",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "送信開始時に `_isLoading = true;` にしてボタンをローディング表示化します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "プロフィール更新が成功した際、アカウント情報および関連の投稿リストプロバイダーを一括リフレッシュするカスケード記法コードです。<br><pre><code>ref\n  ..invalidate(accountInfoProvider)\n  ..___(postListProvider(PostsFeedType.myPosts))\n  ..invalidate(postListProvider(PostsFeedType.likesPopular));</code></pre>",
+      "options": [
+        "invalidate",
+        "refresh",
+        "reset",
+        "clean"
+      ],
+      "answer": 0,
+      "commentary": "キャッシュを無効化して最新データを再取得させるため `..invalidate(...)` を繋げて実行します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "プロフィールの更新処理が成功し、`_handleSubmit` の最後で `context.pop()` が実行されたときの挙動はどうなりますか？",
+      "options": [
+        "プロフィール編集画面が閉じて元のマイページ画面に戻る",
+        "ログイン画面に吹き飛ぶ",
+        "アプリが終了する",
+        "編集画面の入力値が全消去される"
+      ],
+      "answer": 0,
+      "commentary": "`context.pop()` により最前面のプロフィール編集画面が閉じ、呼び出し元のマイページに戻ります。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "プロフィール更新の通信でエラーが発生し `catch (e)` ブロックに入った際、ユーザーに表示されるスナックバーの文言は何ですか？",
+      "options": [
+        "'プロフィールの保存に失敗しました'",
+        "'プロフィールが保存できました'",
+        "'予期せぬエラーが発生しました'",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`catch (e)` 内の処理により `'プロフィールの保存に失敗しました'` と通知されます。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "プロフィール更新に成功した際、画面下部に表示されるスナックバーの文言は何ですか？",
+      "options": [
+        "'プロフィールが保存できました'",
+        "'プロフィールの保存に失敗しました'",
+        "'投稿が完了しました'",
+        "'ログインしました'"
+      ],
+      "answer": 0,
+      "commentary": "成功時の処理により `'プロフィールが保存できました'` とメッセージが出力されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "ユーザー名入力欄で、入力文字数が10文字を超えている場合に返すバリデーションエラーコードです。<br><pre><code>if (value.length > 10) {\n  return 'ユーザー名は___文字以内にしてください';\n}</code></pre>",
+      "options": [
+        "10",
+        "100",
+        "5",
+        "50"
+      ],
+      "answer": 0,
+      "commentary": "要件に従い、10文字超過時は 'ユーザー名は10文字以内にしてください' と返します。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "ユーザー名入力欄を空（何も入力しない）のまま「保存」ボタンを押した場合、バリデーションで表示されるメッセージは何ですか？",
+      "options": [
+        "'ユーザー名を入力してください'",
+        "'ユーザー名は10文字以内にしてください'",
+        "'プロフィールの保存に失敗しました'",
+        "エラーは表示されず成功する"
+      ],
+      "answer": 0,
+      "commentary": "`if (value == null || value.isEmpty)` が成立するため、'ユーザー名を入力してください' が表示されます。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "ユーザー名入力欄に「あいうえおかきくけこさ」（11文字）を入力して「保存」を押した場合どうなりますか？",
+      "options": [
+        "「ユーザー名は10文字以内にしてください」とエラーが表示され、送信されない",
+        "10文字に自動カットされて保存される",
+        "「ユーザー名を入力してください」と表示される",
+        "そのまま保存される"
+      ],
+      "answer": 0,
+      "commentary": "10文字を超えているため `value.length > 10` 条件を満たし、警告エラーメッセージが表示されます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "ステータスメッセージの入力フィールドで、最大入力文字数を 100 文字に制限する `TextFormField` の属性指定です。<br><pre><code>TextFormField(\n  ___: 100,\n  maxLines: 5,\n  controller: _statusMessageController,\n)</code></pre>",
+      "options": [
+        "maxLength",
+        "maxLines",
+        "length",
+        "limit"
+      ],
+      "answer": 0,
+      "commentary": "入力できる最大文字数（カウント表示付き）を指定するパラメータは `maxLength` です。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "ステータスメッセージ入力欄に101文字を入力して保存を試みた際、バリデーションで返されるメッセージは何ですか？<br><pre><code>if (value.length > 100) {\n  return 'ステータスメッセージは 100 文字以内にしてください';\n}</code></pre>",
+      "options": [
+        "'ステータスメッセージは 100 文字以内にしてください'",
+        "'ステータスメッセージを入力してください'",
+        "null",
+        "エラーメッセージは出ない"
+      ],
+      "answer": 0,
+      "commentary": "`value.length > 100` が成り立ち、'ステータスメッセージは 100 文字以内にしてください' が返されます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "ステータスメッセージを空文字（未入力）のまま保存ボタンを押した場合、ステータスメッセージ欄のバリデーションチェックはどう判定されますか？<br><pre><code>validator: (value) {\n  if (value == null || value.isEmpty) {\n    return null;\n  }\n  ...\n}</code></pre>",
+      "options": [
+        "null（エラーなしとして合格判定される）",
+        "エラーメッセージが表示される",
+        "アプリが一時停止する",
+        "自動的に「なし」と入力される"
+      ],
+      "answer": 0,
+      "commentary": "ステータスメッセージは任意入力（オプショナル）のため、空の場合は `return null;` となり合格扱いになります。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "円形ユーザーアイコン（`CircleAvatar`）の上にカメラマークの丸いコンテナを「重ねて配置」するための重なりウィジェットは何ですか？<br><pre><code>___(\n  alignment: Alignment.center,\n  children: [\n    CircleAvatar(...),\n    Container(...), // カメラアイコンオーバーレイ\n  ],\n)</code></pre>",
+      "options": [
+        "Stack",
+        "Column",
+        "Row",
+        "Group"
+      ],
+      "answer": 0,
+      "commentary": "複数のウィジェットをZ軸方向（手前・奥）に重ねて配置するには `Stack` ウィジェットを使用します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "ユーザーが新しく画像を選択して `_selectedImage` にファイルが入っているとき、`CircleAvatar` の `backgroundImage` に適用される `ImageProvider` はどれですか？<br><pre><code>_selectedImage != null\n    ? FileImage(_selectedImage!)\n    : data.icon != null\n        ? NetworkImage(data.icon!)\n        : const AssetImage('assets/images/default-user-icon.png')</code></pre>",
+      "options": [
+        "FileImage(_selectedImage!)（新規選択ローカル画像）",
+        "NetworkImage(data.icon!)（既存アイコン画像）",
+        "AssetImage('assets/images/default-user-icon.png')（デフォルト画像）",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "三項演算子の最初の条件 `_selectedImage != null` が真のため、選択したローカル画像 `FileImage` が最優先で表示されます。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "`_selectedImage` が `null` で、サーバー側に登録済みのアイコンURL（`data.icon`）が存在する場合に表示される画像はどれですか？",
+      "options": [
+        "NetworkImage(data.icon!)（Web上の既存アイコン画像）",
+        "FileImage(_selectedImage!)",
+        "AssetImage('assets/images/default-user-icon.png')",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "2番目の三項演算子条件 `data.icon != null` が成立するため、`NetworkImage(data.icon!)` が描画されます。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "`_selectedImage` も `null` で、サーバー上のアイコン（`data.icon`）も `null` である場合、表示される画像はどれですか？",
+      "options": [
+        "AssetImage('assets/images/default-user-icon.png')（デフォルトユーザーアイコン）",
+        "NetworkImage('')",
+        "FileImage('')",
+        "黒い四角形"
+      ],
+      "answer": 0,
+      "commentary": "全ての画像がない状態のため、フォールバック（デフォルト）画像である `AssetImage` が表示されます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "マイページ画面（`screens/mypage.dart`）の「編集」ボタンを押した際、GoRouter でプロフィール編集画面へ遷移するコードです。<br><pre><code>OutlinedButton(\n  onPressed: () {\n    context.___(Routes.profile);\n  },\n  child: const Text('編集'),\n)</code></pre>",
+      "options": [
+        "push",
+        "pop",
+        "replace",
+        "back"
+      ],
+      "answer": 0,
+      "commentary": "編集画面を現在の画面の上に積み重ねて開くため `context.push(Routes.profile)` を呼び出します。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "`ProfilePage` クラスのコンストラクタ定義として正しい記述はどれですか？",
+      "options": [
+        "const ProfilePage({super.key});",
+        "ProfilePage(key);",
+        "const ProfilePage(super.key);",
+        "ProfilePage({required key});"
+      ],
+      "answer": 0,
+      "commentary": "Flutterの標準的な StatelessWidget/StatefulWidget コンストラクタ定義文法に従い `const ProfilePage({super.key});` と記述します。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "freezedやjson_serializableにおいて、Dartの非プリミティブ型（`File` など）と JSON（`String` など）の間の相互変換ルールを自作するための基本クラスは何ですか？",
+      "options": [
+        "JsonConverter",
+        "TypeConverter",
+        "ModelConverter",
+        "FileMapper"
+      ],
+      "answer": 0,
+      "commentary": "独自の型変換ロジックを組み込むには `JsonConverter<Dartの型, JSONの型>` クラスを実装します。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "`TextFormField` に `_usernameController` を紐付ける正しいプロパティ記述はどれですか？",
+      "options": [
+        "controller: _usernameController",
+        "textController: _usernameController",
+        "key: _usernameController",
+        "value: _usernameController"
+      ],
+      "answer": 0,
+      "commentary": "`TextFormField` のテキスト制御用コントローラーは `controller:` パラメータにセットします。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で開発した「アカウント情報の編集機能」の一連の実装手順・フローとして正しいものはどれですか？",
+      "options": [
+        "1. ProfileFormモデル定義（FileConverter付き） → 2. AccountServiceに updateProfile(PATCH) 追加 → 3. ルーティング設定（/profile） → 4. ProfilePage UI作成＆マイページ「編集」ボタン連携",
+        "1. マイページ削除 → 2. パスワードリセット → 3. アプリ再起動",
+        "1. updateProfile追加 → 2. アカウント全消去 → 3. ログイン画面表示",
+        "1. ルーティング削除 → 2. 画像ダウンロード → 3. バリデーション解除"
+      ],
+      "answer": 0,
+      "commentary": "フォーム用モデル（`ProfileForm`）作成からサービス実装（`updateProfile`）、ルーティングと編集UI構築を経て、マイページボタンと連携させました。"
+    }
+  ]
 }

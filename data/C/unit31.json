@@ -1,4 +1,525 @@
 {
   "unit_title": "いいね機能の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "サーバーからの応答を待たずに、ユーザーのアクション直後に即座にUIを変更・更新し、応答性を高めるUI設計手法を何と呼びますか？",
+      "options": [
+        "楽観的 UI 更新（Optimistic UI Update）",
+        "悲観的 UI 更新（Pessimistic UI Update）",
+        "リアルタイム UI 同期",
+        "非同期ローディング表示"
+      ],
+      "answer": 0,
+      "commentary": "サーバーレスポンスを待たずに画面を即座に書き換えて体感速度を高める手法を「楽観的 UI 更新」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoの `annotate()` 内で、サブクエリに一致する条件のレコードが存在するか（True/False）を判定するクラスは何ですか？<br><pre><code>is_liked=___(\n    Like.objects.filter(post=OuterRef(\"pk\"), user=self.request.user)\n)</code></pre>",
+      "options": [
+        "Exists",
+        "Contains",
+        "HasRecord",
+        "Value"
+      ],
+      "answer": 0,
+      "commentary": "指定したサブクエリに合致するデータが存在するかをブール値で返すDjangoの関数クラスは `Exists` です。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "サブクエリの中から、外側の親クエリ（現在処理中の Post）の主キー（pk）を参照するために使用するキーワードクラスは何ですか？<br><pre><code>Like.objects.filter(post=___(\"pk\"), user=self.request.user)</code></pre>",
+      "options": [
+        "OuterRef",
+        "ParentRef",
+        "SubQuery",
+        "SelfRef"
+      ],
+      "answer": 0,
+      "commentary": "親クエリのカラム（`pk` 等）をサブクエリ内で参照する橋渡しを行うクラスは `OuterRef` です。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "クエリの内部にネスト（入れ子）して記述される、動的計算や高度な条件絞り込みのための別のクエリを何と呼びますか？",
+      "options": [
+        "サブクエリ（Subquery）",
+        "インデックス（Index）",
+        "トランザクション（Transaction）",
+        "ビュー（View）"
+      ],
+      "answer": 0,
+      "commentary": "親クエリの中に埋め込んで使用する別のSQLクエリを「サブクエリ」と呼びます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "各投稿に関連付けられた「いいね」の総数をデータベース上で集計・カウントするDjangoの集計関数クラスは何ですか？<br><pre><code>received_like_counts=___(\"received_likes\")</code></pre>",
+      "options": [
+        "Count",
+        "Sum",
+        "Total",
+        "Aggregate"
+      ],
+      "answer": 0,
+      "commentary": "関連レコード件数を数え上げる集計関数は `Count(\"リレーション名\")` です。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "`PostSerializer` に追加する「いいね済みか（is_liked）」のシリアライザフィールド定義です。<br><pre><code>is_liked = serializers.___ (read_only=True)</code></pre>",
+      "options": [
+        "BooleanField",
+        "IntegerField",
+        "CharField",
+        "SerializerMethodField"
+      ],
+      "answer": 0,
+      "commentary": "真偽値（True/False）としてシリアライズするため `serializers.BooleanField(read_only=True)` と記述します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`PostSerializer` に追加する「いいね獲得数（received_like_counts）」のシリアライザフィールド定義です。<br><pre><code>received_like_counts = serializers.___ (read_only=True)</code></pre>",
+      "options": [
+        "IntegerField",
+        "BooleanField",
+        "NumberField",
+        "CountField"
+      ],
+      "answer": 0,
+      "commentary": "件数（整数）としてシリアライズするため `serializers.IntegerField(read_only=True)` と定義します。"
+    },
+    {
+      "id": 8,
+      "type": "用語理解",
+      "question": "モデルにない動的な計算値をシリアライザ内で独自メソッド（`get_フィールド名`）を定義して返させるための特別なDRFフィールドは何ですか？",
+      "options": [
+        "SerializerMethodField",
+        "CustomMethodField",
+        "ComputeField",
+        "DynamicField"
+      ],
+      "answer": 0,
+      "commentary": "シリアライザクラス内の独自メソッドから値を生成して出力するフィールドは `SerializerMethodField` です。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "リストの各要素（N件）を表示する際に、要素ごとに1回ずつ（合計N回の追加）SQLクエリが発生してしまい、著しく処理速度が低下する問題を何と呼びますか？",
+      "options": [
+        "N+1 クエリ問題",
+        "デッドロック問題",
+        "メモリリーク",
+        "スロークエリ障害"
+      ],
+      "answer": 0,
+      "commentary": "一覧データ取得時に1件ずつ別クエリを発行してしまう性能低下問題を「N+1 クエリ問題」と言います。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "Flutterの `Post` モデルに「自分がいいね済みか（`isLiked`）」と「いいね件数（`receivedLikeCounts`）」のプロパティを追加する定義です。<br><pre><code>@freezed\nabstract class Post with _$Post {\n  const factory Post({\n    // ...\n    required bool ___,\n    required int ___,\n  }) = _Post;\n}</code></pre>",
+      "options": [
+        "isLiked / receivedLikeCounts",
+        "is_liked / received_like_counts",
+        "liked / likeCount",
+        "isLike / likes"
+      ],
+      "answer": 0,
+      "commentary": "Dartの命名規則（キャメルケース）に従い `isLiked` と `receivedLikeCounts` を追加します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`PostsService` に投稿を「いいね」するPOST通信メソッドを定義するコードです。<br><pre><code>Future&lt;void&gt; likePost(int postId) async {\n  final url = '$baseUrl/posts/$postId/likes/';\n  final response = await dioClient.___(url);\n  if (response.statusCode != 201) {\n    throw Exception('いいねに失敗しました');\n  }\n}</code></pre>",
+      "options": [
+        "post",
+        "get",
+        "put",
+        "patch"
+      ],
+      "answer": 0,
+      "commentary": "いいねの登録を行うには `/posts/<id>/likes/` に対し `post()` 通信を実行します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "いいね登録API（`likePost`）で、正常に登録が完了した際に確認するステータスコード数値は何ですか？<br><pre><code>if (response.statusCode != ___) {\n  throw Exception('いいねに失敗しました');\n}</code></pre>",
+      "options": [
+        "201",
+        "200",
+        "204",
+        "400"
+      ],
+      "answer": 0,
+      "commentary": "いいね登録成功時はステータスコード `201`（201 Created）が返されます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "`PostsService` に「いいね」を取り消すDELETE通信メソッドを定義するコードです。<br><pre><code>Future&lt;void&gt; unlikePost(int postId) async {\n  final url = '$baseUrl/posts/$postId/likes/';\n  final response = await dioClient.___(url);\n  if (response.statusCode != 200) {\n    throw Exception('いいねの取り消しに失敗しました');\n  }\n}</code></pre>",
+      "options": [
+        "delete",
+        "remove",
+        "destroy",
+        "cancel"
+      ],
+      "answer": 0,
+      "commentary": "いいねを取り消す通信には `delete()` メソッドを使用します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "いいね取り消しAPI（`unlikePost`）で、成功判定を行うステータスコード数値は何ですか？<br><pre><code>if (response.statusCode != ___) {\n  throw Exception('いいねの取り消しに失敗しました');\n}</code></pre>",
+      "options": [
+        "200",
+        "201",
+        "204",
+        "400"
+      ],
+      "answer": 0,
+      "commentary": "いいね取り消しAPIの成功応答ステータスは `200`（200 OK）です。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "楽観的UI更新を行う際、通信失敗時に元の画面表示に戻すために `toggleLike` の冒頭で実行するバックアップ処理はどれですか？",
+      "options": [
+        "final originalState = state;",
+        "state = AsyncValue.loading();",
+        "ref.invalidate(postListProvider);",
+        "ref.refresh(postListProvider);"
+      ],
+      "answer": 0,
+      "commentary": "変更直前の現在の状態を `final originalState = state;` として変数に退避保存しておきます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "freezedで生成されたオブジェクトの一部のプロパティ（`isLiked` や `receivedLikeCounts`）のみを書き換えて新しいオブジェクトを複製生成するメソッドは何ですか？<br><pre><code>return p.___\n(\n  isLiked: !p.isLiked,\n  receivedLikeCounts:\n      p.isLiked ? p.receivedLikeCounts - 1 : p.receivedLikeCounts + 1,\n);</code></pre>",
+      "options": [
+        "copyWith",
+        "clone",
+        "update",
+        "copy"
+      ],
+      "answer": 0,
+      "commentary": "一部のプロパティを変更した複製を作るには `copyWith()` メソッドを使用します。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "すでに「いいね」している投稿（`p.isLiked == true`, `receivedLikeCounts == 5`）のいいねボタンを押して `copyWith` が実行されたとき、新しい `receivedLikeCounts` の数値はどうなりますか？<br><pre><code>receivedLikeCounts: p.isLiked ? p.receivedLikeCounts - 1 : p.receivedLikeCounts + 1</code></pre>",
+      "options": [
+        "4（5 - 1）",
+        "6（5 + 1）",
+        "5",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "`p.isLiked` が `true`（いいね解除操作）のため `5 - 1` で `4` に減算されます。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "まだ「いいね」していない投稿（`p.isLiked == false`, `receivedLikeCounts == 2`）のいいねボタンを押して `copyWith` が実行されたとき、新しい `receivedLikeCounts` の数値はどうなりますか？",
+      "options": [
+        "3（2 + 1）",
+        "1（2 - 1）",
+        "2",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "`p.isLiked` が `false`（新規いいね操作）のため `2 + 1` で `3` に加算されます。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "楽観的UI更新を行った後、実際のAPI通信（`likePost` または `unlikePost`）でエラーが発生した際、`catch` ブロックで実行するロールバック処理はどれですか？<br><pre><code>try {\n  if (post.isLiked) {\n    await postServices.unlikePost(post.id);\n  } else {\n    await postServices.likePost(post.id);\n  }\n} catch (e) {\n  state = ___;\n}</code></pre>",
+      "options": [
+        "originalState",
+        "AsyncValue.error(e, StackTrace.current)",
+        "null",
+        "AsyncValue.loading()"
+      ],
+      "answer": 0,
+      "commentary": "通信失敗時は保存しておいた `originalState` を `state` に書き戻し、元の画面表示に戻します（ロールバック）。"
+    },
+    {
+      "id": 20,
+      "type": "用語理解",
+      "question": "サーバー通信が成功するのを待ってからローディング表示を解除して画面（UI）を更新する、一般的なUI設計手法を何と呼びますか？",
+      "options": [
+        "悲観的 UI 更新（Pessimistic UI Update）",
+        "楽観的 UI 更新（Optimistic UI Update）",
+        "即時レンダリング",
+        "リアルタイム同期"
+      ],
+      "answer": 0,
+      "commentary": "サーバーの成功応答を確認してからUIを変更する確実なアプローチを「悲観的 UI 更新」と呼びます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "投稿の「いいね済み（`isLiked == true`）」のときに表示する赤色の塗りつぶしハートアイコン定数はどれですか？<br><pre><code>widget.post.isLiked\n    ? Icons.___\n    : Icons.favorite_border</code></pre>",
+      "options": [
+        "favorite",
+        "favorite_border",
+        "heart",
+        "like"
+      ],
+      "answer": 0,
+      "commentary": "塗りつぶしのハートアイコンは `Icons.favorite` です。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "投稿が「未いいね（`isLiked == false`）」のときに表示する枠線だけのハートアイコン定数はどれですか？<br><pre><code>widget.post.isLiked\n    ? Icons.favorite\n    : Icons.___</code></pre>",
+      "options": [
+        "favorite_border",
+        "favorite_outline",
+        "heart_border",
+        "favorite_off"
+      ],
+      "answer": 0,
+      "commentary": "枠線（輪郭）のみのハートアイコンは `Icons.favorite_border` です。"
+    },
+    {
+      "id": 23,
+      "type": "文法チェック",
+      "question": "いいねボタンのハートマークの色を、`isLiked` が `true` なら赤、`false` なら黒に設定する正しい三項演算子はどれですか？",
+      "options": [
+        "color: widget.post.isLiked ? Colors.red : Colors.black",
+        "color: widget.post.isLiked ? Colors.black : Colors.red",
+        "color: Colors.red(widget.post.isLiked)",
+        "color: if (widget.post.isLiked) Colors.red else Colors.black"
+      ],
+      "answer": 0,
+      "commentary": "`widget.post.isLiked` が真なら `Colors.red`、偽なら `Colors.black` となるよう記述します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "ハートアイコンがタップされた際、RiverpodのNotifierの `toggleLike` メソッドを呼び出すコードです。<br><pre><code>onTap: () {\n  ref.read(postListProvider.___).toggleLike(widget.post);\n}</code></pre>",
+      "options": [
+        "notifier",
+        "state",
+        "future",
+        "value"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーの状態そのものではなくメソッド（`toggleLike`）を呼び出すには `.notifier` にアクセスします。"
+    },
+    {
+      "id": 25,
+      "type": "用語理解",
+      "question": "Riverpodにおいて、ボタンタップ時などのイベントハンドラ内でプロバイダーのメソッドを単発で1回実行したいときに使用する `ref` のメソッドは何ですか？",
+      "options": [
+        "ref.read()",
+        "ref.watch()",
+        "ref.listen()",
+        "ref.bind()"
+      ],
+      "answer": 0,
+      "commentary": "イベント実行時などに単発で状態やNotifierを取得するには `ref.read()` を使用します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "いいね件数の数値（`int`型）を `Text` ウィジェットに渡して表示させる正しい変換記法はどれですか？",
+      "options": [
+        "Text(widget.post.receivedLikeCounts.toString())",
+        "Text(widget.post.receivedLikeCounts)",
+        "Text(int.parse(widget.post.receivedLikeCounts))",
+        "Text(\"${widget.post.receivedLikeCounts as String}\")"
+      ],
+      "answer": 0,
+      "commentary": "`Text` ウィジェットの引数は `String` 型必須のため、数値に対して `.toString()` を呼び出して渡します。"
+    },
+    {
+      "id": 27,
+      "type": "文法チェック",
+      "question": "楽観的UI更新を行う `toggleLike` 関数内で、現在の投稿リスト状態（`postList`）が `null` の場合に安全に処理を抜ける正しい条件文はどれですか？",
+      "options": [
+        "if (postList == null) return;",
+        "if (postList.isNull) break;",
+        "if (postList == 0) exit();",
+        "if (!postList) return;"
+      ],
+      "answer": 0,
+      "commentary": "リストがまだ取得できていない（null）場合に早期離脱するには `if (postList == null) return;` と書きます。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "ネット接続が切れている状態でいいねボタンをタップした場合、楽観的UI更新を採用しているアプリではどのような画面変化が起きますか？",
+      "options": [
+        "タップした瞬間にハートが一瞬赤くなりカウントが増えるが、直後に通信エラーが起きて元の黒いハートと元の数値に戻る",
+        "タップしても一切ハートの色や数値が変わらない",
+        "アプリがクラッシュして終了する",
+        "ハートが赤いまま二度と元に戻らなくなる"
+      ],
+      "answer": 0,
+      "commentary": "即座に画面が変わった後、`catch` ブロックで `state = originalState;` が実行され、自動的に元の表示へロールバックされます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "手動で更新したリストから、新しい `AsyncValue` の成功状態（Data）を作成して `state` に代入する記述です。<br><pre><code>state = AsyncValue.___(\n  postList.map(...).toList(),\n);</code></pre>",
+      "options": [
+        "data",
+        "success",
+        "value",
+        "result"
+      ],
+      "answer": 0,
+      "commentary": "`AsyncValue` のデータ成功状態を作るには `AsyncValue.data(データ)` を使用します。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "楽観的UI更新がよく適用される、処理の失敗リスクが低くユーザー頻度が高い操作の例として適切なものはどれですか？",
+      "options": [
+        "SNSの「いいね」ボタンやブックマーク登録",
+        "銀行の口座振込や送金処理",
+        "クレジットカードの決済処理",
+        "ユーザーアカウントの退会・完全削除処理"
+      ],
+      "answer": 0,
+      "commentary": "失敗の影響が小さく軽快さが求められる「いいね」や「ブックマーク」などの操作に楽観的UI更新がよく使われます。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "Djangoの `views.py` で `Exists`, `OuterRef`, `Count` などのモデル関数をまとめてインポートする正解の記述はどれですか？",
+      "options": [
+        "from django.db.models import BooleanField, Case, Value, When, Exists, OuterRef, Count",
+        "import Exists, OuterRef, Count from django.db.models",
+        "from django.orm import Exists, OuterRef, Count",
+        "using django.db.models.functions"
+      ],
+      "answer": 0,
+      "commentary": "これらの関数・表現クラスは `django.db.models` からインポートします。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "いいね数を画面表示している `Text` ウィジェットの定義です。空欄に入る記述を選んでください。<br><pre><code>Text(widget.post.receivedLikeCounts.____())</code></pre>",
+      "options": [
+        "toString",
+        "toInt",
+        "parse",
+        "value"
+      ],
+      "answer": 0,
+      "commentary": "数値を文字列に変換するには `.toString()` メソッドを呼び出します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "`post.isLiked` が `true` の投稿に対して `ref.read(postListProvider.notifier).toggleLike(post)` が呼ばれた際、内部で実行されるサービスメソッドはどれですか？<br><pre><code>if (post.isLiked) {\n  await postServices.unlikePost(post.id);\n} else {\n  await postServices.likePost(post.id);\n}</code></pre>",
+      "options": [
+        "postServices.unlikePost(post.id)（いいね取り消し）",
+        "postServices.likePost(post.id)（いいね登録）",
+        "postServices.deletePost(post.id)",
+        "postServices.fetchPosts()"
+      ],
+      "answer": 0,
+      "commentary": "`isLiked` が `true`（既にいいね済み）なので、解除APIである `unlikePost()` が実行されます。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "`post.isLiked` が `false` の投稿に対して `toggleLike(post)` が呼ばれた際、内部で実行されるサービスメソッドはどれですか？",
+      "options": [
+        "postServices.likePost(post.id)（いいね登録）",
+        "postServices.unlikePost(post.id)（いいね取り消し）",
+        "postServices.getPost(post.id)",
+        "何も実行されない"
+      ],
+      "answer": 0,
+      "commentary": "`isLiked` が `false`（未いいね）なので、登録APIである `likePost()` が呼び出されます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ハートアイコンと数字を横並びで配置するための親ウィジェットは何ですか？<br><pre><code>child: ___(\n  mainAxisAlignment: MainAxisAlignment.start,\n  children: [\n    GestureDetector(...),\n    const SizedBox(width: 2),\n    Text(...),\n  ],\n)</code></pre>",
+      "options": [
+        "Row",
+        "Column",
+        "Stack",
+        "ListView"
+      ],
+      "answer": 0,
+      "commentary": "アイコンとテキストを水平横並びに配置するため `Row` ウィジェットを使用します。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "Djangoの `annotate()` で `received_like_counts=Count(\"received_likes\")` を指定した場合、取得できるデータは何ですか？",
+      "options": [
+        "その投稿に紐づいている「いいね（Like）」オブジェクトの総件数",
+        "その投稿にコメントしたユーザーの人数",
+        "その投稿を閲覧した回数",
+        "投稿が作成されてからの経過時間"
+      ],
+      "answer": 0,
+      "commentary": "`Count(\"received_likes\")` により、その投稿が獲得した「いいね」の合計数をDB側で集計して取得します。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "`GestureDetector` のタップ検出プロパティとして正しいものはどれですか？",
+      "options": [
+        "onTap: () { ... }",
+        "onPressed: () { ... }",
+        "onClick: () { ... }",
+        "onSelect: () { ... }"
+      ],
+      "answer": 0,
+      "commentary": "`GestureDetector` でタップイベントを受け取るプロパティは `onTap` です。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`build_runner` でコード自動生成を行うコマンドの記述です。<br><pre><code>dart run ___ build</code></pre>",
+      "options": [
+        "build_runner",
+        "freezed",
+        "riverpod",
+        "generator"
+      ],
+      "answer": 0,
+      "commentary": "自動生成ツールを呼出すコマンドは `dart run build_runner build` です。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "APIから返ってきたレスポンスJSONが `\"is_liked\": true, \"received_like_counts\": 3` のとき、Flutter上の初期表示はどうなりますか？",
+      "options": [
+        "赤いハートアイコン（Icons.favorite）が表示され、その横に「3」と表示される",
+        "黒い枠線ハートアイコンが表示され、その横に「3」と表示される",
+        "赤いハートアイコンが表示され、その横に「0」と表示される",
+        "ハートアイコンは表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`isLiked == true` のため赤いハートになり、`receivedLikeCounts` の数値 `3` がテキスト描画されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で開発した「いいね機能」の全体的な処理フロー（フロントエンド・バックエンド連携）として正しいものはどれですか？",
+      "options": [
+        "1. タップ直後に楽観的UI更新（アイコン＆カウント変更） → 2. API（likePost / unlikePost）を送信 → 3. 失敗時は元の状態にロールバック",
+        "1. API送信 → 2. サーバーの応答を10秒待つ → 3. 画面の全体をリロードする",
+        "1. アプリを閉じる → 2. データベースを初期化する → 3. ログイン画面に移動する",
+        "1. アイコンを隠す → 2. アカウントを削除する → 3. ダイアログを閉じる"
+      ],
+      "answer": 0,
+      "commentary": "タップ直後に楽観的UI更新を行い、バックグラウンドで通信処理を実施して、エラー発生時のみ元に戻す（ロールバック）というフローです。"
+    }
+  ]
 }

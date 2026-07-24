@@ -1,4 +1,525 @@
 {
   "unit_title": "API エンドポイントの定義 - いいね",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "データベースで「誰が」「どの投稿に」いいねしたかを記録するために作成したモデルの名前は何ですか？",
+      "options": [
+        "Like",
+        "Favorite",
+        "Good",
+        "PostLike"
+      ],
+      "answer": 0,
+      "commentary": "今回の設計では、「誰がどの投稿にいいねしたか」を保存するモデルとして `Like` モデルを定義しました。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoで推奨されている、設定ファイルからユーザーモデルを参照して `ForeignKey` を定義する記述です。空欄に入るコードを選んでください。<br><pre><code>user = models.ForeignKey(\n    settings.___,\n    related_name=\"sent_likes\",\n    on_delete=models.CASCADE,\n)</code></pre>",
+      "options": [
+        "AUTH_USER_MODEL",
+        "USER_MODEL",
+        "CUSTOM_USER_MODEL",
+        "DEFAULT_USER_MODEL"
+      ],
+      "answer": 0,
+      "commentary": "Djangoでは `settings.AUTH_USER_MODEL` を使うことで、カスタムユーザーモデルを安全に参照できます。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "Userモデルから「ユーザーが送信したいいね一覧」へ逆参照する際の名前（`related_name`）として設定された文字列は何ですか？<br><pre><code>user = models.ForeignKey(\n    settings.AUTH_USER_MODEL,\n    related_name=\"___\",\n    on_delete=models.CASCADE,\n)</code></pre>",
+      "options": [
+        "sent_likes",
+        "received_likes",
+        "user_likes",
+        "my_likes"
+      ],
+      "answer": 0,
+      "commentary": "ユーザーが自分から送ったいいねを示す逆参照名として `related_name=\"sent_likes\"` を設定しています。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "Postモデルから「その投稿が受け取ったいいね一覧」へ逆参照する際の名前（`related_name`）として設定された文字列は何ですか？<br><pre><code>post = models.ForeignKey(\n    Post,\n    related_name=\"___\",\n    on_delete=models.CASCADE,\n)</code></pre>",
+      "options": [
+        "received_likes",
+        "sent_likes",
+        "post_likes",
+        "all_likes"
+      ],
+      "answer": 0,
+      "commentary": "投稿の側から受け取ったいいねを参照するための逆参照名として `related_name=\"received_likes\"` を設定しています。"
+    },
+    {
+      "id": 5,
+      "type": "用語理解",
+      "question": "ユーザーや投稿が削除されたときに、それに紐づく「いいね」データも連動して自動削除されるように指定する `on_delete` の設定は何ですか？",
+      "options": [
+        "models.CASCADE",
+        "models.SET_NULL",
+        "models.PROTECT",
+        "models.DO_NOTHING"
+      ],
+      "answer": 0,
+      "commentary": "親データ（ユーザーや投稿）が削除されたときに、子データ（いいね）も一緒に消すには `models.CASCADE` を使います。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "いいねが作成された日時を自動的に保存するためのフィールド設定です。空欄に入る属性名を選んでください。<br><pre><code>created_at = models.DateTimeField(\n    \"作成日\",\n    ___=True,\n)</code></pre>",
+      "options": [
+        "auto_now_add",
+        "auto_now",
+        "default_now",
+        "auto_create"
+      ],
+      "answer": 0,
+      "commentary": "データが最初に作成された時刻を自動記録するには `auto_now_add=True` を指定します。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "ユーザー名が `\"alice\"` で、投稿本文が `\"こんにちは\"` である Like オブジェクトを文字列表示（`str()`）したときの出力結果を選んでください。<br><pre><code>def __str__(self):\n    return f\"{self.user.username}=>{self.post.content}\"</code></pre>",
+      "options": [
+        "alice=>こんにちは",
+        "こんにちは=>alice",
+        "alice->こんにちは",
+        "Like object (1)"
+      ],
+      "answer": 0,
+      "commentary": "`f\"{self.user.username}=>{self.post.content}\"` の定義に従い、`alice=>こんにちは` と出力されます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`Like` モデルを新しく定義した後、マイグレーションファイルを生成するために実行するコマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "makemigrations",
+        "migrate",
+        "createmodel",
+        "builddb"
+      ],
+      "answer": 0,
+      "commentary": "モデルの変更を検知してマイグレーションファイルを作るには `python manage.py makemigrations` を実行します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "作成したマイグレーションファイルを実際のデータベースに適用するためのコマンドは何ですか？<br><pre><code>python manage.py ___</code></pre>",
+      "options": [
+        "migrate",
+        "makemigrations",
+        "updatedb",
+        "apply"
+      ],
+      "answer": 0,
+      "commentary": "マイグレーションをデータベースに反映させるには `python manage.py migrate` を実行します。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "ユーザーが自分が過去に「いいね」した投稿一覧を表示する場合、一般的にどのような順番で並べ替えて表示しますか？",
+      "options": [
+        "いいねした時刻（タイムスタンプ）が新しい順",
+        "投稿が最初に作成された日時が新しい順",
+        "投稿者のユーザーIDの順番",
+        "投稿の文字数が長い順番"
+      ],
+      "answer": 0,
+      "commentary": "「最近いいねした投稿」を表示する場合は、投稿作成日時ではなく「いいねをした日時」の新しい順にソートして表示します。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "Webサイトやアプリで、更新された情報や投稿が一覧で表示される画面や情報の流れのことを何と呼びますか？",
+      "options": [
+        "フィード（feed）",
+        "ストリーム（stream）",
+        "チャネル（channel）",
+        "ヘッダー（header）"
+      ],
+      "answer": 0,
+      "commentary": "次々と更新される投稿やニュースの一覧画面や配信データのことを「フィード（feed）」と呼びます。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "特定の投稿（ID: pk）に対して「いいね」を登録・削除するためのルーティング設定です。空欄に入るパスコンバータを選んでください。<br><pre><code>urlpatterns = [\n    # ...\n    path(\"posts/&lt;___:pk&gt;/likes/\", views.PostLikeView.as_view(), name=\"post-like\"),\n]</code></pre>",
+      "options": [
+        "int",
+        "str",
+        "slug",
+        "uuid"
+      ],
+      "answer": 0,
+      "commentary": "投稿の数値ID（主キー）を整数として受け取るため `<int:pk>` を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "クラスベースビュー `PostLikeView` を `urls.py` でURLパターンに対応させる際に呼び出すメソッドは何ですか？<br><pre><code>path(\"posts/&lt;int:pk&gt;/likes/\", views.PostLikeView.___(), name=\"post-like\")</code></pre>",
+      "options": [
+        "as_view",
+        "to_view",
+        "run",
+        "get_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをルーティングにセットするには `.as_view()` メソッドを呼出します。"
+    },
+    {
+      "id": 14,
+      "type": "用語理解",
+      "question": "今回の「いいね登録・削除機能」で、汎用ジェネリックビュー（CreateModelMixinなど）を使わずに `APIView` を直接継承して実装した理由は何ですか？",
+      "options": [
+        "条件に応じた独自のメッセージ返却や自由なエラーハンドリング（ビジネスロジック）を記述するため",
+        "APIViewの方が通信速度が100倍速いから",
+        "汎用ジェネリックビューではPOSTメソッドが使えないから",
+        "データベースを使わずに処理を完結させるため"
+      ],
+      "answer": 0,
+      "commentary": "標準のMixinでは無条件な作成・削除が行われてしまうため、独自のメッセージやチェック処理（ビジネスロジック）を柔軟に書ける `APIView` を採用しました。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "自由なロジックで `post` や `delete` メソッドを定義できる、Django REST framework の最も基本的なビュークラスは何ですか？<br><pre><code>class PostLikeView(___):\n    permission_classes = [IsAuthenticated]</code></pre>",
+      "options": [
+        "APIView",
+        "GenericAPIView",
+        "ModelViewSet",
+        "View"
+      ],
+      "answer": 0,
+      "commentary": "最もカスタマイズ性が高く自由度の高い基底ビュークラスは `APIView` です。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "ログインして認証されているユーザーのみアクセスを許可するパーミッションクラス設定です。空欄に入るクラス名を選んでください。<br><pre><code>class PostLikeView(APIView):\n    permission_classes = [___]</code></pre>",
+      "options": [
+        "IsAuthenticated",
+        "AllowAny",
+        "IsAdminUser",
+        "IsOwner"
+      ],
+      "answer": 0,
+      "commentary": "ログイン認証済みユーザーに限定するには `IsAuthenticated` を指定します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "URLから渡された `pk` に該当する投稿が存在しない場合、自動的に404エラー（Not Found）を発生させる便利なDjangoのショートカット関数は何ですか？<br><pre><code>def post(self, request, pk):\n    post = ___(Post, pk=pk)</code></pre>",
+      "options": [
+        "get_object_or_404",
+        "get_or_create",
+        "find_or_404",
+        "get_instance"
+      ],
+      "answer": 0,
+      "commentary": "オブジェクトを取得し、見つからなければ404エラーを返す関数は `get_object_or_404` です。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "指定した条件（ユーザーと投稿）の `Like` オブジェクトを探し、無ければ新規作成するDjango ORMのメソッドは何ですか？<br><pre><code>like, created = Like.objects.___(\n    user=request.user,\n    post=post,\n)</code></pre>",
+      "options": [
+        "get_or_create",
+        "first_or_create",
+        "find_or_add",
+        "update_or_create"
+      ],
+      "answer": 0,
+      "commentary": "既存のデータを取得し、存在しなければ作成するメソッドは `get_or_create` です。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "`get_or_create` メソッドが返す2つの戻り値（`like, created`）において、変数 `created` に代入される値の内容は何ですか？",
+      "options": [
+        "オブジェクトが新しく作成されたかどうかを示すブール値（True / False）",
+        "作成された日時の文字列",
+        "データベースのテーブル名",
+        "エラーメッセージ"
+      ],
+      "answer": 0,
+      "commentary": "第2戻り値の `created` には、新しく作成された場合は `True`、既存のものを取得した場合は `False` が入ります。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "既に「いいね」している投稿に対して、再度いいね登録（POST）リクエストを送った場合、`PostLikeView` が返すレスポンスの内容はどうなりますか？<br><pre><code>if not created:\n    return Response(\n        {\"detail\": \"既にいいね済みです\"},\n        status=status.HTTP_400_BAD_REQUEST,\n    )</code></pre>",
+      "options": [
+        "ステータスコード 400 と \"既にいいね済みです\" というエラーメッセージが返る",
+        "ステータスコード 201 と \"いいねしました\" というメッセージが返る",
+        "いいねが解除（削除）される",
+        "サーバーエラー（500）が発生する"
+      ],
+      "answer": 0,
+      "commentary": "`created` が `False`（未作成）となるため、400 Bad Request と共に \"既にいいね済みです\" が返されます。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "まだ「いいね」していない投稿に対して初めてPOSTリクエストを送信し、いいね登録が成功した場合のレスポンスはどうなりますか？",
+      "options": [
+        "ステータスコード 201（Created）と \"いいねしました\" というメッセージが返る",
+        "ステータスコード 200（OK）と \"取り消しました\" が返る",
+        "ステータスコード 400（Bad Request）が返る",
+        "空のレスポンスが返る"
+      ],
+      "answer": 0,
+      "commentary": "新規作成が成功するため `201 Created` と `{\"detail\": \"いいねしました\"}` が返ります。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "クエリセットから条件に一致する最初の1件を取得し、該当なしの場合は `None` を返すORMのメソッドは何ですか？<br><pre><code>like = Like.objects.filter(user=request.user, post=post).___()</code></pre>",
+      "options": [
+        "first",
+        "get",
+        "one",
+        "take"
+      ],
+      "answer": 0,
+      "commentary": "該当データの先頭1件を取得し、存在しない場合例外を出さずに `None` を返すメソッドは `.first()` です。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "「いいね」をしていない投稿に対して、いいね削除（DELETE）リクエストを送信した場合のレスポンスはどうなりますか？<br><pre><code>if not like:\n    return Response(\n        {\"detail\": \"まだいいねしていません\"},\n        status=status.HTTP_400_BAD_REQUEST,\n    )</code></pre>",
+      "options": [
+        "ステータスコード 400 と \"まだいいねしていません\" というメッセージが返る",
+        "ステータスコード 200 と \"いいねを取り消しました\" が返る",
+        "自動的にいいねが登録される",
+        "404 Not Found になる"
+      ],
+      "answer": 0,
+      "commentary": "`like` が `None` となるため `if not like` 条件に入り、400 Bad Request とエラーメッセージが返ります。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "「いいね」済みの投稿に対してDELETEリクエストを送り、正常にいいねを取り消した場合のレスポンスはどうなりますか？",
+      "options": [
+        "ステータスコード 200（OK）と \"いいねを取り消しました\" というメッセージが返る",
+        "ステータスコード 204（No Content）と空のレスポンスが返る",
+        "ステータスコード 400（Bad Request）が返る",
+        "何も起こらずそのまま残る"
+      ],
+      "answer": 0,
+      "commentary": "`like.delete()` が実行され、200 OK と共に `{\"detail\": \"いいねを取り消しました\"}` が返されます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "Django REST frameworkで、辞書データやステータスコードを指定してAPIレスポンスを作成・返却するクラスを選んでください。<br><pre><code>return ___(\n    {\"detail\": \"いいねしました\"},\n    status=status.HTTP_201_CREATED,\n)</code></pre>",
+      "options": [
+        "Response",
+        "JsonResponse",
+        "HttpResponse",
+        "DRFResponse"
+      ],
+      "answer": 0,
+      "commentary": "DRFで柔軟なAPIレスポンスを返すには `rest_framework.response.Response` を使用します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "リソースの新規作成が成功したことを表すHTTPステータスコード（201）のDRF定数はどれですか？<br><pre><code>status=status.___</code></pre>",
+      "options": [
+        "HTTP_201_CREATED",
+        "HTTP_200_OK",
+        "HTTP_204_NO_CONTENT",
+        "HTTP_400_BAD_REQUEST"
+      ],
+      "answer": 0,
+      "commentary": "新規データ作成成功の標準ステータス定数は `status.HTTP_201_CREATED` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "ビューの中で、GETリクエストのクエリパラメータ（`?feed=likes` など）の値を取得する記述です。<br><pre><code>feed_type = self.request.___.get(\"feed\")</code></pre>",
+      "options": [
+        "query_params",
+        "GET",
+        "params",
+        "data"
+      ],
+      "answer": 0,
+      "commentary": "Django REST frameworkでURLのクエリパラメータを取得するには `request.query_params` を参照します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "`feed=likes` が指定された際、`Post` モデルから「自分がいいねした投稿」だけに絞り込むフィルターの条件記述です。<br><pre><code>elif feed_type == \"likes\":\n    queryset = queryset.filter(received_likes__user=self.request.___)</code></pre>",
+      "options": [
+        "user",
+        "auth",
+        "account",
+        "profile"
+      ],
+      "answer": 0,
+      "commentary": "現在リクエストを行っているログインユーザーオブジェクトを参照するには `self.request.user` を指定します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "自分がいいねした投稿一覧を、「いいねした日時の新しい順（降順）」でソートして並び替えるORM記述です。<br><pre><code>queryset = queryset.order_by(\"___received_likes__created_at\")</code></pre>",
+      "options": [
+        "-",
+        "+",
+        "!",
+        "DESC"
+      ],
+      "answer": 0,
+      "commentary": "逆参照したLikeモデルの `created_at` を新しい順（降順）でソートするには先頭にハイフン `-` を付けます。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "`GET /api/posts/?feed=timeline` というリクエストが送信された際、`PostListView` が返すクエリセットの並び順はどうなりますか？<br><pre><code>if feed_type == \"timeline\":\n    queryset = queryset.order_by(\"-created_at\")</code></pre>",
+      "options": [
+        "投稿が作成された日時の新しい順（降順）",
+        "いいねされた日時の新しい順",
+        "ユーザーのID順",
+        "ランダムな順序"
+      ],
+      "answer": 0,
+      "commentary": "`feed=timeline` の場合は、投稿自体の作成日時 `created_at` の降順（新しい順）で並び替えます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`GET /api/posts/?feed=likes` というリクエストを送信した場合に取得できる投稿一覧データはどれですか？",
+      "options": [
+        "自分が過去に「いいね」した投稿のみが、いいねした日時の新しい順で並んだデータ",
+        "自分が過去に「投稿」したメッセージ一覧",
+        "アプリ全体のすべての投稿一覧",
+        "他人の投稿のうち、まだ誰もいいねしていない投稿の一覧"
+      ],
+      "answer": 0,
+      "commentary": "`received_likes__user=self.request.user` で絞り込み、`-received_likes__created_at` でソートした一覧が返ります。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "Djangoの管理者画面（`posts/admin.py`）で `Like` モデルを表示・操作できるように登録するコードです。<br><pre><code>from django.contrib import admin\nfrom .models import Like, Post\n\nadmin.site.___(Like)</code></pre>",
+      "options": [
+        "register",
+        "add",
+        "connect",
+        "show"
+      ],
+      "answer": 0,
+      "commentary": "管理サイトにモデルを追加するには `admin.site.register(モデル名)` を使用します。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "`PostLikeView` クラス内で、POSTリクエスト（いいね登録）を受け取るメソッドの正しい定義はどれですか？",
+      "options": [
+        "def post(self, request, pk):",
+        "def post(request, pk):",
+        "def create_like(self, request, pk):",
+        "def post_like(self, pk):"
+      ],
+      "answer": 0,
+      "commentary": "`APIView` 内でPOST通信を処理する関数は `def post(self, request, pk):` の形式で定義します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "`PostLikeView` クラス内で、DELETEリクエスト（いいね削除）を受け取るメソッドの正しい定義はどれですか？",
+      "options": [
+        "def delete(self, request, pk):",
+        "def delete(request, pk):",
+        "def remove_like(self, request, pk):",
+        "def do_delete(self, pk):"
+      ],
+      "answer": 0,
+      "commentary": "`APIView` 内でDELETE通信を処理する関数は `def delete(self, request, pk):` と記述します。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "アクセストークンを付与して `curl -X POST http://127.0.0.1:8000/api/posts/2/likes/` を初めて実行して成功したとき、返されるレスポンスJSONはどれですか？",
+      "options": [
+        "{\"detail\":\"いいねしました\"}",
+        "{\"detail\":\"いいねを取り消しました\"}",
+        "{\"detail\":\"既にいいね済みです\"}",
+        "{\"status\":\"ok\"}"
+      ],
+      "answer": 0,
+      "commentary": "新規にいいねが登録されたため、`{\"detail\":\"いいねしました\"}` が返ります。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "登録済みのいいねに対し `curl -X DELETE http://127.0.0.1:8000/api/posts/2/likes/` を実行して成功したとき、返されるレスポンスJSONはどれですか？",
+      "options": [
+        "{\"detail\":\"いいねを取り消しました\"}",
+        "{\"detail\":\"いいねしました\"}",
+        "{\"detail\":\"まだいいねしていません\"}",
+        "空の文字列"
+      ],
+      "answer": 0,
+      "commentary": "いいねの取り消しに成功したため、`{\"detail\":\"いいねを取り消しました\"}` が返ります。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "ターミナルから `curl` コマンドでクエリパラメータを含むURL（`http://127.0.0.1:8000/api/posts/?feed=likes`）にアクセスする際、「?」記号の誤作動を防ぐ推奨記法はどれですか？",
+      "options": [
+        "URL全体をシングルクォート（'...'）またはダブルクォートで囲む",
+        "「?」記号を消してスペースを空ける",
+        "URLの末尾に「;」を付ける",
+        "「?」の代わりに「&」を使う"
+      ],
+      "answer": 0,
+      "commentary": "シェル（ターミナル）が `?` をワイルドカード等として誤解釈するのを防ぐため、URLをクォート（`'...'`）で囲みます。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "`Post` モデルの `user` 外部キーに `related_name=\"received_likes\"` を設定した場合、`Post` オブジェクトから辿ることができる関連データは何ですか？",
+      "options": [
+        "その投稿に対してつけられた「いいね」の一覧データ",
+        "その投稿を作成したユーザーが過去に送った全いいね",
+        "投稿の閲覧履歴データ",
+        "投稿のコメント一覧データ"
+      ],
+      "answer": 0,
+      "commentary": "`Post` に関連付けられた `received_likes`（受け取ったいいね）を辿ることで、その投稿についた「いいね」の一覧を取得できます。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "`User` モデルの `user` 外部キーに `related_name=\"sent_likes\"` を設定した場合、`User` オブジェクトから辿ることができる関連データは何ですか？",
+      "options": [
+        "そのユーザー自身がこれまでに押した（送信した）「いいね」の一覧データ",
+        "そのユーザーの投稿に対して他人が押した「いいね」の一覧データ",
+        "ユーザーのフォロワー一覧データ",
+        "ユーザーの投稿メッセージ一覧"
+      ],
+      "answer": 0,
+      "commentary": "`sent_likes`（送ったいいね）という逆参照名により、ユーザー自身が過去に付けた「いいね」の一覧を取得できます。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "`curl -X GET 'http://127.0.0.1:8000/api/posts/?feed=likes'` を実行して成功した場合にサーバーから返されるJSONのデータ構造（全体）はどれですか？",
+      "options": [
+        "自分がいいねした投稿（Post）オブジェクトが並んだ JSON 配列（リスト） `[...]`",
+        "単一の投稿オブジェクト `{...}`",
+        "「いいねしました」という文字列",
+        "ユーザー情報のみが並んだ配列"
+      ],
+      "answer": 0,
+      "commentary": "投稿一覧取得API（ListCreateAPIView）をベースにしているため、該当する `Post` オブジェクトの配列 `[...]` が返されます。"
+    }
+  ]
 }

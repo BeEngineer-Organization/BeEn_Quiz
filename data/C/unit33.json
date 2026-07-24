@@ -1,4 +1,525 @@
 {
   "unit_title": "API エンドポイントの定義 - アカウント",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "リソースの全ての項目を置き換えるのではなく、送信された一部のフィールドのみを「部分更新」するためのHTTPメソッドは何ですか？",
+      "options": [
+        "PATCH",
+        "PUT",
+        "POST",
+        "GET"
+      ],
+      "answer": 0,
+      "commentary": "リソースの一部のデータのみを書き換える「部分更新」には PATCH メソッドを使用します。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "単一のオブジェクト（特定の1件）に対して、情報の取得（GET）と更新（PUT/PATCH）の機能をまとめて提供するDjango REST frameworkの汎用ジェネリックビューは何ですか？",
+      "options": [
+        "RetrieveUpdateAPIView",
+        "ListCreateAPIView",
+        "RetrieveDestroyAPIView",
+        "ModelViewSet"
+      ],
+      "answer": 0,
+      "commentary": "単一オブジェクトの取得と更新を最小限のコードで実装できる汎用ビューは `RetrieveUpdateAPIView` です。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "データベースに固定のカラムとして保存されていない動的な集計値（投稿数やいいね数など）をシリアライズ時に計算して出力するためのDRFフィールドクラスは何ですか？",
+      "options": [
+        "SerializerMethodField",
+        "CharField",
+        "IntegerField",
+        "ReadOnlyField"
+      ],
+      "answer": 0,
+      "commentary": "独自メソッドを呼び出して動的に計算した値をJSONに含めるには `SerializerMethodField` を使用します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "自分のアカウント情報を取得・更新するエンドポイントを `accounts/urls.py` に追加するコードです。空欄に入る関数名を選んでください。<br><pre><code>urlpatterns = [\n    # ...\n    path(\"accounts/me/\", views.AccountView.___(), name=\"account\"),\n]</code></pre>",
+      "options": [
+        "as_view",
+        "to_view",
+        "get_view",
+        "run_view"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをルーティングパターンに登録する際は `.as_view()` を呼び出します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "マイページ（`/accounts/me/`）用ビュークラス `AccountView` の定義です。空欄に入る適切な汎用ビュークラス名を選んでください。<br><pre><code>class AccountView(generics.___):\n    permission_classes = [IsAuthenticated]\n    serializer_class = AccountSerializer\n\n    def get_object(self):\n        return self.request.user</code></pre>",
+      "options": [
+        "RetrieveUpdateAPIView",
+        "ListCreateAPIView",
+        "GenericAPIView",
+        "RetrieveAPIView"
+      ],
+      "answer": 0,
+      "commentary": "単一ユーザー情報の取得（GET）と更新（PATCH）に対応するため `generics.RetrieveUpdateAPIView` を継承します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "`AccountView` 内で、URLの `pk` パラメータに依存せず「現在ログインしているユーザー自身」を操作対象オブジェクトとして返すようにオーバーライドするメソッドは何ですか？<br><pre><code>class AccountView(generics.RetrieveUpdateAPIView):\n    permission_classes = [IsAuthenticated]\n    serializer_class = AccountSerializer\n\n    def ___(self):\n        return self.request.user</code></pre>",
+      "options": [
+        "get_object",
+        "get_queryset",
+        "get_user",
+        "perform_update"
+      ],
+      "answer": 0,
+      "commentary": "ビューが操作対象とする単一のインスタンスを特定・返却するメソッドは `get_object(self)` です。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`AccountView` へのアクセスを「ログイン認証済みのユーザー」のみに限定するためのパーミッション設定です。<br><pre><code>class AccountView(generics.RetrieveUpdateAPIView):\n    permission_classes = [___]</code></pre>",
+      "options": [
+        "IsAuthenticated",
+        "AllowAny",
+        "IsAdminUser",
+        "IsOwnerOrReadOnly"
+      ],
+      "answer": 0,
+      "commentary": "ログイン中の認証ユーザーのみに制限するには `IsAuthenticated` をリストで指定します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "`AccountView` 内の `get_object(self)` で `return self.request.user` を実装したとき、`GET /accounts/me/` リクエストでシリアライズ対象となるデータオブジェクトは何になりますか？",
+      "options": [
+        "リクエストを送信したログイン中のユーザー自身のインスタンス",
+        "データベースに登録されている最初のユーザー",
+        "全ユーザーのリストデータ",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`self.request.user` により、認証トークンから識別されたログイン中のユーザー自身が取得・返約されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "アカウント情報用シリアライザで、作成した投稿数を算出する動的フィールド `created_post_counts` を定義するコードです。<br><pre><code>class AccountSerializer(serializers.ModelSerializer):\n    created_post_counts = serializers.___(read_only=True)\n    sent_like_counts = serializers.SerializerMethodField(read_only=True)</code></pre>",
+      "options": [
+        "SerializerMethodField",
+        "IntegerField",
+        "ReadOnlyField",
+        "CustomField"
+      ],
+      "answer": 0,
+      "commentary": "メソッド経由で動的に算出する読み取り専用フィールドにするため `serializers.SerializerMethodField(read_only=True)` を指定します。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "`SerializerMethodField` である `created_post_counts` の値を計算するために `AccountSerializer` 内に定義する対応メソッド名は何ですか？<br><pre><code>def ___(self, obj):\n    return obj.created_posts.filter(is_deleted=False).count()</code></pre>",
+      "options": [
+        "get_created_post_counts",
+        "created_post_counts",
+        "get_post_counts",
+        "fetch_created_post_counts"
+      ],
+      "answer": 0,
+      "commentary": "`SerializerMethodField` の値を得るメソッドは `get_<フィールド名>` の命名規則に従います。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "ユーザー（`obj`）が作成した削除されていない投稿の「総件数」をカウントして返すORM記述です。<br><pre><code>def get_created_post_counts(self, obj):\n    return obj.created_posts.filter(is_deleted=False).___()</code></pre>",
+      "options": [
+        "count",
+        "length",
+        "size",
+        "total"
+      ],
+      "answer": 0,
+      "commentary": "クエリセットの該当レコード数を取得するには `.count()` メソッドを呼び出します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "ユーザー「alice」がこれまでに5件の投稿を作成し、そのうち1件を論理削除（`is_deleted=True`）している場合、`get_created_post_counts` が返す数値は何ですか？<br><pre><code>def get_created_post_counts(self, obj):\n    return obj.created_posts.filter(is_deleted=False).count()</code></pre>",
+      "options": [
+        "4",
+        "5",
+        "1",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "`is_deleted=False`（未削除）の投稿のみを対象にするため、`5 - 1 = 4` が返されます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "ユーザーが押した「いいね（sent_likes）」のうち、対象の投稿が削除されていないものだけを絞り込む参照フィルター記述です。<br><pre><code>def get_sent_like_counts(self, obj):\n    return obj.sent_likes.filter(post_____is_deleted=False).count()</code></pre>",
+      "options": [
+        "__",
+        "_",
+        ".",
+        "->"
+      ],
+      "answer": 0,
+      "commentary": "リレーション先のモデル（Post）のフィールド（is_deleted）を参照するにはダブルアンダースコア `post__is_deleted` を使用します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "ユーザーが送信した「いいね」の合計数が4件で、その対象投稿がすべて存在する（未削除）とき、`get_sent_like_counts` が返す数値は何ですか？",
+      "options": [
+        "4",
+        "0",
+        "1",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "削除されていない投稿に対するいいねの件数として `4` が返されます。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "`PostListView` の `get_queryset` 内で、リクエストURLのクエリパラメータ `?feed=...` の値を取得する記述です。<br><pre><code>feed_type = self.request.___.get(\"feed\")</code></pre>",
+      "options": [
+        "query_params",
+        "GET",
+        "params",
+        "data"
+      ],
+      "answer": 0,
+      "commentary": "Django REST frameworkでURLのクエリパラメータを取得するには `self.request.query_params` を使用します。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "`feed=myposts` の場合に「ログイン中のユーザー自身の投稿」のみに絞り込むフィルター条件です。<br><pre><code>elif feed_type == \"myposts\":\n    queryset = queryset.filter(user=self.request.___)\n    queryset = queryset.order_by(\"-created_at\")</code></pre>",
+      "options": [
+        "user",
+        "auth",
+        "account",
+        "me"
+      ],
+      "answer": 0,
+      "commentary": "リクエストを行っているログインユーザーオブジェクトを指定するため `self.request.user` を参照します。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "`GET /api/posts/?feed=myposts` というリクエストを送った場合に取得できるデータ一覧として正しいものはどれですか？",
+      "options": [
+        "現在ログインしているユーザー自身が過去に投稿したポストの一覧（投稿日時の新しい順）",
+        "現在ログインしているユーザーがいいねした他人のポスト一覧",
+        "アプリ全体のすべてのユーザーの投稿一覧",
+        "いいね数が2つ以上ある自分の投稿一覧"
+      ],
+      "answer": 0,
+      "commentary": "`user=self.request.user` で絞り込まれた、自分が過去に投稿したポスト一覧が新しい順に返されます。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "いいね数が「1より大きい（＝2以上）」という条件を指定するDjango ORMのルックアップ記述です。<br><pre><code>elif feed_type == \"likes-popular\":\n    queryset = (\n        queryset.filter(user=self.request.user)\n        .annotate(like_count=Count(\"received_likes\"))\n        .filter(like_count_____=1)\n        .order_by(\"-like_count\", \"-created_at\")\n    )</code></pre>",
+      "options": [
+        "__gt",
+        "__gte",
+        "__lt",
+        "__exact"
+      ],
+      "answer": 0,
+      "commentary": "「〜より大きい（Greater Than）」を表すフィールドルックアップは `__gt` です（`like_count__gt=1` で2以上）。"
+    },
+    {
+      "id": 19,
+      "type": "用語理解",
+      "question": "Djangoのフィールドルックアップにおける `__gt` の意味として正しいものはどれですか？",
+      "options": [
+        "Greater Than（指定した値より大きい）",
+        "Greater Than or Equal（指定した値以上）",
+        "Less Than（指定した値未満）",
+        "Group To（グループ化）"
+      ],
+      "answer": 0,
+      "commentary": "`__gt` は英語の Greater Than の略で、指定値「より大きい」条件を表します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "`likes-popular` フィードで、「いいね数が多い順（降順）」、いいね数が同点の場合は「作成日時が新しい順（降順）」に並び替える記述です。<br><pre><code>.order_by(\"___like_count\", \"___created_at\")</code></pre>",
+      "options": [
+        "- / -",
+        "+ / +",
+        "DESC / DESC",
+        "- / +"
+      ],
+      "answer": 0,
+      "commentary": "どちらも新しい順・多い順（降順）ソートにするため、それぞれのフィールド名の前にハイフン `-` を付けます。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "自分の投稿のうち、A（いいね数: 3, 日時: 10:00）、B（いいね数: 1, 日時: 11:00）、C（いいね数: 3, 日時: 12:00）が存在するとき、`GET /api/posts/?feed=likes-popular` で取得される投稿の順番はどうなりますか？",
+      "options": [
+        "C → A の順（Bは除外される）",
+        "A → C の順（Bは除外される）",
+        "C → B → A の順",
+        "B → A → C の順"
+      ],
+      "answer": 0,
+      "commentary": "いいね数が1のBは除外（`__gt=1`）され、3件で同数のCとAが作成日時の新しい順（C:12:00 → A:10:00）で返されます。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "自分の投稿で獲得した「いいね数」がちょうど1つだけの投稿は、`feed=likes-popular` のレスポンスに含まれますか？",
+      "options": [
+        "含まれない（like_count__gt=1 により、2つ以上のいいねが必要なため）",
+        "含まれる",
+        "先頭に表示される",
+        "エラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "`like_count__gt=1`（1より大きい）フィルターにより、いいね数が1の投稿は除外され2つ以上のみが含まれます。"
+    },
+    {
+      "id": 23,
+      "type": "文法チェック",
+      "question": "`AccountSerializer` の `Meta` クラス内で、対応モデルとして `User` を指定する正しい記述はどれですか？",
+      "options": [
+        "class Meta:\n    model = User\n    fields = [...]",
+        "class Meta:\n    target_model = User",
+        "class Meta:\n    db_table = User",
+        "class Meta:\n    User = model"
+      ],
+      "answer": 0,
+      "commentary": "ModelSerializerのMetaクラス内では `model = モデルクラス名` と指定します。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "`GenericAPIView` と Mixin を組み合わせて `AccountView` の部分更新（PATCH）を実装する際の正解コードはどれですか？",
+      "options": [
+        "def patch(self, request, *args, **kwargs):\n    return self.update(request, *args, **kwargs, partial=True)",
+        "def patch(self, request):\n    return self.patch_data(request)",
+        "def update_patch(self):\n    return self.update(partial=True)",
+        "def patch(self, request):\n    return self.save(request)"
+      ],
+      "answer": 0,
+      "commentary": "`UpdateModelMixin` の `update()` メソッドに `partial=True` を渡すことで部分更新（PATCH）を実現します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "curlコマンドでログイン中の自分のアカウント情報を取得するAPI（GET）を呼ぶコードです。空欄に入るURLパスを選んでください。<br><pre><code>curl -X GET http://127.0.0.1:8000/api/auth/___/ \\\n  -H \"Authorization: Bearer &lt;アクセストークン&gt;\"</code></pre>",
+      "options": [
+        "accounts/me",
+        "accounts/profile",
+        "users/me",
+        "account/info"
+      ],
+      "answer": 0,
+      "commentary": "アカウント情報取得・更新用のエンドポイントURLは `/api/auth/accounts/me/` です。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "curlコマンドでアカウントのステータスメッセージのみを部分更新するコードです。空欄に入るHTTPメソッドフラグを選んでください。<br><pre><code>curl ___ PATCH http://127.0.0.1:8000/api/auth/accounts/me/ \\\n  -H \"Authorization: Bearer &lt;トークン&gt;\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"status_message\":\"新しいメッセージ\"}'</code></pre>",
+      "options": [
+        "-X",
+        "-M",
+        "-H",
+        "-d"
+      ],
+      "answer": 0,
+      "commentary": "HTTPリクエストメソッドを指定するcurlオプションは `-X` です。"
+    },
+    {
+      "id": 27,
+      "type": "実行結果予測",
+      "question": "有効なアクセストークンを添えて `curl -X GET http://127.0.0.1:8000/api/auth/accounts/me/` を送信し成功した場合、返されるHTTPステータスコード数値は何ですか？",
+      "options": [
+        "200（OK）",
+        "201（Created）",
+        "204（No Content）",
+        "400（Bad Request）"
+      ],
+      "answer": 0,
+      "commentary": "正常に詳細情報が取得された場合のステータスコードは `200 OK` です。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "`PATCH /api/auth/accounts/me/` で `{\"status_message\":\"新しいメッセージ\"}` のみを送信して成功した場合、ユーザーの `username` や `email` はどうなりますか？",
+      "options": [
+        "指定していないフィールド（usernameやemail）は変更されずそのまま維持され、status_message だけが更新される",
+        "username や email が null や空文字に上書き消去される",
+        "ユーザーアカウント全体が削除される",
+        "エラー（400 Bad Request）が返る"
+      ],
+      "answer": 0,
+      "commentary": "PATCHメソッドは「部分更新」であるため、リクエストに含まれない既存フィールドは変更されず維持されます。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "Authorization ヘッダー（アクセストークン）を付けずに `GET /api/auth/accounts/me/` にアクセスした場合、サーバーから返されるステータスコード数値は何ですか？",
+      "options": [
+        "401（Unauthorized）",
+        "200（OK）",
+        "403（Forbidden）",
+        "404（Not Found）"
+      ],
+      "answer": 0,
+      "commentary": "`IsAuthenticated` により未認証アクセスは拒否され、401 Unauthorized エラーが返されます。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "`PostListView` で `PostQuerySetMixin` の基本クエリセット取得処理を呼び出すPythonコードです。<br><pre><code>def get_queryset(self):\n    queryset = ___().get_queryset()</code></pre>",
+      "options": [
+        "super",
+        "self",
+        "parent",
+        "Mixin"
+      ],
+      "answer": 0,
+      "commentary": "継承元（Mixin）の同名メソッドを安全に呼出して基本クエリセットを得るには `super().get_queryset()` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "`AccountSerializer` 内で `SerializerMethodField` と連携する計算用メソッドを定義する際の正しい命名規則はどれですか？（フィールド名が `sent_like_counts` の場合）",
+      "options": [
+        "def get_sent_like_counts(self, obj):",
+        "def sent_like_counts(self, obj):",
+        "def calculate_sent_like_counts(self):",
+        "def get_sent_like_counts_field(obj):"
+      ],
+      "answer": 0,
+      "commentary": "`SerializerMethodField` の算出メソッドは必ず `get_<フィールド名>(self, obj)` という形式で定義します。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "`AccountSerializer` の `created_post_counts` や `sent_like_counts` の値はいつ計算されますか？",
+      "options": [
+        "APIへリクエストが送信されてシリアライズ処理が行われるたびに、DBから動的に計算される",
+        "ユーザーが新規登録した時に1回だけ計算されて固定保存される",
+        "毎日午前0時にバッチ処理で計算される",
+        "Flutterアプリ側で自前計算される"
+      ],
+      "answer": 0,
+      "commentary": "`SerializerMethodField` は固定カラムではなく、リクエストに応じてシリアライザが呼び出されるたびに動的計算されます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "`likes-popular` フィードで、各投稿が受け取ったいいね数を集計・注釈付与（annotate）する記述です。<br><pre><code>.annotate(like_count=___(\"received_likes\"))</code></pre>",
+      "options": [
+        "Count",
+        "Sum",
+        "Total",
+        "Aggregate"
+      ],
+      "answer": 0,
+      "commentary": "関連する `received_likes` のレコード件数を集計・カウントするために `Count(\"received_likes\")` を使用します。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "ユーザー自身の情報（投稿数・いいね数など）を取得する際、情報を複数のAPIに分けず `/accounts/me/` の1つのAPIにまとめて返却する設計の利点は何ですか？",
+      "options": [
+        "クライアントからのリクエスト回数を減らし、エンドポイントの呼び出し構造をシンプルに保つことができる",
+        "データベースのマイグレーションが不要になる",
+        "画面のデザインが自動的に調整される",
+        "通信データの暗号化が不要になる"
+      ],
+      "answer": 0,
+      "commentary": "関連する情報を一括で取得できるようにまとめることで、無駄な通信リクエスト回数を減らし設計をシンプルにできます。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "論理削除された投稿（`is_deleted=True`）は、`GET /api/posts/?feed=myposts` の取得結果に含まれますか？",
+      "options": [
+        "含まれない（`PostQuerySetMixin` の `filter(is_deleted=False)` により事前に除外されているため）",
+        "含まれる",
+        "一番上（最新）に表示される",
+        "投稿本文が「削除済み」と書き換わって含まれる"
+      ],
+      "answer": 0,
+      "commentary": "`PostQuerySetMixin` でベースとなるクエリセットが `is_deleted=False` で絞り込まれているため、削除済み投稿は含まれません。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "`AccountSerializer` の `Meta` クラスで、出力対象フィールドの一覧を指定するプロパティ名を選んでください。<br><pre><code>class Meta:\n    model = User\n    ___ = [\n        \"id\", \"username\", \"email\", \"icon\",\n        \"status_message\", \"created_post_counts\", \"sent_like_counts\"\n    ]</code></pre>",
+      "options": [
+        "fields",
+        "model_fields",
+        "columns",
+        "attributes"
+      ],
+      "answer": 0,
+      "commentary": "シリアライズ・デシリアライズ対象のフィールドリストを指定するプロパティは `fields` です。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "`accounts/urls.py` で `AccountView` のルーティングを追加する正解のコード記述はどれですか？",
+      "options": [
+        "path(\"accounts/me/\", views.AccountView.as_view(), name=\"account\")",
+        "path(\"accounts/me/\", views.AccountView, name=\"account\")",
+        "path(\"accounts/me/\", views.AccountView.run(), name=\"account\")",
+        "route(\"accounts/me/\", views.AccountView.as_view())"
+      ],
+      "answer": 0,
+      "commentary": "クラスベースビューをURLに対応させるには `views.AccountView.as_view()` と記述します。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "ユーザーAが自分の投稿に対して「いいね数: 4」と「いいね数: 2」の2つの投稿を持っているとき、`feed=likes-popular` を呼び出すと何件の投稿が返ってきますか？",
+      "options": [
+        "2件（どちらもいいね数が1より大きいため）",
+        "1件",
+        "0件",
+        "4件"
+      ],
+      "answer": 0,
+      "commentary": "どちらの投稿も `like_count` が 1 より大きいため（4 > 1, 2 > 1）、2件とも条件を満たして返されます。"
+    },
+    {
+      "id": 39,
+      "type": "用語理解",
+      "question": "本節で開発した「マイページ機能のバックエンドAPI」が担う機能の組み合わせとして正しいものはどれですか？",
+      "options": [
+        "自分のプロフィール情報取得・更新（/accounts/me/）、自分の過去投稿取得（feed=myposts）、自分の人気投稿取得（feed=likes-popular）",
+        "他人のパスワードを無条件で変更する機能",
+        "全ユーザーの決済履歴や個人情報を閲覧する機能",
+        "データベースのテーブルを全て初期化する機能"
+      ],
+      "answer": 0,
+      "commentary": "本節ではマイページ表示に必要な「自身のプロフィール取得・更新」「自分の投稿一覧」「自分の人気投稿（いいね2以上）一覧」のAPIを実装しました。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "`get_sent_like_counts` 内で、ユーザー自身が押した「いいね」のうち対象ポストが未削除のものを集計する正しい記述はどれですか？",
+      "options": [
+        "return obj.sent_likes.filter(post__is_deleted=False).count()",
+        "return obj.sent_likes.where(post.is_deleted == False).length()",
+        "return obj.likes.filter(is_deleted=False).count()",
+        "return obj.sent_likes.count(is_deleted=False)"
+      ],
+      "answer": 0,
+      "commentary": "Userモデルから `sent_likes` で逆参照し、関連投稿の `post__is_deleted=False` で絞り込んで `.count()` します。"
+    }
+  ]
 }

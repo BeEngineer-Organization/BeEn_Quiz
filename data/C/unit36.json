@@ -1,4 +1,525 @@
 {
   "unit_title": "設定画面の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "JWT認証を採用している本アプリにおいて、ログアウト処理時にバックエンド（サーバー側）へリクエストを送る必要がない理由として正しいものはどれですか？",
+      "options": [
+        "JWTはステートレスであり、認証に必要な情報はクライアント（端末）側のトークンにのみ含まれるため、端末内のトークンを削除するだけで完了するから",
+        "JWT認証ではユーザーのパスワードが自動的に消去されるから",
+        "ログアウトしてもサーバー側のセッションデータベースが自動消去されるから",
+        "バックエンドのデータが暗号化されていてアクセスできないから"
+      ],
+      "answer": 0,
+      "commentary": "JWT認証はサーバー側で状態を持たない（ステートレスな）ため、クライアント端末に保存されたトークン（アクセストークン・リフレッシュトークン）を削除するだけでログアウトが完了します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "パスワード変更APIのエンドポイントを `accounts/urls.py` に登録するコードです。空欄に入る適切な記述を選んでください。<br><pre><code>path(\n    \"accounts/me/password/\", views.ChangePasswordView.___\n(), name=\"change-password\"\n),</code></pre>",
+      "options": [
+        "as_view",
+        "to_view",
+        "get_view",
+        "run_view"
+      ],
+      "answer": 0,
+      "commentary": "DjangoでクラスベースビューをURLパターンに対応させるには `.as_view()` メソッドを呼出します。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "Django REST frameworkにおいて、モデルインスタンスの「更新処理（PUT/PATCH）」専用に設計された汎用クラスベースビューは何ですか？",
+      "options": [
+        "generics.UpdateAPIView",
+        "generics.RetrieveAPIView",
+        "generics.CreateAPIView",
+        "generics.DestroyAPIView"
+      ],
+      "answer": 0,
+      "commentary": "既存レコードの更新処理に特化した組み込みジェネリックビューは `generics.UpdateAPIView` です。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "`ChangePasswordView` 内で、操作対象のオブジェクトが常に「ログイン中のユーザー自身」となるように設定するコードです。<br><pre><code>class ChangePasswordView(generics.UpdateAPIView):\n    permission_classes = [IsAuthenticated]\n    serializer_class = ChangePasswordSerializer\n\n    def get_object(self):\n        return self.request.___</code></pre>",
+      "options": [
+        "user",
+        "auth",
+        "account",
+        "profile"
+      ],
+      "answer": 0,
+      "commentary": "現在リクエストを行っているログインユーザーオブジェクトを返すため `self.request.user` を指定します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "シリアライザのフィールドにおいて、クライアントからの入力（送信）時のみ使用し、APIレスポンスの出力JSONには含めないように設定するオプション属性は何ですか？<br><pre><code>old_password = serializers.CharField(___=True, required=True)</code></pre>",
+      "options": [
+        "write_only",
+        "read_only",
+        "secret",
+        "hidden"
+      ],
+      "answer": 0,
+      "commentary": "パスワードなどの機密情報をレスポンスに含まない（送信専用とする）には `write_only=True` を指定します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "新しいパスワードに対して、Django標準のパスワード強度チェックバリデーションを適用する設定です。<br><pre><code>new_password = serializers.CharField(\n    write_only=True, required=True, validators=[___]\n)</code></pre>",
+      "options": [
+        "validate_password",
+        "password_check",
+        "check_password",
+        "strong_password"
+      ],
+      "answer": 0,
+      "commentary": "Django組み込みのパスワード強度検証関数 `validate_password` をリスト形式で渡します。"
+    },
+    {
+      "id": 7,
+      "type": "用語理解",
+      "question": "Django REST frameworkのシリアライザにおいて、特定のフィールド（例: `old_password`）に対して自動で呼ばれるカスタムバリデーションメソッドの正しい命名ルールはどれですか？",
+      "options": [
+        "validate_フィールド名(self, value)",
+        "check_フィールド名(self, value)",
+        "verify_フィールド名(self, value)",
+        "フィールド名_validation(self, value)"
+      ],
+      "answer": 0,
+      "commentary": "DRFでは `validate_フィールド名` という名前でメソッドを定義すると、該当フィールドの入力検証時に自動呼び出しされます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "入力された現在のパスワード（`value`）が、データベースに保存されたハッシュ化パスワードと一致するかを判定する記述です。<br><pre><code>def validate_old_password(self, value):\n    user = self.context[\"request\"].user\n    if not user.___(value):\n        raise serializers.ValidationError(\"現在のパスワードが間違っています。\")\n    return value</code></pre>",
+      "options": [
+        "check_password",
+        "validate_password",
+        "verify_password",
+        "match_password"
+      ],
+      "answer": 0,
+      "commentary": "Userオブジェクトのハッシュ化パスワード照合には `user.check_password(value)` メソッドを使用します。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "`validate_old_password` で現在のパスワードが間違っていると判定された際、サーバーからクライアントへ返される応答レスポンスの内容はどうなりますか？",
+      "options": [
+        "HTTP 400 Bad Request と共に `{\"old_password\": [\"現在のパスワードが間違っています。\"]}` が返る",
+        "HTTP 200 OK が返り、メッセージは何も表示されない",
+        "HTTP 500 Internal Server Error が返る",
+        "ユーザーアカウントがロックされる"
+      ],
+      "answer": 0,
+      "commentary": "`serializers.ValidationError` が発生するため、400 Bad Request と該当フィールド名キーのエラーメッセージが返ります。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "バリデーション通過後、新しいパスワード（`new_password`）をハッシュ化してユーザーオブジェクトに設定するDjangoのメソッドは何ですか？<br><pre><code>def update(self, instance, validated_data):\n    instance.___(validated_data[\"new_password\"])\n    instance.save()\n    return instance</code></pre>",
+      "options": [
+        "set_password",
+        "change_password",
+        "update_password",
+        "make_password"
+      ],
+      "answer": 0,
+      "commentary": "新しいパスワードを暗号化（ハッシュ化）してインスタンスにセットするには `instance.set_password()` を使用します。"
+    },
+    {
+      "id": 11,
+      "type": "用語理解",
+      "question": "ユーザーのパスワード変更処理において、`instance.new_password = \"Secret123?\"` のように直接文字列を代入せず `set_password()` メソッドを使う主な理由は何ですか？",
+      "options": [
+        "パスワードを平文のまま保存せず、安全にハッシュ化（暗号化）してデータベースに保存するため",
+        "データベースのマイグレーションを実行するため",
+        "ユーザーのメールアドレスを自動検証するため",
+        "ログイン画面へリダイレクトさせるため"
+      ],
+      "answer": 0,
+      "commentary": "`set_password()` は生のパスワード文字列を強力なアルゴリズムでハッシュ化してからセットする重要なセキュリティメソッドです。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "正しくアクセストークンを付与し、正しい旧パスワードと有効な新パスワードを送って `PATCH /api/auth/accounts/me/password/` が成功した場合、レスポンスボディの中身はどうなりますか？",
+      "options": [
+        "{} （空のオブジェクト）",
+        "{\"status\": \"password changed\"}",
+        "新しいアクセストークン文字列",
+        "ユーザーのIDとメールアドレス"
+      ],
+      "answer": 0,
+      "commentary": "`UpdateAPIView` でフィールドが全て `write_only` の場合、更新成功時のレスポンスJSONは空のオブジェクト `{}` となります。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "Flutterの `ChangePasswordForm` モデルを freezed パッケージで定義するコードです。<br><pre><code>@freezed\nabstract class ChangePasswordForm with _$ChangePasswordForm {\n  const factory ChangePasswordForm({\n    required String ___,\n    required String newPassword,\n  }) = _ChangePasswordForm;\n}</code></pre>",
+      "options": [
+        "oldPassword",
+        "currentPassword",
+        "password",
+        "old_password"
+      ],
+      "answer": 0,
+      "commentary": "Dartモデルのプロパティとして `oldPassword` を定義します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "`AccountService` クラスの `logout` メソッド内で、セキュアストレージの全トークンを削除する呼び出しコードです。<br><pre><code>Future&lt;bool&gt; logout() async {\n  try {\n    final secureStorage = SecureStorage();\n    await secureStorage.___();\n  } catch (e) {\n    return false;\n  }\n  return true;\n}</code></pre>",
+      "options": [
+        "deleteAllToken",
+        "clearAll",
+        "deleteToken",
+        "removeTokens"
+      ],
+      "answer": 0,
+      "commentary": "`SecureStorage` に定義した一括削除メソッド `deleteAllToken()` を呼び出します。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`AccountService().logout()` が呼び出されて正常終了した場合、端末内のトークン状態はどうなりますか？",
+      "options": [
+        "セキュアストレージに保存されていたアクセストークンおよびリフレッシュトークンが全て消去される",
+        "アクセストークンのみが新しく更新される",
+        "データベース全体のレコードが消去される",
+        "トークンは暗号化されたまま保存され続ける"
+      ],
+      "answer": 0,
+      "commentary": "`deleteAllToken()` が実行され、端末内の保存トークンが全削除されて未ログイン状態になります。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "Flutterの `AccountService` 内で、認証付きDioを用いてパスワード変更API（PATCH）を実行する記述です。<br><pre><code>Future&lt;void&gt; changePassword(ChangePasswordForm formData) async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/password/';\n  await dioClient.authDio.___(url, data: formData.toJson());\n}</code></pre>",
+      "options": [
+        "patch",
+        "put",
+        "post",
+        "update"
+      ],
+      "answer": 0,
+      "commentary": "パスワード部分更新APIへリクエストを送るため `authDio.patch()` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "`ChangePasswordForm` オブジェクトをAPI送信用のJSON辞書データに変換するメソッド呼び出しです。<br><pre><code>await dioClient.authDio.patch(url, data: formData.___());</code></pre>",
+      "options": [
+        "toJson",
+        "toMap",
+        "toData",
+        "serialize"
+      ],
+      "answer": 0,
+      "commentary": "freezedで生成された `toJson()` メソッドを呼出して Map/JSON 形式に変換します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` で「設定画面」へのルートパス定数を定義するコードです。<br><pre><code>abstract class Routes {\n  // ...\n  static const settings = '___';\n}</code></pre>",
+      "options": [
+        "/settings",
+        "/setting",
+        "/config",
+        "/user/settings"
+      ],
+      "answer": 0,
+      "commentary": "設定画面のルーターパス定数 `Routes.settings` には `'/settings'` を指定します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` で「パスワード変更画面」へのルートパス定数を定義するコードです。<br><pre><code>abstract class Routes {\n  // ...\n  static const changePassword = '___';\n}</code></pre>",
+      "options": [
+        "/change-password",
+        "/password/change",
+        "/update-password",
+        "/password"
+      ],
+      "answer": 0,
+      "commentary": "パスワード変更画面のパス定数 `Routes.changePassword` には `'/change-password'` を設定します。"
+    },
+    {
+      "id": 20,
+      "type": "用語理解",
+      "question": "Flutterにおいて、タイトル文・サブタイトル・末尾アイコンなどを配置した行デザインのメニュー項目を簡単に構築できる標準ウィジェットは何ですか？",
+      "options": [
+        "ListTile",
+        "Row",
+        "Card",
+        "Container"
+      ],
+      "answer": 0,
+      "commentary": "設定項目などのリスト1行（タイトル、サブタイトル、矢印アイコン等）を作るには `ListTile` ウィジェットを使用します。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "設定画面で「ログアウト」をタップし、`accountService.logout()` に成功した直後の画面遷移コードとその挙動として正しいものはどれですか？<br><pre><code>if (!context.mounted) return;\ncontext.replace(Routes.login);</code></pre>",
+      "options": [
+        "履歴スタックを置き換えてログイン画面（/login）へ遷移する",
+        "前の画面（マイページ）へ戻る",
+        "アプリがバックグラウンドに移動する",
+        "パスワード変更画面が開く"
+      ],
+      "answer": 0,
+      "commentary": "`context.replace(Routes.login)` が実行され、ログイン画面へ置換遷移します。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "マイページ画面の「設定（歯車）アイコン」が押されたとき、設定画面へスタック遷移（`push`）するコードです。<br><pre><code>IconButton(\n  icon: const Icon(Icons.settings),\n  onPressed: () {\n    context.___(Routes.settings);\n  },\n)</code></pre>",
+      "options": [
+        "push",
+        "replace",
+        "pop",
+        "go"
+      ],
+      "answer": 0,
+      "commentary": "設定画面へ遷移して「戻る」操作を可能にするため `context.push(Routes.settings)` を呼出します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "現在のパスワード入力欄の伏せ字フラグ（`_oldPasswordIsObscure`）の値を反転（トグル）させるコードです。<br><pre><code>onPressed: () {\n  setState(() {\n    _oldPasswordIsObscure = ___;\n  });\n}</code></pre>",
+      "options": [
+        "!_oldPasswordIsObscure",
+        "false",
+        "true",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "真偽値を反転させるには否定演算子 `!` を使って `!_oldPasswordIsObscure` と書きます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "`TextFormField` の入力文字を伏せ字（●●●）にする設定パラメータ記述です。<br><pre><code>TextFormField(\n  key: _oldPasswordKey,\n  ___: _oldPasswordIsObscure,\n)</code></pre>",
+      "options": [
+        "obscureText",
+        "hideText",
+        "isPassword",
+        "secureText"
+      ],
+      "answer": 0,
+      "commentary": "入力テキストの隠蔽（伏せ字）表示には `obscureText: 真偽値` を指定します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "`_oldPasswordIsObscure` が `true` の状態から、パスワード欄右側の「目のアイコン」ボタンを押した場合どうなりますか？",
+      "options": [
+        "`_oldPasswordIsObscure` が `false` に変わり、パスワードの文字が画面にそのまま表示される",
+        "パスワード入力欄の文字が全消去される",
+        "パスワードがサーバーに送信される",
+        "変化は起きない"
+      ],
+      "answer": 0,
+      "commentary": "反転処理により `false` になり、伏せ字が解除されて入力中のテキストが可視化されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "サーバーから返された旧パスワードの検証エラー（`_oldPasswordError`）を入力欄直下に表示させるパラメータ指定です。<br><pre><code>decoration: InputDecoration(\n  border: const OutlineInputBorder(),\n  hintText: '現在のパスワードを入力してください',\n  ___: _oldPasswordError,\n)</code></pre>",
+      "options": [
+        "errorText",
+        "helperText",
+        "labelText",
+        "warningText"
+      ],
+      "answer": 0,
+      "commentary": "入力枠の直下にエラー文を表示させる属性は `errorText` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "パスワード変更の送信処理開始時に、ローディング表示をONにしエラーメッセージを初期化クリアする `setState` 記述です。<br><pre><code>setState(() {\n  _isLoading = ___;\n  _oldPasswordError = null;\n  _newPasswordError = null;\n});</code></pre>",
+      "options": [
+        "true",
+        "false",
+        "null",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "送信中はローディング状態とするため `_isLoading = true;` に設定します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "パスワード変更成功後に、アカウント情報プロバイダーのキャッシュを破棄して再取得させるコードです。<br><pre><code>await accountService.changePassword(formData);\nref.___(accountInfoProvider);</code></pre>",
+      "options": [
+        "invalidate",
+        "refresh",
+        "reset",
+        "clean"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーの状態を破棄・更新するには `ref.invalidate(accountInfoProvider)` を呼出します。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "パスワード変更が成功し、`handleSubmit` 内で `GoRouter.of(context).replace(Routes.settings)` が実行されたとき、画面表示はどうなりますか？",
+      "options": [
+        "「パスワードが変更されました」とスナックバー表示され、設定画面（/settings）に戻る",
+        "ログイン画面（/login）にリダイレクトされる",
+        "アプリが再起動する",
+        "パスワード変更画面が開いたままになる"
+      ],
+      "answer": 0,
+      "commentary": "成功メッセージのスナックバーが出力された後、設定画面（`Routes.settings`）に置換遷移して戻ります。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "パスワード変更APIから 400 Bad Request（バリデーションエラー）が返されたかを判定する条件文です。<br><pre><code>} on DioException catch (e) {\n  final statusCode = e.response?.___;\n  if (statusCode == 400) { ... }\n}</code></pre>",
+      "options": [
+        "statusCode",
+        "code",
+        "status",
+        "httpStatus"
+      ],
+      "answer": 0,
+      "commentary": "Dioのレスポンスオブジェクトからステータスコードを取り出すプロパティは `statusCode` です。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "サーバーから返されたエラーレスポンス配列（`oldPasswordErrors`）の「最初の1件目のエラーメッセージ文字列」を取得して状態にセットする記述です。<br><pre><code>if (oldPasswordErrors != null && oldPasswordErrors.isNotEmpty) {\n  setState(() {\n    _oldPasswordError = oldPasswordErrors.___ as String;\n  });\n}</code></pre>",
+      "options": [
+        "first",
+        "last",
+        "get(0)",
+        "single"
+      ],
+      "answer": 0,
+      "commentary": "エラーリストの先頭要素を取り出すには `.first` プロパティを使用します。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "サーバーから `{\"old_password\": [\"現在のパスワードが間違っています。\"]}` という400エラーが返ってきた場合、パスワード変更画面のUIはどう変わりますか？",
+      "options": [
+        "現在のパスワード入力欄の下に赤文字で「現在のパスワードが間違っています。」と表示される",
+        "新しいパスワード入力欄の下に表示される",
+        "スナックバーで「予期せぬエラー」が表示される",
+        "画面全体が赤くなる"
+      ],
+      "answer": 0,
+      "commentary": "`_oldPasswordError` にメッセージがセットされ、現在のパスワード入力欄の `errorText` として表示されます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "成功・失敗に関わらず、非同期処理の最後で確実にローディングインジケーターを非表示に戻すブロック記述です。<br><pre><code>try {\n  // 通信処理\n} catch (e) {\n  // エラー処理\n} ___ {\n  setState(() {\n    _isLoading = false;\n  });\n}</code></pre>",
+      "options": [
+        "finally",
+        "always",
+        "complete",
+        "after"
+      ],
+      "answer": 0,
+      "commentary": "例外の有無にかかわらず最終後処理を行うブロックは `finally` です。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "Djangoで `ChangePasswordView` クラスを定義する正しいPython構文記述はどれですか？",
+      "options": [
+        "class ChangePasswordView(generics.UpdateAPIView):",
+        "def ChangePasswordView(generics.UpdateAPIView):",
+        "class ChangePasswordView extends UpdateAPIView:",
+        "class ChangePasswordView = generics.UpdateAPIView"
+      ],
+      "answer": 0,
+      "commentary": "Pythonのクラス継承構文に従い `class クラス名(generics.UpdateAPIView):` と書きます。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "ログアウト処理において「セッション認証」と「JWT認証」の違いについての正しい説明はどれですか？",
+      "options": [
+        "セッション認証はサーバー側のDBセッション情報を削除するAPI通信が必要だが、JWT認証はステートレスなためクライアント端末内のトークン削除のみで完結する",
+        "セッション認証はトークン削除のみで完了し、JWT認証はサーバー側のDB削除が必要である",
+        "セッション認証もJWT認証もバックエンドAPIの呼び出しが必須である",
+        "どちらの認証方式でもログアウト処理は存在しない"
+      ],
+      "answer": 0,
+      "commentary": "JWTはステートレスであるためサーバー側に保存された状態はなく、端末のトークン消去だけでログアウトが成り立ちます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "フォームキーから現在の入力値を抽出し、`ChangePasswordForm` を生成するコードです。<br><pre><code>final oldPassword = _oldPasswordKey.currentState?.___;\nfinal newPassword = _newPasswordKey.currentState?.value;</code></pre>",
+      "options": [
+        "value",
+        "text",
+        "data",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "`FormFieldState` のキーから現在値を取得するプロパティは `.value` です。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "新しいパスワードに「123」（短すぎる数字のみ）を入力して変更ボタンを押した際、Djangoの `validators=[validate_password]` により返されるエラーのレスポンスキーは何ですか？",
+      "options": [
+        "\"new_password\"",
+        "\"old_password\"",
+        "\"detail\"",
+        "\"error\""
+      ],
+      "answer": 0,
+      "commentary": "新パスワードフィールドに対するバリデーションエラーとなるため、キー名は `\"new_password\"` に入って返されます。"
+    },
+    {
+      "id": 38,
+      "type": "用語理解",
+      "question": "`ListTile` の右端（末尾）に矢印アイコン（`Icons.arrow_forward_ios`）を配置するためのプロパティ名は何ですか？",
+      "options": [
+        "trailing",
+        "leading",
+        "title",
+        "subtitle"
+      ],
+      "answer": 0,
+      "commentary": "`ListTile` の右端（末尾）に配置するウィジェット指定は `trailing` です。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "`AccountService` 内の非同期メソッド `changePassword` を `handleSubmit` から呼び出す正しいDartコードはどれですか？",
+      "options": [
+        "await accountService.changePassword(formData);",
+        "accountService.changePassword(formData).wait();",
+        "yield accountService.changePassword(formData);",
+        "accountService.changePassword(formData);"
+      ],
+      "answer": 0,
+      "commentary": "`Future<void>` を返す非同期通信メソッドの完了を待つため `await accountService.changePassword(formData);` と記述します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で開発した「設定画面」および「パスワード変更機能」の一連の開発ステップとして正しいものはどれですか？",
+      "options": [
+        "1. Djangoでパスワード変更API（UpdateAPIView / ChangePasswordSerializer）を作成 → 2. AccountServiceに logout と changePassword を追加 → 3. ルーティング設定（/settings, /change-password） → 4. SettingsPage 及び ChangePasswordPage のUI構築",
+        "1. データベースを削除 → 2. ログイン画面削除 → 3. 設定画面作成",
+        "1. アカウント全消去 → 2. パスワードリセット → 3. アプリ再起動",
+        "1. 画像ダウンロード → 2. 設定アイコン非表示 → 3. ログアウトAPI呼び出し"
+      ],
+      "answer": 0,
+      "commentary": "バックエンドAPI構築からフロントエンドの通信関数追加、GoRouter定義、設定画面・パスワード変更画面のUI構築という手順で開発を行いました。"
+    }
+  ]
 }

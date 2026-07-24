@@ -1,4 +1,525 @@
 {
   "unit_title": "投稿削除機能の作成",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "投稿一覧画面において、自分の投稿だけに削除用のボタンを表示するために、Djangoレスポンスに追加した「自分が投稿したものか」を表す真偽値フィールドは何ですか？",
+      "options": [
+        "created_by_me",
+        "is_my_post",
+        "owned_by_user",
+        "is_author"
+      ],
+      "answer": 0,
+      "commentary": "自分が過去に投稿したものかを判別するため、レスポンスに `created_by_me` という真偽値（bool）フィールドを追加します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "Djangoのビューで、モデルで定義されていない追加フィールドをクエリセットに動的付与（注釈）するためのORMメソッドは何ですか？<br><pre><code>Post.objects.filter(is_deleted=False).___(\n    created_by_me=Case(...)\n)</code></pre>",
+      "options": [
+        "annotate",
+        "aggregate",
+        "extra",
+        "select_related"
+      ],
+      "answer": 0,
+      "commentary": "クエリセットの各オブジェクトに計算結果や追加の値をフィールドとして持たせるには `.annotate()` メソッドを使います。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "クエリセットの取得ロジックを複雑な条件付きでカスタマイズするために、ビュークラスでオーバーライドするメソッドは何ですか？<br><pre><code>class PostListView(generics.ListCreateAPIView):\n    def ___(self):\n        queryset = Post.objects.filter(is_deleted=False)...\n        return queryset</code></pre>",
+      "options": [
+        "get_queryset",
+        "get_objects",
+        "filter_queryset",
+        "get_query"
+      ],
+      "answer": 0,
+      "commentary": "動的な絞り込みや追加フィールドの計算を行う場合、`get_queryset(self)` メソッドをオーバーライドします。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "DjangoのORMで条件分岐（IF-THEN）を記述する際、複数の条件を順番に評価・制御する条件分岐クラスは何ですか？<br><pre><code>created_by_me=___(\n    When(user=self.request.user, then=Value(True)),\n    default=Value(False),\n    output_field=BooleanField(),\n)</code></pre>",
+      "options": [
+        "Case",
+        "When",
+        "Switch",
+        "If"
+      ],
+      "answer": 0,
+      "commentary": "条件式分岐の全体を囲み、最初に真となった `When` の値を返す仕組みを提供するクラスは `Case` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "`Case` 条件文の中で、特定条件（投稿者がログインユーザーと一致）を評価するための記述です。空欄に入るクラス名は何ですか？<br><pre><code>___(user=self.request.user, then=Value(True))</code></pre>",
+      "options": [
+        "When",
+        "If",
+        "Condition",
+        "Check"
+      ],
+      "answer": 0,
+      "commentary": "個々の「〜のとき（条件）」を定義するクラスは `When` です。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "Django ORMの条件式内で、固定の直値（TrueやFalseなど）をセットするために使用するラッピングクラスは何ですか？<br><pre><code>When(user=self.request.user, then=___(True))</code></pre>",
+      "options": [
+        "Value",
+        "Literal",
+        "Data",
+        "Const"
+      ],
+      "answer": 0,
+      "commentary": "ORMの表現式の中で固定値を返すには `Value(値)` を指定します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`Case` 条件でどの `When` にも合致しなかった場合のデフォルト結果値を設定する引数名は何ですか？<br><pre><code>Case(\n    When(user=self.request.user, then=Value(True)),\n    ___=Value(False),\n    output_field=BooleanField(),\n)</code></pre>",
+      "options": [
+        "default",
+        "else_value",
+        "fallback",
+        "other"
+      ],
+      "answer": 0,
+      "commentary": "条件不成立時のデフォルト値を指定する引数は `default` です。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`annotate()` で追加する計算フィールドのデータ型を「真偽値（Boolean）」と明確に宣言する指定です。<br><pre><code>output_field=___()</code></pre>",
+      "options": [
+        "BooleanField",
+        "CharField",
+        "IntegerField",
+        "TypeBool"
+      ],
+      "answer": 0,
+      "commentary": "計算結果のフィールド型を指定するには `output_field=BooleanField()` を使います。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "ログイン中のユーザー（ID: 5）が、他のユーザー（ID: 2）の投稿を閲覧した際、`Case` 式による `created_by_me` の評価結果はどうなりますか？<br><pre><code>When(user=self.request.user, then=Value(True)),\ndefault=Value(False)</code></pre>",
+      "options": [
+        "False",
+        "True",
+        "None",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "投稿者（ID: 2）とログインユーザー（ID: 5）が一致しないため、`default` に指定された `False` になります。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "ログイン中のユーザー（ID: 5）が、自分が過去に作成した投稿（ID: 5）のデータを取得した際、`created_by_me` の評価結果はどうなりますか？",
+      "options": [
+        "True",
+        "False",
+        "1",
+        "null"
+      ],
+      "answer": 0,
+      "commentary": "`user == request.user` の条件を満たすため、`then=Value(True)` により `True` が返ります。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "`PostSerializer` にモデル非依存の追加読取専用フィールド（`created_by_me`）を宣言するコードです。<br><pre><code>class PostSerializer(serializers.ModelSerializer):\n    user = UserSerializer(read_only=True)\n    created_by_me = serializers.___ (read_only=True)</code></pre>",
+      "options": [
+        "BooleanField",
+        "CharField",
+        "ReadOnlyField",
+        "CustomField"
+      ],
+      "answer": 0,
+      "commentary": "真偽値としてシリアライズするため `serializers.BooleanField(read_only=True)` と定義します。"
+    },
+    {
+      "id": 12,
+      "type": "用語理解",
+      "question": "オブジェクト指向プログラミングにおいて、複数のクラスで共通して利用される処理やメソッドをまとめて再利用できるようにする仕組み・クラスを何と呼びますか？",
+      "options": [
+        "Mixin（ミックスイン）",
+        "Interface（インターフェース）",
+        "Decorator（デコレータ）",
+        "Singleton（シングルトン）"
+      ],
+      "answer": 0,
+      "commentary": "共通の機能やクエリセット処理を独立させて他のクラスに組み込む仕組みを「Mixin（ミックスイン）」と呼びます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "`PostQuerySetMixin` から基本クエリセットを取得し、さらに作成日時の新しい順（降順）へソートを付け足すコードです。<br><pre><code>class PostListView(PostQuerySetMixin, generics.ListCreateAPIView):\n    def get_queryset(self):\n        queryset = ___().get_queryset()\n        return queryset.order_by(\"-created_at\")</code></pre>",
+      "options": [
+        "super",
+        "self",
+        "parent",
+        "base"
+      ],
+      "answer": 0,
+      "commentary": "継承元のMixinクラスで定義した `get_queryset()` を呼び出すために `super().get_queryset()` を使用します。"
+    },
+    {
+      "id": 14,
+      "type": "文法チェック",
+      "question": "クエリセット取得処理を共通化するために定義する `PostQuerySetMixin` の正しい記述はどれですか？",
+      "options": [
+        "class PostQuerySetMixin:\n    def get_queryset(self):\n        return Post.objects.filter(is_deleted=False).annotate(...)",
+        "def PostQuerySetMixin(self):\n    return Post.objects.all()",
+        "class PostQuerySetMixin(generics.APIView):\n    queryset = Post.objects.all()",
+        "class PostQuerySetMixin = Post.objects.filter()"
+      ],
+      "answer": 0,
+      "commentary": "単一のクラスとして定義し、その中で `get_queryset(self)` メソッドを記述します。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "Flutterの `Post` モデルに、`created_by_me` レスポンスを受け取るためのプロパティ（キャメルケース）を追加するコードです。<br><pre><code>@freezed\nabstract class Post with _$Post {\n  const factory Post({\n    required int id,\n    required PostUser user,\n    required String content,\n    String? photo,\n    required String createdAt,\n    required bool ___,\n  }) = _Post;\n}</code></pre>",
+      "options": [
+        "createdByMe",
+        "created_by_me",
+        "isCreatedByMe",
+        "myPost"
+      ],
+      "answer": 0,
+      "commentary": "build.yaml の `snake` 設定により、Dart側のキャメルケース `createdByMe` がJSONの `created_by_me` にマッピングされます。"
+    },
+    {
+      "id": 16,
+      "type": "実行結果予測",
+      "question": "Flutterの `Post` モデルを変更した後に `dart run build_runner build` を実行したとき起こる変化として正しいものはどれですか？",
+      "options": [
+        "`posts.freezed.dart` と `posts.g.dart` が更新され、新フィールド `createdByMe` がコード内で扱えるようになる",
+        "データベースのマイグレーションが自動実行される",
+        "古い投稿データがすべて消去される",
+        "アプリがストアにリリースされる"
+      ],
+      "answer": 0,
+      "commentary": "`build_runner` によりモデルの自動生成コードが最新の構造（`createdByMe` 追加）に再ビルドされます。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "Flutterで、Widget内部でRiverpodのプロバイダー（`ref`）と動的な状態（`State`）の両方を扱うために継承させるクラスは何ですか？",
+      "options": [
+        "ConsumerStatefulWidget",
+        "StatefulWidget",
+        "ConsumerWidget",
+        "StatelessWidget"
+      ],
+      "answer": 0,
+      "commentary": "State（状態）を保持しつつ `ref` も使用する場合は `ConsumerStatefulWidget` を継承します。"
+    },
+    {
+      "id": 18,
+      "type": "文法チェック",
+      "question": "`ConsumerStatefulWidget` である `PostTile` の State クラスを定義する正しい構文はどれですか？",
+      "options": [
+        "class _PostTileState extends ConsumerState<PostTile>",
+        "class _PostTileState extends State<PostTile>",
+        "class _PostTileState extends ConsumerWidget",
+        "class _PostTileState extends State<ConsumerStatefulWidget>"
+      ],
+      "answer": 0,
+      "commentary": "`ConsumerStatefulWidget` に対応する State クラスは `ConsumerState<ウィジェット名>` を継承します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "画面上に確認用メッセージや操作ボタンを含む「ポップアップダイアログ」を表示させるFlutterの標準関数は何ですか？<br><pre><code>void handleOnDelete(BuildContext context) {\n  ___(\n    context: context,\n    builder: (context) {\n      return AlertDialog(...);\n    },\n  );\n}</code></pre>",
+      "options": [
+        "showDialog",
+        "openDialog",
+        "showModal",
+        "displayDialog"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログを表示するには `showDialog(context: ..., builder: ...)` 関数を使用します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "メッセージ「本当に投稿を削除しますか？」と「はい」「いいえ」ボタンを持つ一般的な警告ダイアログウィジェットは何ですか？<br><pre><code>return ___(\n  content: const Text('本当に投稿を削除しますか？'),\n  actions: [...],\n);</code></pre>",
+      "options": [
+        "AlertDialog",
+        "SimpleDialog",
+        "DialogBox",
+        "ConfirmDialog"
+      ],
+      "answer": 0,
+      "commentary": "標準的な通知・確認用ダイアログを作るには `AlertDialog` ウィジェットを使います。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "`AlertDialog` 内でメッセージ文章を配置するためのプロパティ名は何ですか？<br><pre><code>AlertDialog(\n  ___: const Text('本当に投稿を削除しますか？'),\n  actions: [...],\n)</code></pre>",
+      "options": [
+        "content",
+        "title",
+        "message",
+        "body"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログの本文エリアを指定するプロパティは `content` です。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "`AlertDialog` の下部に並べる操作ボタンのリストを指定するプロパティ名は何ですか？<br><pre><code>AlertDialog(\n  content: const Text(...),\n  ___: [\n    TextButton(...),\n    TextButton(...),\n  ],\n)</code></pre>",
+      "options": [
+        "actions",
+        "buttons",
+        "children",
+        "controls"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログ下部のボタングループを指定するプロパティは `actions` です。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "ダイアログの「いいえ」ボタンを押した際、現在開いているダイアログ画面を閉じるコードです。<br><pre><code>TextButton(\n  onPressed: () {\n    Navigator.of(context).___();\n  },\n  child: const Text('いいえ'),\n)</code></pre>",
+      "options": [
+        "pop",
+        "push",
+        "close",
+        "dismiss"
+      ],
+      "answer": 0,
+      "commentary": "現在最前面に開いているダイアログモーダルを閉じるには `Navigator.of(context).pop()` を呼び出します。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "「はい」を押したときに、`PostsService` を使って対象の投稿を削除する非同期処理です。<br><pre><code>await PostsService().___(widget.post.id);</code></pre>",
+      "options": [
+        "deletePost",
+        "removePost",
+        "destroyPost",
+        "clearPost"
+      ],
+      "answer": 0,
+      "commentary": "`PostsService` に定義した投稿削除メソッド名は `deletePost(id)` です。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "投稿削除が成功した後、Riverpodの投稿一覧プロバイダーを破棄・再読み込みさせるコードです。<br><pre><code>ref.___(postListProvider);</code></pre>",
+      "options": [
+        "invalidate",
+        "refresh",
+        "reset",
+        "clear"
+      ],
+      "answer": 0,
+      "commentary": "削除を画面に反映するため、`ref.invalidate(postListProvider)` でキャッシュを更新します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "投稿削除処理に成功した直後、画面下部に表示されるメッセージ文言は何ですか？<br><pre><code>ScaffoldMessenger.of(context).showSnackBar(\n  const SnackBar(\n    content: Text('投稿を削除しました。'),\n  ),\n);</code></pre>",
+      "options": [
+        "投稿を削除しました。",
+        "投稿の削除に失敗しました",
+        "削除中...",
+        "成功"
+      ],
+      "answer": 0,
+      "commentary": "成功時のSnackBarで `'投稿を削除しました。'` と表示されます。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "削除API通信時に `DioException`（ネットワークエラーや権限エラー等）が発生した場合を個別に捕獲する `catch` ブロック記述です。<br><pre><code>try {\n  await PostsService().deletePost(widget.post.id);\n} on ___ {\n  // エラー処理\n}</code></pre>",
+      "options": [
+        "DioException",
+        "HttpException",
+        "ApiException",
+        "NetworkError"
+      ],
+      "answer": 0,
+      "commentary": "Dio特有の通信例外をキャッチするには `on DioException` と書きます。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "削除権限がないなどの理由で `deletePost` の通信が失敗し `on DioException` に入った場合、画面に通知される文言はどれですか？",
+      "options": [
+        "投稿の削除に失敗しました",
+        "投稿を削除しました。",
+        "通信成功",
+        "エラーダイアログがずっと消えない"
+      ],
+      "answer": 0,
+      "commentary": "例外発生時は `Navigator.of(context).pop()` でダイアログを閉じた後、`'投稿の削除に失敗しました'` とスナックバー表示されます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "`ConsumerStatefulWidget` の `State` 内で、親ウィジェット（`PostTile`）から渡された `post` プロパティを参照するキーワードは何ですか？<br><pre><code>await PostsService().deletePost(___.post.id);</code></pre>",
+      "options": [
+        "widget",
+        "parent",
+        "this",
+        "state"
+      ],
+      "answer": 0,
+      "commentary": "Stateクラス内から StatefulWidget 側のフィールドにアクセスするには `widget.プロパティ名` を使います。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "`widget.post.createdByMe` が `true`（自分が作成した投稿）である場合の表示条件分岐コードです。何が表示されますか？<br><pre><code>widget.post.createdByMe\n    ? GestureDetector(\n        onTap: () { handleOnDelete(context); },\n        child: const Icon(Icons.more_vert, size: 20.0),\n      )\n    : const SizedBox(width: 20.0)</code></pre>",
+      "options": [
+        "タップ可能な「三点ボタン（縦3つの点アイコン）」が表示される",
+        "幅20.0の空のスペースが表示される",
+        "「削除」という大きな文字ボタンが表示される",
+        "何も表示されない（エラー）"
+      ],
+      "answer": 0,
+      "commentary": "`createdByMe` が `true` のため、三項演算子の真側（`Icons.more_vert` アイコン付き `GestureDetector`）が表示されます。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "`widget.post.createdByMe` が `false`（他人が作成した投稿）である場合、投稿の右上には何が表示されますか？",
+      "options": [
+        "幅 20.0px の空のボックス（SizedBox）が表示され、三点ボタンは非表示になる",
+        "三点ボタンが表示され、タップすると他人の投稿も削除できる",
+        "「通報する」ボタンが表示される",
+        "「編集」ボタンが表示される"
+      ],
+      "answer": 0,
+      "commentary": "偽側である `const SizedBox(width: 20.0)` が選択されるため、三点ボタンは表示されず削除操作ができません。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "縦に点が3つ並んだオプションメニュー用アイコンを指定するFlutter標準アイコン定数はどれですか？<br><pre><code>child: const Icon(\n  Icons.___,\n  size: 20.0,\n)</code></pre>",
+      "options": [
+        "more_vert",
+        "more_horiz",
+        "menu",
+        "settings"
+      ],
+      "answer": 0,
+      "commentary": "縦の三点リーダー（ボタン）の標準アイコンは `Icons.more_vert` です。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "`showDialog` 内の `builder` 関数から返す正しいウィジェット構造はどれですか？",
+      "options": [
+        "builder: (context) { return AlertDialog(content: Text('...'), actions: [...]); }",
+        "builder: (context) { return SnackBar(content: Text('...')); }",
+        "builder: (context) => showModalBottomSheet(...)",
+        "builder: AlertDialog()"
+      ],
+      "answer": 0,
+      "commentary": "`showDialog` の `builder` は、描画するダイアログウィジェット（`AlertDialog` など）を返します。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "非同期の削除処理の途中で画面が破棄されていないか確認する安全用の条件記述です。<br><pre><code>await PostsService().deletePost(widget.post.id);\nif (!context.___) return;</code></pre>",
+      "options": [
+        "mounted",
+        "active",
+        "isAlive",
+        "valid"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理完了後のコンテキスト操作の安全性を確認するため `if (!context.mounted) return;` を挟みます。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "ダイアログの「はい」を押した際に行われる投稿の「論理削除」について正しい説明はどれですか？",
+      "options": [
+        "データベースからレコード自体は削除されず、is_deleted フラグが True に更新されて一覧から非表示になる",
+        "データベースのテーブルごと消去される",
+        "投稿の画像ファイルのみが消去される",
+        "投稿したユーザーのアカウントが削除される"
+      ],
+      "answer": 0,
+      "commentary": "論理削除のため、DBのレコードは保持されたまま `is_deleted = True` となり、一覧取得クエリ（filter）から除外されます。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "確認ダイアログで「いいえ」を押した場合、どのような処理が行われますか？<br><pre><code>TextButton(\n  onPressed: () {\n    Navigator.of(context).pop();\n  },\n  child: const Text('いいえ'),\n)</code></pre>",
+      "options": [
+        "削除処理APIは実行されず、ダイアログだけが閉じる",
+        "投稿が即座に削除される",
+        "「削除に失敗しました」と表示される",
+        "ホーム画面全体が更新される"
+      ],
+      "answer": 0,
+      "commentary": "`Navigator.of(context).pop()` のみが呼ばれるため、API通信は一切行われずダイアログが閉じるだけです。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "`GestureDetector` で三点ボタンを囲み、タップ時に `handleOnDelete(context)` を実行する正しい記述はどれですか？",
+      "options": [
+        "GestureDetector(onTap: () { handleOnDelete(context); }, child: const Icon(Icons.more_vert))",
+        "GestureDetector(onClick: handleOnDelete(context))",
+        "GestureDetector(onPressed: () => handleOnDelete)",
+        "Icon(Icons.more_vert, onTap: handleOnDelete)"
+      ],
+      "answer": 0,
+      "commentary": "`GestureDetector` の `onTap` パラメータにコールバック関数を渡します。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "Djangoの `views.py` で、`PostQuerySetMixin` を多重継承して `PostListView` を定義するコードです。<br><pre><code>class PostListView(___, generics.ListCreateAPIView):</code></pre>",
+      "options": [
+        "PostQuerySetMixin",
+        "QuerySetMixin",
+        "PostMixin",
+        "BaseMixin"
+      ],
+      "answer": 0,
+      "commentary": "作成した Mixin クラス `PostQuerySetMixin` を第1親クラスとして継承に加えます。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "投稿削除APIのレスポンスステータスコードが `204`（No Content）であったとき、`deletePost` メソッドの挙動はどうなりますか？",
+      "options": [
+        "例外を出さずに正常終了する",
+        "Exception('削除に失敗しました') が発生する",
+        "レスポンスJSONがパースされる",
+        "400エラーが投げられる"
+      ],
+      "answer": 0,
+      "commentary": "DELETEリクエストの正常ステータスは 204 のため、例外は発生せず正常完了します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で開発した「投稿削除機能」の一連の動作フローとして正しいものはどれですか？",
+      "options": [
+        "1. 自分の投稿の三点ボタンをタップ → 2. 確認ダイアログ表示 → 3. 「はい」で削除API（DELETE）送信 → 4. プロバイダを invalidate して一覧更新＆メッセージ表示",
+        "1. ログイン画面に遷移 → 2. 全投稿を物理削除 → 3. アプリを終了",
+        "1. 確認ダイアログ表示 → 2. ログアウト処理 → 3. 画像ファイルをダウンロード",
+        "1. 「はい」をタップ → 2. パスワードを変更 → 3. 会員登録画面に移動"
+      ],
+      "answer": 0,
+      "commentary": "三点ボタンの確認ダイアログからAPI（DELETE）を呼び出し、成功したら `postListProvider` を更新して最新の一覧を表示します。"
+    }
+  ]
 }

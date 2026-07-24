@@ -1,4 +1,525 @@
 {
   "unit_title": "いいねしたポスト一覧画面",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "クエリパラメータ `feedType` を使って投稿一覧を取得するURLを生成するコードです。空欄に入る記述を選んでください。<br><pre><code>Future&lt;List&lt;Post&gt;&gt; fetchPosts({required String feedType}) async {\n  final url = '$baseUrl/posts/?feed=___';\n  final response = await dioClient.get(url);\n  ...\n}</code></pre>",
+      "options": [
+        "$feedType",
+        "feedType",
+        "{feedType}",
+        "feed_type"
+      ],
+      "answer": 0,
+      "commentary": "Dartの文字列埋め込み（文字列補間）を使い `'$baseUrl/posts/?feed=$feedType'` と記述します。"
+    },
+    {
+      "id": 2,
+      "type": "実行結果予測",
+      "question": "`fetchPosts(feedType: 'likes')` を呼んだ際、Dioがアクセスする最終的なURL文字列はどうなりますか？（`baseUrl = 'http://localhost:8000/api'` の場合）",
+      "options": [
+        "'http://localhost:8000/api/posts/?feed=likes'",
+        "'http://localhost:8000/api/posts/likes'",
+        "'http://localhost:8000/api/posts/?feed=timeline'",
+        "'http://localhost:8000/api/likes'"
+      ],
+      "answer": 0,
+      "commentary": "変数埋め込みにより `'http://localhost:8000/api/posts/?feed=likes'` と構築されます。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "コード内で `'timeline'` や `'likes'` などの文字列（マジックストリング）を直接打たず、クラスの定数としてまとめて定義しておく主な理由は何ですか？",
+      "options": [
+        "タイポ（打ち間違い）によるバグを未然に防ぎ、コンパイル時のチェックやコードの可読性を高めるため",
+        "通信速度を10倍に速くするため",
+        "データベースの領域を節約するため",
+        "Riverpodが文字を直接扱えないから"
+      ],
+      "answer": 0,
+      "commentary": "定数クラス（`PostsFeedType` など）で文字列を一元管理することで、タイポによるバグを防ぎエディタの補完を有効にできます。"
+    },
+    {
+      "id": 4,
+      "type": "文法チェック",
+      "question": "フィードの種類を表す定数クラス `PostsFeedType` を定義する正解のコードはどれですか？",
+      "options": [
+        "class PostsFeedType {\n  PostsFeedType._();\n  static String timeline = 'timeline';\n  static String likes = 'likes';\n}",
+        "enum PostsFeedType { timeline, likes }",
+        "const PostsFeedType = ['timeline', 'likes'];",
+        "class PostsFeedType = 'timeline' | 'likes';"
+      ],
+      "answer": 0,
+      "commentary": "プライベートコンストラクタ `_()` と `static` フィールドを使って定数グループを定義します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "プロバイダーが引数（`feedType`）を受け取れるように `build` メソッドを書き換えるコードです。<br><pre><code>@riverpod\nclass PostList extends _$PostList {\n  @override\n  Future&lt;List&lt;Post&gt;&gt; build(___ feedType) async {\n    return await postServices.fetchPosts(feedType: feedType);\n  }\n}</code></pre>",
+      "options": [
+        "String",
+        "int",
+        "bool",
+        "Post"
+      ],
+      "answer": 0,
+      "commentary": "フィード種別を表す文字列を受け取るため、引数の型に `String` を指定します。"
+    },
+    {
+      "id": 6,
+      "type": "用語理解",
+      "question": "Riverpodにおいて、プロバイダーが引数を受け取れるように定義した結果、自動生成される「引数ごとに独立したインスタンスを生成・管理する機能（修飾子）」を何と呼びますか？",
+      "options": [
+        "family（ファミリー）",
+        "autoDispose",
+        "keepAlive",
+        "scope"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodで引数を受け取るプロバイダーは内部的に `.family` 修飾子を持つプロバイダーとなります。"
+    },
+    {
+      "id": 7,
+      "type": "実行結果予測",
+      "question": "`postListProvider('timeline')` と `postListProvider('likes')` のように異なる引数で呼び出した場合、Riverpodでの扱いはどうなりますか？",
+      "options": [
+        "それぞれ独立した別々のプロバイダーインスタンス（別々のキャッシュ・状態）として管理される",
+        "同じキャッシュデータが共有され、後から呼んだ方で上書きされる",
+        "エラーが発生して両方使用できなくなる",
+        "引数は無視されて常に初期値が使われる"
+      ],
+      "answer": 0,
+      "commentary": "familyプロバイダーは引数の値ごとに個別の状態（インスタンス）を分離して保持します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "いいねした投稿一覧画面へのルーターパス定数の定義です。<br><pre><code>abstract class Routes {\n  static const likePost = '___';\n}</code></pre>",
+      "options": [
+        "/post/like",
+        "/likes",
+        "/favorite",
+        "/posts/liked"
+      ],
+      "answer": 0,
+      "commentary": "教材に従い、いいね一覧画面のパス定数 `Routes.likePost` には `'/post/like'` を割り当てます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "タブ切り替え時などに、OS標準のアニメーション（スライド等）を一切行わずパッと画面を切り替えるGoRouterのページオブジェクトは何ですか？<br><pre><code>GoRoute(\n  path: Routes.likePost,\n  pageBuilder: (context, state) {\n    return const ___(\n      child: LikePostPage(),\n    );\n  },\n)</code></pre>",
+      "options": [
+        "NoTransitionPage",
+        "MaterialPage",
+        "CustomTransitionPage",
+        "InstantPage"
+      ],
+      "answer": 0,
+      "commentary": "遷移アニメーションをオフにして即座に切り替えるには `NoTransitionPage` を返します。"
+    },
+    {
+      "id": 10,
+      "type": "用語理解",
+      "question": "GoRouterのルーティング定義で、OS標準アニメーションを自動適用する `builder` に対して、遷移アニメーションを細かく制御したい時に使うパラメータは何ですか？",
+      "options": [
+        "pageBuilder",
+        "routeBuilder",
+        "customBuilder",
+        "transitionBuilder"
+      ],
+      "answer": 0,
+      "commentary": "`NoTransitionPage` などを使って遷移アニメーションをカスタマイズするには `pageBuilder` パラメータを使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "ボトムバーのタブインデックス（0, 1, 2）を分かりやすく管理するための定数クラス定義です。<br><pre><code>class BottomBarIndex {\n  static const int home = 0;\n  static const int likePost = 1;\n  static const int myPage = ___;\n}</code></pre>",
+      "options": [
+        "2",
+        "3",
+        "-1",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "マイページのインデックス番号として `2` を設定します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "ボトムナビゲーションバーでタブを押した際、履歴スタックに積まずに現在の画面を新しい画面へ「置き換え」遷移するGoRouterのメソッドは何ですか？<br><pre><code>void changePage(BuildContext context, int index) {\n  final route = switch (index) {\n    BottomBarIndex.home => Routes.home,\n    BottomBarIndex.likePost => Routes.likePost,\n    _ => throw Exception('Invalid index: $index'),\n  };\n  context.___(route);\n}</code></pre>",
+      "options": [
+        "replace",
+        "push",
+        "go",
+        "pop"
+      ],
+      "answer": 0,
+      "commentary": "タブ切替時に履歴スタックを増加させないよう `context.replace(route)` を使用します。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "画面遷移メソッドにおける `context.push()` と `context.replace()` の違いについての正しい説明はどれですか？",
+      "options": [
+        "pushは履歴の上に新しい画面を「追加」し、replaceは現在の画面を新しい画面に「置き換える（履歴を重ねない）」",
+        "pushは画面を閉じ、replaceはアプリを再起動する",
+        "pushはPOST通信を行い、replaceはGET通信を行う",
+        "両者に機能上の違いはない"
+      ],
+      "answer": 0,
+      "commentary": "ボトムバーでのタブ移動では、戻るボタンで無制限に前タブへ逆戻りしないよう `replace` がよく使われます。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "Dart 3 で追加された、値を評価して対応するルートパスを簡潔に返す `switch` 式の記述です。<br><pre><code>final route = ___ (index) {\n  BottomBarIndex.home => Routes.home,\n  BottomBarIndex.likePost => Routes.likePost,\n  _ => throw Exception('Invalid index'),\n};</code></pre>",
+      "options": [
+        "switch",
+        "match",
+        "case",
+        "when"
+      ],
+      "answer": 0,
+      "commentary": "式として結果を代入できるDartの構文は `switch (変数) { 条件 => 値, ... }` です。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "`changePage(context, 1)` が実行されたとき、`switch` 式の評価によって決定される `route` 変数の値は何になりますか？",
+      "options": [
+        "Routes.likePost（'/post/like'）",
+        "Routes.home（'/home'）",
+        "Routes.login（'/login'）",
+        "例外エラーが投げられる"
+      ],
+      "answer": 0,
+      "commentary": "`1` は `BottomBarIndex.likePost` と一致するため `Routes.likePost` が選ばれます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "`BottomNavigationBar` で、現在アクティブになっているタブのアイコンをハイライト表示させるパラメータは何ですか？<br><pre><code>BottomNavigationBar(\n  ___: currentIndex,\n  onTap: (index) => changePage(context, index),\n  items: const [...],\n)</code></pre>",
+      "options": [
+        "currentIndex",
+        "selectedIndex",
+        "activeTab",
+        "index"
+      ],
+      "answer": 0,
+      "commentary": "現在選択中のインデックスをボトムバーに伝えるパラメータは `currentIndex` です。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "`PostTile` で削除を行った際、自身が属する特定のフィード種別プロバイダーのキャッシュを無効化するコードです。<br><pre><code>ref.invalidate(postListProvider(widget.___));</code></pre>",
+      "options": [
+        "feedType",
+        "post.id",
+        "likePost",
+        "timeline"
+      ],
+      "answer": 0,
+      "commentary": "自分が配置されているフィード種別（`widget.feedType`）のプロバイダーを指定して `invalidate` します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`PostTile` 内のいいねボタンタップ時、該当するフィード種別のNotiferから `toggleLike` を呼ぶ記述です。<br><pre><code>ref.read(postListProvider(widget.___).notifier).toggleLike(widget.post);</code></pre>",
+      "options": [
+        "feedType",
+        "post",
+        "index",
+        "likes"
+      ],
+      "answer": 0,
+      "commentary": "対象となる `widget.feedType` のプロバイダーNotifierを取得して `toggleLike` を呼び出します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "`HomePage` 画面でタイムライン用の投稿リストを取得・監視する `ref.watch` の記述です。<br><pre><code>final asyncPosts = ref.watch(postListProvider(PostsFeedType.___));</code></pre>",
+      "options": [
+        "timeline",
+        "likes",
+        "home",
+        "myPage"
+      ],
+      "answer": 0,
+      "commentary": "ホーム画面ではタイムライン一覧を取得するため `PostsFeedType.timeline` を渡します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "`LikePostPage` 画面で「いいねした投稿一覧」を取得・監視する `ref.watch` の記述です。<br><pre><code>final asyncLikedPosts = ref.watch(postListProvider(PostsFeedType.___));</code></pre>",
+      "options": [
+        "likes",
+        "timeline",
+        "favorite",
+        "user"
+      ],
+      "answer": 0,
+      "commentary": "いいね一覧画面では `PostsFeedType.likes` を渡してデータを監視します。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "`LikePostPage` 画面の `builder` 内で、取得した投稿リストから「いいね済みの投稿（`isLiked == true`）」だけを抽出するリスト操作コードとして正しいものはどれですか？",
+      "options": [
+        "final likedPosts = posts.where((p) => p.isLiked).toList();",
+        "final likedPosts = posts.filter((p) => p.isLiked);",
+        "final likedPosts = posts.map((p) => p.isLiked).toList();",
+        "final likedPosts = posts.select((p) => p.isLiked);"
+      ],
+      "answer": 0,
+      "commentary": "条件（`p.isLiked`）に合う要素のみを抽出・フィルタリングするには List の `.where().toList()` を使用します。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "`LikePostPage` 画面で表示されている投稿のハートボタンを押して「いいねを解除」した際、画面の表示はどう変化しますか？",
+      "options": [
+        "楽観的UI更新により `isLiked` が false になり、`where((p) => p.isLiked)` から除外されてその投稿が即座に画面から消える",
+        "いいね数は減るが、投稿カードは画面に残ったままになる",
+        "アプリがエラーで終了する",
+        "ホーム画面に強制移動する"
+      ],
+      "answer": 0,
+      "commentary": "`isLiked` が `false` に更新されると、`where((p) => p.isLiked)` の抽出条件から外れるため、即座にリストから非表示になります。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "いいねした投稿が1件もない（`likedPosts.isEmpty == true`）状態で `LikePostPage` を表示した際、画面中央に表示される案内メッセージは何ですか？",
+      "options": [
+        "'いいねした投稿がありません'",
+        "'投稿がありません'",
+        "'エラーが発生しました'",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`if (likedPosts.isEmpty)` の条件分岐により、'いいねした投稿がありません' という案内文が中央に表示されます。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "`LikePostPage` 画面のボトムナビゲーションバーに「いいね一覧」タブが選択状態であると伝える設定です。<br><pre><code>bottomNavigationBar: const CustomBottomBar(\n  currentIndex: BottomBarIndex.___,\n)</code></pre>",
+      "options": [
+        "likePost",
+        "home",
+        "myPage",
+        "favorite"
+      ],
+      "answer": 0,
+      "commentary": "いいね一覧画面のアクティブインデックスとして `BottomBarIndex.likePost`（値: 1）を渡します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "`HomePage` 画面のボトムナビゲーションバーに「ホーム」タブが選択状態であると伝える設定です。<br><pre><code>bottomNavigationBar: const CustomBottomBar(\n  currentIndex: BottomBarIndex.___,\n)</code></pre>",
+      "options": [
+        "home",
+        "likePost",
+        "myPage",
+        "main"
+      ],
+      "answer": 0,
+      "commentary": "ホーム画面のアクティブインデックスとして `BottomBarIndex.home`（値: 0）を渡します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "`LikePostPage` の引っ張り更新（`RefreshIndicator`）で、「いいね一覧プロバイダー」を無効化・再取得させるコードです。<br><pre><code>onRefresh: () async {\n  ref.invalidate(postListProvider(PostsFeedType.___));\n}</code></pre>",
+      "options": [
+        "likes",
+        "timeline",
+        "all",
+        "refresh"
+      ],
+      "answer": 0,
+      "commentary": "`postListProvider(PostsFeedType.likes)` を invalidate して、最新のいいね投稿一覧を再取得します。"
+    },
+    {
+      "id": 27,
+      "type": "用語理解",
+      "question": "Dartの `List` クラスにおける `.where()` メソッドの主な役割は何ですか？",
+      "options": [
+        "指定したテスト条件関数が true を返す要素だけを抽出して新しいコレクションを作る",
+        "リストの全要素を別の型に変換する",
+        "リストをアルファベット順にソートする",
+        "リストから指定したインデックスの要素を削除する"
+      ],
+      "answer": 0,
+      "commentary": "条件に合致する要素のみをフィルタリング抽出するのが `.where()` メソッドの機能です。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "`PostTile` クラスのコンストラクタで、`post` と `feedType` を受け取る正解の記述はどれですか？",
+      "options": [
+        "const PostTile({super.key, required this.post, required this.feedType});",
+        "PostTile(this.post, this.feedType);",
+        "const PostTile({required post, required feedType});",
+        "PostTile(Post post, String feedType);"
+      ],
+      "answer": 0,
+      "commentary": "名前付き必須引数として定義するには `{super.key, required this.post, required this.feedType}` と記述します。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "`PostsFeedType.likes` の値（文字列）は何ですか？<br><pre><code>class PostsFeedType {\n  PostsFeedType._();\n  static String timeline = 'timeline';\n  static String likes = 'likes';\n}</code></pre>",
+      "options": [
+        "'likes'",
+        "'timeline'",
+        "'PostsFeedType.likes'",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "`static String likes = 'likes';` と定義されているため、文字列 `'likes'` が入っています。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "ハートアイコンが並ぶ「Favorites」タブアイテムを定義する `BottomNavigationBarItem` の記述です。<br><pre><code>BottomNavigationBarItem(\n  icon: Icon(Icons.___),\n  label: 'Favorites',\n)</code></pre>",
+      "options": [
+        "favorite",
+        "home",
+        "account_circle",
+        "star"
+      ],
+      "answer": 0,
+      "commentary": "「Favorites（お気に入り/いいね）」タブのアイコンには `Icons.favorite` を使用します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "家マークアイコンの「Home」タブアイテムを定義する `BottomNavigationBarItem` の記述です。<br><pre><code>BottomNavigationBarItem(\n  icon: Icon(Icons.___),\n  label: 'Home',\n)</code></pre>",
+      "options": [
+        "home",
+        "favorite",
+        "menu",
+        "list"
+      ],
+      "answer": 0,
+      "commentary": "「Home」タブのアイコンには `Icons.home` を使用します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "ユーザーアイコンの「Mypage」タブアイテムを定義する `BottomNavigationBarItem` の記述です。<br><pre><code>BottomNavigationBarItem(\n  icon: Icon(Icons.___),\n  label: 'Mypage',\n)</code></pre>",
+      "options": [
+        "account_circle",
+        "person",
+        "user",
+        "profile"
+      ],
+      "answer": 0,
+      "commentary": "「Mypage」タブのアイコンには `Icons.account_circle` を使用します。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "`LikePostPage` ウィジェットで Riverpod の `ref` を使用するため継承する親クラスはどれですか？",
+      "options": [
+        "ConsumerWidget",
+        "StatelessWidget",
+        "StatefulWidget",
+        "InheritedWidget"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodのプロバイダーを監視（`watch`）するクラスとして `ConsumerWidget` を継承します。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "ボトムナビゲーションバーの「Favorites」アイコンをタップしたとき、実行される一連の処理として正しいものはどれですか？",
+      "options": [
+        "1. changePage() が呼ばれる → 2. switch文で Routes.likePost が選ばれる → 3. context.replace() で /post/like へアニメーションなしで遷移",
+        "1. アプリが終了する → 2. ログイン画面が開く",
+        "1. 投稿がすべて削除される",
+        "1. ダイアログが表示される"
+      ],
+      "answer": 0,
+      "commentary": "タップ時に `changePage` が呼ばれ、`Routes.likePost`（/post/like）へアニメーションなしで即時置換移動します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "`post_list.dart` の自動生成ファイルを取り込むための Dart 宣言文です。<br><pre><code>___ 'post_list.g.dart';</code></pre>",
+      "options": [
+        "part",
+        "import",
+        "include",
+        "export"
+      ],
+      "answer": 0,
+      "commentary": "生成される実装を取り込むには `part 'post_list.g.dart';` を記述します。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "本節で行った「投稿取得ロジックのリファクタリング」の主な目的として正しい説明はどれですか？",
+      "options": [
+        "1つのPostListプロバイダーを拡張し、引数（feedType）によって「タイムライン」と「いいね一覧」の両方のデータを柔軟に扱えるようにするため",
+        "データベースを全面的に削除するため",
+        "GoRouterを使わずに標準のNavigatorに戻すため",
+        "ログイン機能を無効化するため"
+      ],
+      "answer": 0,
+      "commentary": "1つのプロバイダーにパラメータ（feedType）を持たせることで、コードの重複を防ぎタイムラインといいね一覧を統一管理できるようにしました。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "Dartの `switch` 式で、どの条件にもマッチしなかった場合のデフォルト分岐（その他）を表す記号はどれですか？",
+      "options": [
+        "_",
+        "default",
+        "else",
+        "other"
+      ],
+      "answer": 0,
+      "commentary": "Dart 3 の `switch` 式でワイルドカード（その他全般）を表す記号は `_`（アンダースコア）です。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`build_runner` を実行してプロバイダーの自動生成コードを更新するコマンドです。<br><pre><code>dart run ___ build</code></pre>",
+      "options": [
+        "build_runner",
+        "freezed",
+        "generator",
+        "riverpod"
+      ],
+      "answer": 0,
+      "commentary": "コード生成を実行するコマンドは `dart run build_runner build` です。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "ホーム画面（`HomePage`）で投稿のいいねボタンを押したとき、`postListProvider(PostsFeedType.timeline)` と `postListProvider(PostsFeedType.likes)` の両方が更新されるのはなぜですか？",
+      "options": [
+        "`toggleLike` 内のAPI処理でサーバー側DBが更新され、いいね一覧（likes）側も `invalidate` 等で最新状態に追従可能になるから",
+        "2つのプロバイダーが完全に同じインスタンスだから",
+        "画面が自動的に再起動するから",
+        "すべてのプロバイダーが自動消去されるから"
+      ],
+      "answer": 0,
+      "commentary": "いいね操作によってバックエンドのいいねデータが切り替わるため、それぞれのプロバイダーで最新データが取得・保持されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で作成した「いいねしたポスト一覧画面」の全体的な完成・動作仕様として適切なものはどれですか？",
+      "options": [
+        "ボトムバーの「Favorites」タブから即座に遷移でき、自分が過去にいいねした投稿だけが一覧表示され、その場でいいね解除も可能な画面",
+        "自分の投稿の編集と削除しかできない画面",
+        "未ログインのユーザーだけが閲覧できる特別画面",
+        "過去のログイン履歴が表示されるログ画面"
+      ],
+      "answer": 0,
+      "commentary": "ボトムバーから切替可能で、自分がいいねした投稿を一覧閲覧・管理（いいね解除でリアルタイム削除）できる画面を構築しました。"
+    }
+  ]
 }

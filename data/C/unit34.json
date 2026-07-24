@@ -1,4 +1,525 @@
 {
   "unit_title": "マイページ画面",
-  "questions": []
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "マイページ画面で表示するユーザープロフィール（投稿数やいいね数など）のデータを Flutter 側で保持するために作成したデータモデルクラス名は何ですか？",
+      "options": [
+        "Account",
+        "User",
+        "Profile",
+        "MyPageModel"
+      ],
+      "answer": 0,
+      "commentary": "マイページ用のアカウント情報を格納するモデルとして `Account` クラスを定義しました。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "`models/account.dart` で `Account` モデルを定義するためのアノテーション記述です。空欄に入るキーワードを選んでください。<br><pre><code>___ \nabstract class Account with _$Account {\n  const factory Account({\n    required int id,\n    required String username,\n    required String email,\n    String? icon,\n    String? statusMessage,\n    required int createdPostCounts,\n    required int sentLikeCounts,\n  }) = _Account;\n}</code></pre>",
+      "options": [
+        "@freezed",
+        "@riverpod",
+        "@JsonSerializable",
+        "@injectable"
+      ],
+      "answer": 0,
+      "commentary": "イミュータブルなデータモデルクラスを定義するために `@freezed` アノテーションを使用します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "JSON形式の辞書データから `Account` インスタンスを生成するファクトリコンストラクタの記述です。<br><pre><code>factory Account.fromJson(Map&lt;String, Object?&gt; json) =>\n    _$AccountFromJson(___);</code></pre>",
+      "options": [
+        "json",
+        "data",
+        "map",
+        "jsonMap"
+      ],
+      "answer": 0,
+      "commentary": "引数として受け取った `json` オブジェクトを `_$AccountFromJson(json)` に渡します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "ログインユーザー自身のアカウント情報を取得するAPI（`/accounts/me/`）のURLを組み立てる記述です。<br><pre><code>final url = '$baseUrl/___/';</code></pre>",
+      "options": [
+        "accounts/me",
+        "users/me",
+        "profile/me",
+        "account/info"
+      ],
+      "answer": 0,
+      "commentary": "自分のアカウント情報を取得・更新するエンドポイントURLは `/accounts/me/` です。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "`AccountService` で自分のアカウント情報を認証付きで取得するGET通信コードです。<br><pre><code>Future&lt;Account&gt; fetchAccount() async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/';\n  final response = await dioClient.___.get(url);\n  return Account.fromJson(response.data);\n}</code></pre>",
+      "options": [
+        "authDio",
+        "unauthDio",
+        "dio",
+        "client"
+      ],
+      "answer": 0,
+      "commentary": "自分のアカウント情報取得には認証トークンが必要なため、`dioClient.authDio` を使ってリクエストを送ります。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "`fetchAccount()` の呼び出しが成功してHTTP 200が返ってきた際、メソッドから返されるオブジェクトの型は何ですか？",
+      "options": [
+        "Account（パースされたアカウントオブジェクト）",
+        "Map<String, dynamic>",
+        "Response",
+        "String"
+      ],
+      "answer": 0,
+      "commentary": "`Account.fromJson(response.data)` が実行されるため、パースされた `Account` オブジェクトが返ります。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "アカウント情報を取得・管理する Riverpod のプロバイダークラス定義です。空欄に入るアノテーション記述を選んでください。<br><pre><code>___ \nclass AccountInfo extends _$AccountInfo {\n  @override\n  Future&lt;Account&gt; build() async {\n    final accountService = AccountService();\n    return accountService.fetchAccount();\n  }\n}</code></pre>",
+      "options": [
+        "@riverpod",
+        "@Provider",
+        "@freezed",
+        "@service"
+      ],
+      "answer": 0,
+      "commentary": "Riverpodのコード生成機能を適用するためクラスの直前に `@riverpod` アノテーションを付与します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "`@riverpod class AccountInfo extends _$AccountInfo` を定義して `build_runner` を実行したとき、自動生成されるプロバイダーの変数名は何になりますか？",
+      "options": [
+        "accountInfoProvider",
+        "AccountInfoProvider",
+        "accountInfo",
+        "getAccountInfoProvider"
+      ],
+      "answer": 0,
+      "commentary": "クラス名（AccountInfo）の先頭を小文字にし、末尾に「Provider」が付いた `accountInfoProvider` が作成されます。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "Riverpodにおいて、データの非同期取得中に「ローディング中」「エラー」「成功」の3つの状態を自動的に管理・提供してくれるプロバイダーの種類は何ですか？",
+      "options": [
+        "AsyncNotifierProvider（AsyncValue）",
+        "StateProvider",
+        "StreamProvider",
+        "ChangeNotifierProvider"
+      ],
+      "answer": 0,
+      "commentary": "`build()` メソッドで `Future` を返すプロバイダーは、非同期状態を扱う `AsyncNotifierProvider` になります。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "`routes.dart` でマイページ画面（`/mypage`）へのルーティング定数を定義するコードです。<br><pre><code>abstract class Routes {\n  // ...\n  static const myPage = '___';\n}</code></pre>",
+      "options": [
+        "/mypage",
+        "/my_page",
+        "/profile",
+        "/user/mypage"
+      ],
+      "answer": 0,
+      "commentary": "マイページ画面のパス定数 `Routes.myPage` には `'/mypage'` を割り当てます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "マイページ遷移時にアニメーションなしで画面をパッと切り替えるための `GoRoute` の設定コードです。<br><pre><code>GoRoute(\n  path: Routes.myPage,\n  pageBuilder: (context, state) {\n    return const ___(\n      child: MyPage(),\n    );\n  },\n)</code></pre>",
+      "options": [
+        "NoTransitionPage",
+        "MaterialPage",
+        "CustomTransitionPage",
+        "Page"
+      ],
+      "answer": 0,
+      "commentary": "ボトムナビゲーションバーからの切り替えでスライド等のアニメーションを消すには `NoTransitionPage` を使います。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "ボトムナビゲーションバーの「マイページ」タブのインデックス番号を定義する定数です。<br><pre><code>class BottomBarIndex {\n  static const int home = 0;\n  static const int likePost = 1;\n  static const int myPage = ___;\n}</code></pre>",
+      "options": [
+        "2",
+        "3",
+        "-1",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "3番目のタブであるマイページのインデックス値は `2` です。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "`PostsFeedType` クラスに「自分の投稿一覧」を取得するためのフィード種別定数を追加する記述です。<br><pre><code>class PostsFeedType {\n  PostsFeedType._();\n  static String timeline = 'timeline';\n  static String likes = 'likes';\n  static String myPosts = '___';\n}</code></pre>",
+      "options": [
+        "myposts",
+        "my_posts",
+        "my",
+        "own"
+      ],
+      "answer": 0,
+      "commentary": "バックエンドのクエリパラメータに合わせた定数として `static String myPosts = 'myposts';` を追加します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "`PostsFeedType` クラスに「いいねが多い自分の投稿」を取得するためのフィード種別定数を追加する記述です。<br><pre><code>static String likesPopular = '___';</code></pre>",
+      "options": [
+        "likes-popular",
+        "popular_likes",
+        "likes_popular",
+        "popular"
+      ],
+      "answer": 0,
+      "commentary": "バックエンドのクエリパラメータに合わせて `static String likesPopular = 'likes-popular';` と設定します。"
+    },
+    {
+      "id": 15,
+      "type": "用語理解",
+      "question": "Flutterで `TabController` を利用してアニメーションやタブ同期を行う際、`State` クラスに `with` キーワードで追加（Mixin）するクラスは何ですか？",
+      "options": [
+        "SingleTickerProviderStateMixin",
+        "TickerProvider",
+        "TabControllerMixin",
+        "AnimationControllerState"
+      ],
+      "answer": 0,
+      "commentary": "1つのアニメーションTicker（クロック）を `TabController` に提供するために `SingleTickerProviderStateMixin` をMixinします。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "`_MyPageState` 内の `initState` で2つのタブを管理する `TabController` を初期化するコードです。<br><pre><code>@override\nvoid initState() {\n  super.initState();\n  _tabController = TabController(length: 2, ___: this);\n}</code></pre>",
+      "options": [
+        "vsync",
+        "ticker",
+        "sync",
+        "animation"
+      ],
+      "answer": 0,
+      "commentary": "TickerProvider（`this`）を同期コントローラーへ渡すパラメータ名は `vsync` です。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "`MyPage` ウィジェットが破棄される際に、`TabController` のメモリリソースを解放するコードです。<br><pre><code>@override\nvoid dispose() {\n  _tabController.___\n();\n  super.dispose();\n}</code></pre>",
+      "options": [
+        "dispose",
+        "clear",
+        "close",
+        "destroy"
+      ],
+      "answer": 0,
+      "commentary": "不要になったコントローラーを解体・解放するには `_tabController.dispose()` を呼び出します。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "`Stack` ウィジェットで、親枠（Container）からはみ出させた子ウィジェットを切らずにそのまま表示させる設定です。<br><pre><code>Stack(\n  ___: Clip.none,\n  children: [...],\n)</code></pre>",
+      "options": [
+        "clipBehavior",
+        "overflow",
+        "clip",
+        "fit"
+      ],
+      "answer": 0,
+      "commentary": "`Stack` のはみ出し領域を切り取らず表示するには `clipBehavior: Clip.none` を指定します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "`Stack` の内部で、ヘッダー背景枠の「左側16px、下側に60pxはみ出させた位置」にユーザーアイコンを固定配置するウィジェットは何ですか？<br><pre><code>___(\n  bottom: -60,\n  left: 16,\n  child: ...,\n)</code></pre>",
+      "options": [
+        "Positioned",
+        "Align",
+        "Padding",
+        "Container"
+      ],
+      "answer": 0,
+      "commentary": "`Stack` 内でミリ単位の絶対位置指定を行うには `Positioned` ウィジェットを使用します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "`height: 180` の `Stack` 内で、`Positioned(bottom: -60, left: 16, child: アイコン)` を指定した場合、アイコンはどのように描画されますか？",
+      "options": [
+        "ヘッダー背景領域の下端を60ピクセルだけ突き出して（はみ出て）配置される",
+        "ヘッダー内部の一番下に収まって表示される",
+        "ヘッダーの一番上に表示される",
+        "はみ出た部分が切り取られて見えなくなる"
+      ],
+      "answer": 0,
+      "commentary": "`bottom: -60` と `clipBehavior: Clip.none` により、ヘッダー領域の下側にはみ出る位置に円形アイコンが重なって配置されます。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "`account`（`accountInfoProvider` の状態）に対して `.when()` を呼び出し、データのロードが成功した際に描画される処理はどれですか？<br><pre><code>account.when(\n  data: (data) { /* データ成功時UI */ },\n  loading: () => const CircularProgressIndicator(),\n  error: (error, stackTrace) => ...,\n)</code></pre>",
+      "options": [
+        "data コールバック関数内のUIが描画される",
+        "loading コールバック内の CircularProgressIndicator が表示される",
+        "error コールバック内のエラー表示が描画される",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`AsyncValue` が成功（data）状態の場合、`data:` 引数に渡された関数が実行されて画面が構築されます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "マイページ画面の右上付近に配置する「編集」ボタン（枠線ありのシンプルボタン）ウィジェットは何ですか？<br><pre><code>___(\n  onPressed: () {},\n  child: const Text('編集'),\n)</code></pre>",
+      "options": [
+        "OutlinedButton",
+        "ElevatedButton",
+        "TextButton",
+        "IconButton"
+      ],
+      "answer": 0,
+      "commentary": "外枠線を持つボタンを作るには `OutlinedButton` ウィジェットを使用します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "設定（歯車）マークのアイコンを指定するFlutter標準アイコン定数はどれですか？<br><pre><code>IconButton(\n  icon: Icon(Icons.___),\n  onPressed: () {},\n)</code></pre>",
+      "options": [
+        "settings",
+        "gear",
+        "config",
+        "option"
+      ],
+      "answer": 0,
+      "commentary": "歯車（設定）アイコンの定数は `Icons.settings` です。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "`account.when()` を使って、ユーザー名（`username`）を安全に取り出してテキスト表示するコードです。<br><pre><code>Text(\n  account.when(\n    data: (account) => account.___,\n    error: (_, __) => '',\n    loading: () => '',\n  ),\n)</code></pre>",
+      "options": [
+        "username",
+        "email",
+        "id",
+        "statusMessage"
+      ],
+      "answer": 0,
+      "commentary": "ユーザー名を表示するために `account.username` を参照します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "`account.createdPostCounts` の数値が `5` のとき、次のコードを実行したときの表示テキストはどうなりますか？<br><pre><code>Text(\n  account.when(\n    data: (account) => account.createdPostCounts.toString(),\n    error: (_, __) => '',\n    loading: () => '',\n  ),\n)</code></pre>",
+      "options": [
+        "'5'",
+        "5（数値）",
+        "'createdPostCounts'",
+        "''（空文字）"
+      ],
+      "answer": 0,
+      "commentary": "`createdPostCounts` の値 `5` が `.toString()` で文字列化され、`'5'` と表示されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "タブのヘッダーバー（「最近」「いいねが多い」）を制御する `TabBar` の記述です。空欄に入るコントローラー属性を選んでください。<br><pre><code>TabBar(\n  ___: _tabController,\n  tabs: const [\n    Tab(text: '最近'),\n    Tab(text: 'いいねが多い'),\n  ],\n)</code></pre>",
+      "options": [
+        "controller",
+        "tabController",
+        "state",
+        "manager"
+      ],
+      "answer": 0,
+      "commentary": "`TabBar` に `TabController` を紐付ける属性は `controller:` です。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "選択されているタブに応じて切り替わる表示コンテンツエリアを作る `TabBarView` の記述です。<br><pre><code>TabBarView(\n  ___: _tabController,\n  children: [...],\n)</code></pre>",
+      "options": [
+        "controller",
+        "tabController",
+        "views",
+        "childrenController"
+      ],
+      "answer": 0,
+      "commentary": "`TabBarView` も `TabBar` と同じ `_tabController` を `controller:` に設定して動期させます。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "`TabBarView` の各タブコンテンツ内（children）で、ページ全体ではなく各タブの中身だけを `Consumer` で囲んで `ref.watch()` を呼び出す利点は何ですか？",
+      "options": [
+        "一方のタブの投稿データが更新されてもページ全体の再描画（build）が走らず、そのタブ内だけの局所的な再描画に抑えられるため",
+        "通信速度が上がって即座にロードが終わるため",
+        "TabControllerのdispose処理が不要になるため",
+        "TabBarViewが使えなくなるのを防ぐため"
+      ],
+      "answer": 0,
+      "commentary": "`Consumer` を部分的に挟むことで、プロバイダー変化時の再描画スコープを限定し、無駄な全体再描画を防ぐことができます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "「最近」タブで、自分の投稿一覧を取得・監視する `ref.watch` の記述です。<br><pre><code>final postList = ref.watch(postListProvider(PostsFeedType.___));</code></pre>",
+      "options": [
+        "myPosts",
+        "likesPopular",
+        "timeline",
+        "likes"
+      ],
+      "answer": 0,
+      "commentary": "「最近」タブでは自分が投稿した一覧を取得するため `PostsFeedType.myPosts` を渡します。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "「いいねが多い」タブで、自分の人気投稿一覧を取得・監視する `ref.watch` の記述です。<br><pre><code>final postList = ref.watch(postListProvider(PostsFeedType.___));</code></pre>",
+      "options": [
+        "likesPopular",
+        "myPosts",
+        "likes",
+        "popular"
+      ],
+      "answer": 0,
+      "commentary": "「いいねが多い」タブでは `PostsFeedType.likesPopular` を渡してデータを監視します。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "Dartにおけるカスケード演算子（`..`）の説明として適切なものはどれですか？",
+      "options": [
+        "同一のオブジェクトに対して、連続して複数のメソッド呼び出しや操作を行うための記法",
+        "変数の値を2倍にする計算記法",
+        "非同期処理の完了を2回待つ記法",
+        "2つの文字列を自動的に結合する記法"
+      ],
+      "answer": 0,
+      "commentary": "カスケード記法（`..`）は、同じレシーバ（オブジェクト）に対して連続で操作を行う際に使われます。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "投稿作成成功時に、投稿一覧プロバイダーとアカウント情報プロバイダーの両方をカスケード記法で同時にリフレッシュする記述です。<br><pre><code>ref\n  ..invalidate(postListProvider)\n  ..___(accountInfoProvider);</code></pre>",
+      "options": [
+        "invalidate",
+        "refresh",
+        "reset",
+        "clean"
+      ],
+      "answer": 0,
+      "commentary": "アカウント情報側のキャッシュも破棄して再取得させるため `..invalidate(accountInfoProvider)` を実行します。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "新しい投稿を作成した際、`ref.invalidate(accountInfoProvider)` を呼び出さなかった場合に画面上で起こる不具合は何ですか？",
+      "options": [
+        "マイページ上の「投稿数」の数値が自動更新されず、古い投稿数のまま表示される",
+        "新しい投稿がデータベースに保存されない",
+        "アプリが強制終了する",
+        "ユーザーのメールアドレスが消去される"
+      ],
+      "answer": 0,
+      "commentary": "`accountInfoProvider` のキャッシュが残ったままになるため、マイページの投稿数が更新されず古い数字が表示され続けます。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "投稿削除が成功した際、マイページのアカウント情報（投稿数など）を更新するために呼び出すコードです。<br><pre><code>await PostsService().deletePost(widget.post.id);\nif (!context.mounted) return;\nref\n  ..invalidate(postListProvider(widget.feedType))\n  ..___(accountInfoProvider);</code></pre>",
+      "options": [
+        "invalidate",
+        "update",
+        "refresh",
+        "reload"
+      ],
+      "answer": 0,
+      "commentary": "削除完了時も `..invalidate(accountInfoProvider)` を実行し、マイページの投稿数表示を1減らして同期させます。"
+    },
+    {
+      "id": 35,
+      "type": "実行結果予測",
+      "question": "自分の投稿を削除した後、`ref.invalidate(accountInfoProvider)` が実行されたとき、マイページの「投稿数」の数値はどう変化しますか？",
+      "options": [
+        "最新のアカウント情報が再取得され、投稿数が1減った数値に自動更新される",
+        "投稿数は変化せずそのままになる",
+        "投稿数が 0 にリセットされる",
+        "投稿数が 1 増える"
+      ],
+      "answer": 0,
+      "commentary": "`accountInfoProvider` が再取得（invalidate）され、バックエンドの最新件数（1減った値）が画面に反映されます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "投稿タイルのハートアイコンをタップして「いいね」を切り替えた際、マイページの「いいねしたポスト数」を最新化するコードです。<br><pre><code>onTap: () {\n  ref.read(postListProvider(widget.feedType).notifier).toggleLike(widget.post);\n  ref.___(accountInfoProvider);\n}</code></pre>",
+      "options": [
+        "invalidate",
+        "refresh",
+        "reset",
+        "update"
+      ],
+      "answer": 0,
+      "commentary": "いいね数のカウントを同期させるため `ref.invalidate(accountInfoProvider)` を呼び出します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "投稿に「いいね」を押した直後に `ref.invalidate(accountInfoProvider)` が実行された際、マイページ上の「いいねしたポスト数」の表示はどう変化しますか？",
+      "options": [
+        "アカウント情報が最新化され、いいねしたポスト数が1増えた数値に更新される",
+        "いいね数が0に戻る",
+        "マイページ画面からログアウトされる",
+        "変化しない"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダーが再読み込みされ、増加した最新の `sentLikeCounts`（いいねした数）が表示されます。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "`_MyPageState` クラス内で `TabController` を安全に初期化する正しいDartコードはどれですか？",
+      "options": [
+        "@override\nvoid initState() {\n  super.initState();\n  _tabController = TabController(length: 2, vsync: this);\n}",
+        "void initState() {\n  _tabController = new TabController(2);\n}",
+        "TabController _tabController = TabController(length: 2);",
+        "override void build() {\n  _tabController = TabController(2, this);\n}"
+      ],
+      "answer": 0,
+      "commentary": "`initState()` 内で `super.initState();` を呼び出し、`TabController(length: 2, vsync: this)` で作成するのが標準的です。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "Accountモデルのオプショナルなステータスメッセージ（`statusMessage`）が `null` の場合に空文字を表示させる正しい記法はどれですか？",
+      "options": [
+        "account.statusMessage ?? ''",
+        "account.statusMessage || ''",
+        "account.statusMessage ? account.statusMessage : ''",
+        "account.statusMessage.defaultValue('')"
+      ],
+      "answer": 0,
+      "commentary": "Null合体演算子 `??` を用いて `account.statusMessage ?? ''` と書くのが最も簡潔かつ安全です。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "本節で開発した「マイページ画面」の全体的な特徴・構成として最も適切な説明はどれですか？",
+      "options": [
+        "自分のプロフィール情報（アイコン・名前・投稿数・いいね数）を表示し、「最近の投稿」と「いいねが多い投稿」の2つのタブをスムーズに切り替えられる画面",
+        "他の全ユーザーのパスワードを一覧で閲覧・変更する管理者画面",
+        "アプリの利用規約テキストのみを表示する静的画面",
+        "ログインと会員登録を行うだけの画面"
+      ],
+      "answer": 0,
+      "commentary": "ユーザー自身の情報表示と、2つのタブ（`myPosts` / `likesPopular`）で自分の投稿リストを切り替えて閲覧できるマイページを構築しました。"
+    }
+  ]
 }
