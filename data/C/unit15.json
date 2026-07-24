@@ -394,7 +394,7 @@
     {
       "id": 31,
       "type": "コード穴埋め",
-      "question": "`SIMPLE_JWT` 設定で、時間差分を計算・指定するためにインポートするPython標準モジュールは何ですか？<br><pre><code>from datetime import ___</code></pre>",
+      "question": "`SIMPLE_JWT` 設定で、時間差分を計算・指定するためにインポートするクラスは何ですか？<br><pre><code>from datetime import ___</code></pre>",
       "options": [
         "timedelta",
         "datetime",

@@ -108,7 +108,7 @@
     {
       "id": 14,
       "type": "用語理解",
-      "question": "Dart で Map データを JSON 形式の文字列に変換するために使う、`json.dart` パッケージに含まれる関数は何ですか？",
+      "question": "Dart で Map データを JSON 形式の文字列に変換するために使う、`dart:convert` ライブラリに含まれる関数は何ですか？",
       "options": ["jsonDecode", "jsonEncode", "jsonToString", "jsonFormat"],
       "answer": 1,
       "commentary": "送信データを構築する際は jsonEncode、受信データを解析する際は jsonDecode を使います。"

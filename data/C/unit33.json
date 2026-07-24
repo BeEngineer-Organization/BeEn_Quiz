@@ -103,7 +103,7 @@
         "null"
       ],
       "answer": 0,
-      "commentary": "`self.request.user` により、認証トークンから識別されたログイン中のユーザー自身が取得・返約されます。"
+      "commentary": "`self.request.user` により、認証トークンから識別されたログイン中のユーザー自身が取得・返却されます。"
     },
     {
       "id": 9,
@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "ユーザーが押した「いいね（sent_likes）」のうち、対象の投稿が削除されていないものだけを絞り込む参照フィルター記述です。<br><pre><code>def get_sent_like_counts(self, obj):\n    return obj.sent_likes.filter(post_____is_deleted=False).count()</code></pre>",
+      "question": "ユーザーが押した「いいね（sent_likes）」のうち、対象の投稿が削除されていないものだけを絞り込む参照フィルター記述です。<br><pre><code>def get_sent_like_counts(self, obj):\n    return obj.sent_likes.filter(post___is_deleted=False).count()</code></pre>",
       "options": [
         "__",
         "_",

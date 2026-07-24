@@ -147,7 +147,7 @@
     {
       "id": 12,
       "type": "コード穴埋め",
-      "question": "Dioで通信エラーが起きしたときに自動的に呼び出されるインターセプターのメソッドは何ですか？<br><pre><code>@override\nFuture&lt;void&gt; ___(\n  DioException err,\n  ErrorInterceptorHandler handler,\n) async</code></pre>",
+      "question": "Dioで通信エラーが起きたときに自動的に呼び出されるインターセプターのメソッドは何ですか？<br><pre><code>@override\nFuture&lt;void&gt; ___(\n  DioException err,\n  ErrorInterceptorHandler handler,\n) async</code></pre>",
       "options": [
         "onError",
         "catchError",
@@ -409,7 +409,7 @@
       "type": "実行結果予測",
       "question": "`onError` メソッドの自動リカバリ処理をコメントアウトした状態で、アクセストークンの期限切れ後にスワイプリフレッシュを実行した場合どうなりますか？",
       "options": [
-        "401認証エラーが補獲され、画面上にエラーメッセージが表示される",
+        "401認証エラーが捕捉され、画面上にエラーメッセージが表示される",
         "自動的に新しいアクセストークンが取得されて更新される",
         "投稿データが正常に取得される",
         "アプリが即座に強制終了する"

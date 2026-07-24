@@ -4,7 +4,7 @@
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "投稿に関する処理をまとめルための新しいアプリケーション「posts」を作成するコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>django-admin ___ posts</code></pre>",
+      "question": "投稿に関する処理をまとめるための新しいアプリケーション「posts」を作成するコマンドです。空欄に入るキーワードは何ですか？<br><pre><code>django-admin ___ posts</code></pre>",
       "options": [
         "startapp",
         "createapp",

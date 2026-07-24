@@ -82,7 +82,7 @@
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "GoRouterを使ったルーティングをアプリアプリ全体に適用するため、`MaterialApp` で呼び出すコンストラクタは何ですか？<br><pre><code>return MaterialApp.___(\n  title: 'BeEn Shot',\n  routerConfig: GoRouter(...),\n);</code></pre>",
+      "question": "GoRouterを使ったルーティングをアプリ全体に適用するため、`MaterialApp` で呼び出すコンストラクタは何ですか？<br><pre><code>return MaterialApp.___(\n  title: 'BeEn Shot',\n  routerConfig: GoRouter(...),\n);</code></pre>",
       "options": [
         "router",
         "route",

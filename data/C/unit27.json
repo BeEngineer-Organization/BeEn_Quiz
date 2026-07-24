@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "用語理解",
-      "question": "GoRouterでデフォルとのページ遷移アニメーションやスタイル（モーダル表示など）をカスタマイズする際に、`builder` の代わりに使用するパラメータは何ですか？",
+      "question": "GoRouterでデフォルトのページ遷移アニメーションやスタイル（モーダル表示など）をカスタマイズする際に、`builder` の代わりに使用するパラメータは何ですか？",
       "options": [
         "pageBuilder",
         "transitionBuilder",
@@ -264,7 +264,7 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "アイコンとテキストラベルが横並びになったテキストボタンを作成するコンストラクタは何ですか？<br><pre><code>TextButton.___\n(\n  onPressed: _pickImage,\n  label: const Text('画像を追加'),\n  icon: const Icon(Icons.add),\n)</code></pre>",
+      "question": "アイコンとテキストラベルが横並びになったテキストボタンを作成するコンストラクタは何ですか？<br><pre><code>TextButton.___(\n  onPressed: _pickImage,\n  label: const Text('画像を追加'),\n  icon: const Icon(Icons.add),\n)</code></pre>",
       "options": [
         "icon",
         "withIcon",
@@ -316,7 +316,7 @@
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "横長で「投稿」などのテキストラベルが付いた浮き出たボタンを作成するクラスは何ですか？<br><pre><code>FloatingActionButton.___\n(\n  shape: RoundedRectangleBorder(...),\n  onPressed: () { ... },\n  label: const Text('投稿'),\n)</code></pre>",
+      "question": "横長で「投稿」などのテキストラベルが付いた浮き出たボタンを作成するクラスは何ですか？<br><pre><code>FloatingActionButton.___(\n  shape: RoundedRectangleBorder(...),\n  onPressed: () { ... },\n  label: const Text('投稿'),\n)</code></pre>",
       "options": [
         "extended",
         "large",

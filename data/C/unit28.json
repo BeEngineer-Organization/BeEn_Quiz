@@ -134,7 +134,7 @@
     {
       "id": 11,
       "type": "コード穴埋め",
-      "question": "`PostSerializer` にモデル非依存の追加読取専用フィールド（`created_by_me`）を宣言するコードです。<br><pre><code>class PostSerializer(serializers.ModelSerializer):\n    user = UserSerializer(read_only=True)\n    created_by_me = serializers.___ (read_only=True)</code></pre>",
+      "question": "`PostSerializer` にモデル非依存の追加読取専用フィールド（`created_by_me`）を宣言するコードです。<br><pre><code>class PostSerializer(serializers.ModelSerializer):\n    user = UserSerializer(read_only=True)\n    created_by_me = serializers.___(read_only=True)</code></pre>",
       "options": [
         "BooleanField",
         "CharField",

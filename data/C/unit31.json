@@ -199,7 +199,7 @@
     {
       "id": 16,
       "type": "コード穴埋め",
-      "question": "freezedで生成されたオブジェクトの一部のプロパティ（`isLiked` や `receivedLikeCounts`）のみを書き換えて新しいオブジェクトを複製生成するメソッドは何ですか？<br><pre><code>return p.___\n(\n  isLiked: !p.isLiked,\n  receivedLikeCounts:\n      p.isLiked ? p.receivedLikeCounts - 1 : p.receivedLikeCounts + 1,\n);</code></pre>",
+      "question": "freezedで生成されたオブジェクトの一部のプロパティ（`isLiked` や `receivedLikeCounts`）のみを書き換えて新しいオブジェクトを複製生成するメソッドは何ですか？<br><pre><code>return p.___(\n  isLiked: !p.isLiked,\n  receivedLikeCounts:\n      p.isLiked ? p.receivedLikeCounts - 1 : p.receivedLikeCounts + 1,\n);</code></pre>",
       "options": [
         "copyWith",
         "clone",

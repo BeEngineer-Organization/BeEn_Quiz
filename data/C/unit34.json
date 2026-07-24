@@ -212,7 +212,7 @@
     {
       "id": 17,
       "type": "コード穴埋め",
-      "question": "`MyPage` ウィジェットが破棄される際に、`TabController` のメモリリソースを解放するコードです。<br><pre><code>@override\nvoid dispose() {\n  _tabController.___\n();\n  super.dispose();\n}</code></pre>",
+      "question": "`MyPage` ウィジェットが破棄される際に、`TabController` のメモリリソースを解放するコードです。<br><pre><code>@override\nvoid dispose() {\n  _tabController.___();\n  super.dispose();\n}</code></pre>",
       "options": [
         "dispose",
         "clear",
@@ -350,7 +350,7 @@
         "childrenController"
       ],
       "answer": 0,
-      "commentary": "`TabBarView` も `TabBar` と同じ `_tabController` を `controller:` に設定して動期させます。"
+      "commentary": "`TabBarView` も `TabBar` と同じ `_tabController` を `controller:` に設定して同期させます。"
     },
     {
       "id": 28,

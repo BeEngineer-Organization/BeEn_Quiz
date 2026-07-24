@@ -428,7 +428,7 @@
         "final formData = PostForm.fromController(_contentController);"
       ],
       "answer": 0,
-      "commentary": "`TextEditingController` から現在の入力テキスト文字列を取り出すには `._contentController.text` を使用します。"
+      "commentary": "`TextEditingController` から現在の入力テキスト文字列を取り出すには `_contentController.text` を使用します。"
     },
     {
       "id": 34,

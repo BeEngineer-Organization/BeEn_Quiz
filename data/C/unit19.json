@@ -355,7 +355,7 @@
     {
       "id": 28,
       "type": "文法チェック",
-      "question": "`DioException` を補獲してレスポンスデータを取り出す正しいDartの `try-catch` 構文はどれですか？",
+      "question": "`DioException` を捕捉してレスポンスデータを取り出す正しいDartの `try-catch` 構文はどれですか？",
       "options": [
         "try { ... } on DioException catch (e) { final data = e.response?.data; }",
         "try { ... } catch (DioException e) { final data = e.data; }",

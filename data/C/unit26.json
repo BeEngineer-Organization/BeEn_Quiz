@@ -199,7 +199,7 @@
     {
       "id": 16,
       "type": "コード穴埋め",
-      "question": "新規投稿を作成する `createPost` メソッドで、`PostForm` から `FormData` を準備して送信するコードです。<br><pre><code>Future&lt;void&gt; createPost(PostForm post) async {\n  final url = '$baseUrl/posts/';\n  final formData = await post.___\n();\n  final response = await dioClient.post(url, data: formData);\n}</code></pre>",
+      "question": "新規投稿を作成する `createPost` メソッドで、`PostForm` から `FormData` を準備して送信するコードです。<br><pre><code>Future&lt;void&gt; createPost(PostForm post) async {\n  final url = '$baseUrl/posts/';\n  final formData = await post.___();\n  final response = await dioClient.post(url, data: formData);\n}</code></pre>",
       "options": [
         "toFormData",
         "toJson",

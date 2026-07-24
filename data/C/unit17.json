@@ -407,7 +407,7 @@
     {
       "id": 32,
       "type": "コード穴埋め",
-      "question": "フォームで入力されたメールアドレスの現在値を取得する記述です。<br><pre><code>final formData = LoginUser(\n  email: _emailKey.currentState?.___,\n  password: _passwordlKey.currentState?.value,\n);</code></pre>",
+      "question": "フォームで入力されたメールアドレスの現在値を取得する記述です。<br><pre><code>final formData = LoginUser(\n  email: _emailKey.currentState?.___,\n  password: _passwordKey.currentState?.value,\n);</code></pre>",
       "options": [
         "value",
         "text",
@@ -519,7 +519,7 @@
         "1. ローディング表示OFF → 2. API実行 → 3. ローディング表示ON"
       ],
       "answer": 0,
-      "commentary": "まず通信開始時にローディングをONにし、API成功後にメッセージを出答し、finallyでローディングをOFFにします。"
+      "commentary": "まず通信開始時にローディングをONにし、API成功後にメッセージを表示し、finallyでローディングをOFFにします。"
     }
   ]
 }

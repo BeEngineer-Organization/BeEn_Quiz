@@ -121,7 +121,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "シリアライザ内で、複数フィールドに跨がる全体的なバリデーションやルールを追加するためにオーバーライドするメソッドは何ですか？<br><pre><code>def ___(self, attrs):\n    username = attrs.get(\"username\", \"\")\n    if not username.isalnum():\n        raise serializers.ValidationError(self.default_error_messages)\n    return attrs</code></pre>",
+      "question": "シリアライザ内で、複数フィールドに跨がる全体的なバリデーションやルールを追加するためにオーバーライドするメソッドは何ですか？<br><pre><code>def ___(self, attrs):\n    username = attrs.get(\"username\", \"\")\n    if not username.isalnum():\n        raise serializers.ValidationError(\"ユーザー名は英数字のみで入力してください\")\n    return attrs</code></pre>",
       "options": [
         "validate",
         "check",
