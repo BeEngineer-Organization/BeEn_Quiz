@@ -290,7 +290,7 @@
     {
       "id": 23,
       "type": "コード穴埋め",
-      "question": "要素を「筆記体（斜体）」にしたいときに使うプロパティは何ですか？<pre><code>p { ___: italic; }</code></pre>",
+      "question": "要素を「斜体（イタリック）」にしたいときに使うプロパティは何ですか？<pre><code>p { ___: italic; }</code></pre>",
       "options": [
         "font-weight",
         "font-family",

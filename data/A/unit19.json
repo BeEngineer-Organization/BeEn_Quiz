@@ -77,7 +77,7 @@
       "id": 10,
       "type": "文法チェック",
       "question": "フォームの送信ボタンを作る正しい記述はどれですか？",
-      "options": ["&lt;input type=\"button\"&gt;", "&lt;input type=\"submit\"&gt;", "&lt;input type=\"send\"&gt;", "&lt;button&gt;送信&lt;/button&gt;"],
+      "options": ["&lt;input type=\"button\"&gt;", "&lt;input type=\"submit\"&gt;", "&lt;input type=\"send\"&gt;", "&lt;button type=\"button\"&gt;送信&lt;/button&gt;"],
       "answer": 1,
       "commentary": "type=\"submit\" を設定したボタンを押すと、フォームの内容が送信されます。"
     },

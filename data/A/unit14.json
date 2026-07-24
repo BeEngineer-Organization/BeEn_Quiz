@@ -71,7 +71,7 @@
       "question": "Djangoの利用例として、教科書に書かれている有名なサービスはどれですか？",
       "options": ["X (旧Twitter)", "Instagram", "Line", "TikTok"],
       "answer": 1,
-      "commentary": "InstagramやYouTube、NASAの公式サイトなどでDjangoが使われています。"
+      "commentary": "InstagramやNASAの公式サイトなどでDjangoが使われています。"
     },
     {
       "id": 10,
@@ -277,7 +277,7 @@
       "id": 35,
       "type": "文法チェック",
       "question": "manage.pyが存在する場所で「ls」や「dir」コマンドを打ったとき、表示されないファイルはどれですか？",
-      "options": ["manage.py", "polls（フォルダ）", "django-admin", "db.sqlite3（サーバー起動後）"],
+      "options": ["manage.py", "polls（フォルダ）", "django-admin", "db.sqlite3（migrate 実行後）"],
       "answer": 2,
       "commentary": "django-adminはPythonのツール（コマンド）であり、作成したプロジェクトフォルダの中にファイルとして存在するわけではありません。"
     },

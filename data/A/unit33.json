@@ -25,7 +25,7 @@
         "class_name"
       ],
       "answer": 0,
-      "commentary": "ModelFormの内底クラス `Meta` では、対象とするモデルを `model = モデル名` で指定します。"
+      "commentary": "ModelFormの内部クラス `Meta` では、対象とするモデルを `model = モデル名` で指定します。"
     },
     {
       "id": 3,
@@ -446,7 +446,7 @@
     {
       "id": 35,
       "type": "コード穴埋め",
-      "question": "メッセージ送信フォームの枠線（ボーダー）を2pxの黒色実線にするCSS記述です。<br><pre><code>.message-form input {\n    border: ___\n; \n}</code></pre>",
+      "question": "メッセージ送信フォームの枠線（ボーダー）を2pxの黒色実線にするCSS記述です。<br><pre><code>.message-form input {\n    border: ___;\n}</code></pre>",
       "options": [
         "2px solid #131313",
         "2px dashed #131313",

@@ -435,13 +435,13 @@
       "type": "コード穴埋め",
       "question": "URLパターン名 `forum` に対して、`topic.id` の値が `5` のときにテンプレートタグ `{% url 'forum' topic.id %}` が出力する結果はどれですか？<br><pre><code># urls.py\npath('&lt;int:topic_id&gt;/', views.forum, name='forum')</code></pre>",
       "options": [
-        "5/",
+        "/5/",
         "forum/5",
         "topic_id=5",
         "forum?id=5"
       ],
       "answer": 0,
-      "commentary": "`path('<int:topic_id>/', ...)` というパターンの場合、`5/` という相対パス（または `/5/` などの絶対パス）が生成されます。"
+      "commentary": "`{% url %}` は先頭にスラッシュが付いた絶対パスを生成します。このパターンでは `topic.id` が 5 のとき `/5/` が出力されます。"
     },
     {
       "id": 35,

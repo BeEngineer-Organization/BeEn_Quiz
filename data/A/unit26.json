@@ -253,13 +253,13 @@
       "type": "実行結果予測",
       "question": "URLパターンが `path(\"<int:topic_id>/message/<int:message_id>/delete/\", views.delete_message, name=\"delete_message\")` と定義されているとき、`topic.id` が `1`、`message.id` が `5` の場合、`{% url 'delete_message' topic.id message.id %}` が生成するURLはどれですか？",
       "options": [
-        "1/message/5/delete/",
+        "/1/message/5/delete/",
         "delete_message/1/5/",
         "topic.id/message/message.id/delete/",
         "1/5/delete/"
       ],
       "answer": 0,
-      "commentary": "指定されたパスコンバーターの位置に数値が埋め込まれ `1/message/5/delete/` というURLが生成されます。"
+      "commentary": "指定されたパスコンバーターの位置に数値が埋め込まれ `/1/message/5/delete/` というURLが生成されます。"
     },
     {
       "id": 21,

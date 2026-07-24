@@ -92,8 +92,8 @@
     {
       "id": 12,
       "type": "実行結果予測",
-      "question": "次のコードで、現在の日時を表示する正しい命令はどれですか？",
-      "options": ["datetime.now()", "datetime.today()", "datetime.current()", "datetime.time()"],
+      "question": "現在の日時を取得する正しい命令はどれですか？",
+      "options": ["datetime.now()", "datetime.past()", "datetime.current()", "datetime.time()"],
       "answer": 0,
       "commentary": "datetime.datetime.now()（from datetime import datetime の場合は datetime.now()）で現在日時を取得できます。"
     },
@@ -157,7 +157,7 @@
       "id": 20,
       "type": "実行結果予測",
       "question": "Numpyで 2次元配列（行列）を作るための関数は何ですか？",
-      "options": ["np.list()", "np.matrix()", "np.array()", "np.data()"],
+      "options": ["np.list()", "np.grid()", "np.array()", "np.data()"],
       "answer": 2,
       "commentary": "np.array() に入れ子のリストを渡すことで、多次元配列を作成できます。"
     },
@@ -229,7 +229,7 @@
       "id": 29,
       "type": "実行結果予測",
       "question": "Numpyの配列 <code>a = np.array([1, 2])</code> と <code>b = np.array([3, 4])</code> を <code>a + b</code> とした場合の結果は何ですか？",
-      "options": ["[1, 2, 3, 4]", "4, 6", "[1, 2], [3, 4]", "エラー"],
+      "options": ["[1, 2, 3, 4]", "[4 6]", "[1, 2], [3, 4]", "エラー"],
       "answer": 1,
       "commentary": "Numpyの配列同士を足すと、同じ位置にある要素同士が加算されます。"
     },

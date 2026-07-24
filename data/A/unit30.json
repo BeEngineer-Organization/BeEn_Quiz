@@ -85,7 +85,7 @@
       "question": "`LoginView` クラス内で、ログイン処理に使用するフォームクラスを指定する属性名は何ですか？<br><pre><code>class LoginView(auth_views.LoginView):\n    ___ = LoginForm\n    template_name = \"main/login.html\"</code></pre>",
       "options": [
         "authentication_form",
-        "form_class",
+        "form_name",
         "login_form",
         "user_form"
       ],

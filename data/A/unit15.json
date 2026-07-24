@@ -150,8 +150,8 @@
       "type": "実行結果予測",
       "question": "urlpatterns = [ path(\"hello\", views.hello) ] という設定で、http://.../hello/ にアクセスするとどうなりますか？",
       "options": ["views.hello関数が実行される", "ファイルが見つからないエラーになる", "画面が真っ白になる", "自動でindex.htmlがダウンロードされる"],
-      "answer": 0,
-      "commentary": "URLパス「hello」に一致するため、対応するビュー関数が実行されます。"
+      "answer": 1,
+      "commentary": "パターンは「hello」（末尾スラッシュ無し）なので、「/hello/」（スラッシュあり）とは一致せず404エラーになります。DjangoのAPPEND_SLASH機能はスラッシュを補う方向にのみ働き、余分なスラッシュは取り除きません。"
     },
     {
       "id": 20,
