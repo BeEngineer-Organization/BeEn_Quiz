@@ -180,10 +180,10 @@
     {
       "id": 23,
       "type": "文法チェック",
-      "question": "テンプレート内で MEDIA_URL の設定を利用するために必要なロード命令はどれですか？",
+      "question": "テンプレートで `{% static %}` タグ（静的ファイルのURLを生成する機能）を使うために必要なロード命令はどれですか？",
       "options": ["{% load media %}", "{% load static %}", "{% load images %}", "{% load files %}"],
       "answer": 1,
-      "commentary": "画像を表示するための {% static %} や URL 解決の機能は static ライブラリに含まれます（ただし、ImageFieldの.urlを使う場合は特にload不要です）。"
+      "commentary": "`{% static %}` タグは static テンプレートタグライブラリに含まれるため、`{% load static %}` を記述して読み込みます。（アップロードした画像は ImageField の `.url` で表示でき、その場合 load は不要です）"
     },
     {
       "id": 24,

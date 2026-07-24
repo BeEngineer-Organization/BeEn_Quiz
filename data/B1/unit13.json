@@ -164,7 +164,7 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "CSSで要素の角を丸くするためのプロパティは何ですか？<pre><code>.number {\n    ___: 2px #87ceeb;\n    border-radius: 5px;\n}</code></pre>",
+      "question": "CSSで要素の下側に境界線（下線）を引くためのプロパティは何ですか？<pre><code>.number {\n    ___: 2px #87ceeb;\n    border-radius: 5px;\n}</code></pre>",
       "options": ["border-bottom", "border-top", "border-radius", "margin"],
       "answer": 0,
       "commentary": "ここではデザインとして下側に境界線を引く `border-bottom` などが使われています。"

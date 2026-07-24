@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "メッセージが自分でない（他人の）場合に「返信」ボタンを表示させるための条件分岐タグはどれですか？<br><pre><code>{% if message.user == request.user %}\n  <input type=\"submit\" value=\"削除\">\n{% ___ %}\n  <a href=\"...\" class=\"btn-reply\">返信</a>\n{% endif %}</code></pre>",
+      "question": "メッセージが自分でない（他人の）場合に「返信」ボタンを表示させるための条件分岐タグはどれですか？<br><pre><code>{% if message.user == request.user %}\n  &lt;input type=\"submit\" value=\"削除\"&gt;\n{% ___ %}\n  &lt;a href=\"...\" class=\"btn-reply\"&gt;返信&lt;/a&gt;\n{% endif %}</code></pre>",
       "options": [
         "else",
         "elif",
@@ -43,7 +43,7 @@
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "返信ボタンのリンク先（`href` 属性）で、返信対象のメッセージIDをGETパラメータとして設定する正しい記述はどれですか？<br><pre><code><a href=\"?keyword={{ keyword }}&page={{ page_obj.number }}&___={{ message.id }}\">返信</a></code></pre>",
+      "question": "返信ボタンのリンク先（`href` 属性）で、返信対象のメッセージIDをGETパラメータとして設定する正しい記述はどれですか？<br><pre><code>&lt;a href=\"?keyword={{ keyword }}&amp;page={{ page_obj.number }}&amp;___={{ message.id }}\"&gt;返信&lt;/a&gt;</code></pre>",
       "options": [
         "parent_message_id",
         "message_id",
@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "画面上に表示せず、フォーム送信時に裏側で `parent_message.id` の値を送るためのHTML要素の属性設定を選んでください。<br><pre><code><input type=\"___\" name=\"parent_message_id\" value=\"{{ parent_message.id }}\"></code></pre>",
+      "question": "画面上に表示せず、フォーム送信時に裏側で `parent_message.id` の値を送るためのHTML要素の属性設定を選んでください。<br><pre><code>&lt;input type=\"___\" name=\"parent_message_id\" value=\"{{ parent_message.id }}\"&gt;</code></pre>",
       "options": [
         "hidden",
         "none",
@@ -173,7 +173,7 @@
     {
       "id": 14,
       "type": "実行結果予測",
-      "question": "次のテンプレート記述があるフォームを送信したとき、`parent_message` が `None`（返信ではない通常の投稿）の場合、どのようなHTMLが生成されますか？<br><pre><code>{% if parent_message %}\n<input type=\"hidden\" name=\"parent_message_id\" value=\"{{ parent_message.id }}\">\n{% endif %}</code></pre>",
+      "question": "次のテンプレート記述があるフォームを送信したとき、`parent_message` が `None`（返信ではない通常の投稿）の場合、どのようなHTMLが生成されますか？<br><pre><code>{% if parent_message %}\n&lt;input type=\"hidden\" name=\"parent_message_id\" value=\"{{ parent_message.id }}\"&gt;\n{% endif %}</code></pre>",
       "options": [
         "inputタグは一切挿入されない",
         "valueが空のinputタグが生成される",
@@ -355,7 +355,7 @@
     {
       "id": 28,
       "type": "実行結果予測",
-      "question": "次のフォーム定義において、画像のアップロードなどのファイル送信を可能にするために必須となる `enctype` 属性の値は何ですか？<br><pre><code><form class=\"message-form\" action=\"...\" method=\"POST\" enctype=\"___\"></code></pre>",
+      "question": "次のフォーム定義において、画像のアップロードなどのファイル送信を可能にするために必須となる `enctype` 属性の値は何ですか？<br><pre><code>&lt;form class=\"message-form\" action=\"...\" method=\"POST\" enctype=\"___\"&gt;</code></pre>",
       "options": [
         "multipart/form-data",
         "application/x-www-form-urlencoded",
@@ -368,7 +368,7 @@
     {
       "id": 29,
       "type": "コード穴埋め",
-      "question": "CSRF攻撃を防ぐためにフォーム内に記述するDjangoの必須タグを選んでください。<br><pre><code><form action=\"...\" method=\"POST\">\n    ___\n    <input type=\"submit\" value=\"投稿\">\n</form></code></pre>",
+      "question": "CSRF攻撃を防ぐためにフォーム内に記述するDjangoの必須タグを選んでください。<br><pre><code>&lt;form action=\"...\" method=\"POST\"&gt;\n    ___\n    &lt;input type=\"submit\" value=\"投稿\"&gt;\n&lt;/form&gt;</code></pre>",
       "options": [
         "{% csrf_token %}",
         "{{ csrf_token }}",
