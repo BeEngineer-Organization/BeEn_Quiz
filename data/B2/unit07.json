@@ -190,7 +190,7 @@
     {
       "id": 23,
       "type": "コード穴埋め",
-      "question": "Text ウィジェット内で、変数の値を埋め込むための記号は何ですか？<pre><code>int count = 10;\nText('回数は $___ です')</code></pre>",
+      "question": "Text ウィジェット内で、変数の値を埋め込むコードです。空欄に入る変数名はどれですか？<pre><code>int count = 10;\nText('回数は $___ です')</code></pre>",
       "options": ["name", "value", "count", "data"],
       "answer": 2,
       "commentary": "Dart の文字列補間機能により、$変数名 と書くことで文字列内に値を埋め込めます。"

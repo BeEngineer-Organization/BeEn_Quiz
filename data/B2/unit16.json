@@ -136,13 +136,13 @@
       "type": "文法チェック",
       "question": "`Navigator.pop(context)` と `Navigator.of(context).pop()` の関係についての説明として正しいものはどれですか？",
       "options": [
-        "`Navigator.pop(context)` は `Navigator.of(context).pop()` を簡潔に書けるようにした糖衣構文であり、同じ動作をする",
+        "`Navigator.pop(context)` は `Navigator.of(context).pop()` を簡潔に書けるようにした便利メソッド（ショートカット）であり、同じ動作をする",
         "`Navigator.pop(context)` はダイアログ専用で、画面遷移には使えない",
         "`Navigator.of(context).pop()` は非推奨（非サポート）の古くからの記法である",
         "両者は全く異なる処理を行い、互換性はない"
       ],
       "answer": 0,
-      "commentary": "`Navigator.pop(context)` は `Navigator.of(context).pop()` の糖衣構文（シンタックスシュガー）であり、内部的には全く同じ処理が行われます。"
+      "commentary": "`Navigator.pop(context)` は `Navigator.of(context).pop()` の便利メソッド（ショートカット）であり、内部的には全く同じ処理が行われます。"
     },
     {
       "id": 12,
@@ -225,7 +225,7 @@
     {
       "id": 18,
       "type": "コード穴埋め",
-      "question": "ダイアログ表示中の背景の影（薄暗い部分）の色を変更するプロパティは何ですか？<br><pre><code>showDialog(\n  context: context,\n  ___: Colors.blue.withOpacity(0.5),\n  builder: (_) => const AlertDialog(),\n);</code></pre>",
+      "question": "ダイアログ表示中の背景の影（薄暗い部分）の色を変更するプロパティは何ですか？<br><pre><code>showDialog(\n  context: context,\n  ___: Colors.blue.withValues(alpha: 0.5),\n  builder: (_) => const AlertDialog(),\n);</code></pre>",
       "options": [
         "barrierColor",
         "backgroundColor",
@@ -422,7 +422,7 @@
       "type": "実行結果予測",
       "question": "以下のコードが実行されたとき、`showDialog` の `builder` 関数から返されるウィジェットは何ですか？<br><pre><code>showDialog(\n  context: context,\n  builder: (_) {\n    return const Text('test');\n  },\n);</code></pre>",
       "options": [
-        "画面中央に 'test' という文字が書かれた簡易的なダイアログウィンドウ",
+        "画面に 'test' というテキストがモーダルとして表示される（AlertDialog のような枠は付かない）",
         "画面全体が 'test' という文字で埋め尽くされた新規画面",
         "エラーが発生して何も表示されない",
         "AlertDialogに自動変換された画面"
