@@ -204,7 +204,7 @@
     {
       "id": 26,
       "type": "文法チェック",
-      "question": "TextFormField の decoration 内で、入力欄に常に表示される「ヒント」を設定するプロパティは何ですか？",
+      "question": "TextFormField の decoration 内で、入力欄に常に表示される「ラベル」を設定するプロパティは何ですか？",
       "options": ["titleText", "hintText", "labelText", "placeholder"],
       "answer": 2,
       "commentary": "labelText を使うと、マテリアルデザイン風の浮き上がるラベルを表示できます。"

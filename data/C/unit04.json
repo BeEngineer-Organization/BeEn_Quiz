@@ -118,7 +118,7 @@
     {
       "id": 14,
       "type": "用語理解",
-      "question": "Flutterで「表」形式のレイアウトを構築するためのウィジェットは何ですか？",
+      "question": "Flutterで、`TableRow` を子要素に用いて格子状の表を組む基本的なウィジェットは何ですか？",
       "options": ["Grid", "List", "Table", "DataTable"],
       "answer": 2,
       "commentary": "Tableウィジェットを使用すると、行（TableRow）を重ねて表を作成できます。"

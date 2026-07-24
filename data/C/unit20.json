@@ -186,15 +186,15 @@
     {
       "id": 15,
       "type": "実行結果予測",
-      "question": "`path(\"api/\", include(\"posts.urls\"))` を `path(\"api/auth/\", include(\"accounts.urls\"))` より「上」に書いてしまい、`posts.urls` に `path(\"<slug:slug>/\", ...)` が定義されていた場合、`/api/auth/login/` へアクセスするとどうなりますか？",
+      "question": "`path(\"api/\", include(\"posts.urls\"))` を、ログイン用の `path(\"api/login/\", views.login)` より「上」に書いてしまいました。`posts.urls` に `path(\"<slug:slug>/\", ...)` が定義されているとき、`/api/login/` へアクセスするとどうなりますか？",
       "options": [
-        "accounts アプリではなく、posts アプリの slug パターンにマッチして誤ったビューが呼び出される",
+        "posts アプリの `<slug:slug>/` が `login` にマッチし、意図した login ビューではなく posts のビューが呼ばれてしまう",
         "正常に accounts アプリのログインビューが呼ばれる",
         "自動的に404エラーになる",
         "Djangoが自動で順番を入れ替えて正しくルーティングする"
       ],
       "answer": 0,
-      "commentary": "上にある `api/` が先にマッチし、その配下の `<slug:slug>/` に `auth/login/` が引っかかって誤作動を起こします。"
+      "commentary": "上にある `api/` が先に評価され、その配下の `<slug:slug>/`（1セグメント）が `login` にマッチするため、下にある `api/login/` に到達できません。具体的で狭いパターンを先に書く必要があります。"
     },
     {
       "id": 16,

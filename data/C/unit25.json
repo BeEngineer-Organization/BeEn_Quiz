@@ -121,15 +121,15 @@
     {
       "id": 10,
       "type": "実行結果予測",
-      "question": "`IsOwnerOrReadOnly` パーミッションが設定されているAPIに対し、ログインしていない第三者ユーザーが `GET` リクエスト（詳細取得）を送った場合の挙動はどうなりますか？",
+      "question": "`IsOwnerOrReadOnly` パーミッションが設定されているAPIに対し、ログイン済みだが投稿の所有者でない第三者ユーザーが `GET` リクエスト（詳細取得）を送った場合の挙動はどうなりますか？",
       "options": [
-        "`SAFE_METHODS` の判定により True が返され、誰でも投稿を閲覧できる",
+        "`SAFE_METHODS` の判定により True が返され、所有者でなくても投稿を閲覧できる",
         "403 Forbidden エラーが返され、閲覧が拒否される",
         "401 Unauthorized エラーが返される",
         "自動的にその投稿が削除される"
       ],
       "answer": 0,
-      "commentary": "GETリクエストは `permissions.SAFE_METHODS` に含まれるため、`return True` となり閲覧が許可されます。"
+      "commentary": "GETリクエストは `permissions.SAFE_METHODS` に含まれるため `return True` となり、所有者でなくても閲覧が許可されます。（未認証の場合は別途 IsAuthenticated により 401 になります）"
     },
     {
       "id": 11,

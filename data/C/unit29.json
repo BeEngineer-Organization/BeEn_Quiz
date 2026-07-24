@@ -121,7 +121,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "メモリリークを防ぐため、`State` が破棄される際にコントローラーの解体処理を行うLifecycleメソッドは何ですか？<br><pre><code>@override\ndef void ___() {\n  _contentController.dispose();\n  super.dispose();\n}</code></pre>",
+      "question": "メモリリークを防ぐため、`State` が破棄される際にコントローラーの解体処理を行うLifecycleメソッドは何ですか？<br><pre><code>@override\nvoid ___() {\n  _contentController.dispose();\n  super.dispose();\n}</code></pre>",
       "options": [
         "dispose",
         "destroy",

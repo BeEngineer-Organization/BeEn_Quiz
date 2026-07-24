@@ -186,7 +186,7 @@
       "id": 23,
       "type": "コード穴埋め",
       "question": "モデル内でオブジェクトを文字列で表現するための特殊メソッドは何ですか？<pre><code>def ___(self):\n    return f\"{self.text}\"</code></pre>",
-      "options": ["repr", "str", "print", "text"],
+      "options": ["__repr__", "__str__", "print", "text"],
       "answer": 1,
       "commentary": "Pythonの `__str__` メソッドを定義すると、管理画面などでの表示をカスタマイズできます。"
     },

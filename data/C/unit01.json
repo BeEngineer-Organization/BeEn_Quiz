@@ -86,7 +86,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "FlutterのScaffoldで、画面全体の背景色を指定するプロパティ名は何ですか？<pre><code>ThemeData(\n    ___: Colors.grey[100],\n)</code></pre>",
+      "question": "FlutterのThemeDataで、アプリ内のScaffoldの背景色を一括指定するプロパティ名は何ですか？<pre><code>ThemeData(\n    ___: Colors.grey[100],\n)</code></pre>",
       "options": ["backgroundColor", "bodyColor", "scaffoldBackgroundColor", "mainColor"],
       "answer": 2,
       "commentary": "scaffoldBackgroundColorを使用すると、アプリ内のScaffoldウィジェットの背景色をデフォルト設定できます。"

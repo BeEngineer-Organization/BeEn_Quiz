@@ -188,7 +188,7 @@
     {
       "id": 24,
       "type": "コード穴埋め",
-      "question": "編集画面のテンプレート内で、Djangoが自動生成したフォーム（各入力欄）をテーブル形式で手軽に表示するための記述は何ですか？<pre><code>&lt;form method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;table&gt;\n        {{ ___\n    &lt;/table&gt;\n    &lt;button type=\"submit\"&gt;保存&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "編集画面のテンプレート内で、Djangoが自動生成したフォーム（各入力欄）をテーブル形式で手軽に表示するための記述は何ですか？<pre><code>&lt;form method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;table&gt;\n        {{ ___ }}\n    &lt;/table&gt;\n    &lt;button type=\"submit\"&gt;保存&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
       "options": ["form.as_p", "form.as_table", "form.all", "form.inputs"],
       "answer": 1,
       "commentary": "フォームをHTMLのtr・tdタグ形式で展開するには、`{{ form.as_table }}` を使用します。"

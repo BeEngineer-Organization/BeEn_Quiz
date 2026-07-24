@@ -273,7 +273,7 @@
       "commentary": "Django REST frameworkの機能なので、rest_frameworkからインポートします。"
     },
     {
-      "id": 13,
+      "id": 33,
       "type": "用語理解",
       "question": "エンドポイント <code>/categories/&lt;category_id&gt;/recipes/</code> が提供すべき機能として最も適切なものはどれですか？",
       "options": [
