@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "HTMLのフォーム内に配置し、Djangoフォームをテーブル形式（`<tr>`や`<td>`）で自動描画する変数の記法は何ですか？<br><pre><code><table>\n    {{ form.___ }}\n</table></code></pre>",
+      "question": "HTMLのフォーム内に配置し、Djangoフォームをテーブル形式（`<tr>`や`<td>`）で自動描画する変数の記法は何ですか？<br><pre><code>&lt;table&gt;\n    {{ form.___ }}\n&lt;/table&gt;</code></pre>",
       "options": [
         "as_table",
         "as_p",

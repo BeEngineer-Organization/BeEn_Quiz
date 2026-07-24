@@ -251,7 +251,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "テンプレート内でフォームフィールド群をHTMLの表（`<table>`）形式で自動出力する記法を選んでください。<br><pre><code><table>\n    {{ form.___ }}\n</table></code></pre>",
+      "question": "テンプレート内でフォームフィールド群をHTMLの表（`<table>`）形式で自動出力する記法を選んでください。<br><pre><code>&lt;table&gt;\n    {{ form.___ }}\n&lt;/table&gt;</code></pre>",
       "options": [
         "as_table",
         "as_p",
