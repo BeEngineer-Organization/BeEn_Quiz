@@ -31,7 +31,7 @@ const TEST_COUNT = 10;
 /** 確認テストの制限時間（秒） */
 const TEST_TIME_LIMIT_SEC = 300;
 /** 管理者確認モードの表示可否。ローカル確認時だけ true にする */
-const ENABLE_ADMIN_MODE = false;
+const ENABLE_ADMIN_MODE = true;
 
 /** 10問のとき 8 問以上で合格（問数が少ない単元は 80% 切り上げ） */
 function testPassThreshold(questionCount) {
@@ -91,7 +91,7 @@ function shouldShowUnit(courseId, unitId) {
   void courseId;
   const no = getUnitNo(unitId);
   if (no === null) return true;
-  return no <= 12;
+  return no <= 34;
 }
 
 /** @type {{ unit_title: string, questions: Array<{id:string, type:string, question:string, options:string[], answer:number, commentary:string}> } | null} */
@@ -333,10 +333,14 @@ function escapeLiteralHtmlTagsOutsidePre(html) {
     preBlocks.push(block);
     return token;
   });
-  const escaped = withPlaceholders.replace(/<[^>]+>/g, (tag) =>
-    tag.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-  );
-  return preBlocks.reduce((s, block, i) => s.replace(`\x00PRE${i}\x00`, block), escaped);
+  // <pre> 外の HTML 風タグは文字として表示（例: <a>, <span>）。ただし <br> は改行として活かす。
+  const escaped = withPlaceholders.replace(/<[^>]+>/g, (tag) => {
+    if (/^<br\s*\/?>$/i.test(tag)) return "<br>";
+    return tag.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  });
+  // `コード` 記法をインラインコード表示に変換（この時点でタグ記号は既にエスケープ済み）。
+  const withInlineCode = escaped.replace(/`([^`\n]+)`/g, (_m, inner) => `<code>${inner}</code>`);
+  return preBlocks.reduce((s, block, i) => s.replace(`\x00PRE${i}\x00`, block), withInlineCode);
 }
 
 /**
