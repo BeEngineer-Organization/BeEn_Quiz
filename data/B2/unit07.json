@@ -198,7 +198,7 @@
     {
       "id": 24,
       "type": "文法チェック",
-      "question": "BoxDecoration のプロパティで、枠線の太さや色を指定するために使用するクラスは何ですか？",
+      "question": "BoxDecoration の border プロパティで、四辺すべてに同じ太さ・色の枠線を作成するために使う記述はどれですか？",
       "options": ["Border", "Border.all", "Outline", "Edge"],
       "answer": 1,
       "commentary": "border プロパティに Border.all(color: Colors.grey) のように記述して枠線を作成します。"

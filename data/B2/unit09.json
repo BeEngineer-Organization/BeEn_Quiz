@@ -228,7 +228,7 @@
     {
       "id": 29,
       "type": "用語理解",
-      "question": "Flutterで「色の情報」を扱うためのクラス名は何ですか？",
+      "question": "Flutterで、`Colors.blue` のようにあらかじめ用意された色の定数をまとめて持つクラス名は何ですか？",
       "options": ["Color", "Colors", "Palette", "Paint"],
       "answer": 1,
       "commentary": "Colors.grey や Colors.blue のように、Colors クラスに定義された定数を使用します。"

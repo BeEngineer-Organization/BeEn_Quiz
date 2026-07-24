@@ -244,10 +244,10 @@
     {
       "id": 31,
       "type": "文法チェック",
-      "question": "switch 文で、条件に一致した処理の後に switch 文を抜けるために使われる暗黙の動作は何ですか？（教科書の説明に基づく）",
-      "options": ["自動的に末尾にジャンプする", "ループする", "default に行く", "エラーになる"],
+      "question": "Dartのswitch文で、一致したcaseの処理を終えた後にswitch文を抜けるため、各caseの末尾に書く必要があるキーワードはどれですか？",
+      "options": ["break", "continue", "exit", "jump"],
       "answer": 0,
-      "commentary": "Dartのswitch文では、一致したcaseの処理が終わるとswitch文の末尾へ移動します。"
+      "commentary": "Dartのswitch文では、中身のある各caseの最後に `break` を書いてswitch文を抜けます。Dartは自動でフォールスルー（次のcaseへ流れる）しないため、break 等が無いとコンパイルエラーになります。"
     },
     {
       "id": 32,

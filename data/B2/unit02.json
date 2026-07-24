@@ -44,10 +44,10 @@
     {
       "id": 6,
       "type": "文法チェック",
-      "question": "「ファイル実行時」に値が決まり、以降絶対に書き換えられない定数を作るキーワードは何ですか？",
+      "question": "コンパイル時（プログラムを書いた時点）に値が確定していなければならない、最も厳格な定数を作るキーワードは何ですか？",
       "options": ["static", "final", "const", "fixed"],
       "answer": 2,
-      "commentary": "constはコンパイル時（実行時）に値が決まっている必要がある厳格な定数です。"
+      "commentary": "const はコンパイル時に値が決まっている必要がある厳格な定数です。（実行時に一度だけ代入して以降変更できないのは final です）"
     },
     {
       "id": 7,
@@ -172,7 +172,7 @@
     {
       "id": 22,
       "type": "コード穴埋め",
-      "question": "名前付き引数を使って関数を呼び出す正しい書き方を選んでください。<pre><code>void greet({String name}) { ... }\n// 呼び出し\ngreet(___);</code></pre>",
+      "question": "名前付き引数を使って関数を呼び出す正しい書き方を選んでください。<pre><code>void greet({required String name}) { ... }\n// 呼び出し\ngreet(___);</code></pre>",
       "options": ["'田中'", "name = '田中'", "name: '田中'", "{name: '田中'}"],
       "answer": 2,
       "commentary": "呼び出し時は `引数名: 値` の形式で渡します。"

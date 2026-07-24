@@ -264,7 +264,7 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "リスト `genreList` 内の指定インデックス（`selectedValue`）に合致する `Genre` オブジェクトを取得するコードはどれですか？<br><pre><code>final genre = genreList[___];</code></pre>",
+      "question": "リスト `genreList` から、選択された値 `selectedValue` を添字として `Genre` オブジェクトを取得するコードはどれですか？<br><pre><code>final genre = genreList[___];</code></pre>",
       "options": [
         "selectedValue",
         "genre.id",
@@ -272,7 +272,7 @@
         "current"
       ],
       "answer": 0,
-      "commentary": "ドロップダウンの選択ID（インデックス）が入った変数 `selectedValue` を使って対象オブジェクトを取り出します。"
+      "commentary": "選択された値が入った変数 `selectedValue` を添字として `genreList[selectedValue]` で対象オブジェクトを取り出します。（このアプリでは Genre の id が添字と一致する前提です）"
     },
     {
       "id": 22,

@@ -164,7 +164,7 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "文字列の中に変数の値を埋め込む（文字列補完）ための記号は何ですか？<pre><code>Text('通知 ( ___ notificationCount )')</code></pre>",
+      "question": "文字列の中に変数の値を埋め込む（文字列補間）ための記号は何ですか？<pre><code>Text('通知 ( ___notificationCount )')</code></pre>",
       "options": ["#", "&", "$", "@"],
       "answer": 2,
       "commentary": "Dart では $ 記号を使って、文字列の中に変数の値を直接記述できます。"

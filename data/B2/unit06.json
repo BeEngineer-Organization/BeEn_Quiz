@@ -260,7 +260,7 @@
     {
       "id": 33,
       "type": "コード穴埋め",
-      "question": "Textウィジェットで、変数の値を文字列の中に埋め込む記号を補完してください。<pre><code>Text('回数: ___ _counter')</code></pre>",
+      "question": "Textウィジェットで、変数の値を文字列の中に埋め込む記号を補完してください。<pre><code>Text('回数: ____counter')</code></pre>",
       "options": ["#", "&", "$", "@"],
       "answer": 2,
       "commentary": "$ を変数の直前に置くことで、文字列の中に値を埋め込めます。"

@@ -278,10 +278,10 @@
     {
       "id": 34,
       "type": "コード穴埋め",
-      "question": "Textウィジェットで、変数の値を文字列の中に直接埋め込むための記号は何ですか？<pre><code>Text('こんにちは $___ さん')</code></pre>",
+      "question": "Textウィジェットで、投稿者名を文字列に埋め込むコードです。空欄に入るプロパティはどれですか？<pre><code>Text('こんにちは ${___} さん')</code></pre>",
       "options": ["post.name", "post.username", "post.content", "post.date"],
       "answer": 1,
-      "commentary": "文字列補間を使い、$変数名 でプロパティの値を表示します。"
+      "commentary": "文字列補間でプロパティにアクセスするときは `${post.username}` のように `${...}` で囲みます。"
     },
     {
       "id": 35,
