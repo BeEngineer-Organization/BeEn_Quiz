@@ -358,6 +358,67 @@ body {
   max-width: 420px;
 }
 
+.curriculum-sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 6px);
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform 0.22s ease, visibility 0.22s ease;
+}
+
+.curriculum-sticky.is-visible {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.curriculum-sticky-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.curriculum-sticky-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.curriculum-sticky-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.curriculum-sticky .select {
+  flex: 1;
+  min-width: 0;
+}
+
+.curriculum-top-btn,
+.curriculum-sticky-back {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curriculum-sticky {
+    transition: none;
+  }
+}
+
 .curriculum-summary {
   margin: 0 0 16px;
   color: var(--muted);
@@ -1384,11 +1445,42 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
+
+  .curriculum-sticky-inner {
+    padding: 12px max(28px, env(safe-area-inset-right)) 12px max(28px, env(safe-area-inset-left));
+  }
 }
 
 @media (max-width: 599px) {
   .curriculum-item {
     grid-template-columns: 1fr;
+  }
+
+  .curriculum-sticky {
+    padding-top: max(calc(env(safe-area-inset-top, 0px) + 6px), 28px);
+  }
+
+  .curriculum-sticky-inner {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .curriculum-sticky-back {
+    order: 1;
+  }
+
+  .curriculum-top-btn {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .curriculum-sticky-field {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .curriculum-sticky-label {
+    display: none;
   }
 
   .curriculum-item-meta {

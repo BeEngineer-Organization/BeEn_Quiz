@@ -2,13 +2,26 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>BeEnカリキュラム</title>
     <link rel="icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" sizes="any" />
     <link rel="shortcut icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="curriculum-sticky" id="curriculumSticky" aria-hidden="true">
+      <div class="curriculum-sticky-inner">
+        <a class="btn btn-secondary curriculum-sticky-back" href="./index.html">← クイズに戻る</a>
+        <label class="curriculum-sticky-field" for="curriculumCourseSelectSticky">
+          <span class="curriculum-sticky-label">コース</span>
+          <select id="curriculumCourseSelectSticky" class="select" disabled>
+            <option value="">— 読み込み中 —</option>
+          </select>
+        </label>
+        <button type="button" class="btn btn-secondary curriculum-top-btn" id="curriculumTopBtn">↑ トップへ</button>
+      </div>
+    </div>
+
     <div class="app app--wide">
       <header class="header">
         <div class="brand">
@@ -21,7 +34,7 @@
 
       <main>
         <div class="toolbar">
-          <a class="btn btn-ghost" href="./index.html">← クイズに戻る</a>
+          <a class="btn btn-secondary" href="./index.html">← クイズに戻る</a>
           <span class="toolbar-badge" id="curriculumYear">カリキュラム</span>
         </div>
 

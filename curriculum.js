@@ -7,6 +7,10 @@ const els = {
   courseSelect: document.getElementById("curriculumCourseSelect"),
   summary: document.getElementById("curriculumSummary"),
   list: document.getElementById("curriculumList"),
+  sticky: document.getElementById("curriculumSticky"),
+  courseSelectSticky: document.getElementById("curriculumCourseSelectSticky"),
+  topBtn: document.getElementById("curriculumTopBtn"),
+  controls: document.querySelector(".curriculum-controls"),
 };
 
 /** @type {{ courses: Array<{ id: string, name: string, fields: Array<{ id: string, name: string, units: Array<{ id: string, title: string, jsonPath: string }> }> }> } | null} */
@@ -32,15 +36,26 @@ function unitDisplayTitle(unit, item) {
   return unit.title;
 }
 
-function createCourseOptions() {
-  els.courseSelect.innerHTML = "";
+function fillCourseSelect(select) {
+  select.innerHTML = "";
   for (const course of catalog.courses) {
     const opt = document.createElement("option");
     opt.value = course.id;
     opt.textContent = course.name;
-    els.courseSelect.appendChild(opt);
+    select.appendChild(opt);
   }
-  els.courseSelect.disabled = false;
+  select.disabled = false;
+}
+
+function createCourseOptions() {
+  fillCourseSelect(els.courseSelect);
+  fillCourseSelect(els.courseSelectSticky);
+}
+
+function selectCourse(courseId) {
+  els.courseSelect.value = courseId;
+  els.courseSelectSticky.value = courseId;
+  renderCourse(courseId);
 }
 
 function renderCourse(courseId) {
@@ -116,7 +131,8 @@ async function init() {
     els.year.textContent = `${schedule.year}年度`;
     els.hint.hidden = true;
     createCourseOptions();
-    renderCourse(els.courseSelect.value || catalog.courses[0].id);
+    selectCourse(els.courseSelect.value || catalog.courses[0].id);
+    updateStickyVisibility();
   } catch (err) {
     els.hint.hidden = false;
     els.hint.textContent = err instanceof Error ? err.message : "カリキュラムを読み込めませんでした。";
@@ -127,8 +143,27 @@ async function init() {
   }
 }
 
+function updateStickyVisibility() {
+  if (!catalog || !els.sticky || !els.controls) return;
+  // 元のコース選択欄が画面上端より上へスクロールしたら固定バーを表示
+  const show = els.controls.getBoundingClientRect().bottom < 8;
+  els.sticky.classList.toggle("is-visible", show);
+  els.sticky.setAttribute("aria-hidden", show ? "false" : "true");
+}
+
 els.courseSelect.addEventListener("change", () => {
-  renderCourse(els.courseSelect.value);
+  selectCourse(els.courseSelect.value);
 });
+
+els.courseSelectSticky.addEventListener("change", () => {
+  selectCourse(els.courseSelectSticky.value);
+});
+
+els.topBtn.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+window.addEventListener("scroll", updateStickyVisibility, { passive: true });
+window.addEventListener("resize", updateStickyVisibility);
 
 init();
