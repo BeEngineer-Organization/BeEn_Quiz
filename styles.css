@@ -794,6 +794,7 @@ body {
   flex: 1;
   text-align: left;
   word-break: break-word;
+  white-space: pre-wrap;
 }
 
 .opt-mark {
