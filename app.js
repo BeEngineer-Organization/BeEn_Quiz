@@ -31,7 +31,7 @@ const TEST_COUNT = 10;
 /** 確認テストの制限時間（秒） */
 const TEST_TIME_LIMIT_SEC = 300;
 /** 管理者確認モードの表示可否。ローカル確認時だけ true にする */
-const ENABLE_ADMIN_MODE = true;
+const ENABLE_ADMIN_MODE = false;
 
 /** 10問のとき 8 問以上で合格（問数が少ない単元は 80% 切り上げ） */
 function testPassThreshold(questionCount) {
