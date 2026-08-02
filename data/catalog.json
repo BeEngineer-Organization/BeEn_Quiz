@@ -302,6 +302,29 @@
           ]
         }
       ]
+    },
+    {
+      "id": "CAMP2026",
+      "name": "トランプゲームを自動化して最強の AI を作ろう！",
+      "profile": "camp",
+      "fields": [
+        {
+          "id": "CAMP2026-main",
+          "name": "単元",
+          "units": [
+            {
+              "id": "CAMP2026-u1",
+              "title": "初期コードを書いてみよう",
+              "jsonPath": "data/camp/unit01.json"
+            },
+            {
+              "id": "CAMP2026-u2",
+              "title": "my_ai のベースを作る",
+              "jsonPath": "data/camp/unit02.json"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

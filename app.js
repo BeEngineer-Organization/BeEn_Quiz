@@ -15,6 +15,7 @@
  *     {
  *       "id": "A",
  *       "name": "表示名",
+ *       "profile": "main",   // 省略可（既定 "main"）。"camp" は camp.html 専用コース
  *       "fields": [
  *         { "id": "...", "name": "分野名", "units": [ { "id", "title", "jsonPath" } ] }
  *       ]
@@ -66,6 +67,14 @@ function clearTestTimer() {
 
 const CATALOG_URL = "data/catalog.json";
 
+/**
+ * 表示プロファイル。ページ側で app.js より前に window.QUIZ_PROFILE を設定して切り替える。
+ * - "main"（既定・index.html）: catalog.json の profile 未指定コースだけを表示
+ * - "camp"（camp.html）      : profile: "camp" のコースだけを表示
+ * カタログを1つに保ったまま、通常授業用と合宿用の入口を分けるための仕組み。
+ */
+const QUIZ_PROFILE = String(window.QUIZ_PROFILE ?? "main").trim() || "main";
+
 /** @type {ReturnType<typeof parseCatalog> | null} */
 let catalogData = null;
 
@@ -89,6 +98,8 @@ function getUnitNo(unitId) {
 function shouldShowUnit(courseId, unitId) {
   // courseId は将来の拡張用（例: コース別で上限を変える）に残している
   void courseId;
+  // 合宿コースは学期の進行と無関係なので単元番号の上限を適用しない
+  if (QUIZ_PROFILE === "camp") return true;
   const no = getUnitNo(unitId);
   if (no === null) return true;
   return no <= 34;
@@ -191,10 +202,13 @@ function parseCatalog(raw) {
     throw new Error("courses がありません。");
   }
   const version = typeof /** @type {{ version?: unknown }} */ (raw).version === "number" ? /** @type {{ version: number }} */ (raw).version : 1;
-  return {
-    version,
-    courses: coursesRaw.map((c, i) => normalizeCourse(c, i)),
-  };
+  const courses = coursesRaw
+    .map((c, i) => normalizeCourse(c, i))
+    .filter((c) => c.profile === QUIZ_PROFILE);
+  if (courses.length === 0) {
+    throw new Error(`表示できるコースがありません（profile: ${QUIZ_PROFILE}）。`);
+  }
+  return { version, courses };
 }
 
 /**
@@ -203,9 +217,11 @@ function parseCatalog(raw) {
  */
 function normalizeCourse(course, index) {
   if (!course || typeof course !== "object") throw new Error(`courses[${index}] が不正です。`);
-  const c = /** @type {{ id?: unknown, name?: unknown, fields?: unknown, units?: unknown }} */ (course);
+  const c = /** @type {{ id?: unknown, name?: unknown, profile?: unknown, fields?: unknown, units?: unknown }} */ (course);
   const id = String(c.id ?? "").trim();
   const name = String(c.name ?? "").trim() || id;
+  // profile 未指定は通常授業用（index.html）として扱う
+  const profile = String(c.profile ?? "main").trim() || "main";
   if (!id) throw new Error(`courses[${index}].id がありません。`);
 
   /** @type {Array<{ id: string, name: string, units: Array<{ id: string, title: string, jsonPath: string }> }>} */
@@ -225,7 +241,7 @@ function normalizeCourse(course, index) {
     throw new Error(`コース「${id}」に fields または units がありません。`);
   }
 
-  return { id, name, fields };
+  return { id, name, profile, fields };
 }
 
 /**

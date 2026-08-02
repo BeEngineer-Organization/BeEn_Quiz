@@ -1,0 +1,124 @@
+/* ============================================================
+   合宿クイズ（camp.html）専用スタイル
+   styles.css を読み込んだ後に追加で読み込む。
+   通常のクイズ画面に影響を出さないよう、ここには
+   「パスワードゲート」と「合宿用ヘッダー」だけを置く。
+   ============================================================ */
+
+#campApp[hidden],
+#campAuthOverlay[hidden] {
+  display: none !important;
+}
+
+/* --- パスワードゲート --------------------------------------- */
+
+.camp-auth {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: radial-gradient(circle at 50% 0%, #16302a 0%, var(--bg) 60%);
+  overflow-y: auto;
+}
+
+.camp-auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+}
+
+.camp-auth-logo {
+  width: 168px;
+  max-width: 70%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.camp-auth-title {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.camp-auth-lead {
+  margin: 0 0 24px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.camp-auth-form {
+  display: grid;
+  gap: 12px;
+}
+
+.camp-auth-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.camp-auth-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.camp-auth-error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--danger-dim);
+  color: var(--danger);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.camp-auth-note {
+  margin: 20px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* --- 合宿用ヘッダー ----------------------------------------- */
+
+.camp-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 4px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* 合宿サイトへ戻る導線 */
+.camp-back-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.camp-back-link:hover {
+  color: var(--text);
+  text-decoration: underline;
+}

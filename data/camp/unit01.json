@@ -1,0 +1,655 @@
+{
+  "unit_title": "初期コードを書いてみよう",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "Pythonで、リストの最後に新しい要素を追加するために使うメソッドはどれですか？",
+      "options": [
+        "insert()",
+        "add()",
+        "append()",
+        "push()"
+      ],
+      "answer": 2,
+      "commentary": "Pythonでリストの末尾に新しい要素を追加するには append() メソッドを使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "山札からカードを1枚取り出して同時に削除したいです。空欄に入る適切なメソッドを選んでください。<pre><code>card1 = state[\"score_deck\"].___()</code></pre>",
+      "options": [
+        "remove",
+        "pull",
+        "pop",
+        "delete"
+      ],
+      "answer": 2,
+      "commentary": "pop() メソッドは、リストから指定した位置（指定しない場合は最後尾）の要素を取り出し、元のリストから削除します。"
+    },
+    {
+      "id": 3,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、画面に表示される値は何ですか？<pre><code>numbers = [1, 2, 3]\nnumbers.append(4)\nprint(len(numbers))</code></pre>",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "エラーになる"
+      ],
+      "answer": 1,
+      "commentary": "最初に要素が3つあるリストに append(4) で1つ要素を追加したため、長さ（len）は 4 になります。"
+    },
+    {
+      "id": 4,
+      "type": "文法チェック",
+      "question": "リストの内包表記を使って、1から5までの整数が入ったリストを作成する正しい書き方はどれですか？",
+      "options": [
+        "[i for i in range(1, 6)]",
+        "[i for i range(1, 5)]",
+        "[range(1, 6)]",
+        "[for i in range(1, 6)]"
+      ],
+      "answer": 0,
+      "commentary": "リスト内包表記は [式 for 変数 in イテラブル] の形式で記述します。range(1, 6) は 1 から 5 までの整数を生成します。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "1から13までの整数が入ったリストを作成するコードです。空欄に入る数値の組み合わせを選んでください。<pre><code>my_hand = list(range(___, ___))</code></pre>",
+      "options": [
+        "0, 14",
+        "1, 14",
+        "1, 13",
+        "0, 13"
+      ],
+      "answer": 1,
+      "commentary": "range(a, b) は a 以上 b 未満の範囲となるため、1から13までのリストを作成するには range(1, 14) と指定します。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果として正しいものはどれですか？<pre><code>deck = [i for i in range(1, 4)] + [-i for i in range(1, 4)]\nprint(deck)</code></pre>",
+      "options": [
+        "[1, 2, 3, -1, -2, -3]",
+        "[-1, -2, -3, 1, 2, 3]",
+        "[1, 2, 3, 1, 2, 3]",
+        "[0, 0, 0]"
+      ],
+      "answer": 0,
+      "commentary": "[1, 2, 3] と [-1, -2, -3] の2つのリストを + 演算子で連結するため、[1, 2, 3, -1, -2, -3] になります。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "リスト `score_deck` の順番をランダムにシャッフルしたいです。空欄に入る関数名を選んでください。<pre><code>import random\nrandom.___(score_deck)</code></pre>",
+      "options": [
+        "change",
+        "sort",
+        "randomize",
+        "shuffle"
+      ],
+      "answer": 3,
+      "commentary": "random モジュールの shuffle() 関数を使うことで、リストの要素をランダムに並び替えることができます。"
+    },
+    {
+      "id": 8,
+      "type": "用語理解",
+      "question": "リストの要素を操作する際、元のリストのデータを書き換えられないように完全にコピーするために使う関数はどれですか？",
+      "options": [
+        "copy.deepcopy()",
+        "list.duplicate()",
+        "copy.paste()",
+        "list.clone()"
+      ],
+      "answer": 0,
+      "commentary": "copy モジュールの deepcopy() を使用することで、ネストされたオブジェクトも含めて安全に完全なコピーを作成できます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "リストから値（数値や文字列など）を直接指定して削除する処理です。空欄に入るメソッド名を選んでください。<pre><code>state[\"my_hand\"].___(my_play)</code></pre>",
+      "options": [
+        "pop",
+        "delete",
+        "remove",
+        "discard"
+      ],
+      "answer": 2,
+      "commentary": "remove() はインデックスではなく指定した「値」をリストから探して削除するメソッドです。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、画面に表示される内容は何ですか？<pre><code>cards = [10, 20, 30]\nremoved = cards.pop()\nprint(cards)</code></pre>",
+      "options": [
+        "[10, 20, 30]",
+        "[10, 20]",
+        "[30]",
+        "[20, 30]"
+      ],
+      "answer": 1,
+      "commentary": "pop() は引数を指定しない場合、リストの最後尾の要素（30）を取り出して削除するため、残るリストは [10, 20] となります。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "リストからランダムに要素を1つ選んで返す処理です。空欄に入る関数を選んでください。<pre><code>import random\nchoice_card = random.___(state[\"my_hand\"])</code></pre>",
+      "options": [
+        "choice",
+        "get",
+        "select",
+        "pick"
+      ],
+      "answer": 0,
+      "commentary": "random.choice() は、シーケンス（リストなど）の中からランダムに1つの要素を選択して返します。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>hand = [1, 5, 9]\nhand.remove(5)\nprint(hand)</code></pre>",
+      "options": [
+        "[1, 9]",
+        "[1, 5]",
+        "[5, 9]",
+        "[1, 5, 9]"
+      ],
+      "answer": 0,
+      "commentary": "remove(5) により、リスト内の値「5」が削除され、残りは [1, 9] となります。"
+    },
+    {
+      "id": 13,
+      "type": "文法チェック",
+      "question": "辞書型のデータからキー `\"my_score\"` の値を取り出す正しい書き方はどれですか？",
+      "options": [
+        "state.get_key(\"my_score\")",
+        "state(\"my_score\")",
+        "state->my_score",
+        "state[\"my_score\"]"
+      ],
+      "answer": 3,
+      "commentary": "Pythonの辞書型では、辞書変数[キー名] の形式で値にアクセスします。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときに `my_score` の値はどうなりますか？<pre><code>my_score = 10\ncard1 = 3\ncard2 = 4\nif 5 > 2:\n    my_score += card1 * card2\nprint(my_score)</code></pre>",
+      "options": [
+        "17",
+        "12",
+        "22",
+        "10"
+      ],
+      "answer": 2,
+      "commentary": "5 > 2 は True なので、my_score に 3 * 4 (= 12) が足され、10 + 12 = 22 になります。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "選択されたカード `my_chosen` が手札 `state[\"my_hand\"]` に含まれているか調べる文法です。空欄に入るキーワードを選んでください。<pre><code>if my_chosen ___ state[\"my_hand\"]:</code></pre>",
+      "options": [
+        "exist",
+        "in",
+        "has",
+        "contains"
+      ],
+      "answer": 1,
+      "commentary": "Pythonでは `要素 in リスト` と記述することで、リスト内に指定した要素が存在するかどうかを確認できます。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "別のPythonファイル（モジュール）で定義された関数や変数を利用するために使用するキーワードはどれですか？",
+      "options": [
+        "require",
+        "using",
+        "import",
+        "include"
+      ],
+      "answer": 2,
+      "commentary": "Pythonで他のファイルやライブラリを取り込んで利用するには `import` を使用します。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>total = 0\nfor i in range(1, 4):\n    total += i\nprint(total)</code></pre>",
+      "options": [
+        "10",
+        "6",
+        "3",
+        "4"
+      ],
+      "answer": 1,
+      "commentary": "range(1, 4) は 1, 2, 3 を生成するため、total は 1 + 2 + 3 = 6 となります。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "関数の引数にデフォルト値（初期値）を設定する書き方です。空欄に入る記号を選んでください。<pre><code>def run_games(my_ai, cpu_ai, num_games___1000):</code></pre>",
+      "options": [
+        "->",
+        ":",
+        "==",
+        "="
+      ],
+      "answer": 3,
+      "commentary": "関数の引数に初期値を設定するには `引数名 = 初期値` の形式を使用します。"
+    },
+    {
+      "id": 19,
+      "type": "文法チェック",
+      "question": "Pythonで辞書型オブジェクトを正しく作成しているものはどれですか？",
+      "options": [
+        "(my_score = 0, cpu_score = 0)",
+        "{\"my_score\": 0, \"cpu_score\": 0}",
+        "[my_score: 0, cpu_score: 0]",
+        "{\"my_score\" = 0, \"cpu_score\" = 0}"
+      ],
+      "answer": 1,
+      "commentary": "辞書型は波括弧 `{}` を使い、キーと値をコロン `:` で区切って定義します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "思考AIに関数 `think_action` を実行させる処理です。空欄に入る適切な記述を選んでください。<pre><code>my_chosen = my_ai.___(my_info)</code></pre>",
+      "options": [
+        "think_action",
+        "choice_action",
+        "run_action",
+        "get_action"
+      ],
+      "answer": 0,
+      "commentary": "AIモジュール内で定義された `think_action` 関数を呼び出すため、`my_ai.think_action(my_info)` と記述します。"
+    },
+    {
+      "id": 21,
+      "type": "文法チェック",
+      "question": "f文字列（フォーマット済み文字列リテラル）を使って変数 `wins` の値を埋め込む正しい書き方はどれですか？",
+      "options": [
+        "f\"勝利数: {wins} 回\"",
+        "f\"勝利数: $wins 回\"",
+        "\"勝利数: {wins} 回\"",
+        "f\"勝利数: %wins% 回\""
+      ],
+      "answer": 0,
+      "commentary": "文字列の前に `f` を付け、埋め込みたい変数を波括弧 `{}` で囲みます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "自分のスコアとCPUのスコアが等しい場合に引き分け数を1増やす処理です。空欄に入るキーワードを選んでください。<pre><code>if my_score > cpu_score:\n    my_wins += 1\nelif cpu_score > my_score:\n    cpu_wins += 1\n___:\n    draws += 1</code></pre>",
+      "options": [
+        "if",
+        "otherwise",
+        "elif",
+        "else"
+      ],
+      "answer": 3,
+      "commentary": "どの条件（より大きい、より小さい）にも当てはまらない場合（＝等しい場合）を処理するには `else` を使用します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>a = [10, 20]\nb = a\nb.append(30)\nprint(len(a))</code></pre>",
+      "options": [
+        "3",
+        "2",
+        "1",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "b に a を直接代入すると、同じリストを参照するため、b に対する操作（append）は a にも反映されます。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "関数の処理結果を呼び出し元に返すために使用するキーワードはどれですか？",
+      "options": [
+        "yield",
+        "send",
+        "return",
+        "out"
+      ],
+      "answer": 2,
+      "commentary": "関数からの戻り値を指定するには `return` キーワードを使用します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、画面に表示される値は何ですか？<pre><code>turn = 3\nmy_info = {\n    \"turn\": turn,\n    \"card1\": 5\n}\nprint(my_info[\"turn\"])</code></pre>",
+      "options": [
+        "3",
+        "turn",
+        "5",
+        "card1"
+      ],
+      "answer": 0,
+      "commentary": "変数 `turn` には 3 が代入されているため、辞書のキー `\"turn\"` には数値の 3 が格納されます。"
+    },
+    {
+      "id": 26,
+      "type": "文法チェック",
+      "question": "Pythonの `elif` 文の記述として正しいものはどれですか？",
+      "options": [
+        "else if cpu_score > my_score:",
+        "elseif cpu_score > my_score:",
+        "elif cpu_score > my_score:",
+        "elif (cpu_score > my_score) then"
+      ],
+      "answer": 2,
+      "commentary": "Pythonでは「そうでなければもし〜なら」を `elif 条件式:` と記述します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "マイナスの値を持つカードのリストを作成しています。空欄に入る記述を選んでください。<pre><code>score_deck = [i for i in range(1, 14)] + [___ for i in range(1, 14)]</code></pre>",
+      "options": [
+        "i-1",
+        "-i",
+        "i * -1",
+        "minus(i)"
+      ],
+      "answer": 1,
+      "commentary": "-1から-13までの値を生成するために、要素部分に `-i` と記述します。"
+    },
+    {
+      "id": 28,
+      "type": "用語理解",
+      "question": "Pythonでコードのまとまり（ブロック）を表現するために必須となる操作は何ですか？",
+      "options": [
+        "インデント（字下げ）",
+        "波括弧 {}",
+        "セミコロン ;",
+        "end文"
+      ],
+      "answer": 0,
+      "commentary": "Pythonではインデント（半角スペース4つなど）を使って関数やif文などのブロック構造を表現します。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`draws` の値はどうなりますか？<pre><code>draws = 0\nmy_play = 5\ncpu_play = 5\nif my_play > cpu_play:\n    pass\nelif cpu_play > my_play:\n    pass\nelse:\n    draws += 1\nprint(draws)</code></pre>",
+      "options": [
+        "0",
+        "5",
+        "2",
+        "1"
+      ],
+      "answer": 3,
+      "commentary": "my_play と cpu_play の値が同じであるため else ブロックが実行され、draws は 1 になります。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "引数を持たない関数 `get_initial_state` を呼び出す正しい書き方はどれですか？",
+      "options": [
+        "get_initial_state",
+        "call get_initial_state()",
+        "get_initial_state[]",
+        "get_initial_state()"
+      ],
+      "answer": 3,
+      "commentary": "関数を実行（呼び出し）するには、関数名の後ろに丸括弧 `()` を付けます。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "1000試合の対戦結果を表示するための f文字列の空欄に入る変数名を選んでください。<pre><code>print(f\"自分の勝利: {my_wins} 回\")\nprint(f\"CPUの勝利: {___} 回\")</code></pre>",
+      "options": [
+        "num_games",
+        "cpu_wins",
+        "my_wins",
+        "draws"
+      ],
+      "answer": 1,
+      "commentary": "CPUの勝利数を記録している変数は `cpu_wins` です。"
+    },
+    {
+      "id": 32,
+      "type": "用語理解",
+      "question": "Pythonにおいて、キーと値（バリュー）のペアでデータを管理するデータ型は何ですか？",
+      "options": [
+        "集合型（set）",
+        "リスト型（list）",
+        "辞書型（dict）",
+        "タプル型（tuple）"
+      ],
+      "answer": 2,
+      "commentary": "キーと値のペアでデータを格納・管理する構造を「辞書型（dictionary）」と呼びます。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>import copy\na = [1, 2]\nb = copy.deepcopy(a)\nb.append(3)\nprint(a)</code></pre>",
+      "options": [
+        "[1, 2, 3]",
+        "[1, 2]",
+        "[3]",
+        "エラーになる"
+      ],
+      "answer": 1,
+      "commentary": "`copy.deepcopy()` で完全に別のコピーを作成したため、b への操作は a に影響を与えません。"
+    },
+    {
+      "id": 34,
+      "type": "コード穴埋め",
+      "question": "引数 `my_info` から自分の現時点の手札を取り出すコードです。空欄に入るキー名を選んでください。<pre><code>def think_action(my_info):\n    return random.choice(my_info[\"___\"])</code></pre>",
+      "options": [
+        "hand",
+        "my_hand",
+        "my_cards",
+        "own_hand"
+      ],
+      "answer": 3,
+      "commentary": "engine.py から渡される my_info では、自身の手札は \"own_hand\" というキーに入っています。"
+    },
+    {
+      "id": 35,
+      "type": "文法チェック",
+      "question": "Pythonの `import` 文の書き方として正しくないものはどれですか？",
+      "options": [
+        "import random",
+        "import engine",
+        "import copy",
+        "import engine.py"
+      ],
+      "answer": 3,
+      "commentary": "モジュールをインポートする際、ファイル拡張子 `.py` は含めずモジュール名（ファイル名の拡張子なし）だけを指定します。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、画面に表示される値は何ですか？<pre><code>card1 = 4\ncard2 = 5\nprint(card1 * card2)</code></pre>",
+      "options": [
+        "45",
+        "20",
+        "card1 * card2",
+        "9"
+      ],
+      "answer": 1,
+      "commentary": "4 * 5 の掛け算が計算され、結果の 20 が出力されます。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "プログラミングにおいて、関数の定義時に受け取る値として設定する変数を何と呼びますか？",
+      "options": [
+        "定数",
+        "戻り値",
+        "引数（ひきすう）",
+        "インデックス"
+      ],
+      "answer": 2,
+      "commentary": "関数を呼び出す際に外部から渡される値を受け取るための変数を「引数」と呼びます。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>data = []\nif not data:\n    print(\"空です\")\nelse:\n    print(\"データあり\")</code></pre>",
+      "options": [
+        "空です",
+        "データあり",
+        "None",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "Pythonでは空のリスト `[]` は条件式で `False` と判定されるため、`not data` は `True` となり「空です」が出力されます。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "獲得ポイントをプレイヤーのスコアに加算する処理です。空欄に入る演算子を選んでください。<pre><code>if my_play > cpu_play:\n    state[\"my_score\"] ___ card1 * card2</code></pre>",
+      "options": [
+        "+=",
+        "==",
+        "=",
+        "++"
+      ],
+      "answer": 0,
+      "commentary": "現在の値に計算結果を加算して代入するには `+=` 演算子を使用します。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "Pythonで変数を1増やす（インクリメントする）正しい書き方はどれですか？",
+      "options": [
+        "my_wins + 1",
+        "my_wins++",
+        "++my_wins",
+        "my_wins += 1"
+      ],
+      "answer": 3,
+      "commentary": "Pythonには `++` 演算子が存在しないため、`my_wins += 1` または `my_wins = my_wins + 1` と記述します。"
+    },
+    {
+      "id": 41,
+      "type": "コード穴埋め",
+      "question": "指定した回数だけ試合を繰り返すためのループ文です。空欄に入る関数を選んでください。<pre><code>for game in ___(num_games):\n    state = get_initial_state()</code></pre>",
+      "options": [
+        "range",
+        "repeat",
+        "count",
+        "len"
+      ],
+      "answer": 0,
+      "commentary": "指定した数値の回数だけループを行うには `range()` 関数を使用します。"
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>import random\ndeck = [1, 2, 3]\nresult = random.shuffle(deck)\nprint(result)</code></pre>",
+      "options": [
+        "[1, 2, 3]",
+        "None",
+        "並び替えられたリスト",
+        "エラーになる"
+      ],
+      "answer": 1,
+      "commentary": "random.shuffle() は元のリストを直接並び替えるだけで、戻り値を返しません（None が返ります）。`deck = random.shuffle(deck)` と書くと deck が None になってしまうので注意しましょう。",
+      "id": 42
+    },
+    {
+      "type": "文法チェック",
+      "question": "元のリストは変えずに、並び替えた新しいリストを受け取りたいときの書き方はどれですか？",
+      "options": [
+        "shuffled = random.shuffle(l)",
+        "shuffled = random.choice(l)",
+        "shuffled = random.sample(l, len(l))",
+        "shuffled = l.sort()"
+      ],
+      "answer": 2,
+      "commentary": "random.sample() はリストから指定した個数の要素をランダムに選び、新しいリストを返します（非破壊的処理）。要素数と同じ個数を指定すれば、全体をシャッフルした新しいリストが得られます。",
+      "id": 43
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>cards = [10, 20, 30]\nfirst = cards.pop(0)\nprint(first, cards)</code></pre>",
+      "options": [
+        "20 [10, 30]",
+        "30 [10, 20]",
+        "10 [20, 30]",
+        "10 [10, 20, 30]"
+      ],
+      "answer": 2,
+      "commentary": "pop() に位置（インデックス）を渡すと、その位置の要素を取り出して削除します。pop(0) は先頭の 10 を取り出すため、残りは [20, 30] になります。",
+      "id": 44
+    },
+    {
+      "type": "コード穴埋め",
+      "question": "ゲームの初期状態を返す関数を定義します。空欄に入るキーワードを選んでください。<pre><code>___ get_initial_state():\n    return {\"my_score\": 0}</code></pre>",
+      "options": [
+        "function",
+        "define",
+        "func",
+        "def"
+      ],
+      "answer": 3,
+      "commentary": "Pythonで関数を定義するには def を使います。関数名のうしろに丸括弧と引数を書き、最後にコロン : を付けます。",
+      "id": 45
+    },
+    {
+      "type": "用語理解",
+      "question": "次の呼び出しで `num_games=1000` のように引数名を指定して値を渡す書き方を何と呼びますか？<pre><code>engine.run_games(my_ai=my_ai, cpu_ai=cpu_ai, num_games=1000)</code></pre>",
+      "options": [
+        "戻り値",
+        "グローバル変数",
+        "内包表記",
+        "キーワード引数"
+      ],
+      "answer": 3,
+      "commentary": "引数名を明示して渡す書き方をキーワード引数と呼びます。並び順を気にせず書けるうえ、どの値が何を表すのかが読み取りやすくなります。",
+      "id": 46
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>def double(n):\n    return n * 2\n    print(\"完了\")\n\nprint(double(3))</code></pre>",
+      "options": [
+        "完了",
+        "6",
+        "完了 と 6",
+        "None"
+      ],
+      "answer": 1,
+      "commentary": "return が実行された時点で関数は終了するため、そのあとの print(\"完了\") は決して実行されません。表示されるのは double(3) の戻り値 6 だけです。",
+      "id": 47
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>wins = 3\ngames = 10\nprint(f\"勝率: {wins / games * 100} %\")</code></pre>",
+      "options": [
+        "勝率: 0.3 %",
+        "勝率: 30 %",
+        "勝率: wins / games * 100 %",
+        "勝率: 30.0 %"
+      ],
+      "answer": 3,
+      "commentary": "f文字列の波括弧 {} の中には変数だけでなく計算式も書けます。Pythonの `/` は結果が小数（float）になるため、30 ではなく 30.0 と表示されます。",
+      "id": 48
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>a = [1, 2]\nb = [3]\nprint(a + b, a)</code></pre>",
+      "options": [
+        "[1, 2, 3] [1, 2, 3]",
+        "[1, 2, 3] [1, 2]",
+        "[1, 2, 3] [3]",
+        "エラーになる"
+      ],
+      "answer": 1,
+      "commentary": "`+` は2つのリストをつないだ新しいリストを作るだけで、元のリスト a は変わりません。a 自体に要素を足したい場合は append() を使います。",
+      "id": 49
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>state = {\"hand\": [1, 2]}\nshallow = state.copy()\nshallow[\"hand\"].append(3)\nprint(state[\"hand\"])</code></pre>",
+      "options": [
+        "[1, 2]",
+        "[1, 2, 3]",
+        "[3]",
+        "エラーになる"
+      ],
+      "answer": 1,
+      "commentary": ".copy()（浅いコピー）は一段目しか複製しないため、中のリストは元と共有されたままです。そのため shallow 側の append が state にも影響します。中身まで完全に分けるには copy.deepcopy() を使います。",
+      "id": 50
+    }
+  ]
+}

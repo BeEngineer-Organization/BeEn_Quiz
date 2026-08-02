@@ -1,0 +1,655 @@
+{
+  "unit_title": "my_ai のベースを作る",
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "山札から引いた2枚のカードの積を計算して、ターンの得点を求めています。空欄に入るコードを選んでください。<pre><code>current_score = my_info[\"card1\"] ___ my_info[\"card2\"]</code></pre>",
+      "options": [
+        "/",
+        "*",
+        "**",
+        "+"
+      ],
+      "answer": 1,
+      "commentary": "2枚のカードの積（掛け算）を計算するため、乗算演算子 `*` を使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "手札のリスト `my_info[\"own_hand\"]` を昇順（小さい順）に並べ替えた新しいリストを作成したいです。空欄に入る関数名を選んでください。<pre><code>sorted_hand = ___(my_info[\"own_hand\"])</code></pre>",
+      "options": [
+        "arrange",
+        "sort",
+        "order",
+        "sorted"
+      ],
+      "answer": 3,
+      "commentary": "引数として受け取ったリストを並べ替えて新しいリストを返す関数は `sorted()` です。"
+    },
+    {
+      "id": 3,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`sorted_number` の内容はどのようになりますか？<pre><code>number = [4, 1, 5, 2, 3]\nsorted_number = sorted(number)\nprint(sorted_number)</code></pre>",
+      "options": [
+        "[1, 2, 3, 4, 5]",
+        "[1, 5, 2, 3, 4]",
+        "[4, 1, 5, 2, 3]",
+        "[5, 4, 3, 2, 1]"
+      ],
+      "answer": 0,
+      "commentary": "`sorted()` はリストの要素を小さい順（昇順）に並べ替えます。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "昇順に並べ替えられたリスト `sorted_hand` から、最も大きい数値（一番後ろの要素）を取得するインデックスを指定してください。<pre><code>largest_card = sorted_hand[___]</code></pre>",
+      "options": [
+        "-1",
+        "0",
+        "len(sorted_hand)",
+        "1"
+      ],
+      "answer": 0,
+      "commentary": "Pythonのリストでは、インデックスに `-1` を指定すると末尾の要素を取り出すことができます。"
+    },
+    {
+      "id": 5,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>cards = [2, 5, 8, 11]\nprint(cards[0])</code></pre>",
+      "options": [
+        "1",
+        "2",
+        "5",
+        "11"
+      ],
+      "answer": 1,
+      "commentary": "リストのインデックスは0から始まるため、`cards[0]` は先頭の要素 `2` となります。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "得点がマイナスのときに、一番小さいカード（先頭の要素）を出す処理です。空欄に入るインデックスを選んでください。<pre><code>elif current_score &lt; 0:\n    return sorted_hand[___]</code></pre>",
+      "options": [
+        "-1",
+        "0",
+        "1",
+        "first"
+      ],
+      "answer": 1,
+      "commentary": "昇順に並んだリストの最初（最小値）を指定するにはインデックス `0` を使います。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "リスト `sorted_hand` の要素数を取得する関数を選んでください。<pre><code>hand_length = ___(sorted_hand)</code></pre>",
+      "options": [
+        "count",
+        "length",
+        "size",
+        "len"
+      ],
+      "answer": 3,
+      "commentary": "オブジェクトの長さや要素数を取得するには `len()` 関数を使います。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "手札の真ん中のインデックスを計算する処理です。「切り捨て除算（割り算の商）」を行う演算子を選んでください。<pre><code>mid_index = len(sorted_hand) ___ 2</code></pre>",
+      "options": [
+        "**",
+        "//",
+        "/",
+        "%"
+      ],
+      "answer": 1,
+      "commentary": "割り算の商（整数部分）を求める演算子は `//` です。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`mid_index` に代入される値は何ですか？<pre><code>sorted_hand = [1, 3, 5, 7, 9, 11, 13]\nmid_index = len(sorted_hand) // 2\nprint(mid_index)</code></pre>",
+      "options": [
+        "3",
+        "3.5",
+        "4",
+        "7"
+      ],
+      "answer": 0,
+      "commentary": "リストの要素数は 7 なので、`7 // 2` は商である `3` となります。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "得点が 100 点以上のときに手札の中で最も大きいカードを選ぶ条件式です。空欄に入る演算子を選んでください。<pre><code>if current_score ___ 100:\n    return sorted_hand[-1]</code></pre>",
+      "options": [
+        "==",
+        "=>",
+        ">=",
+        ">"
+      ],
+      "answer": 2,
+      "commentary": "「100以上」を表す比較演算子は `>=` です。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>current_score = -50\nif current_score &lt;= -50:\n    print(\"最小を出す\")\nelse:\n    print(\"その他\")</code></pre>",
+      "options": [
+        "何も表示されない",
+        "その他",
+        "最小を出す",
+        "エラーになる"
+      ],
+      "answer": 2,
+      "commentary": "`current_score` は -50 なので、`<= -50`（-50以下）の条件を満たし、「最小を出す」が表示されます。"
+    },
+    {
+      "id": 12,
+      "type": "用語理解",
+      "question": "山札から場に出たカードを記録・記憶しておき、残りの山札を予測する戦略をプログラミングやゲーム用語で何と呼びますか？",
+      "options": [
+        "ソート",
+        "シャッフル",
+        "リバース",
+        "カウンティング"
+      ],
+      "answer": 3,
+      "commentary": "既に出たカードを記憶・計算して山札の状況を推測することを「カウンティング」と呼びます。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "リスト `card_list` の要素をすべて削除して空のリストにするメソッドを選んでください。<pre><code>if my_info[\"turn\"] == 1:\n    card_list.___()</code></pre>",
+      "options": [
+        "clear",
+        "delete",
+        "reset",
+        "remove"
+      ],
+      "answer": 0,
+      "commentary": "リストの内容をすべて消去して空にするには `clear()` メソッドを使用します。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "1ターン目（試合の開始時）にリストをクリアするための等価比較演算子を選んでください。<pre><code>if my_info[\"turn\"] ___ 1:\n    card_list.clear()</code></pre>",
+      "options": [
+        "equals",
+        "=",
+        "is",
+        "=="
+      ],
+      "answer": 3,
+      "commentary": "値が等しいかどうかを判定する比較演算子は `==` です。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "リスト `card_list` の末尾にカードを追加するメソッドを選んでください。<pre><code>card_list.___(my_info[\"card1\"])</code></pre>",
+      "options": [
+        "add",
+        "insert",
+        "push",
+        "append"
+      ],
+      "answer": 3,
+      "commentary": "リストの最後に要素を追加するには `append()` メソッドを使います。"
+    },
+    {
+      "id": 16,
+      "type": "文法チェック",
+      "question": "値 `13` がリスト `card_list` に含まれているかを確認する正しい条件文はどれですか？",
+      "options": [
+        "if 13 in card_list:",
+        "if 13 contains in card_list:",
+        "if card_list.has(13):",
+        "if card_list.include(13):"
+      ],
+      "answer": 0,
+      "commentary": "Pythonでは `値 in リスト` の形式で、要素がリストに含まれているか判定します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "13, 12, 11 がすべて `card_list` に含まれているかを判定する処理です。空欄に入る論理演算子を選んでください。<pre><code>if 13 in card_list ___ 12 in card_list ___ 11 in card_list:</code></pre>",
+      "options": [
+        "or",
+        "&&",
+        "and",
+        "with"
+      ],
+      "answer": 2,
+      "commentary": "複数の条件すべてが True であることを表すには論理演算子 `and` を使用します。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>nums = [1, 2, 3]\nprint(4 in nums)</code></pre>",
+      "options": [
+        "True",
+        "エラー",
+        "False",
+        "None"
+      ],
+      "answer": 2,
+      "commentary": "4 は `nums` の中に存在しないため、`in` 演算子は `False` を返します。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "辞書型 `my_info` からキー `\"card1\"` の値を取り出す正しい記述を選んでください。<pre><code>c1 = my_info[___]</code></pre>",
+      "options": [
+        "\"card1\"",
+        "card1",
+        "0",
+        ".card1"
+      ],
+      "answer": 0,
+      "commentary": "辞書の値を取得するには、文字列のキー名を引用符で囲んで `[\"card1\"]` のように指定します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "関数 `think_action` 内でランダムな手札を1枚選んで返すデフォルト処理です。空欄に入る関数を選んでください。<pre><code>return random.___(my_info[\"own_hand\"])</code></pre>",
+      "options": [
+        "rand",
+        "select",
+        "sample",
+        "choice"
+      ],
+      "answer": 3,
+      "commentary": "リストの中から要素をランダムに1つ選択するには `random.choice()` を使います。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、`sorted_hand[1]` が指す数値は何ですか？<pre><code>hand = [10, 2, 5]\nsorted_hand = sorted(hand)\nprint(sorted_hand[1])</code></pre>",
+      "options": [
+        "1",
+        "2",
+        "5",
+        "10"
+      ],
+      "answer": 2,
+      "commentary": "`sorted(hand)` により `[2, 5, 10]` となるため、インデックス1の要素は `5` です。"
+    },
+    {
+      "id": 22,
+      "type": "文法チェック",
+      "question": "Pythonの `if` - `elif` - `else` 構造の書き方として適切なものはどれですか？",
+      "options": [
+        "if score > 0 {\n}\nelif score < 0 {\n}",
+        "if score > 0:\n    pass\nelse if score < 0:\n    pass",
+        "if (score > 0) then\n  pass",
+        "if score > 0:\n    pass\nelif score < 0:\n    pass"
+      ],
+      "answer": 3,
+      "commentary": "Pythonでの多岐分岐は `elif` を使用し、末尾にコロン `:` を記述します。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>res = 10 % 3\nprint(res)</code></pre>",
+      "options": [
+        "3",
+        "3.33",
+        "1",
+        "0"
+      ],
+      "answer": 2,
+      "commentary": "`%` は割り算の余り（余剰）を計算します。10 を 3 で割った余りは 1 です。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "関数の外側にリストを用意し、関数の呼び出しをまたいで記録を残せるようにします。空欄に入る記述を選んでください。<pre><code>import random\ncard_list = ___</code></pre>",
+      "options": [
+        "[]",
+        "{}",
+        "()",
+        "None"
+      ],
+      "answer": 0,
+      "commentary": "空のリストを作成するには `[]` を使用します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>my_list = [10, 20, 30]\nprint(my_list[-2])</code></pre>",
+      "options": [
+        "10",
+        "20",
+        "30",
+        "エラー"
+      ],
+      "answer": 1,
+      "commentary": "負のインデックス `-2` は、リストの末尾から2番目の要素（20）を指します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "弱めのカードとして、昇順リストの「2番目に小さいカード」を返したいです。適切なインデックスを選んでください。<pre><code>return sorted_hand[___]</code></pre>",
+      "options": [
+        "0",
+        "2",
+        "-2",
+        "1"
+      ],
+      "answer": 3,
+      "commentary": "先頭（1番目に小さい）がインデックス `0` なので、2番目に小さいカードはインデックス `1` になります。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "得点が 30 点以上 100 点未満のときに条件を判定するための分岐です。空欄に入るキーワードを選んでください。<pre><code>if current_score >= 100:\n    return sorted_hand[-1]\n___ current_score >= 30:\n    mid_index = len(sorted_hand) // 2\n    return sorted_hand[mid_index]</code></pre>",
+      "options": [
+        "if",
+        "else",
+        "elif",
+        "or"
+      ],
+      "answer": 2,
+      "commentary": "前の `if` 条件に当てはまらず、次の条件を判定するには `elif` を使います。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "次のうち、Pythonの変数名として正しく機能するものはどれですか？",
+      "options": [
+        "current-score",
+        "current_score",
+        "1st_score",
+        "current score"
+      ],
+      "answer": 1,
+      "commentary": "変数名にはハイフン `-` やスペース、先頭への数字は使用できません。アンダースコア `_` を使った `current_score` が正解です。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>arr = [10, 20, 30]\narr.append(40)\narr.append(50)\nprint(arr[-1])</code></pre>",
+      "options": [
+        "50",
+        "40",
+        "30",
+        "10"
+      ],
+      "answer": 0,
+      "commentary": "`append(40)` と `append(50)` により末尾に 50 が追加されるため、`arr[-1]` は 50 です。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "得点が 50 点以上のマイナス（-50以下）のときに、一番小さなカードを出す条件式です。空欄に入る記号を選んでください。<pre><code>elif current_score &lt; 0:\n    if current_score ___ -50:\n        return sorted_hand[0]</code></pre>",
+      "options": [
+        "<=",
+        ">=",
+        "<",
+        "=="
+      ],
+      "answer": 0,
+      "commentary": "「-50以下のマイナス」を表すには `<= -50` と記述します。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "Pythonで関数の定義を行うために先頭に記述するキーワードは何ですか？",
+      "options": [
+        "function",
+        "def",
+        "create",
+        "fn"
+      ],
+      "answer": 1,
+      "commentary": "Pythonで関数を定義する際は `def 関数名():` のように記述します。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "`my_info` から取り出したカードの積が 0 より大きい（プラスである）ことを確認する条件式です。空欄を埋めてください。<pre><code>if current_score ___ 0:</code></pre>",
+      "options": [
+        ">=",
+        ">",
+        "<",
+        "=="
+      ],
+      "answer": 1,
+      "commentary": "「0より大きい（プラス）」を判定するには `>` を使用します。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "Pythonでコメント（プログラムに影響しないメモ）を記述する際の正しい記号はどれですか？",
+      "options": [
+        "#",
+        "/* */",
+        "//",
+        "<!-- -->"
+      ],
+      "answer": 0,
+      "commentary": "Pythonでは `#` 以降の記述がコメントとして扱われます。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>x = 10\ny = -2\nprint(x * y)</code></pre>",
+      "options": [
+        "-20",
+        "-5",
+        "8",
+        "20"
+      ],
+      "answer": 0,
+      "commentary": "正の数 10 と負の数 -2 の掛け算のため、結果は -20 になります。"
+    },
+    {
+      "id": 35,
+      "type": "用語理解",
+      "question": "プログラムにおいて、特定の条件が満たされたときだけ指定した処理を行う構造を何と呼びますか？",
+      "options": [
+        "繰り返し（ループ）",
+        "条件分岐",
+        "順次実行",
+        "例外処理"
+      ],
+      "answer": 1,
+      "commentary": "`if` 文などを使って条件に応じた処理を行う構造を「条件分岐」と呼びます。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "`think_action` 関数の定義部分です。空欄に入る引数名を選んでください。<pre><code>def think_action(___):\n    current_score = my_info[\"card1\"] * my_info[\"card2\"]</code></pre>",
+      "options": [
+        "info",
+        "state",
+        "my_info",
+        "self"
+      ],
+      "answer": 2,
+      "commentary": "授業で書いた my_ai.py では、ゲーム情報を受け取る引数を my_info という名前にしています。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>val = 15\nif val > 20:\n    print(\"A\")\nelif val > 10:\n    print(\"B\")\nelse:\n    print(\"C\")</code></pre>",
+      "options": [
+        "A",
+        "C",
+        "B",
+        "何も表示されない"
+      ],
+      "answer": 2,
+      "commentary": "`val`（15）は `val > 20` には該当しませんが、`val > 10` の条件を満たすため「B」が出力されます。"
+    },
+    {
+      "id": 38,
+      "type": "文法チェック",
+      "question": "インポート済みの `random` モジュールを使って、リスト `lst` から要素をランダムに1つ取得する正しい記述はどれですか？",
+      "options": [
+        "random[lst]",
+        "choice.random(lst)",
+        "lst.random()",
+        "random.choice(lst)"
+      ],
+      "answer": 3,
+      "commentary": "`random.choice(シーケンス)` の形式で呼び出します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>items = [5, 10, 15]\nitems.clear()\nprint(items)</code></pre>",
+      "options": [
+        "[]",
+        "[5, 10, 15]",
+        "0",
+        "None"
+      ],
+      "answer": 0,
+      "commentary": "`clear()` メソッドを実行するとリストの全要素が削除され、空のリスト `[]` となります。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "Pythonにおいて、真（正しい）か偽（間違い）のどちらかの値をとるデータ型を何と呼びますか？",
+      "options": [
+        "文字列型（str）",
+        "ブール型（bool）",
+        "リスト型（list）",
+        "数値型（int）"
+      ],
+      "answer": 1,
+      "commentary": "`True` または `False` の真偽値を扱う型を「ブール型（bool）」と呼びます。"
+    },
+    {
+      "id": 41,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>hand = [3, 7, 11]\nprint(sorted(hand) == hand)</code></pre>",
+      "options": [
+        "False",
+        "True",
+        "エラー",
+        "None"
+      ],
+      "answer": 1,
+      "commentary": "`hand` は最初から昇順に並んでいるため、`sorted(hand)` の結果 `[3, 7, 11]` と等しくなり `True` が出力されます。"
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>numbers = [3, 1, 4, 1, 5]\nprint(sorted(numbers, reverse=True))</code></pre>",
+      "options": [
+        "[5, 4, 3, 1, 1]",
+        "[1, 1, 3, 4, 5]",
+        "[5, 4, 3]",
+        "[3, 1, 4, 1, 5]"
+      ],
+      "answer": 0,
+      "commentary": "sorted() に reverse=True を渡すと降順（大きい順）に並びます。引数を付けなければ昇順（小さい順）です。",
+      "id": 42
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>hand = [3, 1, 2]\nresult = sorted(hand)\nprint(hand)</code></pre>",
+      "options": [
+        "[1, 2, 3]",
+        "[3, 2, 1]",
+        "[3, 1, 2]",
+        "None"
+      ],
+      "answer": 2,
+      "commentary": "sorted() は並び替えた新しいリストを返すだけで、元のリストは変更しません。並び替えた結果は result に入っており、hand は元のままです。",
+      "id": 43
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>hand = [3, 1, 2]\nresult = hand.sort()\nprint(result)</code></pre>",
+      "options": [
+        "None",
+        "[1, 2, 3]",
+        "[3, 1, 2]",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "sort() は元のリストそのものを並び替えるメソッドで、戻り値は返しません（None になります）。並び替えた結果を別の変数で受け取りたいときは sorted() を使います。",
+      "id": 44
+    },
+    {
+      "type": "用語理解",
+      "question": "カウンティング用のリスト card_list を、関数 think_action() の中ではなく外側に定義するのはなぜですか？",
+      "options": [
+        "リストは必ず関数の外に書くという決まりがあるから",
+        "関数の中では変数を作ることができないから",
+        "関数の中に書くと、呼ばれるたびに空のリストに作り直されてしまうから",
+        "外側に書いた方が処理が速くなるから"
+      ],
+      "answer": 2,
+      "commentary": "think_action() は毎ターン呼ばれます。中で card_list = [] と書くと毎回リセットされ、前のターンの記録が残りません。ターンをまたいで記録したいので関数の外側に置きます。",
+      "id": 45
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>card_list = []\n\ndef add_cards(a, b):\n    card_list.append(a)\n    card_list.append(b)\n\nadd_cards(1, 2)\nadd_cards(3, 4)\nprint(len(card_list))</code></pre>",
+      "options": [
+        "4",
+        "2",
+        "0",
+        "エラーになる"
+      ],
+      "answer": 0,
+      "commentary": "関数の外側にあるリストは呼び出しをまたいで残り続けるため、2回の呼び出しで合計4個たまります。試合ごとに数え直したい場合は clear() でリセットする必要があります。",
+      "id": 46
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>def check(score):\n    if score &gt; 0:\n        return \"A\"\n    if score &gt;= 100:\n        return \"B\"\n    return \"C\"\n\nprint(check(120))</code></pre>",
+      "options": [
+        "B",
+        "A",
+        "A と B の両方",
+        "C"
+      ],
+      "answer": 1,
+      "commentary": "条件は上から順に評価され、return した時点で関数は終わります。120 は1つ目の score > 0 を満たすので \"A\" を返し、2つ目の条件には到達しません。特別な条件ほど前に書く必要があります。",
+      "id": 47
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>card_list = [13, 4, 12]\nprint(13 in card_list and 11 in card_list)</code></pre>",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "エラーになる"
+      ],
+      "answer": 1,
+      "commentary": "13 は含まれていますが 11 は含まれていません。and は両方が True のときだけ True を返すため、結果は False です。",
+      "id": 48
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>print(7 / 2, 7 // 2)</code></pre>",
+      "options": [
+        "3 3.5",
+        "3.5 3.5",
+        "3 3",
+        "3.5 3"
+      ],
+      "answer": 3,
+      "commentary": "`/` は小数（float）を返し、`//` は小数点以下を切り捨てた商を返します。リストのインデックスには整数が必要なので、真ん中を求めるときは // を使います。",
+      "id": 49
+    },
+    {
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>import random\nhand = [1, 2, 3]\ncard = random.choice(hand)\nprint(len(hand))</code></pre>",
+      "options": [
+        "3",
+        "2",
+        "1",
+        "実行するたびに変わる"
+      ],
+      "answer": 0,
+      "commentary": "random.choice() はリストから1つを選んで返すだけで、元のリストからは取り除きません。取り出して同時に削除したい場合は pop() を使います。",
+      "id": 50
+    }
+  ]
+}

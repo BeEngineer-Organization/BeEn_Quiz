@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>BeEn合宿2026 クイズ</title>
+    <link rel="icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" sizes="any" />
+    <link rel="shortcut icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="camp.css" />
+  </head>
+  <body>
+    <!-- ============================================================
+         パスワードゲート
+         認証が通るまで #campApp は hidden。処理は camp-auth.js。
+         パスワードの変更方法も camp-auth.js の先頭コメントを参照。
+         ============================================================ -->
+    <div class="camp-auth" id="campAuthOverlay">
+      <div class="camp-auth-card">
+        <img class="camp-auth-logo" src="./svg/logo_white.svg" alt="BeEngineer" />
+        <h1 class="camp-auth-title">BeEn合宿2026 クイズ</h1>
+        <p class="camp-auth-lead">
+          合宿参加者かぎりのページです。<br />
+          しおりに書いてある合言葉を入力してください。
+        </p>
+        <div class="camp-auth-form">
+          <input
+            class="camp-auth-input"
+            id="campPasswordInput"
+            type="password"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="合言葉"
+            aria-label="合言葉"
+          />
+          <button type="button" class="btn btn-primary" id="campPasswordBtn">入室する</button>
+          <p class="camp-auth-error" id="campPasswordError" role="alert" hidden></p>
+        </div>
+        <p class="camp-auth-note">
+          合言葉が分からないときは、担当の先生に聞いてください。
+        </p>
+      </div>
+    </div>
+
+    <div class="app" id="campApp" hidden>
+      <header class="header">
+        <div class="brand">
+          <h1 class="brand-name">
+            <img class="brand-logo" src="./svg/logo_white.svg" alt="BeEngineer" />
+          </h1>
+        </div>
+        <span class="camp-badge">CAMP 2026</span>
+        <p class="tagline">合宿クイズ。宿題モードで練習、確認テストモードで力だめし。</p>
+      </header>
+
+      <section class="panel setup" id="setupPanel">
+        <h2 class="panel-title">クイズの選択</h2>
+        <p class="hint" id="catalogHint">データを読み込み中です…</p>
+
+        <div class="setup-stack">
+          <div class="field-block">
+            <label class="inline-label" for="courseSelect">コース</label>
+            <select id="courseSelect" class="select" disabled>
+              <option value="">— コースを選択 —</option>
+            </select>
+          </div>
+          <div class="field-block field-block--unit">
+            <label class="inline-label" for="unitSelectTrigger">単元</label>
+            <div class="unit-select-combo" id="unitSelectCombo">
+              <button
+                type="button"
+                class="unit-select-trigger select"
+                id="unitSelectTrigger"
+                disabled
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="unitSelectPanel"
+              >
+                — まずコースを選択 —
+              </button>
+              <div class="unit-select-panel" id="unitSelectPanel" role="listbox" hidden></div>
+              <select id="unitSelect" class="unit-select-native" tabindex="-1" aria-hidden="true" disabled>
+                <option value="">— まずコースを選択 —</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="setup-row">
+          <button type="button" class="btn btn-primary" id="btnLoadUnit" disabled>単元を読み込む</button>
+        </div>
+
+        <p class="unit-title-display" id="unitTitleDisplay">単元名: （未読み込み）</p>
+        <div class="mode-buttons" id="modeButtons">
+          <button type="button" class="btn btn-primary" id="btnHomework">宿題モード</button>
+          <button type="button" class="btn btn-primary" id="btnTest">確認テストモード</button>
+          <button type="button" class="btn btn-primary" id="btnAdmin" style="display: none">管理者確認モード</button>
+        </div>
+      </section>
+
+      <main class="main" id="mainArea" hidden>
+        <div class="toolbar">
+          <button type="button" class="btn btn-ghost" id="btnBack">← クイズ選択に戻る</button>
+          <span class="toolbar-badge" id="modeBadge"></span>
+        </div>
+
+        <section class="panel homework-panel" id="homeworkPanel" hidden>
+          <h2 class="panel-title" id="homeworkHeading">宿題モード</h2>
+          <div class="study-progress" id="homeworkProgress" aria-live="polite"></div>
+          <div class="test-card" id="homeworkCard">
+            <p class="question-text" id="homeworkQuestion"></p>
+            <div class="options cols-2" id="homeworkOptions"></div>
+            <div id="homeworkCommentaryWrap" hidden></div>
+            <button type="button" class="btn btn-primary homework-next-btn" id="homeworkNext" hidden>
+              次の問題へ
+            </button>
+          </div>
+          <div class="completion-banner" id="homeworkComplete" hidden role="status">
+            <strong class="completion-title">おつかれさま！</strong>
+            <p class="homework-result-line" id="homeworkScoreSummary"></p>
+            <p class="completion-sub" id="homeworkCompleteCheer"></p>
+          </div>
+        </section>
+
+        <section class="panel admin-panel" id="adminPanel" hidden>
+          <h2 class="panel-title" id="adminHeading">管理者確認モード</h2>
+          <div class="study-progress admin-summary" id="adminSummary" aria-live="polite"></div>
+          <div class="admin-toolbar">
+            <button type="button" class="btn btn-secondary admin-nav-btn" id="adminPrev">← 前の問題</button>
+            <label class="admin-question-picker" for="adminQuestionSelect">
+              <span class="inline-label">確認する問題</span>
+              <select class="select admin-select" id="adminQuestionSelect"></select>
+            </label>
+            <button type="button" class="btn btn-secondary admin-nav-btn" id="adminNext">次の問題 →</button>
+          </div>
+          <div class="test-card admin-card" id="adminCard">
+            <div class="admin-meta" id="adminMeta"></div>
+            <div class="question-text" id="adminQuestion"></div>
+            <div class="options cols-2 admin-options" id="adminOptions"></div>
+            <div class="commentary" id="adminCommentary"></div>
+          </div>
+        </section>
+
+        <section class="panel test-panel" id="testPanel" hidden>
+          <h2 class="panel-title">確認テスト</h2>
+          <p class="test-unit-line" id="testUnitLine"></p>
+          <p class="hint test-intro" id="testIntro"></p>
+          <div class="test-progress-sticky-wrap" id="testProgressWrap">
+            <div class="study-progress study-progress--test-pending" id="testProgress" aria-live="polite"></div>
+          </div>
+          <div class="test-form-wrap" id="testFormWrap">
+            <div class="test-all-questions" id="testList"></div>
+            <button type="button" class="btn btn-primary test-submit-btn" id="btnSubmitTest">提出する</button>
+          </div>
+          <div class="test-result" id="testResult" hidden>
+            <div class="test-result-summary">
+              <p class="test-result-unit" id="testResultUnit"></p>
+              <p class="test-time-notice" id="testTimeNotice" hidden></p>
+              <p class="score-line" id="scoreLine"></p>
+              <p class="pass-line" id="passLine"></p>
+            </div>
+            <div class="test-result-detail" id="testResultDetail"></div>
+            <button type="button" class="btn btn-primary" id="btnRetryTest">もう一度テスト</button>
+          </div>
+        </section>
+      </main>
+
+      <div class="confirm-overlay" id="testBackConfirm" hidden>
+        <div class="confirm-dialog panel" role="dialog" aria-modal="true" aria-labelledby="testBackConfirmTitle">
+          <h2 class="panel-title" id="testBackConfirmTitle">確認</h2>
+          <p class="confirm-message">確認テストを中断して、クイズ選択に戻りますか？</p>
+          <div class="confirm-actions">
+            <button type="button" class="btn btn-primary" id="confirmBackYes">はい</button>
+            <button type="button" class="btn btn-secondary" id="confirmBackNo">いいえ</button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <a
+          class="camp-back-link"
+          href="https://beengineer-organization.github.io/been_camp_2026/"
+          >← 合宿案内サイトへ戻る</a
+        >
+      </footer>
+    </div>
+
+    <!-- app.js に「合宿用コースだけを表示する」ことを伝える。app.js より前に置くこと -->
+    <script>
+      window.QUIZ_PROFILE = "camp";
+    </script>
+    <script src="app.js" defer></script>
+    <script src="camp-auth.js" defer></script>
+  </body>
+</html>
