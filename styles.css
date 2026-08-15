@@ -1435,6 +1435,13 @@ body {
   font-size: 0.72rem;
 }
 
+/* 復習ページへの目立たない入口（フッター末尾の句点）。通常の文字と同じ見た目にする。 */
+.footer-secret {
+  color: inherit;
+  text-decoration: none;
+  cursor: text;
+}
+
 @media (min-width: 600px) {
   .app {
     padding: 28px;

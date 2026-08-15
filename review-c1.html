@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BeEnクイズ</title>
+    <title>Cコース 復習クイズ</title>
     <link rel="icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" sizes="any" />
     <link rel="shortcut icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
@@ -16,11 +16,11 @@
             <img class="brand-logo" src="./svg/logo_white.svg" alt="BeEngineer" />
           </h1>
         </div>
-        <p class="tagline">宿題モードまたは確認テストで学習できます。</p>
+        <p class="tagline">Cコース 1学期（第1〜12回）の復習クイズです。</p>
       </header>
 
       <section class="panel setup" id="setupPanel">
-        <h2 class="panel-title">コース・単元の選択</h2>
+        <h2 class="panel-title">単元の選択</h2>
         <p class="hint" id="catalogHint">データを読み込み中です…</p>
 
         <div class="setup-stack">
@@ -61,13 +61,12 @@
           <button type="button" class="btn btn-primary" id="btnHomework">宿題モード</button>
           <button type="button" class="btn btn-primary" id="btnTest">確認テストモード</button>
           <button type="button" class="btn btn-primary" id="btnAdmin" style="display: none">管理者確認モード</button>
-          <a class="btn btn-curriculum" href="./curriculum.html">カリキュラムを見る</a>
         </div>
       </section>
 
       <main class="main" id="mainArea" hidden>
         <div class="toolbar">
-          <button type="button" class="btn btn-ghost" id="btnBack">← コース・単元選択に戻る</button>
+          <button type="button" class="btn btn-ghost" id="btnBack">← 単元選択に戻る</button>
           <span class="toolbar-badge" id="modeBadge"></span>
         </div>
 
@@ -135,7 +134,7 @@
       <div class="confirm-overlay" id="testBackConfirm" hidden>
         <div class="confirm-dialog panel" role="dialog" aria-modal="true" aria-labelledby="testBackConfirmTitle">
           <h2 class="panel-title" id="testBackConfirmTitle">確認</h2>
-          <p class="confirm-message">確認テストを中断して、コース・単元選択に戻りますか？</p>
+          <p class="confirm-message">確認テストを中断して、単元選択に戻りますか？</p>
           <div class="confirm-actions">
             <button type="button" class="btn btn-primary" id="confirmBackYes">はい</button>
             <button type="button" class="btn btn-secondary" id="confirmBackNo">いいえ</button>
@@ -144,18 +143,15 @@
       </div>
 
       <footer class="footer">
-        <small
-          >ブラウザの制約により、ローカルでは HTTP サーバー経由での起動を推奨します<a
-            class="footer-secret"
-            href="./review-c1.html"
-            aria-hidden="true"
-            tabindex="-1"
-            >。</a
-          ></small
-        >
+        <small>Cコース 1学期の復習用ページです。</small>
       </footer>
     </div>
 
+    <!-- 復習ページ: Cコースの第1〜12回だけを表示する。app.js より前に置くこと -->
+    <script>
+      window.QUIZ_COURSES = ["C"];
+      window.QUIZ_MAX_UNIT = 12;
+    </script>
     <script src="app.js" defer></script>
   </body>
 </html>

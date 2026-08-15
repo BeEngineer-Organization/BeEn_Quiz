@@ -75,6 +75,18 @@ const CATALOG_URL = "data/catalog.json";
  */
 const QUIZ_PROFILE = String(window.QUIZ_PROFILE ?? "main").trim() || "main";
 
+/**
+ * 表示コースの限定（任意）。ページ側で window.QUIZ_COURSES = ["C"] のように指定すると、
+ * そのコースIDだけを表示する。未指定なら profile 内の全コースを表示。
+ */
+const QUIZ_COURSES =
+  Array.isArray(window.QUIZ_COURSES) && window.QUIZ_COURSES.length ? window.QUIZ_COURSES.map(String) : null;
+
+/**
+ * 単元番号の表示上限（既定 27＝2学期まで）。ページ側で window.QUIZ_MAX_UNIT = 12 のように上書き可能。
+ */
+const QUIZ_MAX_UNIT = Number.isFinite(window.QUIZ_MAX_UNIT) ? Number(window.QUIZ_MAX_UNIT) : 27;
+
 /** @type {ReturnType<typeof parseCatalog> | null} */
 let catalogData = null;
 
@@ -91,8 +103,8 @@ function getUnitNo(unitId) {
 }
 
 /**
- * 2学期用: すべてのコースで第27回（u27）まで表示する。
- * 第28回以降（3学期用）は非公開。
+ * 単元の表示可否。既定では第27回（u27）まで表示（2学期用）。
+ * 第28回以降（3学期用）は非公開。ページ側の window.QUIZ_MAX_UNIT で上限を変更できる。
  * @param {string} courseId
  * @param {string} unitId
  */
@@ -103,7 +115,7 @@ function shouldShowUnit(courseId, unitId) {
   if (QUIZ_PROFILE === "camp") return true;
   const no = getUnitNo(unitId);
   if (no === null) return true;
-  return no <= 27;
+  return no <= QUIZ_MAX_UNIT;
 }
 
 /** @type {{ unit_title: string, questions: Array<{id:string, type:string, question:string, options:string[], answer:number, commentary:string}> } | null} */
@@ -205,7 +217,8 @@ function parseCatalog(raw) {
   const version = typeof /** @type {{ version?: unknown }} */ (raw).version === "number" ? /** @type {{ version: number }} */ (raw).version : 1;
   const courses = coursesRaw
     .map((c, i) => normalizeCourse(c, i))
-    .filter((c) => c.profile === QUIZ_PROFILE);
+    .filter((c) => c.profile === QUIZ_PROFILE)
+    .filter((c) => !QUIZ_COURSES || QUIZ_COURSES.includes(c.id));
   if (courses.length === 0) {
     throw new Error(`表示できるコースがありません（profile: ${QUIZ_PROFILE}）。`);
   }
