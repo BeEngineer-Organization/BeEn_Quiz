@@ -91,7 +91,8 @@ function getUnitNo(unitId) {
 }
 
 /**
- * 1学期用: すべてのコースで u12 まで表示する。
+ * 2学期用: すべてのコースで第27回（u27）まで表示する。
+ * 第28回以降（3学期用）は非公開。
  * @param {string} courseId
  * @param {string} unitId
  */
@@ -102,7 +103,7 @@ function shouldShowUnit(courseId, unitId) {
   if (QUIZ_PROFILE === "camp") return true;
   const no = getUnitNo(unitId);
   if (no === null) return true;
-  return no <= 34;
+  return no <= 27;
 }
 
 /** @type {{ unit_title: string, questions: Array<{id:string, type:string, question:string, options:string[], answer:number, commentary:string}> } | null} */
