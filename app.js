@@ -28,11 +28,22 @@
  * Aコース: 単元IDは A-u1 … A-u36（表示順）。jsonPath は data/A/unit01.json … unit36.json に対応。
  */
 
-const TEST_COUNT = 10;
-/** 確認テストの制限時間（秒） */
-const TEST_TIME_LIMIT_SEC = 300;
+/** 確認テストの出題数（既定10）。復習ページ等から setActiveTestParams で変更できる */
+let TEST_COUNT = 10;
+/** 確認テストの制限時間（秒・既定300）。setActiveTestParams で変更できる */
+let TEST_TIME_LIMIT_SEC = 300;
 /** 管理者確認モードの表示可否。ローカル確認時だけ true にする */
 const ENABLE_ADMIN_MODE = false;
+
+/**
+ * 確認テストの出題数と制限時間を上書きする（復習ページ用のフック）。
+ * @param {number} count 出題数
+ * @param {number} timeSec 制限時間（秒）
+ */
+function setActiveTestParams(count, timeSec) {
+  if (Number.isFinite(count) && count > 0) TEST_COUNT = Math.floor(count);
+  if (Number.isFinite(timeSec) && timeSec > 0) TEST_TIME_LIMIT_SEC = Math.floor(timeSec);
+}
 
 /** 10問のとき 8 問以上で合格（問数が少ない単元は 80% 切り上げ） */
 function testPassThreshold(questionCount) {
@@ -537,7 +548,7 @@ function updateTestPendingProgress() {
       ? `<div class="test-timer-row${urgent ? " test-timer-row--urgent" : ""}" role="timer" aria-live="polite" aria-atomic="true">
       <span class="test-timer-label">残り時間</span>
       <span class="test-timer-clock">${timeStr}</span>
-      <span class="test-timer-sec">（${TEST_TIME_LIMIT_SEC} 秒で自動提出）</span>
+      <span class="test-timer-sec">（${Math.round(TEST_TIME_LIMIT_SEC / 60)} 分で自動提出）</span>
     </div>`
       : "";
   els.testProgress.innerHTML = `
@@ -915,7 +926,7 @@ function startTest() {
   els.testTimeNotice.hidden = true;
   els.testTimeNotice.textContent = "";
   els.testUnitLine.textContent = `単元「${currentUnit.unit_title}」`;
-  els.testIntro.textContent = `${n} 問すべてに答えてから「提出する」で答え合わせできます。制限時間は ${TEST_TIME_LIMIT_SEC} 秒です。時間が来ると未回答は不正解のまま自動提出されます。`;
+  els.testIntro.textContent = `${n} 問すべてに答えてから「提出する」で答え合わせできます。制限時間は ${Math.round(TEST_TIME_LIMIT_SEC / 60)} 分です。時間が来ると未回答は不正解のまま自動提出されます。`;
   renderTestForm();
 
   testTimerIntervalId = window.setInterval(() => {

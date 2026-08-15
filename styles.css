@@ -1442,6 +1442,69 @@ body {
   cursor: text;
 }
 
+/* 復習ページ: 問題数セレクタ */
+.review-count-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.review-count-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.08s ease;
+}
+
+.review-count-btn:hover {
+  border-color: var(--muted);
+}
+
+.review-count-btn:active {
+  transform: scale(0.98);
+}
+
+.review-count-btn.selected {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: #7ee787;
+}
+
+.review-count-num {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.review-count-time {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.review-count-btn.selected .review-count-time {
+  color: inherit;
+}
+
+.review-note {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 599px) {
+  .review-count-btn {
+    padding: 14px 4px;
+  }
+}
+
 @media (min-width: 600px) {
   .app {
     padding: 28px;

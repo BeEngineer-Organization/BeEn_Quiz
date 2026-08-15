@@ -20,47 +20,52 @@
       </header>
 
       <section class="panel setup" id="setupPanel">
-        <h2 class="panel-title">単元の選択</h2>
+        <h2 class="panel-title">問題数を選ぶ</h2>
         <p class="hint" id="catalogHint">データを読み込み中です…</p>
 
-        <div class="setup-stack">
-          <div class="field-block">
-            <label class="inline-label" for="courseSelect">コース</label>
-            <select id="courseSelect" class="select" disabled>
-              <option value="">— コースを選択 —</option>
-            </select>
-          </div>
-          <div class="field-block field-block--unit">
-            <label class="inline-label" for="unitSelectTrigger">単元（分野ごとにグループ表示）</label>
-            <div class="unit-select-combo" id="unitSelectCombo">
-              <button
-                type="button"
-                class="unit-select-trigger select"
-                id="unitSelectTrigger"
-                disabled
-                aria-haspopup="listbox"
-                aria-expanded="false"
-                aria-controls="unitSelectPanel"
-              >
-                — まずコースを選択 —
-              </button>
-              <div class="unit-select-panel" id="unitSelectPanel" role="listbox" hidden></div>
-              <select id="unitSelect" class="unit-select-native" tabindex="-1" aria-hidden="true" disabled>
-                <option value="">— まずコースを選択 —</option>
-              </select>
-            </div>
-          </div>
+        <div class="review-count-group" id="reviewCountGroup" role="group" aria-label="問題数を選ぶ">
+          <button type="button" class="review-count-btn" data-count="10" data-min="5" aria-pressed="false">
+            <span class="review-count-num">10問</span>
+            <span class="review-count-time">5分</span>
+          </button>
+          <button type="button" class="review-count-btn" data-count="20" data-min="7" aria-pressed="false">
+            <span class="review-count-num">20問</span>
+            <span class="review-count-time">7分</span>
+          </button>
+          <button type="button" class="review-count-btn" data-count="30" data-min="10" aria-pressed="false">
+            <span class="review-count-num">30問</span>
+            <span class="review-count-time">10分</span>
+          </button>
         </div>
+        <p class="review-note" id="reviewNote">
+          問題数を選んで「確認テストモード」を押してください。第1〜12回からランダムに出題されます。
+        </p>
 
-        <div class="setup-row">
-          <button type="button" class="btn btn-primary" id="btnLoadUnit" disabled>単元を読み込む</button>
-        </div>
-
-        <p class="unit-title-display" id="unitTitleDisplay">単元名: （未読み込み）</p>
         <div class="mode-buttons" id="modeButtons">
-          <button type="button" class="btn btn-primary" id="btnHomework">宿題モード</button>
-          <button type="button" class="btn btn-primary" id="btnTest">確認テストモード</button>
-          <button type="button" class="btn btn-primary" id="btnAdmin" style="display: none">管理者確認モード</button>
+          <button type="button" class="btn btn-primary" id="btnTest" disabled>確認テストモード</button>
+        </div>
+
+        <!-- app.js が参照する要素。復習では使わないが、存在が必要なので非表示で保持する。 -->
+        <div class="setup-stack" hidden aria-hidden="true">
+          <select id="courseSelect" disabled><option value="">—</option></select>
+          <div class="unit-select-combo" id="unitSelectCombo">
+            <button
+              type="button"
+              id="unitSelectTrigger"
+              disabled
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="unitSelectPanel"
+            >
+              —
+            </button>
+            <div class="unit-select-panel" id="unitSelectPanel" role="listbox" hidden></div>
+            <select id="unitSelect" tabindex="-1" aria-hidden="true" disabled><option value="">—</option></select>
+          </div>
+          <button type="button" id="btnLoadUnit"></button>
+          <button type="button" id="btnHomework"></button>
+          <button type="button" id="btnAdmin"></button>
+          <p id="unitTitleDisplay"></p>
         </div>
       </section>
 
@@ -153,5 +158,7 @@
       window.QUIZ_MAX_UNIT = 12;
     </script>
     <script src="app.js" defer></script>
+    <!-- 復習ページ専用: 12単元をプールし、問題数セレクタを制御する（app.js の後に置くこと） -->
+    <script src="review-c1.js" defer></script>
   </body>
 </html>
