@@ -1442,6 +1442,20 @@ body {
   cursor: text;
 }
 
+/* 復習ページ: app.js が参照するだけの要素は確実に隠す（class の display 指定に負けないよう !important） */
+.review-hidden-els {
+  display: none !important;
+}
+
+/* 復習ページ: コース固定表示と問題数見出し */
+.review-course-block {
+  margin-bottom: 18px;
+}
+
+.review-count-title {
+  margin-top: 4px;
+}
+
 /* 復習ページ: 問題数セレクタ */
 .review-count-group {
   display: grid;
