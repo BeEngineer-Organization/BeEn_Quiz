@@ -1,8 +1,10 @@
 const CATALOG_URL = "data/catalog.json";
 const SCHEDULE_URL = "data/curriculum-schedule.json";
 
-// 2学期用: 第27回まで表示する。第28回以降（3学期用）は非公開。
-const MAX_VISIBLE_SESSION = 27;
+// カリキュラム画面に表示するコース。合宿(camp)コースは対象外。
+function isCurriculumCourse(course) {
+  return String(course.profile ?? "main") !== "camp";
+}
 
 const els = {
   year: document.getElementById("curriculumYear"),
@@ -41,7 +43,7 @@ function unitDisplayTitle(unit, item) {
 
 function fillCourseSelect(select) {
   select.innerHTML = "";
-  for (const course of catalog.courses) {
+  for (const course of catalog.courses.filter(isCurriculumCourse)) {
     const opt = document.createElement("option");
     opt.value = course.id;
     opt.textContent = course.name;
@@ -64,7 +66,7 @@ function selectCourse(courseId) {
 function renderCourse(courseId) {
   const course = catalog.courses.find((item) => item.id === courseId);
   const items = schedule.items
-    .filter((item) => item.courseId === courseId && item.sessionNo <= MAX_VISIBLE_SESSION)
+    .filter((item) => item.courseId === courseId)
     .sort((a, b) => a.sessionNo - b.sessionNo);
 
   if (!course || items.length === 0) {
