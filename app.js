@@ -33,7 +33,7 @@ let TEST_COUNT = 10;
 /** 確認テストの制限時間（秒・既定300）。setActiveTestParams で変更できる */
 let TEST_TIME_LIMIT_SEC = 300;
 /** 管理者確認モードの表示可否。ローカル確認時だけ true にする */
-const ENABLE_ADMIN_MODE = false;
+const ENABLE_ADMIN_MODE = true;
 
 /**
  * 確認テストの出題数と制限時間を上書きする（復習ページ用のフック）。
