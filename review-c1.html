@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cコース 復習クイズ</title>
+    <title>1学期 復習クイズ</title>
     <link rel="icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" sizes="any" />
     <link rel="shortcut icon" href="./svg/favicon.svg?v=20260506-2" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
@@ -16,16 +16,16 @@
             <img class="brand-logo" src="./svg/logo_white.svg" alt="BeEngineer" />
           </h1>
         </div>
-        <p class="tagline">Cコース 1学期（第1〜12回）の復習クイズです。</p>
+        <p class="tagline">各コースの1学期（第1〜12回）の復習クイズです。</p>
       </header>
 
       <section class="panel setup" id="setupPanel">
         <p class="hint" id="catalogHint">データを読み込み中です…</p>
 
         <div class="field-block review-course-block">
-          <span class="inline-label">コース</span>
-          <select id="reviewCourseFixed" class="select" disabled>
-            <option>プロエンジニアコース</option>
+          <label class="inline-label" for="reviewCourseSelect">コース</label>
+          <select id="reviewCourseSelect" class="select">
+            <option value="">— コースを選択 —</option>
           </select>
         </div>
 
@@ -45,7 +45,7 @@
           </button>
         </div>
         <p class="review-note" id="reviewNote">
-          問題数を選んで「確認テストモード」を押してください。第1〜12回からランダムに出題されます。
+          コースと問題数を選んで「確認テストモード」を押してください。選んだコースの第1〜12回からランダムに出題されます。
         </p>
 
         <div class="mode-buttons" id="modeButtons">
@@ -155,13 +155,12 @@
       </div>
 
       <footer class="footer">
-        <small>Cコース 1学期の復習用ページです。</small>
+        <small>各コース 1学期の復習用ページです。</small>
       </footer>
     </div>
 
-    <!-- 復習ページ: Cコースの第1〜12回だけを表示する。app.js より前に置くこと -->
+    <!-- 復習ページ: 単元選択の上限を第12回（1学期）までにする。app.js より前に置くこと -->
     <script>
-      window.QUIZ_COURSES = ["C"];
       window.QUIZ_MAX_UNIT = 12;
     </script>
     <script src="app.js" defer></script>
