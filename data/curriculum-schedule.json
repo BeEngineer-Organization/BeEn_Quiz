@@ -1066,8 +1066,8 @@
         "2026-09-26",
         "2026-09-27"
       ],
-      "section": "暗記カードアプリを作ろう",
-      "lesson": "カード追加画面の実装"
+      "section": "Riverpod を用いた状態管理",
+      "lesson": "様々な Provider"
     },
     {
       "courseId": "B2",
@@ -1078,8 +1078,8 @@
         "2026-10-03",
         "2026-10-04"
       ],
-      "section": "準備中",
-      "lesson": "準備中"
+      "section": "Riverpod を用いた状態管理",
+      "lesson": "Provider を読み込む"
     },
     {
       "courseId": "B2",
@@ -1090,8 +1090,8 @@
         "2026-10-17",
         "2026-10-18"
       ],
-      "section": "準備中",
-      "lesson": "準備中"
+      "section": "暗記カードアプリの Riverpod 書き換え",
+      "lesson": "Provider の準備とジャンル一覧"
     },
     {
       "courseId": "B2",
@@ -1102,8 +1102,8 @@
         "2026-10-24",
         "2026-10-25"
       ],
-      "section": "準備中",
-      "lesson": "準備中"
+      "section": "暗記カードアプリの Riverpod 書き換え",
+      "lesson": "カード一覧画面"
     },
     {
       "courseId": "B2",
@@ -1114,8 +1114,8 @@
         "2026-11-31",
         "2026-11-01"
       ],
-      "section": "準備中",
-      "lesson": "準備中"
+      "section": "暗記カードアプリの Riverpod 書き換え",
+      "lesson": "カード追加画面"
     },
     {
       "courseId": "B2",
@@ -1198,8 +1198,8 @@
         "2026-01-09",
         "2026-01-10"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "立ち上げ、構造作成"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1210,8 +1210,8 @@
         "2026-01-16",
         "2026-01-17"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "SQLiteの用意"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1222,8 +1222,8 @@
         "2026-01-23",
         "2026-01-24"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "科目作成機能"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1234,8 +1234,8 @@
         "2026-01-30",
         "2026-01-31"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "学習記録の作成１"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1246,8 +1246,8 @@
         "2026-02-06",
         "2026-02-07"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "学習記録の作成２"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1258,8 +1258,8 @@
         "2026-02-20",
         "2026-02-21"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "サマリページの作成"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1270,8 +1270,8 @@
         "2026-02-27",
         "2026-02-28"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "一度保存したデータの編集"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1282,8 +1282,8 @@
         "2026-03-06",
         "2026-03-07"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "ローカル通知"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "B2",
@@ -1294,8 +1294,8 @@
         "2026-03-13",
         "2026-03-14"
       ],
-      "section": "Flutter 学習管理アプリ",
-      "lesson": "見た目を整える"
+      "section": "準備中",
+      "lesson": "準備中"
     },
     {
       "courseId": "C",

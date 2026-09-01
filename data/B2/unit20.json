@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit20",
-  "questions": []
+  "unit_title": "カード一覧画面",
+  "questions": [
+    {
+      "id": 1,
+      "type": "コード穴埋め",
+      "question": "書き換え後の `CardListPage` はローカルな状態を持たないため、適切なウィジェットクラスを継承しています。空欄に入るクラス名を選んでください。<pre><code>class CardListPage extends ___ {\n  const CardListPage({\n    super.key,\n    required this.genre,\n  });\n  final Genre genre;\n  ...\n}</code></pre>",
+      "options": [
+        "ConsumerWidget",
+        "StatefulWidget",
+        "ConsumerStatefulWidget",
+        "StatelessWidget"
+      ],
+      "answer": 0,
+      "commentary": "ローカルな状態（setStateで変更する値など）を持たない画面は、StatelessWidgetの代わりとなる ConsumerWidget に書き換えることができます[cite: 4]。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "`CardListPage` の `build` メソッド内で、Riverpodからカード一覧データを取得・監視するためのコードです。空欄に入るメソッド名を選んでください。<pre><code>@override\nWidget build(BuildContext context, WidgetRef ref) {\n  final flashcardList = ref.___(flashcardProvider);\n  ...\n}</code></pre>",
+      "options": [
+        "watch",
+        "read",
+        "listen",
+        "get"
+      ],
+      "answer": 0,
+      "commentary": "カードが追加された際などに状態の変化を検知して画面を自動再描画させるため、`ref.watch()` を使用します[cite: 4]。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "取得したカード一覧から、受け取ったジャンルIDに一致するものだけを絞り込むコードです。空欄に入るリスト操作メソッドを選んでください。<pre><code>final shownList = flashcardList.___\n  (card) =&gt; card.genre.id == genre.id\n).toList();</code></pre>",
+      "options": [
+        "where",
+        "map",
+        "filter",
+        "select"
+      ],
+      "answer": 0,
+      "commentary": "条件に合う要素だけを抽出するには Iterable の `where()` メソッドを使用します[cite: 4]。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "AppBarのタイトルに選択されたジャンルのタイトルを表示する処理です。ConsumerWidgetに変更したため `widget.` なしでアクセスできます。空欄に入るプロパティ名を選んでください。<pre><code>appBar: AppBar(\n  title: Text(___.title),\n),</code></pre>",
+      "options": [
+        "genre",
+        "widget.genre",
+        "card",
+        "genreProvider"
+      ],
+      "answer": 0,
+      "commentary": "ConsumerWidgetではStatefulWidgetの `widget.` を経由せず、クラスのフィールド `genre` に直接アクセスします[cite: 4]。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "問題カードをタップした際に、解答を表示するダイアログを呼び出すハンドラです。空欄に入るプロパティ名を選んでください。<pre><code>ListTile(\n  title: Text(shownList[index].question),\n  ___: () {\n    activateModal(\n      context,\n      shownList[index],\n    );\n  },\n)</code></pre>",
+      "options": [
+        "onTap",
+        "onPressed",
+        "onClick",
+        "onChange"
+      ],
+      "answer": 0,
+      "commentary": "ListTile要素がタップされた時の処理には `onTap` プロパティを指定します[cite: 4]。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "ダイアログ（AlertDialog）を画面に表示するためのFlutter標準関数です。空欄を埋めてください。<pre><code>void activateModal(BuildContext context, Flashcard content) {\n  ___(\n    context: context,\n    builder: (context) {\n      return AlertDialog( ... );\n    },\n  );\n}</code></pre>",
+      "options": [
+        "showDialog",
+        "openModal",
+        "showModalBottomSheet",
+        "createDialog"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログを表示するためには `showDialog()` 関数を使用します[cite: 4]。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "表示されているダイアログを閉じるためのコードです。空欄に入るメソッドを選んでください。<pre><code>IconButton(\n  icon: const Icon(Icons.close),\n  onPressed: () {\n    Navigator.___(context);\n  },\n)</code></pre>",
+      "options": [
+        "pop",
+        "push",
+        "close",
+        "back"
+      ],
+      "answer": 0,
+      "commentary": "現在のダイアログや画面を閉じて前の画面に戻るには `Navigator.pop(context)` を呼び出します[cite: 4]。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "カード追加ボタン（FloatingActionButton）を押した際に、カード追加画面へ画面遷移しジャンル情報を渡す処理です。空欄に入る引数名を選んでください。<pre><code>Navigator.of(context).pushNamed(\n  '/card_add',\n  ___: genre,\n);</code></pre>",
+      "options": [
+        "arguments",
+        "params",
+        "data",
+        "value"
+      ],
+      "answer": 0,
+      "commentary": "pushNamed で遷移先にデータを引き渡すパラメータ名は `arguments` です[cite: 4]。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "全カードが3件（ジャンルA:2件、ジャンルB:1件）のとき、ジャンルAを選択して `CardListPage` を開いた場合の `shownList.length` はいくつになりますか？<pre><code>final shownList = flashcardList.where(\n  (card) =&gt; card.genre.id == genre.id\n).toList();</code></pre>",
+      "options": [
+        "2",
+        "3",
+        "1",
+        "0"
+      ],
+      "answer": 0,
+      "commentary": "ジャンルAに該当する2件のカードのみが `where` によってフィルタリングされるため、長さは 2 になります[cite: 4]。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "次のコードで、`AlertDialog` のタイトル部分に表示されるのはどのデータですか？<pre><code>AlertDialog(\n  title: Text(\n    content.question,\n    textAlign: TextAlign.center,\n  ),\n  content: Text(\n    content.answer,\n  ),\n)</code></pre>",
+      "options": [
+        "カードの問題文（content.question）",
+        "カードの解答（content.answer）",
+        "ジャンルのタイトル",
+        "「閉じる」ボタン"
+      ],
+      "answer": 0,
+      "commentary": "`AlertDialog` の `title` プロパティに `content.question`（問題文）が渡されています[cite: 4]。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "次のコードで `ListView.builder` の `itemCount` に渡される数値は何を表していますか？<pre><code>body: ListView.builder(\n  itemCount: shownList.length,\n  itemBuilder: (context, index) =&gt; Card( ... ),\n)</code></pre>",
+      "options": [
+        "絞り込まれたカードの総数",
+        "全ジャンルの総数",
+        "アプリ内の全カードの総数",
+        "常に10個"
+      ],
+      "answer": 0,
+      "commentary": "`shownList` は該当ジャンルに絞り込まれたカードリストなので、その `.length` は該当カードの総数です[cite: 4]。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "次のコードで、ListViewの各行（ListTile）のタイトルに表示される文字列は何ですか？<pre><code>itemBuilder: (context, index) =&gt; Card(\n  child: ListTile(\n    title: Text(shownList[index].question),\n  ),\n)</code></pre>",
+      "options": [
+        "各カードの問題文（question）",
+        "各カードの解答（answer）",
+        "ジャンル名",
+        "カードのID番号"
+      ],
+      "answer": 0,
+      "commentary": "`shownList[index].question` が指定されているため、リストの各行にはカードの問題文が表示されます[cite: 4]。"
+    },
+    {
+      "id": 13,
+      "type": "文法チェック",
+      "question": "StatefulWidgetからConsumerWidgetへ書き換えた際の記述変更として正しいものはどれですか？",
+      "options": [
+        "widget.genre から genre へ直接アクセスするようになる",
+        "genre から widget.genre へ変更する必要がある",
+        "build メソッドから WidgetRef ref 引数が削除される",
+        "build メソッド内で ref が使えなくなる"
+      ],
+      "answer": 0,
+      "commentary": "ConsumerWidgetではStatefulWidgetの `widget.` 参照が不要となり、プロパティへ直接アクセスできるようになります[cite: 4]。"
+    },
+    {
+      "id": 14,
+      "type": "文法チェック",
+      "question": "ConsumerWidgetにおける `build` メソッドの正しいシグネチャ（定義）を選んでください。",
+      "options": [
+        "Widget build(BuildContext context, WidgetRef ref)",
+        "Widget build(BuildContext context)",
+        "Widget build(WidgetRef ref)",
+        "Widget build(BuildContext context, ConsumerRef ref)"
+      ],
+      "answer": 0,
+      "commentary": "ConsumerWidgetの `build` メソッドは `BuildContext` と `WidgetRef` の2つの引数を取ります[cite: 4]。"
+    },
+    {
+      "id": 15,
+      "type": "文法チェック",
+      "question": "CardListPageのコンストラクタ定義として正しく記述されているものはどれですか？",
+      "options": [
+        "const CardListPage({super.key, required this.genre});",
+        "CardListPage({Key? key, Genre genre});",
+        "const ConsumerWidget({super.key, required this.genre});",
+        "void CardListPage({super.key, required this.genre});"
+      ],
+      "answer": 0,
+      "commentary": "Flutterのウィジェット定義に沿って `const CardListPage({super.key, required this.genre});` と記述します[cite: 4]。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "書き換え前の `CardListPage` で `StatefulWidget` が使われていたものの、Riverpod導入後に `ConsumerWidget` に置き換えられた理由は何ですか？",
+      "options": [
+        "_CardListState 内で setState などを使った独自のローカル状態を管理していなかったため",
+        "StatefulWidget を使うとRiverpodの機能が一切動作しなくなるため",
+        "ConsumerWidget の方が画像読み込みスピードが速くなるため",
+        "Flutterの最新バージョンで StatefulWidget が廃止されたため"
+      ],
+      "answer": 0,
+      "commentary": "独自のローカル状態（setStateで変更する値など）を持たない画面は ConsumerWidget にシンプルに置き換えられます[cite: 4]。"
+    },
+    {
+      "id": 17,
+      "type": "用語理解",
+      "question": "画面右下に表示される、丸い形状のカード追加用アクションボタンのウィジェット名は何ですか？",
+      "options": [
+        "FloatingActionButton",
+        "ElevatedButton",
+        "IconButton",
+        "TextButton"
+      ],
+      "answer": 0,
+      "commentary": "Scaffoldの `floatingActionButton` プロパティに配置する丸いボタンは `FloatingActionButton` です[cite: 4]。"
+    },
+    {
+      "id": 18,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面で、画面右下のFloatingActionButtonにプラスアイコンを表示させるコードの空欄を埋めてください。<pre><code>child: const Icon(Icons.___),</code></pre>",
+      "options": [
+        "add",
+        "plus",
+        "create",
+        "append"
+      ],
+      "answer": 0,
+      "commentary": "追加を意味する標準プラスアイコンは `Icons.add` です[cite: 4]。"
+    },
+    {
+      "id": 19,
+      "type": "実行結果予測",
+      "question": "次のコードで、ダイアログ内の閉じるアイコン（IconButton）をタップしたときに起こる動作は何ですか？<pre><code>IconButton(\n  icon: const Icon(Icons.close),\n  onPressed: () {\n    Navigator.pop(context);\n  },\n)</code></pre>",
+      "options": [
+        "表示されていたダイアログが閉じる",
+        "ジャンル一覧画面まで一気へ戻る",
+        "新しいカードが1枚削除される",
+        "カード追加画面へ移動する"
+      ],
+      "answer": 0,
+      "commentary": "`Navigator.pop(context)` により最前面に表示されているダイアログが閉じます[cite: 4]。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "カードのテキスト表示スタイルで、文字の太さを太字（ボールド）に設定するプロパティ記述の空欄を埋めてください。<pre><code>style: const TextStyle(\n  fontWeight: FontWeight.___,\n  fontSize: 18,\n),</code></pre>",
+      "options": [
+        "bold",
+        "normal",
+        "w400",
+        "heavy"
+      ],
+      "answer": 0,
+      "commentary": "太字にするには `FontWeight.bold` を指定します[cite: 4]。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "カード追加画面で新しいカードを追加した後、`CardListPage` の表示はどうなりますか？<pre><code>// CardListPage 内\nfinal flashcardList = ref.watch(flashcardProvider);</code></pre>",
+      "options": [
+        "ref.watch により状態変更が検知され、新しいカードを含む一覧に自動で再描画される",
+        "画面を手動でリフレッシュするまで追加されたカードは表示されない",
+        "エラーが発生して画面が白くなる",
+        "ジャンル一覧画面に強制移動する"
+      ],
+      "answer": 0,
+      "commentary": "`ref.watch` で `flashcardProvider` を監視しているため、カード追加による状態変化時に自動で再描画が行われます[cite: 4]。"
+    },
+    {
+      "id": 22,
+      "type": "文法チェック",
+      "question": "Listの条件絞り込みで、`where` の後にリスト型に変換する正しく接続されたメソッドはどれですか？",
+      "options": [
+        ".toList()",
+        ".convertList()",
+        ".asList()",
+        ".toArray()"
+      ],
+      "answer": 0,
+      "commentary": "`where()` が返す Iterable を List 型に変換するには `.toList()` メソッドを呼び出します[cite: 4]。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "ダイアログの本文（content）部分にカードの解答を表示するコードです。空欄を埋めてください。<pre><code>content: Text(\n  content.___,\n),</code></pre>",
+      "options": [
+        "answer",
+        "question",
+        "title",
+        "description"
+      ],
+      "answer": 0,
+      "commentary": "Flashcardモデルの解答プロパティである `answer` を渡します[cite: 4]。"
+    },
+    {
+      "id": 24,
+      "type": "用語理解",
+      "question": "Flutterにおいてポップアップで警告や確認画面・情報を表示するための標準的なウィジェットは何ですか？",
+      "options": [
+        "AlertDialog",
+        "SnackBar",
+        "ModalSheet",
+        "PopupView"
+      ],
+      "answer": 0,
+      "commentary": "ダイアログ表示には `AlertDialog` ウィジェットが一般的に用いられます[cite: 4]。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "次のコードを実行した際、`flashcardList` に含まれるカードの条件判定部分で使われている `genre.id` とは何ですか？<pre><code>(card) =&gt; card.genre.id == genre.id</code></pre>",
+      "options": [
+        "CardListPageが開かれた際に画面に渡された対象ジャンルの識別ID",
+        "カード自身の個別ID",
+        "すべてのジャンルのIDの合計値",
+        "0に固定された数値"
+      ],
+      "answer": 0,
+      "commentary": "コンストラクタ経由で受け取った `genre`（`Genre` オブジェクト）の `id` プロパティです[cite: 4]。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面を表示するための各種ファイルをインポートしています。`providers.dart` を取り込む正しい相対パスを選んでください。<pre><code>import '___/providers.dart';</code></pre>",
+      "options": [
+        "..",
+        ".",
+        "lib",
+        "src"
+      ],
+      "answer": 0,
+      "commentary": "pagesフォルダから見て1つ上のディレクトリにあるファイルを参照するため `../providers.dart` となります[cite: 4]。"
+    },
+    {
+      "id": 27,
+      "type": "文法チェック",
+      "question": "Riverpodパッケージをインポートするための正しく記述されたコードはどれですか？",
+      "options": [
+        "import 'package:flutter_riverpod/flutter_riverpod.dart';",
+        "import 'package:riverpod/flutter_riverpod.dart';",
+        "import 'package:flutter/riverpod.dart';",
+        "import 'riverpod.dart';"
+      ],
+      "answer": 0,
+      "commentary": "Flutter版Riverpodの正しいインポート文は `import 'package:flutter_riverpod/flutter_riverpod.dart';` です[cite: 4]。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "次のコードで、`activateModal` 関数が定義されている場所はどこですか？<pre><code>class CardListPage extends ConsumerWidget {\n  const CardListPage({super.key, required this.genre});\n  final Genre genre;\n\n  void activateModal(BuildContext context, Flashcard content) { ... }\n  ...\n}</code></pre>",
+      "options": [
+        "CardListPage クラスの直下（内部メソッド）",
+        "_CardListState クラスの内部",
+        "main.dart のグローバル領域",
+        "providers.dart の内部"
+      ],
+      "answer": 0,
+      "commentary": "ConsumerWidgetへ書き換えたことで State クラスが無くなり、`CardListPage` クラス直下のメソッドとして定義されます[cite: 4]。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "ダイアログ内のテキスト配置を中央揃えにする設定です。空欄に入る値を選んでください。<pre><code>title: Text(\n  content.question,\n  textAlign: TextAlign.___,\n),</code></pre>",
+      "options": [
+        "center",
+        "left",
+        "right",
+        "start"
+      ],
+      "answer": 0,
+      "commentary": "中央揃えにするには `TextAlign.center` を指定します[cite: 4]。"
+    },
+    {
+      "id": 30,
+      "type": "用語理解",
+      "question": "Riverpodにおいて、Providerから値を取得すると同時にその変更を監視し、変化があった際にウィジェットを自動再描画させるWidgetRefのメソッドは何ですか？",
+      "options": [
+        "watch()",
+        "read()",
+        "listen()",
+        "select()"
+      ],
+      "answer": 0,
+      "commentary": "状態の変更を監視してウィジェットを自動再描画させるには `ref.watch()` を使用します[cite: 4]。"
+    },
+    {
+      "id": 31,
+      "type": "実行結果予測",
+      "question": "次のコードで `shownList` が空（0件）の場合、`ListView.builder` はどう描画されますか？<pre><code>itemCount: shownList.length, // 0</code></pre>",
+      "options": [
+        "リストアイテムが一つも表示されない空のリストになる",
+        "エラーが発生してクラッシュする",
+        "デフォルトで1件のダミーカードが表示される",
+        "ジャンル一覧画面に自動的に戻る"
+      ],
+      "answer": 0,
+      "commentary": "`itemCount` が 0 の場合、`itemBuilder` は呼ばれずカードは何も描画されません[cite: 4]。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "`CardListPage` の `genre` フィールドの型宣言です。空欄に入る適切な型名を選んでください。<pre><code>class CardListPage extends ConsumerWidget {\n  ...\n  final ___ genre;\n}</code></pre>",
+      "options": [
+        "Genre",
+        "Flashcard",
+        "String",
+        "int"
+      ],
+      "answer": 0,
+      "commentary": "ジャンル情報を保持するオブジェクトの型は `Genre` です[cite: 4]。"
+    },
+    {
+      "id": 33,
+      "type": "文法チェック",
+      "question": "`ref.watch` を使用して `flashcardProvider` から値を取得する正しい記述はどれですか？",
+      "options": [
+        "final flashcardList = ref.watch(flashcardProvider);",
+        "final flashcardList = ref.watch('flashcardProvider');",
+        "final flashcardList = ref.watch(flashcardProvider());",
+        "final flashcardList = watch(flashcardProvider);"
+      ],
+      "answer": 0,
+      "commentary": "`ref.watch` の引数には定義したプロバイダーオブジェクト（`flashcardProvider`）を直接渡します[cite: 4]。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときに作成されるルート（画面遷移先）の識別名は何ですか？<pre><code>Navigator.of(context).pushNamed(\n  '/card_add',\n  arguments: genre,\n);</code></pre>",
+      "options": [
+        "'/card_add'",
+        "'/card_list'",
+        "'genre'",
+        "'/add'"
+      ],
+      "answer": 0,
+      "commentary": "第一引数として文字列 `' /card_add'` が指定されています[cite: 4]。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "ダイアログの下部ボタン配置エリアを設定する `AlertDialog` のプロパティ名を選んでください。<pre><code>AlertDialog(\n  title: Text( ... ),\n  content: Text( ... ),\n  ___: [\n    IconButton( ... ),\n  ],\n)</code></pre>",
+      "options": [
+        "actions",
+        "buttons",
+        "children",
+        "footer"
+      ],
+      "answer": 0,
+      "commentary": "AlertDialogの操作ボタン群を配置するプロパティは `actions` です[cite: 4]。"
+    },
+    {
+      "id": 36,
+      "type": "用語理解",
+      "question": "暗記カードアプリにおいて、カードデータを集約して管理しているファイル（プロバイダー定義ファイル）の名前は何ですか？",
+      "options": [
+        "providers.dart",
+        "main.dart",
+        "card_list.dart",
+        "genre.dart"
+      ],
+      "answer": 0,
+      "commentary": "教材ではプロバイダーの定義を `providers.dart` にまとめて記述しています[cite: 4]。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "次のコードで、`Card` ウィジェットの子要素として設定されているウィジェットは何ですか？<pre><code>itemBuilder: (context, index) =&gt; Card(\n  child: ListTile(\n    title: Text(shownList[index].question),\n    onTap: () { ... },\n  ),\n)</code></pre>",
+      "options": [
+        "ListTile",
+        "Text",
+        "Column",
+        "IconButton"
+      ],
+      "answer": 0,
+      "commentary": "`Card` の `child` プロパティに `ListTile` が直接指定されています[cite: 4]。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "モーダルダイアログ内で、閉じるボタンとして利用されているアイコンウィジェットの記述を選んでください。<pre><code>IconButton(\n  icon: const Icon(Icons.___),\n  onPressed: () {\n    Navigator.pop(context);\n  },\n)</code></pre>",
+      "options": [
+        "close",
+        "cancel",
+        "delete",
+        "exit"
+      ],
+      "answer": 0,
+      "commentary": "閉じる（バツ印）を表すアイコンは `Icons.close` です[cite: 4]。"
+    },
+    {
+      "id": 39,
+      "type": "文法チェック",
+      "question": "`CardListPage` 内で `ref.watch` を呼び出すことができる場所として正しいのはどれですか？",
+      "options": [
+        "build メソッドの内部",
+        "activateModal メソッドの内部",
+        "コンストラクタの内部",
+        "クラス定義の外側のグローバル領域"
+      ],
+      "answer": 0,
+      "commentary": "`ref.watch` はウィジェットの再描画と関連付けるため、主に `build` メソッド内部で使用します[cite: 4]。"
+    },
+    {
+      "id": 40,
+      "type": "実行結果予測",
+      "question": "書き換え前の `CardListPage` で存在した `_CardListState` クラスは、書き換え後にどうなりましたか？<pre><code>// 書き換え後のコードを参照</code></pre>",
+      "options": [
+        "ConsumerWidgetへ統合・不要になり削除された",
+        "ConsumerState クラスへリネームされた",
+        "providers.dart ファイルへ移動した",
+        "そのままの形で残されている"
+      ],
+      "answer": 0,
+      "commentary": "ローカル状態を持たないため ConsumerWidget に書き換えられ、State クラス（`_CardListState`）は完全に不要となり削除されました[cite: 4]。"
+    }
+  ]
 }
