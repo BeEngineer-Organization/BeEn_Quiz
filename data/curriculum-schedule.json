@@ -1066,8 +1066,8 @@
         "2026-09-26",
         "2026-09-27"
       ],
-      "section": "Riverpod を用いた状態管理",
-      "lesson": "様々な Provider"
+      "section": "暗記カードアプリを作ろう",
+      "lesson": "カード追加画面の実装"
     },
     {
       "courseId": "B2",
@@ -1078,8 +1078,8 @@
         "2026-10-03",
         "2026-10-04"
       ],
-      "section": "Riverpod を用いた状態管理",
-      "lesson": "Provider を読み込む"
+      "section": "状態管理",
+      "lesson": "Riverpod を用いた状態管理 - 様々な Provider"
     },
     {
       "courseId": "B2",
@@ -1090,8 +1090,8 @@
         "2026-10-17",
         "2026-10-18"
       ],
-      "section": "暗記カードアプリの Riverpod 書き換え",
-      "lesson": "Provider の準備とジャンル一覧"
+      "section": "状態管理",
+      "lesson": "Riverpod を用いた状態管理 - Provider を読み込む"
     },
     {
       "courseId": "B2",
@@ -1102,20 +1102,20 @@
         "2026-10-24",
         "2026-10-25"
       ],
-      "section": "暗記カードアプリの Riverpod 書き換え",
-      "lesson": "カード一覧画面"
+      "section": "状態管理",
+      "lesson": "暗記カードアプリの Riverpod 書き換え - Provider の準備とジャンル一覧"
     },
     {
       "courseId": "B2",
       "unitId": "B2-u21",
       "sessionNo": 21,
-      "date": "11月31日・1日",
+      "date": "10月31日・11月1日",
       "dates": [
-        "2026-11-31",
+        "2026-10-31",
         "2026-11-01"
       ],
-      "section": "暗記カードアプリの Riverpod 書き換え",
-      "lesson": "カード追加画面"
+      "section": "状態管理",
+      "lesson": "暗記カードアプリの Riverpod 書き換え - カード一覧画面"
     },
     {
       "courseId": "B2",
@@ -1126,8 +1126,8 @@
         "2026-11-07",
         "2026-11-08"
       ],
-      "section": "準備中",
-      "lesson": "準備中"
+      "section": "状態管理",
+      "lesson": "暗記カードアプリの Riverpod 書き換え - カード追加画面"
     },
     {
       "courseId": "B2",

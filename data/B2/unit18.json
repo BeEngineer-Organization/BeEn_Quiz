@@ -1,360 +1,525 @@
 {
-  "unit_title": "Provider を読み込む",
+  "unit_title": "Riverpod を用いた状態管理 - 様々な Provider",
   "questions": [
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "StatelessWidgetやStatefulWidgetの内部など、任意の場所でProviderにアクセスし部分再描画を行うために使用するウィジェットを選んでください。<pre><code>___(\n  builder: (context, ref, child) {\n    return Text(ref.watch(counterProvider).toString());\n  },\n)</code></pre>",
-      "options": ["Consumer", "ConsumerWidget", "ProviderScope", "ConsumerStatefulWidget"],
+      "question": "Riverpodパッケージをインポートするための記述です。空欄に入る適切なライブラリ名を選んでください。<pre><code>import 'package:___/flutter_riverpod.dart';</code></pre>",
+      "options": [
+        "flutter_riverpod",
+        "riverpod_flutter",
+        "flutter_provider",
+        "riverpod"
+      ],
       "answer": 0,
-      "commentary": "任意のウィジェットツリー内で局所的にProviderを読み取り、再描画範囲を絞るためには Consumer ウィジェットを使用します[cite: 2]。"
+      "commentary": "RiverpodをFlutterプロジェクトで利用するには `flutter_riverpod` パッケージをインポートします[cite: 1]。"
     },
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "Consumerウィジェットの `builder` プロパティに渡す関数の第2引数の型を選んでください。<pre><code>Consumer(\n  builder: (BuildContext context, ___ ref, Widget? child) {\n    return Text(ref.watch(counterProvider).toString());\n  },\n)</code></pre>",
-      "options": ["WidgetRef", "ProviderRef", "BuildContext", "Ref"],
+      "question": "変化しない状態を管理するProviderをグローバル変数として定義しています。空欄に入る型名を選んでください。<pre><code>final provider = ___&lt;String&gt;((_) =&gt; 'This is provider');</code></pre>",
+      "options": [
+        "Provider",
+        "StateProvider",
+        "NotifierProvider",
+        "ValueProvider"
+      ],
       "answer": 0,
-      "commentary": "Consumerの builder 関数の第2引数には WidgetRef が渡されます[cite: 2]。"
+      "commentary": "変化しない一定の状態（管理データ）を生成・公開するには `Provider` を使用します[cite: 1]。"
     },
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "Consumerウィジェットの外側で状態を参照する際、不要な全体再描画を防ぐために使用する推奨メソッドを選んでください。<pre><code>Widget build(BuildContext context, WidgetRef ref) {\n  final counter = ref.___(counterProvider);\n  return Center(\n    child: Consumer( ... ),\n  );\n}</code></pre>",
-      "options": ["read", "watch", "listen", "get"],
+      "question": "他のProviderの値を読み取って新しいProviderを定義しています。空欄に入るメソッド名を選んでください。<pre><code>final readProvider = Provider&lt;String&gt;((ref) =&gt; ref.___(provider));</code></pre>",
+      "options": [
+        "read",
+        "watch",
+        "get",
+        "listen"
+      ],
       "answer": 0,
-      "commentary": "Consumerの外側で watch() を使うと全体が再描画されてしまうため、外側では read() メソッドを使用します[cite: 2]。"
+      "commentary": "他のProviderの値をその時点で1回読み取るには `ref.read()` メソッドを使用します[cite: 1]。"
     },
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "`initState()` メソッドなどを利用してStateをカスタマイズしたい場合に継承するウィジェットクラス名を選んでください。<pre><code>class RiverpodDemo extends ___ {\n  const RiverpodDemo({super.key});\n  @override\n  ConsumerState&lt;RiverpodDemo&gt; createState() =&gt; _ConsumerStateDemo();\n}</code></pre>",
-      "options": ["ConsumerStatefulWidget", "StatefulWidget", "ConsumerWidget", "ConsumerState"],
+      "question": "アプリ内でProviderを利用できるように対象範囲を囲むウィジェットです。空欄に入るウィジェット名を選んでください。<pre><code>void main() { \n  runApp(\n    const ___(\n      child: MyApp(),\n    ),\n  );\n}</code></pre>",
+      "options": [
+        "ProviderScope",
+        "ProviderContainer",
+        "RiverpodScope",
+        "ProviderApp"
+      ],
       "answer": 0,
-      "commentary": "RiverpodでStatefulWidgetに相当し、Stateをカスタマイズしたい場合は ConsumerStatefulWidget を継承します[cite: 2]。"
+      "commentary": "RiverpodでProviderを利用可能にするには、ルートウィジェットなどを `ProviderScope` で囲む必要があります[cite: 1]。"
     },
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "ConsumerStatefulWidgetとペアで使用する、通常の State に相当するクラスの継承記述を選んでください。<pre><code>class _ConsumerStateDemo extends ___&lt;RiverpodDemo&gt; {\n  @override\n  void initState() {\n    super.initState();\n  }\n}</code></pre>",
-      "options": ["ConsumerState", "State", "ConsumerWidget", "WidgetState"],
+      "question": "RiverpodでProviderの値を読み取るためのStatelessWidgetに相当するクラスです。空欄に入るクラス名を選んでください。<pre><code>class RiverpodDemo extends ___ { \n  const RiverpodDemo({super.key});\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    return Center();\n  }\n}</code></pre>",
+      "options": [
+        "ConsumerWidget",
+        "StatefulWidget",
+        "ProviderWidget",
+        "ConsumerStatefulWidget"
+      ],
       "answer": 0,
-      "commentary": "ConsumerStatefulWidgetのStateを作成するには ConsumerState を継承します[cite: 2]。"
+      "commentary": "Providerの値をウィジェット内で参照するには、`ConsumerWidget` を継承して `build` メソッドで `WidgetRef` を受け取ります[cite: 1]。"
     },
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "Future型の非同期処理の状態を管理するためのProviderを定義しています。空欄に入る適切なクラス名を選んでください。<pre><code>final futureProvider = ___&lt;String&gt;((ref) async {\n  return await Future.delayed(const Duration(seconds: 5), () =&gt; 'finish');\n});</code></pre>",
-      "options": ["FutureProvider", "StreamProvider", "NotifierProvider", "StateProvider"],
+      "question": "`ConsumerWidget` の `build` メソッドの引数です。空欄に入る適切な型名を選んでください。<pre><code>@override\nWidget build(BuildContext context, ___ ref) { \n  return Text(ref.read(provider));\n}</code></pre>",
+      "options": [
+        "WidgetRef",
+        "ProviderRef",
+        "BuildContext",
+        "Ref"
+      ],
       "answer": 0,
-      "commentary": "Future型の非同期処理結果や状態を扱うには FutureProvider を利用します[cite: 2]。"
+      "commentary": "ウィジェット内でProviderを参照するためには、第2引数として `WidgetRef` を受け取る必要があります[cite: 1]。"
     },
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "FutureProviderから取得した `AsyncValue` の状態（処理中・完了・エラー）に応じて表示を分岐するメソッドを選んでください。<pre><code>final data = ref.watch(futureProvider);\nreturn data.___(\n  loading: () =&gt; const CircularProgressIndicator(),\n  data: (value) =&gt; Text(value),\n  error: (err, stack) =&gt; Text('Error: $err'),\n);</code></pre>",
-      "options": ["when", "map", "maybeWhen", "switch"],
+      "question": "Notifierクラスを作成する際、継承すべき基本クラス名を選んでください。<pre><code>class MyNotifier extends ___&lt;int&gt; { \n  @override\n  int build() {\n    return 0;\n  }\n}</code></pre>",
+      "options": [
+        "Notifier",
+        "StateNotifier",
+        "ChangeNotifier",
+        "ValueNotifier"
+      ],
       "answer": 0,
-      "commentary": "AsyncValueの処理状態（loading, data, error）に合わせて表示を切り替えるには `.when()` メソッドを使用します[cite: 2]。"
+      "commentary": "NotifierProviderで変化する状態を管理するクラスは `Notifier` クラスを継承して定義します[cite: 1]。"
     },
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "ConsumerStateクラス内で `initState()` 実行時にProviderの値を読み込む記述です。空欄に入る適切なリファレンスを選んでください。<pre><code>@override\nvoid initState() {\n  super.initState();\n  _data = ___ .read(provider);\n}</code></pre>",
-      "options": ["ref", "context", "widget", "state"],
+      "question": "Notifierクラス内で初期状態を設定するためにオーバーライドするメソッドを選んでください。<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int ___() {\n    return 0;\n  }\n}</code></pre>",
+      "options": [
+        "build",
+        "init",
+        "create",
+        "initState"
+      ],
       "answer": 0,
-      "commentary": "ConsumerStateクラスでは、`ref` がプロパティとして定義されているため、引数で渡さなくても直接 `ref.read` できます[cite: 2]。"
+      "commentary": "Notifierクラスの中では `build()` メソッドの戻り値として管理データの初期状態（初期値）を返します[cite: 1]。"
     },
     {
       "id": 9,
-      "type": "実行結果予測",
-      "question": "次のコードを実行したとき、非同期処理が完了する前（5秒間）に画面に表示される内容はどれですか？<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) async {\n  await Future.delayed(const Duration(seconds: 5));\n  return 'Success';\n});\n\n// ウィジェット内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () =&gt; const Text('Loading...'),\n  data: (val) =&gt; Text(val),\n  error: (err, stack) =&gt; Text('Error'),\n);</code></pre>",
-      "options": ["Loading...", "Success", "Error", "何も表示されない"],
+      "type": "コード穴埋め",
+      "question": "Notifierクラス内で保持している状態の値を1増やすメソッドの定義です。空欄に入るプロパティ名を選んでください。<pre><code>void increment() { \n  ___++;\n}</code></pre>",
+      "options": [
+        "state",
+        "value",
+        "data",
+        "count"
+      ],
       "answer": 0,
-      "commentary": "FutureProviderの非同期処理実行中は `loading` コールバックが評価され `'Loading...'` が表示されます[cite: 2]。"
+      "commentary": "Notifierクラス内では `state` プロパティを使って現在の状態の参照や更新を行います[cite: 1]。"
     },
     {
       "id": 10,
-      "type": "実行結果予測",
-      "question": "次のコードで、5秒の遅延処理が正常に完了した後に画面に表示される文字列は何ですか？<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) async {\n  await Future.delayed(const Duration(seconds: 5));\n  return 'Loaded Data';\n});\n\n// ウィジェット内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () =&gt; const Text('Loading'),\n  data: (val) =&gt; Text('Result: $val'),\n  error: (err, stack) =&gt; Text('Error'),\n);</code></pre>",
-      "options": ["Result: Loaded Data", "Loading", "Loaded Data", "Error"],
+      "type": "コード穴埋め",
+      "question": "状態の変化を監視し、変更があった際にウィジェットを再描画（自動更新）させるための読み取りメソッドを選んでください。<pre><code>final counter = ref.___(counterProvider);</code></pre>",
+      "options": [
+        "watch",
+        "read",
+        "listen",
+        "observe"
+      ],
       "answer": 0,
-      "commentary": "非同期処理が成功すると `data` 引数の関数に成果物 `'Loaded Data'` が渡され、`'Result: Loaded Data'` と表示されます[cite: 2]。"
+      "commentary": "状態の変更を感知してウィジェットの自動再描画を行うには `ref.watch()` を使用します[cite: 1]。"
     },
     {
       "id": 11,
-      "type": "実行結果予測",
-      "question": "次のコードで、`ConsumerStatefulWidget` の `initState` 実行直後に `_data` にセットされる値は何ですか？<pre><code>final nameProvider = Provider&lt;String&gt;((_) =&gt; 'Initial Name');\n\nclass _DemoState extends ConsumerState&lt;DemoWidget&gt; {\n  String _data = '';\n  @override\n  void initState() {\n    super.initState();\n    _data = ref.read(nameProvider);\n  }\n  @override\n  Widget build(BuildContext context) =&gt; Text(_data);\n}</code></pre>",
-      "options": ["Initial Name", "（空文字列）", "nameProvider", "null"],
+      "type": "コード穴埋め",
+      "question": "NotifierProviderを通してNotifier本体のインスタンスにアクセスし、メソッドを呼び出す記述です。空欄に入るキーワードを選んでください。<pre><code>ref.read(counterProvider.___).increment();</code></pre>",
+      "options": [
+        "notifier",
+        "state",
+        "class",
+        "instance"
+      ],
       "answer": 0,
-      "commentary": "`initState` 内で `ref.read(nameProvider)` が実行され、`'Initial Name'` が `_data` に代入されます[cite: 2]。"
+      "commentary": "NotifierProviderが管理するNotifierオブジェクトのメソッドを呼び出すには `.notifier` を指定します[cite: 1]。"
     },
     {
       "id": 12,
-      "type": "実行結果予測",
-      "question": "次のコードで、非同期処理中に例外が発生した場合に画面へ表示される内容はどれですか？<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) async {\n  throw Exception('Failed');\n});\n\n// ウィジェット内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () =&gt; const Text('Loading'),\n  data: (val) =&gt; Text(val),\n  error: (err, stack) =&gt; Text('Occurred Error'),\n);</code></pre>",
-      "options": ["Occurred Error", "Loading", "Failed", "アプリがクラッシュする"],
+      "type": "コード穴埋め",
+      "question": "NotifierProviderをグローバル変数として定義する正しいコードを選んでください。<pre><code>final counterProvider = ___&lt;MyNotifier, int&gt;(() =&gt; MyNotifier());</code></pre>",
+      "options": [
+        "NotifierProvider",
+        "StateNotifierProvider",
+        "ChangeNotifierProvider",
+        "Provider"
+      ],
       "answer": 0,
-      "commentary": "FutureProvider内でエラーが発生した場合、`when` の `error` 引数に指定されたウィジェット（`'Occurred Error'`）が返されます[cite: 2]。"
+      "commentary": "Notifierクラスを扱うプロバイダーは `NotifierProvider` クラスで定義します[cite: 1]。"
     },
     {
       "id": 13,
-      "type": "コード穴埋め",
-      "question": "Consumerウィジェットの `child` プロパティに渡した再描画不要なウィジェットを、`builder` 内で参照して配置しています。空欄に入る引数名を選んでください。<pre><code>Consumer(\n  child: const Text('Fixed Header'),\n  builder: (context, ref, child) {\n    return Column(\n      children: [\n        ___!, // 再描画されないウィジェット\n        Text(ref.watch(counterProvider).toString()),\n      ],\n    );\n  },\n)</code></pre>",
-      "options": ["child", "widget", "builder", "context"],
+      "type": "実行結果予測",
+      "question": "次のコードを実行したとき、画面のTextウィジェットに表示される文字列は何ですか？<pre><code>final msgProvider = Provider&lt;String&gt;((_) =&gt; 'Hello Riverpod');\n\nclass Demo extends ConsumerWidget { \n  const Demo({super.key});\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    return Text(ref.read(msgProvider));\n  }\n}</code></pre>",
+      "options": [
+        "Hello Riverpod",
+        "msgProvider",
+        "Provider<String>",
+        "null"
+      ],
       "answer": 0,
-      "commentary": "Consumerの `child` プロパティに指定したウィジェットは、builder関数の第3引数 `child` として渡されます[cite: 2]。"
+      "commentary": "`msgProvider` の戻り値である `'Hello Riverpod'` を `ref.read` で取得して表示します[cite: 1]。"
     },
     {
       "id": 14,
-      "type": "コード穴埋め",
-      "question": "Dartの `switch` 式を使って `AsyncValue` の状態を網羅的にチェックしています。読み込み状態を表すパターンを選んでください。<pre><code>return switch (data) {\n  ___() =&gt; const CircularProgressIndicator(),\n  AsyncData(:final value) =&gt; Text(value.toString()),\n  AsyncError(:final error) =&gt; Text('Error: $error'),\n};</code></pre>",
-      "options": ["AsyncLoading", "Loading", "AsyncValue.loading", "AsyncProcess"],
+      "type": "実行結果予測",
+      "question": "次のNotifierクラスの `build()` メソッドで設定される初期値は何ですか？<pre><code>class ScoreNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() {\n    return 100;\n  }\n}</code></pre>",
+      "options": [
+        "100",
+        "0",
+        "null",
+        "1"
+      ],
       "answer": 0,
-      "commentary": "Riverpodの sealed クラス設計により、読み込み中の状態は `AsyncLoading()` パターンで判定できます[cite: 2]。"
+      "commentary": "`build()` メソッドの戻り値である `100` が状態の初期状態として設定されます[cite: 1]。"
     },
     {
       "id": 15,
-      "type": "コード穴埋め",
-      "question": "Dartの `switch` 式を使って `AsyncValue` のデータ成功状態を取得するパターン記述です。空欄に入る適切なパターンを選んでください。<pre><code>return switch (data) {\n  AsyncLoading() =&gt; const CircularProgressIndicator(),\n  ___(:final value) =&gt; Text(value.toString()),\n  AsyncError(:final error) =&gt; Text('Error: $error'),\n};</code></pre>",
-      "options": ["AsyncData", "AsyncSuccess", "AsyncValue", "Data"],
+      "type": "実行結果予測",
+      "question": "次の `increment` メソッドを2回呼び出したとき、`state` の値はいくつになりますか？<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 0;\n  \n  void increment() {\n    state += 5;\n  }\n}</code></pre>",
+      "options": [
+        "10",
+        "5",
+        "2",
+        "0"
+      ],
       "answer": 0,
-      "commentary": "データ取得成功状態は `AsyncData` パターンで指定します[cite: 2]。"
+      "commentary": "初期値 `0` から `+= 5` を2回実行すると、`0 + 5 + 5 = 10` になります。"
     },
     {
       "id": 16,
-      "type": "コード穴埋め",
-      "question": "Dartの `switch` 式を使って `AsyncValue` のエラー状態をキャッチするパターン記述を選んでください。<pre><code>return switch (data) {\n  AsyncLoading() =&gt; const CircularProgressIndicator(),\n  AsyncData(:final value) =&gt; Text(value.toString()),\n  ___(:final error, final stackTrace) =&gt; Text('Error: $error'),\n};</code></pre>",
-      "options": ["AsyncError", "AsyncException", "Error", "AsyncFailed"],
+      "type": "実行結果予測",
+      "question": "次のコードで、`readProvider` から取得できる値は何ですか？<pre><code>final firstProvider = Provider&lt;int&gt;((_) =&gt; 10);\nfinal readProvider = Provider&lt;int&gt;((ref) =&gt; ref.read(firstProvider) * 2);</code></pre>",
+      "options": [
+        "20",
+        "10",
+        "2",
+        "エラーになる"
+      ],
       "answer": 0,
-      "commentary": "エラー状態は `AsyncError` パターンでキャッチできます[cite: 2]。"
+      "commentary": "`ref.read(firstProvider)` で `10` が読み込まれ、それを2倍した `20` が `readProvider` の値となります[cite: 1]。"
     },
     {
       "id": 17,
-      "type": "文法チェック",
-      "question": "ConsumerStatefulWidget における `createState` メソッドの正しい記述はどれですか？",
+      "type": "実行結果予測",
+      "question": "次のコードでボタンを押し、`reset()` が実行された後の状態（`counter`）の値は何になりますか？<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 10;\n  void reset() {\n    state = 0;\n  }\n}</code></pre>",
       "options": [
-        "ConsumerState<RiverpodDemo> createState() => _ConsumerStateDemo();",
-        "State<RiverpodDemo> createState() => _ConsumerStateDemo();",
-        "ConsumerState createState() => _ConsumerStateDemo();",
-        "WidgetState<RiverpodDemo> createState() => _ConsumerStateDemo();"
+        "0",
+        "10",
+        "-10",
+        "1"
       ],
       "answer": 0,
-      "commentary": "ConsumerStatefulWidget の `createState()` は `ConsumerState<クラス名>` を返します[cite: 2]。"
+      "commentary": "`reset()` メソッド内で `state = 0` が代入されているため、状態の値は `0` に更新されます[cite: 1]。"
     },
     {
       "id": 18,
       "type": "文法チェック",
-      "question": "ConsumerStateを継承したクラスの `build` メソッドの定義として正しいものはどれですか？",
+      "question": "Providerを定義する際の変数宣言として正しいものはどれですか？",
       "options": [
-        "@override Widget build(BuildContext context)",
-        "@override Widget build(BuildContext context, WidgetRef ref)",
-        "@override Widget build(WidgetRef ref)",
-        "@override Widget build()"
+        "final myProvider = Provider<String>((_) => 'Data');",
+        "const myProvider = Provider<String>((_) => 'Data');",
+        "var myProvider = new Provider<String>((_) => 'Data');",
+        "Provider myProvider = Provider<String>((_) => 'Data');"
       ],
       "answer": 0,
-      "commentary": "ConsumerStateクラスでは `ref` がクラスプロパティとして提供されているため、`build` メソッドの引数は `BuildContext context` のみとなります[cite: 2]。"
+      "commentary": "RiverpodのProviderはグローバル変数として `final` を用いて定義します[cite: 1]。"
     },
     {
       "id": 19,
       "type": "文法チェック",
-      "question": "Consumerウィジェットの `builder` プロパティにセットする関数の引数の並び順として正しいものはどれですか？",
+      "question": "ConsumerWidgetを正しく継承したクラスの記述はどれですか？",
       "options": [
-        "(context, ref, child)",
-        "(ref, context, child)",
-        "(context, child, ref)",
-        "(ref, child)"
+        "class MyWidget extends ConsumerWidget { const MyWidget({super.key}); @override Widget build(BuildContext context, WidgetRef ref) => const Text('Hi'); }",
+        "class MyWidget extends ConsumerWidget { const MyWidget({super.key}); @override Widget build(BuildContext context) => const Text('Hi'); }",
+        "class MyWidget extends StatelessWidget { const MyWidget({super.key}); @override Widget build(BuildContext context, WidgetRef ref) => const Text('Hi'); }",
+        "class MyWidget extends ConsumerWidget { const MyWidget({super.key}); @override Widget build(WidgetRef ref) => const Text('Hi'); }"
       ],
       "answer": 0,
-      "commentary": "Consumerの `builder` 関数の引数は `(BuildContext context, WidgetRef ref, Widget? child)` の順番です[cite: 2]。"
+      "commentary": "`ConsumerWidget` の `build` メソッドは `(BuildContext context, WidgetRef ref)` の2つの引数を取る必要があります[cite: 1]。"
     },
     {
       "id": 20,
       "type": "文法チェック",
-      "question": "FutureProvider の正しい定義文言言はどれですか？",
+      "question": "Notifierクラスを正しく定義している文法はどれですか？",
       "options": [
-        "final futureProvider = FutureProvider<String>((ref) async => 'Data');",
-        "final futureProvider = FutureProvider<String>(async () => 'Data');",
-        "const futureProvider = FutureProvider<String>((ref) => 'Data');",
-        "final futureProvider = new FutureProvider<String>((ref) async => 'Data');"
+        "class MyNotifier extends Notifier<String> { @override String build() => 'Hello'; }",
+        "class MyNotifier implements Notifier<String> { String build() => 'Hello'; }",
+        "class MyNotifier extends Notifier { void build() => 'Hello'; }",
+        "class MyNotifier extends State<String> { String build() => 'Hello'; }"
       ],
       "answer": 0,
-      "commentary": "FutureProviderは `final` を用いて定義し、無名関数内で非同期処理を記述します[cite: 2]。"
+      "commentary": "`Notifier<型>` を `extends`（継承）し、`build()` メソッドで初期値を返すのが正しい形式です[cite: 1]。"
     },
     {
       "id": 21,
       "type": "用語理解",
-      "question": "Riverpodにおいて StatelessWidget に相当する、WidgetRefを受け取る基本ウィジェットは何ですか？",
-      "options": ["ConsumerWidget", "ConsumerStatefulWidget", "Consumer", "StatefulWidget"],
+      "question": "Riverpodにおいて、アプリケーションの状態を管理・カプセル化する中心的な役割を持つオブジェクトは何ですか？",
+      "options": [
+        "Provider",
+        "StatefulWidget",
+        "BuildContext",
+        "WidgetRef"
+      ],
       "answer": 0,
-      "commentary": "Riverpodにおける StatelessWidget に相当するウィジェットは `ConsumerWidget` です[cite: 2]。"
+      "commentary": "ProviderはRiverpodの状態管理システムの基盤であり、状態をカプセル化して公開する中心的なオブジェクトです[cite: 1]。"
     },
     {
       "id": 22,
       "type": "用語理解",
-      "question": "Riverpodにおいて StatefulWidget に相当し、独自のStateクラスを作成・カスタマイズできるウィジェットは何ですか？",
-      "options": ["ConsumerStatefulWidget", "ConsumerWidget", "Consumer", "ProviderWidget"],
+      "question": "変化する状態を管理し、ロジックと状態を明確に分離して記述するために使うProviderの種類は何ですか？",
+      "options": [
+        "NotifierProvider",
+        "Provider",
+        "FutureProvider",
+        "StreamProvider"
+      ],
       "answer": 0,
-      "commentary": "Riverpodにおける StatefulWidget に相当するのは `ConsumerStatefulWidget` です[cite: 2]。"
+      "commentary": "変化する状態を管理し、Notifierクラスでロジックを分離する場合は `NotifierProvider` を使用します[cite: 1]。"
     },
     {
       "id": 23,
       "type": "用語理解",
-      "question": "FutureProviderなどを `ref.watch` した際に返される、非同期データの状態（成功・エラー・読み込み中）を包む型は何ですか？",
-      "options": ["AsyncValue", "Future", "Snapshot", "AsyncData"],
+      "question": "ConsumerWidgetなどでProviderの値を参照・操作するために `build` メソッドへ渡されるオブジェクトは何ですか？",
+      "options": [
+        "WidgetRef",
+        "ProviderRef",
+        "ProviderScope",
+        "ElementRef"
+      ],
       "answer": 0,
-      "commentary": "FutureProvider等の状態を監視すると `AsyncValue` 型のオブジェクトが返されます[cite: 2]。"
+      "commentary": "ウィジェット内でProviderにアクセスする際には `WidgetRef` インスタンスを使用します[cite: 1]。"
     },
     {
       "id": 24,
-      "type": "用語理解",
-      "question": "エラー発生時に実行されていた関数やメソッドなどの履歴情報のことを何と呼びますか？",
-      "options": ["スタックトレース", "ビルドログ", "エラーログ", "キャッチトレース"],
+      "type": "コード穴埋め",
+      "question": "Riverpodパッケージをターミナルから追加するためのコマンドです。空欄に入るツール名を選んでください。<pre><code>flutter ___ add flutter_riverpod</code></pre>",
+      "options": [
+        "pub",
+        "pkg",
+        "get",
+        "run"
+      ],
       "answer": 0,
-      "commentary": "エラー発生時の関数やメソッドの呼び出し履歴のことを「スタックトレース」と呼びます[cite: 2]。"
+      "commentary": "Flutterで外部ライブラリをプロジェクトに追加するには `flutter pub add ライブラリ名` を実行します[cite: 1]。"
     },
     {
       "id": 25,
-      "type": "実行結果予測",
-      "question": "次のコードで、Consumer内部のTextウィジェットに表示される数値は何ですか？<pre><code>final countProvider = Provider&lt;int&gt;((_) =&gt; 99);\n\n// Consumer内\nConsumer(\n  builder: (context, ref, child) {\n    final count = ref.watch(countProvider);\n    return Text('$count');\n  },\n)</code></pre>",
-      "options": ["99", "0", "countProvider", "null"],
+      "type": "コード穴埋め",
+      "question": "レガシーなRiverpodプロバイダーを使用する際にインポートするファイルパスの空欄を埋めてください。<pre><code>import 'package:flutter_riverpod/___';</code></pre>",
+      "options": [
+        "legacy.dart",
+        "deprecated.dart",
+        "old.dart",
+        "compat.dart"
+      ],
       "answer": 0,
-      "commentary": "`ref.watch(countProvider)` により `99` が読み込まれて画面に表示されます[cite: 2]。"
+      "commentary": "以前のバージョンのレガシープロバイダーを使うには `legacy.dart` をインポートします[cite: 1]。"
     },
     {
       "id": 26,
       "type": "実行結果予測",
-      "question": "次のコードで `Consumer` の外部にある Text ウィジェットに表示される文字列は何ですか？<pre><code>final numProvider = Provider&lt;int&gt;((_) =&gt; 5);\n\n// build内\nfinal numValue = ref.read(numProvider);\nreturn Column(\n  children: [\n    Text('Outer: $numValue'),\n  ],\n);</code></pre>",
-      "options": ["Outer: 5", "Outer: numProvider", "Outer: ", "エラー"],
+      "question": "次のコードで、`counter` の初期表示数値は何になりますか？<pre><code>final numProvider = NotifierProvider&lt;NumNotifier, int&gt;(() =&gt; NumNotifier());\nclass NumNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 42;\n}</code></pre>",
+      "options": [
+        "42",
+        "0",
+        "null",
+        "エラーになる"
+      ],
       "answer": 0,
-      "commentary": "`ref.read(numProvider)` で 5 が取得されるため、`'Outer: 5'` となります[cite: 2]。"
+      "commentary": "`build()` の戻り値が `42` であるため、初期値は `42` となります[cite: 1]。"
     },
     {
       "id": 27,
-      "type": "コード穴埋め",
-      "question": "`AsyncValue` の `when` メソッドにおいて、エラー発生時に呼び出されるコールバックの第1引数と第2引数の適切な受け取り記述を選んでください。<pre><code>data.when(\n  loading: () =&gt; const CircularProgressIndicator(),\n  data: (val) =&gt; Text(val),\n  error: (___, ___) =&gt; Text('Error'),\n)</code></pre>",
-      "options": ["err, stack", "val, err", "error, loading", "context, ref"],
+      "type": "実行結果予測",
+      "question": "次の `decrement` メソッドが実行された後の `state` の値はどうなりますか？<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 10;\n  void decrement() {\n    state--;\n  }\n}</code></pre>",
+      "options": [
+        "9",
+        "10",
+        "11",
+        "0"
+      ],
       "answer": 0,
-      "commentary": "`when` の `error` パラメータは、第1引数にエラーオブジェクト（err）、第2引数にスタックトレース（stack）を受け取ります[cite: 2]。"
+      "commentary": "初期値 `10` に対して `state--`（1減らす）を実行するため、値は `9` になります[cite: 1]。"
     },
     {
       "id": 28,
       "type": "コード穴埋め",
-      "question": "`ConsumerStatefulWidget` 内で、初期化時に1度だけ処理を実行するためにオーバーライドするメソッド名を選んでください。<pre><code>@override\nvoid ___() {\n  super.initState();\n  _data = ref.read(provider);\n}</code></pre>",
-      "options": ["initState", "build", "createState", "dispose"],
+      "question": "Notifier内で文字列のリスト状態を空にするメソッドの処理です。空欄に入るコードを選んでください。<pre><code>class ListNotifier extends Notifier&lt;List&lt;String&gt;&gt; { \n  @override\n  List&lt;String&gt; build() =&gt; ['A', 'B'];\n  void clearAll() {\n    state = ___; \n  }\n}</code></pre>",
+      "options": [
+        "[]",
+        "null",
+        "''",
+        "0"
+      ],
       "answer": 0,
-      "commentary": "ウィジェットの初期化処理を行うには `initState()` メソッドをオーバーライドします[cite: 2]。"
+      "commentary": "文字列の空リストで状態を更新するには空のリスト `[]` を代入します。"
     },
     {
       "id": 29,
       "type": "文法チェック",
-      "question": "AsyncValueに対するパターンマッチング（switch）で、継承（パターン）が限定されているクラス構造のことを何と呼びますか？",
-      "options": ["sealed クラス", "abstract クラス", "final クラス", "interface クラス"],
+      "question": "ElevatedButtonの `onPressed` 内で `increment()` メソッドを呼び出す正しい記述はどれですか？",
+      "options": [
+        "ref.read(counterProvider.notifier).increment()",
+        "ref.watch(counterProvider.notifier).increment()",
+        "ref.read(counterProvider).increment()",
+        "ref.watch(counterProvider).increment()"
+      ],
       "answer": 0,
-      "commentary": "RiverpodのAsyncValueは `sealed` クラスになっており、状態の種類が限定されるため default なしで網羅的に判定できます[cite: 2]。"
+      "commentary": "イベントハンドラ内などでNotifierのメソッドを呼び出す際は `ref.read(provider.notifier).method()` と記述します[cite: 1]。"
     },
     {
       "id": 30,
-      "type": "実行結果予測",
-      "question": "次のコードで `data.when` の `loading` で返されるウィジェットの幅（width）と高さ（height）はいくつですか？<pre><code>loading: () =&gt; const SizedBox(\n  width: 60,\n  height: 60,\n  child: CircularProgressIndicator(),\n)</code></pre>",
-      "options": ["60", "100", "0", "画面全体"],
+      "type": "コード穴埋め",
+      "question": "NotifierProviderの型引数（ジェネリクス）の並び順です。空欄に入る適切な型を選んでください。<pre><code>final counterProvider = NotifierProvider&lt;___, int&gt;(() =&gt; MyNotifier());</code></pre>",
+      "options": [
+        "MyNotifier",
+        "int",
+        "Notifier",
+        "Provider"
+      ],
       "answer": 0,
-      "commentary": "SizedBoxのプロパティとして `width: 60`, `height: 60` が指定されています[cite: 2]。"
+      "commentary": "`NotifierProvider` の型指定は `<Notifierのクラス名, 管理する状態の型>` の順番で記述します[cite: 1]。"
     },
     {
       "id": 31,
-      "type": "コード穴埋め",
-      "question": "非同期処理の遅延を発生させる `Future.delayed` の引数に指定する時間の長さを設定するクラスを選んでください。<pre><code>await Future.delayed(const ___(seconds: 5));</code></pre>",
-      "options": ["Duration", "Time", "Timer", "Delay"],
+      "type": "実行結果予測",
+      "question": "次のコードで、`ref.watch(textProvider)` が返す値は何ですか？<pre><code>final textProvider = Provider&lt;String&gt;((ref) =&gt; 'Flutter');</code></pre>",
+      "options": [
+        "Flutter",
+        "textProvider",
+        "String",
+        "null"
+      ],
       "answer": 0,
-      "commentary": "時間の長さを表すには `Duration` クラスを使用します[cite: 2]。"
+      "commentary": "`textProvider` は文字列 `'Flutter'` を生成して返すため、取得される値は `'Flutter'` です[cite: 1]。"
     },
     {
       "id": 32,
       "type": "コード穴埋め",
-      "question": "ConsumerWidget を使用する際、`build` メソッドのオーバーライド時の注釈記号を選んでください。<pre><code>___override\nWidget build(BuildContext context, WidgetRef ref) { ... }</code></pre>",
-      "options": ["@", "#", "$", "default"],
+      "question": "Notifierのプロパティ `state` に新しい真偽値を設定して反転させるコードです。空欄に入る記号を選んでください。<pre><code>class ToggleNotifier extends Notifier&lt;bool&gt; { \n  @override\n  bool build() =&gt; false;\n  void toggle() {\n    state = ___state;\n  }\n}</code></pre>",
+      "options": [
+        "!",
+        "?",
+        "~",
+        "-"
+      ],
       "answer": 0,
-      "commentary": "親クラスのメソッドを再定義・上書きする際は `@override` アノテーションを付与します[cite: 2]。"
+      "commentary": "bool値を反転させる論理否定演算子は `!` です。"
     },
     {
       "id": 33,
-      "type": "実行結果予測",
-      "question": "次のコードを実行したときに作成される文字列は何になりますか？<pre><code>final counter = 10;\nfinal str = 'This is out of Consumer. $counter';\nprint(str);</code></pre>",
+      "type": "用語理解",
+      "question": "以前のRiverpodで使われており、現在は「レガシー（非推奨）」とされている単純な変化する状態を管理するプロバイダーは何ですか？",
       "options": [
-        "This is out of Consumer. 10",
-        "This is out of Consumer. $counter",
-        "This is out of Consumer.",
-        "エラーになる"
+        "StateProvider",
+        "NotifierProvider",
+        "Provider",
+        "FutureProvider"
       ],
       "answer": 0,
-      "commentary": "文字列内補間 `$counter` により、`10` が埋め込まれて `'This is out of Consumer. 10'` になります[cite: 2]。"
+      "commentary": "以前のバージョンで単純な状態を管理するために使われていた `StateProvider` は、現在レガシーとされています[cite: 1]。"
     },
     {
       "id": 34,
-      "type": "文法チェック",
-      "question": "`Consumer` ウィジェットの必須プロパティはどれですか？",
-      "options": ["builder", "child", "ref", "provider"],
+      "type": "コード穴埋め",
+      "question": "非同期処理（Future型）の状態を管理するために使用するRiverpodのProviderを選んでください。<pre><code>// Future型の状態を管理する\nfinal myFutureProvider = ___...</code></pre>",
+      "options": [
+        "FutureProvider",
+        "NotifierProvider",
+        "StreamProvider",
+        "AsyncProvider"
+      ],
       "answer": 0,
-      "commentary": "`Consumer` ウィジェットを使用する際、表示部分を定義する `builder` プロパティは必須です[cite: 2]。"
+      "commentary": "Future型の非同期な状態を管理するには `FutureProvider` を使用します[cite: 1]。"
     },
     {
       "id": 35,
-      "type": "用語理解",
-      "question": "Consumerウィジェットを使う最大の利点は何ですか？",
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときの `title` の値は何になりますか？<pre><code>final titleProvider = Provider&lt;String&gt;((_) =&gt; 'Riverpod Demo');\n\nvoid main() {\n  final name = 'App: ';\n  print(name + 'Riverpod Demo');\n}</code></pre>",
       "options": [
-        "特定のウィジェット部分のみに再描画範囲を限定・制限できること",
-        "非同期処理を自動的にキャンセルできること",
-        "アプリ全体のビルド速度が10倍になること",
-        "initState() メソッドが自由に使えるようになること"
+        "App: Riverpod Demo",
+        "Riverpod Demo",
+        "App: ",
+        "エラーになる"
       ],
       "answer": 0,
-      "commentary": "Consumerを使用することで、状態変更時に画面全体ではなくConsumerの内部（builder）のみを局所的に再描画できます[cite: 2]。"
+      "commentary": "文字列の結合 `name + 'Riverpod Demo'` により `'App: Riverpod Demo'` が出力されます[cite: 1]。"
     },
     {
       "id": 36,
-      "type": "コード穴埋め",
-      "question": "ConsumerStateクラス内でスーパークラスの `initState` を呼び出す文法です。空欄に入るキーワードを選んでください。<pre><code>@override\nvoid initState() {\n  ___ .initState();\n  _data = ref.read(provider);\n}</code></pre>",
-      "options": ["super", "this", "parent", "base"],
+      "type": "文法チェック",
+      "question": "`ProviderScope` でアプリ全体を囲む `main` 関数の書き方として正しいものはどれですか？",
+      "options": [
+        "void main() { runApp(const ProviderScope(child: MyApp())); }",
+        "void main() { runApp(const MyApp(child: ProviderScope())); }",
+        "void main() { ProviderScope(child: runApp(const MyApp())); }",
+        "void main() { runApp(ProviderScope.run(const MyApp())); }"
+      ],
       "answer": 0,
-      "commentary": "オーバーライドした親クラスのメソッドを呼び出すには `super` を使います[cite: 2]。"
+      "commentary": "`runApp` の引数の中で `ProviderScope` の `child` にルートウィジェット（`MyApp` など）を渡します[cite: 1]。"
     },
     {
       "id": 37,
-      "type": "実行結果予測",
-      "question": "次のコードを実行したときに `_data` に入る初期文字列は何ですか？<pre><code>class _DemoState extends ConsumerState&lt;DemoWidget&gt; {\n  String _data = 'first data';\n  @override\n  Widget build(BuildContext context) =&gt; Text(_data);\n}</code></pre>",
-      "options": ["first data", "null", "（空文字）", "エラー"],
+      "type": "コード穴埋め",
+      "question": "Notifierの `state` を直接更新するメソッドの処理です。空欄に入る代入演算子を選んでください。<pre><code>void updateName(String newName) { \n  state ___ newName;\n}</code></pre>",
+      "options": [
+        "=",
+        "==",
+        "+=",
+        ":"
+      ],
       "answer": 0,
-      "commentary": "変数定義時に直接 `'first data'` が代入されています[cite: 2]。"
+      "commentary": "新しい状態の値を `state` にセットするには代入演算子 `=` を使います[cite: 1]。"
     },
     {
       "id": 38,
-      "type": "コード穴埋め",
-      "question": "非同期処理を行う関数に付与するキーワードを選んでください。<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) ___ {\n  return await Future.delayed(const Duration(seconds: 1), () =&gt; 'Hi');\n});</code></pre>",
-      "options": ["async", "sync", "await", "future"],
+      "type": "実行結果予測",
+      "question": "次のコードで `ref.watch(counterProvider)` を使用した場合、`increment()` が呼ばれると何が起きますか？<pre><code>// counterProvider の値が更新された場合</code></pre>",
+      "options": [
+        "状態の変化が感知され、ウィジェットが自動で再描画される",
+        "値は更新されるが、画面は再描画されない",
+        "エラーが発生してアプリが停止する",
+        "Providerの初期値がリセットされる"
+      ],
       "answer": 0,
-      "commentary": "関数内で `await` を使用して非同期処理を行うには関数に `async` を付与します[cite: 2]。"
+      "commentary": "`ref.watch` を使うと状態の変更を監視し、変更時にRiverpodがウィジェットを自動で再描画します[cite: 1]。"
     },
     {
       "id": 39,
-      "type": "コード穴埋め",
-      "question": "非同期処理の完了を待機するために処理の前に付与するキーワードを選んでください。<pre><code>return ___ Future.delayed(\n  const Duration(seconds: 5),\n  () =&gt; 'finish',\n);</code></pre>",
-      "options": ["await", "async", "yield", "defer"],
+      "type": "用語理解",
+      "question": "StatefulWidgetで状態をウィジェット単位で管理した場合に生じる問題点として、教材で挙げられているものはどれですか？",
+      "options": [
+        "構造が複雑になった場合にコンストラクタに渡す状態の情報が増えてしまう",
+        "アプリの実行速度が極端に低下してしまう",
+        "画面の更新が一切できなくなってしまう",
+        "データベースとの接続が切断されてしまう"
+      ],
       "answer": 0,
-      "commentary": "Futureの結果を待つために `await` キーワードを使用します[cite: 2]。"
+      "commentary": "ウィジェット単位での状態管理では、構造が複雑化した際にコンストラクタでバケツリレーする状態情報が増えて管理が難しくなります[cite: 1]。"
     },
     {
       "id": 40,
-      "type": "文法チェック",
-      "question": "ConsumerStatefulWidget のクラス定義で正しくコンストラクタを宣言しているものはどれですか？",
+      "type": "コード穴埋め",
+      "question": "数値状態を保持するNotifierProviderから、現在のカウント数値を文字列に変換して表示するコードです。空欄に入るメソッドを選んでください。<pre><code>Text(counter.___)</code></pre>",
       "options": [
-        "const RiverpodDemo({super.key});",
-        "RiverpodDemo({Key key});",
-        "const ConsumerStatefulWidget({super.key});",
-        "void RiverpodDemo({super.key});"
+        "toString()",
+        "parse()",
+        "toInt()",
+        "stringValue"
       ],
       "answer": 0,
-      "commentary": "Flutterのウィジェットでは `const ウィジェット名({super.key});` のようにコンストラクタを定義します[cite: 2]。"
+      "commentary": "int型の数値 `counter` をTextウィジェットで表示するためには `.toString()` で文字列型に変換します[cite: 1]。"
     }
   ]
 }

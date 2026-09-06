@@ -1,525 +1,360 @@
 {
-  "unit_title": "Provider の準備とジャンル一覧",
+  "unit_title": "Riverpod を用いた状態管理 - Provider を読み込む",
   "questions": [
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "暗記カードアプリ全体でProviderを利用できるように、main関数で設定するウィジェットを選んでください。<pre><code>void main() {\n  runApp(\n    const ___(\n      child: MyApp(),\n    ),\n  );\n}</code></pre>",
-      "options": [
-        "ProviderScope",
-        "ProviderContainer",
-        "RiverpodScope",
-        "ProviderApp"
-      ],
+      "question": "StatelessWidgetやStatefulWidgetの内部など、任意の場所でProviderにアクセスし部分再描画を行うために使用するウィジェットを選んでください。<pre><code>___(\n  builder: (context, ref, child) {\n    return Text(ref.watch(counterProvider).toString());\n  },\n)</code></pre>",
+      "options": ["Consumer", "ConsumerWidget", "ProviderScope", "ConsumerStatefulWidget"],
       "answer": 0,
-      "commentary": "Riverpodで管理するProviderをアプリ全体で読み取れるようにするには、ルートウィジェットを ProviderScope で囲みます[cite: 3]。"
+      "commentary": "任意のウィジェットツリー内で局所的にProviderを読み取り、再描画範囲を絞るためには Consumer ウィジェットを使用します[cite: 2]。"
     },
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "変化しないジャンル一覧データ（genreList）を管理する `genreProvider` の定義です。空欄に入る適切なクラス名を選んでください。<pre><code>final genreProvider = ___&lt;List&lt;Genre&gt;&gt;((ref) =&gt; genreList);</code></pre>",
-      "options": [
-        "Provider",
-        "NotifierProvider",
-        "StateProvider",
-        "FutureProvider"
-      ],
+      "question": "Consumerウィジェットの `builder` プロパティに渡す関数の第2引数の型を選んでください。<pre><code>Consumer(\n  builder: (BuildContext context, ___ ref, Widget? child) {\n    return Text(ref.watch(counterProvider).toString());\n  },\n)</code></pre>",
+      "options": ["WidgetRef", "ProviderRef", "BuildContext", "Ref"],
       "answer": 0,
-      "commentary": "ジャンル一覧のような途中で変化しない（定数的な）状態を管理・公開する場合は `Provider` を使用します[cite: 3]。"
+      "commentary": "Consumerの builder 関数の第2引数には WidgetRef が渡されます[cite: 2]。"
     },
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "カードリスト（flashcardList）のように変更が加わる状態を管理するNotifierクラスの継承部分です。空欄を埋めてください。<pre><code>class FlashcardListNotifier extends ___&lt;List&lt;Flashcard&gt;&gt; {\n  @override\n  List&lt;Flashcard&gt; build() {\n    return flashcardList;\n  }\n}</code></pre>",
-      "options": [
-        "Notifier",
-        "StateNotifier",
-        "ChangeNotifier",
-        "Provider"
-      ],
+      "question": "Consumerウィジェットの外側で状態を参照する際、不要な全体再描画を防ぐために使用する推奨メソッドを選んでください。<pre><code>Widget build(BuildContext context, WidgetRef ref) {\n  final counter = ref.___(counterProvider);\n  return Center(\n    child: Consumer( ... ),\n  );\n}</code></pre>",
+      "options": ["read", "watch", "listen", "get"],
       "answer": 0,
-      "commentary": "NotifierProviderで状態管理ロジックを持つクラスを作成する際は `Notifier` クラスを継承します[cite: 3]。"
+      "commentary": "Consumerの外側で watch() を使うと全体が再描画されてしまうため、外側では read() メソッドを使用します[cite: 2]。"
     },
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "NotifierProviderに管理対象のNotifierクラスと状態の型を指定してインスタンス化しています。空欄に入る記述を選んでください。<pre><code>final flashcardProvider = NotifierProvider&lt;FlashcardListNotifier, ___&gt;(\n  () =&gt; FlashcardListNotifier(),\n);</code></pre>",
-      "options": [
-        "List<Flashcard>",
-        "Flashcard",
-        "List<Genre>",
-        "FlashcardListNotifier"
-      ],
+      "question": "`initState()` メソッドなどを利用してStateをカスタマイズしたい場合に継承するウィジェットクラス名を選んでください。<pre><code>class RiverpodDemo extends ___ {\n  const RiverpodDemo({super.key});\n  @override\n  ConsumerState&lt;RiverpodDemo&gt; createState() =&gt; _ConsumerStateDemo();\n}</code></pre>",
+      "options": ["ConsumerStatefulWidget", "StatefulWidget", "ConsumerWidget", "ConsumerState"],
       "answer": 0,
-      "commentary": "NotifierProviderの第2型引数には、管理する状態の型（ここでは `List<Flashcard>`）を指定します[cite: 3]。"
+      "commentary": "RiverpodでStatefulWidgetに相当し、Stateをカスタマイズしたい場合は ConsumerStatefulWidget を継承します[cite: 2]。"
     },
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "NotifierProvider内でカードを追加する際、既存の要素を展開して新しいリストを作成するスプレッド構文の記号を選んでください。<pre><code>void addCard(String question, String answer, Genre genre) {\n  state = [\n    ___state,\n    Flashcard(\n      id: state.length,\n      question: question,\n      answer: answer,\n      genre: genre,\n    ),\n  ];\n}</code></pre>",
-      "options": [
-        "...",
-        "***",
-        "&&&",
-        "+++"
-      ],
+      "question": "ConsumerStatefulWidgetとペアで使用する、通常の State に相当するクラスの継承記述を選んでください。<pre><code>class _ConsumerStateDemo extends ___&lt;RiverpodDemo&gt; {\n  @override\n  void initState() {\n    super.initState();\n  }\n}</code></pre>",
+      "options": ["ConsumerState", "State", "ConsumerWidget", "WidgetState"],
       "answer": 0,
-      "commentary": "Dartでリストの要素を別のリストに展開・結合するには、スプレッド構文 `...` を使用します[cite: 3]。"
+      "commentary": "ConsumerStatefulWidgetのStateを作成するには ConsumerState を継承します[cite: 2]。"
     },
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "StatelessWidget から書き換えた `GenreListPage` のクラス定義です。空欄に入る適切なクラス名を選んでください。<pre><code>class GenreListPage extends ___ {\n  const GenreListPage({super.key});\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    ...\n  }\n}</code></pre>",
-      "options": [
-        "ConsumerWidget",
-        "StatelessWidget",
-        "ConsumerStatefulWidget",
-        "ProviderWidget"
-      ],
+      "question": "Future型の非同期処理の状態を管理するためのProviderを定義しています。空欄に入る適切なクラス名を選んでください。<pre><code>final futureProvider = ___&lt;String&gt;((ref) async {\n  return await Future.delayed(const Duration(seconds: 5), () =&gt; 'finish');\n});</code></pre>",
+      "options": ["FutureProvider", "StreamProvider", "NotifierProvider", "StateProvider"],
       "answer": 0,
-      "commentary": "RiverpodでStatelessWidgetに代わる基本ウィジェットとして `ConsumerWidget` を継承します[cite: 3]。"
+      "commentary": "Future型の非同期処理結果や状態を扱うには FutureProvider を利用します[cite: 2]。"
     },
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "GenreListPage内でジャンル一覧をProviderから取得・監視するコードです。空欄に入る適切なメソッドを選んでください。<pre><code>Widget build(BuildContext context, WidgetRef ref) {\n  final genreList = ref.___(genreProvider);\n  return Scaffold( ... );\n}</code></pre>",
-      "options": [
-        "watch",
-        "read",
-        "listen",
-        "get"
-      ],
+      "question": "FutureProviderから取得した `AsyncValue` の状態（処理中・完了・エラー）に応じて表示を分岐するメソッドを選んでください。<pre><code>final data = ref.watch(futureProvider);\nreturn data.___(\n  loading: () =&gt; const CircularProgressIndicator(),\n  data: (value) =&gt; Text(value),\n  error: (err, stack) =&gt; Text('Error: $err'),\n);</code></pre>",
+      "options": ["when", "map", "maybeWhen", "switch"],
       "answer": 0,
-      "commentary": "ウィジェット内でProviderの状態を取得し、変化を監視して自動で描画更新を行うには `ref.watch()` を利用します[cite: 3]。"
+      "commentary": "AsyncValueの処理状態（loading, data, error）に合わせて表示を切り替えるには `.when()` メソッドを使用します[cite: 2]。"
     },
     {
       "id": 8,
-      "type": "実行結果予測",
-      "question": "初期状態で `flashcardList` に2件のカードがあるとき、`FlashcardListNotifier` 内の `build()` メソッドが返す初期状態の要素数はいくつか？<pre><code>class FlashcardListNotifier extends Notifier&lt;List&lt;Flashcard&gt;&gt; {\n  @override\n  List&lt;Flashcard&gt; build() {\n    return flashcardList; // 最初は2件含まれる\n  }\n}</code></pre>",
-      "options": [
-        "2",
-        "0",
-        "1",
-        "null"
-      ],
+      "type": "コード穴埋め",
+      "question": "ConsumerStateクラス内で `initState()` 実行時にProviderの値を読み込む記述です。空欄に入る適切なリファレンスを選んでください。<pre><code>@override\nvoid initState() {\n  super.initState();\n  _data = ___ .read(provider);\n}</code></pre>",
+      "options": ["ref", "context", "widget", "state"],
       "answer": 0,
-      "commentary": "初期データである `flashcardList` がそのまま返されるため、要素数は 2 となります[cite: 3]。"
+      "commentary": "ConsumerStateクラスでは、`ref` がプロパティとして定義されているため、引数で渡さなくても直接 `ref.read` できます[cite: 2]。"
     },
     {
       "id": 9,
       "type": "実行結果予測",
-      "question": "次のコードで `addCard` を1回実行した後、`state.length` はいくつになりますか？（初期状態は要素数3）<pre><code>void addCard(String question, String answer, Genre genre) {\n  state = [\n    ...state,\n    Flashcard(id: state.length, question: question, answer: answer, genre: genre),\n  ];\n}</code></pre>",
-      "options": [
-        "4",
-        "3",
-        "1",
-        "0"
-      ],
+      "question": "次のコードを実行したとき、非同期処理が完了する前（5秒間）に画面に表示される内容はどれですか？<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) async {\n  await Future.delayed(const Duration(seconds: 5));\n  return 'Success';\n});\n\n// ウィジェット内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () =&gt; const Text('Loading...'),\n  data: (val) =&gt; Text(val),\n  error: (err, stack) =&gt; Text('Error'),\n);</code></pre>",
+      "options": ["Loading...", "Success", "Error", "何も表示されない"],
       "answer": 0,
-      "commentary": "既存の3つの要素を展開（...state）した上で新しく1要素を追加した配列を代入するため、長さは 3 + 1 = 4 になります[cite: 3]。"
+      "commentary": "FutureProviderの非同期処理実行中は `loading` コールバックが評価され `'Loading...'` が表示されます[cite: 2]。"
     },
     {
       "id": 10,
       "type": "実行結果予測",
-      "question": "次のコードで、追加された新カードの `id` にセットされる値は何ですか？（追加前の `state.length` は 5）<pre><code>Flashcard(\n  id: state.length,\n  question: 'Q',\n  answer: 'A',\n  genre: genre,\n)</code></pre>",
-      "options": [
-        "5",
-        "6",
-        "4",
-        "0"
-      ],
+      "question": "次のコードで、5秒の遅延処理が正常に完了した後に画面に表示される文字列は何ですか？<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) async {\n  await Future.delayed(const Duration(seconds: 5));\n  return 'Loaded Data';\n});\n\n// ウィジェット内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () =&gt; const Text('Loading'),\n  data: (val) =&gt; Text('Result: $val'),\n  error: (err, stack) =&gt; Text('Error'),\n);</code></pre>",
+      "options": ["Result: Loaded Data", "Loading", "Loaded Data", "Error"],
       "answer": 0,
-      "commentary": "追加前の `state.length`（5）がそのまま `id` の値として設定されます[cite: 3]。"
+      "commentary": "非同期処理が成功すると `data` 引数の関数に成果物 `'Loaded Data'` が渡され、`'Result: Loaded Data'` と表示されます[cite: 2]。"
     },
     {
       "id": 11,
-      "type": "文法チェック",
-      "question": "スプレッド構文を使って元のリスト `state` に新しい要素 `newItem` を末尾追加した新しいリストを作成する正しい書き方はどれですか？",
-      "options": [
-        "[...state, newItem]",
-        "[state..., newItem]",
-        "[...state + newItem]",
-        "[state.add(newItem)]"
-      ],
+      "type": "実行結果予測",
+      "question": "次のコードで、`ConsumerStatefulWidget` の `initState` 実行直後に `_data` にセットされる値は何ですか？<pre><code>final nameProvider = Provider&lt;String&gt;((_) =&gt; 'Initial Name');\n\nclass _DemoState extends ConsumerState&lt;DemoWidget&gt; {\n  String _data = '';\n  @override\n  void initState() {\n    super.initState();\n    _data = ref.read(nameProvider);\n  }\n  @override\n  Widget build(BuildContext context) =&gt; Text(_data);\n}</code></pre>",
+      "options": ["Initial Name", "（空文字列）", "nameProvider", "null"],
       "answer": 0,
-      "commentary": "Dartでのスプレッド構文によるリスト作成は `[...古いリスト, 新要素]` の形式で行います[cite: 3]。"
+      "commentary": "`initState` 内で `ref.read(nameProvider)` が実行され、`'Initial Name'` が `_data` に代入されます[cite: 2]。"
     },
     {
       "id": 12,
-      "type": "文法チェック",
-      "question": "ConsumerWidgetを継承したクラスの `build` メソッドのシグネチャ（引数）として正しいものはどれですか？",
-      "options": [
-        "Widget build(BuildContext context, WidgetRef ref)",
-        "Widget build(BuildContext context)",
-        "Widget build(WidgetRef ref)",
-        "Widget build(BuildContext context, ProviderRef ref)"
-      ],
+      "type": "実行結果予測",
+      "question": "次のコードで、非同期処理中に例外が発生した場合に画面へ表示される内容はどれですか？<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) async {\n  throw Exception('Failed');\n});\n\n// ウィジェット内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () =&gt; const Text('Loading'),\n  data: (val) =&gt; Text(val),\n  error: (err, stack) =&gt; Text('Occurred Error'),\n);</code></pre>",
+      "options": ["Occurred Error", "Loading", "Failed", "アプリがクラッシュする"],
       "answer": 0,
-      "commentary": "ConsumerWidgetの `build` メソッドは第1引数に `BuildContext context`、第2引数に `WidgetRef ref` を受け取ります[cite: 3]。"
+      "commentary": "FutureProvider内でエラーが発生した場合、`when` の `error` 引数に指定されたウィジェット（`'Occurred Error'`）が返されます[cite: 2]。"
     },
     {
       "id": 13,
-      "type": "文法チェック",
-      "question": "NotifierProviderにおける `state` プロパティの更新方法に関する記述として正しいものはどれですか？",
-      "options": [
-        "state プロパティそのものに新しいオブジェクト（リスト等）を代入して更新する",
-        "state.add() メソッドなどを直接呼んで中身を変更すれば自動検知される",
-        "state プロパティは読み取り専用なので更新できない",
-        "setState() メソッドを呼び出して更新する"
-      ],
+      "type": "コード穴埋め",
+      "question": "Consumerウィジェットの `child` プロパティに渡した再描画不要なウィジェットを、`builder` 内で参照して配置しています。空欄に入る引数名を選んでください。<pre><code>Consumer(\n  child: const Text('Fixed Header'),\n  builder: (context, ref, child) {\n    return Column(\n      children: [\n        ___!, // 再描画されないウィジェット\n        Text(ref.watch(counterProvider).toString()),\n      ],\n    );\n  },\n)</code></pre>",
+      "options": ["child", "widget", "builder", "context"],
       "answer": 0,
-      "commentary": "NotifierProviderで変更を検知させるには、`state = ...` のように `state` プロパティ自体に新しい状態を代入する必要があります[cite: 3]。"
+      "commentary": "Consumerの `child` プロパティに指定したウィジェットは、builder関数の第3引数 `child` として渡されます[cite: 2]。"
     },
     {
       "id": 14,
-      "type": "用語理解",
-      "question": "暗記カードアプリにおいて、途中でカードが追加されるような「変化する状態」を管理するのに適したProviderはどれですか？",
-      "options": [
-        "NotifierProvider",
-        "Provider",
-        "FutureProvider",
-        "StreamProvider"
-      ],
+      "type": "コード穴埋め",
+      "question": "Dartの `switch` 式を使って `AsyncValue` の状態を網羅的にチェックしています。読み込み状態を表すパターンを選んでください。<pre><code>return switch (data) {\n  ___() =&gt; const CircularProgressIndicator(),\n  AsyncData(:final value) =&gt; Text(value.toString()),\n  AsyncError(:final error) =&gt; Text('Error: $error'),\n};</code></pre>",
+      "options": ["AsyncLoading", "Loading", "AsyncValue.loading", "AsyncProcess"],
       "answer": 0,
-      "commentary": "カード追加などのロジックを持ち、変化する動的な状態を管理するには `NotifierProvider` が適しています[cite: 3]。"
+      "commentary": "Riverpodの sealed クラス設計により、読み込み中の状態は `AsyncLoading()` パターンで判定できます[cite: 2]。"
     },
     {
       "id": 15,
-      "type": "用語理解",
-      "question": "暗記カードアプリにおいて、初期データから変更されないジャンル一覧のような「変化しない状態」を管理するのに最も適したProviderはどれですか？",
-      "options": [
-        "Provider",
-        "NotifierProvider",
-        "StateNotifierProvider",
-        "FutureProvider"
-      ],
+      "type": "コード穴埋め",
+      "question": "Dartの `switch` 式を使って `AsyncValue` のデータ成功状態を取得するパターン記述です。空欄に入る適切なパターンを選んでください。<pre><code>return switch (data) {\n  AsyncLoading() =&gt; const CircularProgressIndicator(),\n  ___(:final value) =&gt; Text(value.toString()),\n  AsyncError(:final error) =&gt; Text('Error: $error'),\n};</code></pre>",
+      "options": ["AsyncData", "AsyncSuccess", "AsyncValue", "Data"],
       "answer": 0,
-      "commentary": "アプリ内で変化しない一定のデータを管理する場合はシンプルな `Provider` が適しています[cite: 3]。"
+      "commentary": "データ取得成功状態は `AsyncData` パターンで指定します[cite: 2]。"
     },
     {
       "id": 16,
       "type": "コード穴埋め",
-      "question": "ListView.builder のアイテム数を指定するため、`genreList` の要素数を取得しているプロパティを選んでください。<pre><code>ListView.builder(\n  itemCount: genreList.___,\n  itemBuilder: (context, index) =&gt; Card( ... ),\n)</code></pre>",
-      "options": [
-        "length",
-        "count",
-        "size",
-        "total"
-      ],
+      "question": "Dartの `switch` 式を使って `AsyncValue` のエラー状態をキャッチするパターン記述を選んでください。<pre><code>return switch (data) {\n  AsyncLoading() =&gt; const CircularProgressIndicator(),\n  AsyncData(:final value) =&gt; Text(value.toString()),\n  ___(:final error, final stackTrace) =&gt; Text('Error: $error'),\n};</code></pre>",
+      "options": ["AsyncError", "AsyncException", "Error", "AsyncFailed"],
       "answer": 0,
-      "commentary": "リストの要素数を取得するには `.length` プロパティを使用します[cite: 3]。"
+      "commentary": "エラー状態は `AsyncError` パターンでキャッチできます[cite: 2]。"
     },
     {
       "id": 17,
-      "type": "実行結果予測",
-      "question": "次のコードで `genreList[1].title` を表示した場合、何が画面に出力されますか？（`genreList` は ['英単語', '歴史', '理科'] の要素を持つオブジェクトのリストとする）<pre><code>Text(genreList[1].title)</code></pre>",
+      "type": "文法チェック",
+      "question": "ConsumerStatefulWidget における `createState` メソッドの正しい記述はどれですか？",
       "options": [
-        "歴史",
-        "英単語",
-        "理科",
-        "1"
+        "ConsumerState<RiverpodDemo> createState() => _ConsumerStateDemo();",
+        "State<RiverpodDemo> createState() => _ConsumerStateDemo();",
+        "ConsumerState createState() => _ConsumerStateDemo();",
+        "WidgetState<RiverpodDemo> createState() => _ConsumerStateDemo();"
       ],
       "answer": 0,
-      "commentary": "リストのインデックスは0から始まるため、`genreList[1]` は2番目の要素「歴史」となります[cite: 3]。"
+      "commentary": "ConsumerStatefulWidget の `createState()` は `ConsumerState<クラス名>` を返します[cite: 2]。"
     },
     {
       "id": 18,
-      "type": "コード穴埋め",
-      "question": "カード一覧画面に渡す引数（arguments）として選択されたジャンルオブジェクトを指定するコードです。空欄に入るインデックス変数を指定してください。<pre><code>Navigator.of(context).pushNamed(\n  '/card_list',\n  arguments: genreList[___],\n);</code></pre>",
+      "type": "文法チェック",
+      "question": "ConsumerStateを継承したクラスの `build` メソッドの定義として正しいものはどれですか？",
       "options": [
-        "index",
-        "i",
-        "count",
-        "0"
+        "@override Widget build(BuildContext context)",
+        "@override Widget build(BuildContext context, WidgetRef ref)",
+        "@override Widget build(WidgetRef ref)",
+        "@override Widget build()"
       ],
       "answer": 0,
-      "commentary": "ListView.builder の `itemBuilder` 内では、現在描画対象となっている要素の順序を表す `index` 変数を使用します[cite: 3]。"
+      "commentary": "ConsumerStateクラスでは `ref` がクラスプロパティとして提供されているため、`build` メソッドの引数は `BuildContext context` のみとなります[cite: 2]。"
     },
     {
       "id": 19,
       "type": "文法チェック",
-      "question": "Notifierを継承したクラスの中で初期化時に必ずオーバーライドしなければならないメソッドはどれですか？",
+      "question": "Consumerウィジェットの `builder` プロパティにセットする関数の引数の並び順として正しいものはどれですか？",
       "options": [
-        "build()",
-        "initState()",
-        "createState()",
-        "init()"
+        "(context, ref, child)",
+        "(ref, context, child)",
+        "(context, child, ref)",
+        "(ref, child)"
       ],
       "answer": 0,
-      "commentary": "Notifierを継承するクラスでは、初期状態を返す `build()` メソッドの定義が必須です[cite: 3]。"
+      "commentary": "Consumerの `builder` 関数の引数は `(BuildContext context, WidgetRef ref, Widget? child)` の順番です[cite: 2]。"
     },
     {
       "id": 20,
-      "type": "用語理解",
-      "question": "画面を構築するファイル（`genre_list.dart` など）が `providers.dart` 経由でデータにアクセスすることにより得られる利点はどれですか？",
+      "type": "文法チェック",
+      "question": "FutureProvider の正しい定義文言言はどれですか？",
       "options": [
-        "データの取得方法や元のデータファイルを意識せずに画面を構築できる",
-        "アプリの通信速度が格段に上昇する",
-        "データベースが全自動でバックアップされる",
-        "Flutterのビルドコマンドを実行する必要がなくなる"
+        "final futureProvider = FutureProvider<String>((ref) async => 'Data');",
+        "final futureProvider = FutureProvider<String>(async () => 'Data');",
+        "const futureProvider = FutureProvider<String>((ref) => 'Data');",
+        "final futureProvider = new FutureProvider<String>((ref) async => 'Data');"
       ],
       "answer": 0,
-      "commentary": "データ管理をProviderに集約することで、UI層のファイルは元データファイルの場所や取得詳細を意識せずに開発できます[cite: 3]。"
+      "commentary": "FutureProviderは `final` を用いて定義し、無名関数内で非同期処理を記述します[cite: 2]。"
     },
     {
       "id": 21,
-      "type": "コード穴埋め",
-      "question": "Riverpodライブラリをプロジェクトに追加するコマンドの空欄を埋めてください。<pre><code>flutter pub add ___</code></pre>",
-      "options": [
-        "flutter_riverpod",
-        "riverpod",
-        "riverpod_flutter",
-        "provider"
-      ],
+      "type": "用語理解",
+      "question": "Riverpodにおいて StatelessWidget に相当する、WidgetRefを受け取る基本ウィジェットは何ですか？",
+      "options": ["ConsumerWidget", "ConsumerStatefulWidget", "Consumer", "StatefulWidget"],
       "answer": 0,
-      "commentary": "プロジェクトにRiverpodを追加するには `flutter pub add flutter_riverpod` を実行します[cite: 3]。"
+      "commentary": "Riverpodにおける StatelessWidget に相当するウィジェットは `ConsumerWidget` です[cite: 2]。"
     },
     {
       "id": 22,
-      "type": "コード穴埋め",
-      "question": "providers.dartで定義した `genreProvider` をインポートして画面で利用するためのパス記述の空欄を埋めてください。<pre><code>import '___/providers.dart';</code></pre>",
-      "options": [
-        "..",
-        ".",
-        "lib",
-        "src"
-      ],
+      "type": "用語理解",
+      "question": "Riverpodにおいて StatefulWidget に相当し、独自のStateクラスを作成・カスタマイズできるウィジェットは何ですか？",
+      "options": ["ConsumerStatefulWidget", "ConsumerWidget", "Consumer", "ProviderWidget"],
       "answer": 0,
-      "commentary": "pagesフォルダ内のファイルから一つ上の階層にある `providers.dart` を参照するには `../providers.dart` と記述します[cite: 3]。"
+      "commentary": "Riverpodにおける StatefulWidget に相当するのは `ConsumerStatefulWidget` です[cite: 2]。"
     },
     {
       "id": 23,
-      "type": "実行結果予測",
-      "question": "次のコードが実行されたとき、`genreProvider` が返す値の型は何ですか？<pre><code>final genreProvider = Provider&lt;List&lt;Genre&gt;&gt;((ref) =&gt; genreList);</code></pre>",
-      "options": [
-        "List<Genre>",
-        "Genre",
-        "Provider",
-        "WidgetRef"
-      ],
+      "type": "用語理解",
+      "question": "FutureProviderなどを `ref.watch` した際に返される、非同期データの状態（成功・エラー・読み込み中）を包む型は何ですか？",
+      "options": ["AsyncValue", "Future", "Snapshot", "AsyncData"],
       "answer": 0,
-      "commentary": "ジェネリクスで `<List<Genre>>` が指定されているため、返されるデータ型は `List<Genre>` です[cite: 3]。"
+      "commentary": "FutureProvider等の状態を監視すると `AsyncValue` 型のオブジェクトが返されます[cite: 2]。"
     },
     {
       "id": 24,
-      "type": "文法チェック",
-      "question": "NotifierProvider の定義部分として文法上正しいものはどれですか？",
-      "options": [
-        "final flashcardProvider = NotifierProvider<FlashcardListNotifier, List<Flashcard>>(() => FlashcardListNotifier());",
-        "const flashcardProvider = NotifierProvider<FlashcardListNotifier, List<Flashcard>>(() => FlashcardListNotifier());",
-        "var flashcardProvider = NotifierProvider(() => FlashcardListNotifier());",
-        "final flashcardProvider = new NotifierProvider(() => FlashcardListNotifier());"
-      ],
+      "type": "用語理解",
+      "question": "エラー発生時に実行されていた関数やメソッドなどの履歴情報のことを何と呼びますか？",
+      "options": ["スタックトレース", "ビルドログ", "エラーログ", "キャッチトレース"],
       "answer": 0,
-      "commentary": "プロバイダーは `final` キーワードを用い、型引数と生成関数を指定して定義します[cite: 3]。"
+      "commentary": "エラー発生時の関数やメソッドの呼び出し履歴のことを「スタックトレース」と呼びます[cite: 2]。"
     },
     {
       "id": 25,
-      "type": "コード穴埋め",
-      "question": "ListTileのタイトル部分にジャンルのタイトルテキストを表示するコードです。空欄を埋めてください。<pre><code>title: Text(genreList[index].___),</code></pre>",
-      "options": [
-        "title",
-        "name",
-        "text",
-        "label"
-      ],
+      "type": "実行結果予測",
+      "question": "次のコードで、Consumer内部のTextウィジェットに表示される数値は何ですか？<pre><code>final countProvider = Provider&lt;int&gt;((_) =&gt; 99);\n\n// Consumer内\nConsumer(\n  builder: (context, ref, child) {\n    final count = ref.watch(countProvider);\n    return Text('$count');\n  },\n)</code></pre>",
+      "options": ["99", "0", "countProvider", "null"],
       "answer": 0,
-      "commentary": "Genreモデルのタイトルプロパティである `title` を指定して表示します[cite: 3]。"
+      "commentary": "`ref.watch(countProvider)` により `99` が読み込まれて画面に表示されます[cite: 2]。"
     },
     {
       "id": 26,
-      "type": "用語理解",
-      "question": "StatefulWidgetで画面ごとに管理していた状態をRiverpodで管理するように変更する最大のメリットは何ですか？",
-      "options": [
-        "アプリ全体で状態を一括管理できるようになること",
-        "画面の作成が完全に不要になること",
-        "Dart言語以外の言語で開発できるようになること",
-        "Flutterアプリがブラウザ上でしか動かなくなること"
-      ],
+      "type": "実行結果予測",
+      "question": "次のコードで `Consumer` の外部にある Text ウィジェットに表示される文字列は何ですか？<pre><code>final numProvider = Provider&lt;int&gt;((_) =&gt; 5);\n\n// build内\nfinal numValue = ref.read(numProvider);\nreturn Column(\n  children: [\n    Text('Outer: $numValue'),\n  ],\n);</code></pre>",
+      "options": ["Outer: 5", "Outer: numProvider", "Outer: ", "エラー"],
       "answer": 0,
-      "commentary": "Riverpodを使うことで、特定画面に閉じていた状態をアプリ全体から参照・一括管理できるようになります[cite: 3]。"
+      "commentary": "`ref.read(numProvider)` で 5 が取得されるため、`'Outer: 5'` となります[cite: 2]。"
     },
     {
       "id": 27,
-      "type": "実行結果予測",
-      "question": "次のコードを実行して `addCard` を呼び出した際、新しい `Flashcard` の `id` はどう決まりますか？<pre><code>state = [\n  ...state,\n  Flashcard(\n    id: state.length,\n    question: question,\n    answer: answer,\n    genre: genre,\n  )\n];</code></pre>",
-      "options": [
-        "既存のリストの長さを基準にユニークなIDとして割り振られる",
-        "常に0に固定される",
-        "ランダムな文字列が設定される",
-        "null に設定される"
-      ],
+      "type": "コード穴埋め",
+      "question": "`AsyncValue` の `when` メソッドにおいて、エラー発生時に呼び出されるコールバックの第1引数と第2引数の適切な受け取り記述を選んでください。<pre><code>data.when(\n  loading: () =&gt; const CircularProgressIndicator(),\n  data: (val) =&gt; Text(val),\n  error: (___, ___) =&gt; Text('Error'),\n)</code></pre>",
+      "options": ["err, stack", "val, err", "error, loading", "context, ref"],
       "answer": 0,
-      "commentary": "`state.length` により、新要素追加前の末尾インデックスに相当する数値がIDとしてセットされます[cite: 3]。"
+      "commentary": "`when` の `error` パラメータは、第1引数にエラーオブジェクト（err）、第2引数にスタックトレース（stack）を受け取ります[cite: 2]。"
     },
     {
       "id": 28,
       "type": "コード穴埋め",
-      "question": "画面遷移を行う際に、遷移先の画面へジャンルデータを引き渡す引数名を選んでください。<pre><code>Navigator.of(context).pushNamed(\n  '/card_list',\n  ___: genreList[index],\n);</code></pre>",
-      "options": [
-        "arguments",
-        "params",
-        "data",
-        "args"
-      ],
+      "question": "`ConsumerStatefulWidget` 内で、初期化時に1度だけ処理を実行するためにオーバーライドするメソッド名を選んでください。<pre><code>@override\nvoid ___() {\n  super.initState();\n  _data = ref.read(provider);\n}</code></pre>",
+      "options": ["initState", "build", "createState", "dispose"],
       "answer": 0,
-      "commentary": "Named Routeによる遷移でパラメータを渡す際は `arguments` プロパティを使用します[cite: 3]。"
+      "commentary": "ウィジェットの初期化処理を行うには `initState()` メソッドをオーバーライドします[cite: 2]。"
     },
     {
       "id": 29,
       "type": "文法チェック",
-      "question": "Riverpodを使うために `main.dart` で追加すべきインポート文はどれですか？",
-      "options": [
-        "import 'package:flutter_riverpod/flutter_riverpod.dart';",
-        "import 'package:riverpod/riverpod.dart';",
-        "import 'package:provider/provider.dart';",
-        "import 'package:flutter/riverpod.dart';"
-      ],
+      "question": "AsyncValueに対するパターンマッチング（switch）で、継承（パターン）が限定されているクラス構造のことを何と呼びますか？",
+      "options": ["sealed クラス", "abstract クラス", "final クラス", "interface クラス"],
       "answer": 0,
-      "commentary": "FlutterでRiverpodを利用する際は `package:flutter_riverpod/flutter_riverpod.dart` をインポートします[cite: 3]。"
+      "commentary": "RiverpodのAsyncValueは `sealed` クラスになっており、状態の種類が限定されるため default なしで網羅的に判定できます[cite: 2]。"
     },
     {
       "id": 30,
       "type": "実行結果予測",
-      "question": "次のコードで `GenreListPage` 内の `genreList` に代入される値は何ですか？<pre><code>final genreList = ref.watch(genreProvider);</code></pre>",
-      "options": [
-        "genreProviderが管理するジャンルオブジェクトのリスト（List<Genre>）",
-        "ジャンルの件数を表す数値",
-        "Providerのインスタンス自体",
-        "null"
-      ],
+      "question": "次のコードで `data.when` の `loading` で返されるウィジェットの幅（width）と高さ（height）はいくつですか？<pre><code>loading: () =&gt; const SizedBox(\n  width: 60,\n  height: 60,\n  child: CircularProgressIndicator(),\n)</code></pre>",
+      "options": ["60", "100", "0", "画面全体"],
       "answer": 0,
-      "commentary": "`ref.watch(genreProvider)` は、`genreProvider` が返す値（`List<Genre>`）を取得します[cite: 3]。"
+      "commentary": "SizedBoxのプロパティとして `width: 60`, `height: 60` が指定されています[cite: 2]。"
     },
     {
       "id": 31,
       "type": "コード穴埋め",
-      "question": "ジャンルリストのカードをタップした際のイベント処理ハンドラ名を選んでください。<pre><code>ListTile(\n  title: Text(genreList[index].title),\n  ___: () {\n    Navigator.of(context).pushNamed('/card_list', arguments: genreList[index]);\n  },\n)</code></pre>",
-      "options": [
-        "onTap",
-        "onPressed",
-        "onClick",
-        "onChange"
-      ],
+      "question": "非同期処理の遅延を発生させる `Future.delayed` の引数に指定する時間の長さを設定するクラスを選んでください。<pre><code>await Future.delayed(const ___(seconds: 5));</code></pre>",
+      "options": ["Duration", "Time", "Timer", "Delay"],
       "answer": 0,
-      "commentary": "ListTile要素がタップされた時の処理を指定するには `onTap` プロパティを使用します[cite: 3]。"
+      "commentary": "時間の長さを表すには `Duration` クラスを使用します[cite: 2]。"
     },
     {
       "id": 32,
-      "type": "用語理解",
-      "question": "Riverpodで管理されている状態が変更された際、その状態を参照しているUIウィジェットはどうなりますか？",
-      "options": [
-        "自動的に再描画されて最新の状態が画面に反映される",
-        "アプリを再起動しないと変化が反映されない",
-        "画面全体が消去されて空白になる",
-        "手動で setState() を呼ぶまで何も変わらない"
-      ],
+      "type": "コード穴埋め",
+      "question": "ConsumerWidget を使用する際、`build` メソッドのオーバーライド時の注釈記号を選んでください。<pre><code>___override\nWidget build(BuildContext context, WidgetRef ref) { ... }</code></pre>",
+      "options": ["@", "#", "$", "default"],
       "answer": 0,
-      "commentary": "`ref.watch` 等で参照しているウィジェットは、状態更新を検知して自動的に再描画が行われます[cite: 3]。"
+      "commentary": "親クラスのメソッドを再定義・上書きする際は `@override` アノテーションを付与します[cite: 2]。"
     },
     {
       "id": 33,
-      "type": "コード穴埋め",
-      "question": "Flashcardクラスのインスタンス生成に必要な引数 `question` に値を渡すコードです。空欄を埋めてください。<pre><code>Flashcard(\n  id: state.length,\n  question: ___,\n  answer: answer,\n  genre: genre,\n)</code></pre>",
+      "type": "実行結果予測",
+      "question": "次のコードを実行したときに作成される文字列は何になりますか？<pre><code>final counter = 10;\nfinal str = 'This is out of Consumer. $counter';\nprint(str);</code></pre>",
       "options": [
-        "question",
-        "answer",
-        "genre",
-        "title"
+        "This is out of Consumer. 10",
+        "This is out of Consumer. $counter",
+        "This is out of Consumer.",
+        "エラーになる"
       ],
       "answer": 0,
-      "commentary": "引数として渡された問題文変数 `question` をそのままプロパティに割り当てます[cite: 3]。"
+      "commentary": "文字列内補間 `$counter` により、`10` が埋め込まれて `'This is out of Consumer. 10'` になります[cite: 2]。"
     },
     {
       "id": 34,
-      "type": "実行結果予測",
-      "question": "次のコードにおいて、`genreProvider` が管理する状態を変更しようとした場合どうなりますか？<pre><code>final genreProvider = Provider&lt;List&lt;Genre&gt;&gt;((ref) =&gt; genreList);</code></pre>",
-      "options": [
-        "Providerは読み取り専用であり状態更新メソッドを提供しないため変更できない",
-        "genreProvider.state で自由に更新できる",
-        "自動的にNotifierProviderへ変換される",
-        "アプリがクラッシュする"
-      ],
+      "type": "文法チェック",
+      "question": "`Consumer` ウィジェットの必須プロパティはどれですか？",
+      "options": ["builder", "child", "ref", "provider"],
       "answer": 0,
-      "commentary": "通常の `Provider` は変化しない不変な値を管理するためのものであり、状態の外部更新機能を持ちません[cite: 3]。"
+      "commentary": "`Consumer` ウィジェットを使用する際、表示部分を定義する `builder` プロパティは必須です[cite: 2]。"
     },
     {
       "id": 35,
-      "type": "文法チェック",
-      "question": "ConsumerWidget内でProviderの値を参照する文法として正しくないものはどれですか？",
+      "type": "用語理解",
+      "question": "Consumerウィジェットを使う最大の利点は何ですか？",
       "options": [
-        "final data = genreProvider.read();",
-        "final data = ref.watch(genreProvider);",
-        "final data = ref.read(genreProvider);",
-        "final data = ref.watch(flashcardProvider);"
+        "特定のウィジェット部分のみに再描画範囲を限定・制限できること",
+        "非同期処理を自動的にキャンセルできること",
+        "アプリ全体のビルド速度が10倍になること",
+        "initState() メソッドが自由に使えるようになること"
       ],
       "answer": 0,
-      "commentary": "Provider自体から `.read()` を呼ぶことはできず、必ず `ref`（WidgetRefなど）のメソッド経由で読み取ります[cite: 3]。"
+      "commentary": "Consumerを使用することで、状態変更時に画面全体ではなくConsumerの内部（builder）のみを局所的に再描画できます[cite: 2]。"
     },
     {
       "id": 36,
       "type": "コード穴埋め",
-      "question": "Notifierクラス内で管理中の状態 `state` にアクセスしてカード件数を取得しているコードです。空欄を埋めてください。<pre><code>id: state.___,</code></pre>",
-      "options": [
-        "length",
-        "count",
-        "size",
-        "number"
-      ],
+      "question": "ConsumerStateクラス内でスーパークラスの `initState` を呼び出す文法です。空欄に入るキーワードを選んでください。<pre><code>@override\nvoid initState() {\n  ___ .initState();\n  _data = ref.read(provider);\n}</code></pre>",
+      "options": ["super", "this", "parent", "base"],
       "answer": 0,
-      "commentary": "リスト型の `state` から要素数を取得するために `state.length` を使用します[cite: 3]。"
+      "commentary": "オーバーライドした親クラスのメソッドを呼び出すには `super` を使います[cite: 2]。"
     },
     {
       "id": 37,
       "type": "実行結果予測",
-      "question": "次のコードを実行した際、`genreList` はどこから読み込まれますか？<pre><code>final genreList = ref.watch(genreProvider);</code></pre>",
-      "options": [
-        "providers.dart で定義された genreProvider",
-        "直接 genre.dart ファイルから読み込まれる",
-        "インターネット上のサーバーから自動ダウンロードされる",
-        "ローカルのデータベース"
-      ],
+      "question": "次のコードを実行したときに `_data` に入る初期文字列は何ですか？<pre><code>class _DemoState extends ConsumerState&lt;DemoWidget&gt; {\n  String _data = 'first data';\n  @override\n  Widget build(BuildContext context) =&gt; Text(_data);\n}</code></pre>",
+      "options": ["first data", "null", "（空文字）", "エラー"],
       "answer": 0,
-      "commentary": "`genreProvider` を監視することで、Provider経由でジャンルデータが読み込まれます[cite: 3]。"
+      "commentary": "変数定義時に直接 `'first data'` が代入されています[cite: 2]。"
     },
     {
       "id": 38,
-      "type": "用語理解",
-      "question": "Dartにおける `...` （ドット3つ）の演算子を何と呼びますか？",
-      "options": [
-        "スプレッド構文（スプレッド演算子）",
-        "レスト構文",
-        "ドット演算子",
-        "カスケード演算子"
-      ],
+      "type": "コード穴埋め",
+      "question": "非同期処理を行う関数に付与するキーワードを選んでください。<pre><code>final futureProvider = FutureProvider&lt;String&gt;((_) ___ {\n  return await Future.delayed(const Duration(seconds: 1), () =&gt; 'Hi');\n});</code></pre>",
+      "options": ["async", "sync", "await", "future"],
       "answer": 0,
-      "commentary": "コレクション要素を展開して新しいコレクションに埋め込む `...` は「スプレッド構文（演算子）」と呼ばれます[cite: 3]。"
+      "commentary": "関数内で `await` を使用して非同期処理を行うには関数に `async` を付与します[cite: 2]。"
     },
     {
       "id": 39,
-      "type": "文法チェック",
-      "question": "暗記カードアプリの `main()` 関数で `ProviderScope` を配置する正しい記述はどれですか？",
-      "options": [
-        "void main() { runApp(const ProviderScope(child: MyApp())); }",
-        "void main() { ProviderScope(runApp(const MyApp())); }",
-        "void main() { runApp(const MyApp(scope: ProviderScope())); }",
-        "void main() { runApp(ProviderScope.init()); }"
-      ],
+      "type": "コード穴埋め",
+      "question": "非同期処理の完了を待機するために処理の前に付与するキーワードを選んでください。<pre><code>return ___ Future.delayed(\n  const Duration(seconds: 5),\n  () =&gt; 'finish',\n);</code></pre>",
+      "options": ["await", "async", "yield", "defer"],
       "answer": 0,
-      "commentary": "`runApp` に渡すルートウィジェットとして `ProviderScope` を配置し、`child` に `MyApp()` を指定します[cite: 3]。"
+      "commentary": "Futureの結果を待つために `await` キーワードを使用します[cite: 2]。"
     },
     {
       "id": 40,
-      "type": "コード穴埋め",
-      "question": "カードリストのNotifierで、カード追加後に新しいリストを代入するプロパティ名を選んでください。<pre><code>void addCard(String question, String answer, Genre genre) {\n  ___ = [\n    ...state,\n    Flashcard( ... ),\n  ];\n}</code></pre>",
+      "type": "文法チェック",
+      "question": "ConsumerStatefulWidget のクラス定義で正しくコンストラクタを宣言しているものはどれですか？",
       "options": [
-        "state",
-        "value",
-        "data",
-        "list"
+        "const RiverpodDemo({super.key});",
+        "RiverpodDemo({Key key});",
+        "const ConsumerStatefulWidget({super.key});",
+        "void RiverpodDemo({super.key});"
       ],
       "answer": 0,
-      "commentary": "Notifierが保持する現在の状態を更新するには `state` プロパティに新しい値を代入します[cite: 3]。"
+      "commentary": "Flutterのウィジェットでは `const ウィジェット名({super.key});` のようにコンストラクタを定義します[cite: 2]。"
     }
   ]
 }

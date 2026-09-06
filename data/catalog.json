@@ -212,31 +212,25 @@
             { "id": "B2-u13", "title": "アプリの立ち上げと画面遷移の設計", "jsonPath": "data/B2/unit13.json" },
             { "id": "B2-u14", "title": "ジャンル一覧画面の作成", "jsonPath": "data/B2/unit14.json" },
             { "id": "B2-u15", "title": "カード一覧画面の作成", "jsonPath": "data/B2/unit15.json" },
-            { "id": "B2-u16", "title": "モーダルの実装", "jsonPath": "data/B2/unit16.json" }
+            { "id": "B2-u16", "title": "モーダルの実装", "jsonPath": "data/B2/unit16.json" },
+            { "id": "B2-u17", "title": "カード追加画面の実装", "jsonPath": "data/B2/unit17.json" }
           ]
         },
         {
-          "id": "B2-riverpod",
-          "name": "Riverpod を用いた状態管理",
+          "id": "B2-state-mgmt",
+          "name": "状態管理",
           "units": [
-            { "id": "B2-u17", "title": "様々な Provider", "jsonPath": "data/B2/unit17.json" },
-            { "id": "B2-u18", "title": "Provider を読み込む", "jsonPath": "data/B2/unit18.json" }
-          ]
-        },
-        {
-          "id": "B2-riverpod-refactor",
-          "name": "暗記カードアプリの Riverpod 書き換え",
-          "units": [
-            { "id": "B2-u19", "title": "Provider の準備とジャンル一覧", "jsonPath": "data/B2/unit19.json" },
-            { "id": "B2-u20", "title": "カード一覧画面", "jsonPath": "data/B2/unit20.json" },
-            { "id": "B2-u21", "title": "カード追加画面", "jsonPath": "data/B2/unit21.json" }
+            { "id": "B2-u18", "title": "Riverpod を用いた状態管理 - 様々な Provider", "jsonPath": "data/B2/unit18.json" },
+            { "id": "B2-u19", "title": "Riverpod を用いた状態管理 - Provider を読み込む", "jsonPath": "data/B2/unit19.json" },
+            { "id": "B2-u20", "title": "暗記カードアプリの Riverpod 書き換え - Provider の準備とジャンル一覧", "jsonPath": "data/B2/unit20.json" },
+            { "id": "B2-u21", "title": "暗記カードアプリの Riverpod 書き換え - カード一覧画面", "jsonPath": "data/B2/unit21.json" },
+            { "id": "B2-u22", "title": "暗記カードアプリの Riverpod 書き換え - カード追加画面", "jsonPath": "data/B2/unit22.json" }
           ]
         },
         {
           "id": "B2-preparing",
           "name": "準備中",
           "units": [
-            { "id": "B2-u22", "title": "unit22", "jsonPath": "data/B2/unit22.json" },
             { "id": "B2-u23", "title": "unit23", "jsonPath": "data/B2/unit23.json" },
             { "id": "B2-u24", "title": "unit24", "jsonPath": "data/B2/unit24.json" },
             { "id": "B2-u25", "title": "unit25", "jsonPath": "data/B2/unit25.json" },

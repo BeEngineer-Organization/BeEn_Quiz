@@ -1,525 +1,525 @@
 {
-  "unit_title": "様々な Provider",
+  "unit_title": "カード追加画面の実装",
   "questions": [
     {
       "id": 1,
-      "type": "コード穴埋め",
-      "question": "Riverpodパッケージをインポートするための記述です。空欄に入る適切なライブラリ名を選んでください。<pre><code>import 'package:___/flutter_riverpod.dart';</code></pre>",
+      "type": "用語理解",
+      "question": "StatefulWidget の State が作成されたときに、一番最初に一度だけ呼び出される初期化用のメソッドはどれですか？",
       "options": [
-        "flutter_riverpod",
-        "riverpod_flutter",
-        "flutter_provider",
-        "riverpod"
+        "build",
+        "initState",
+        "dispose",
+        "createState"
       ],
-      "answer": 0,
-      "commentary": "RiverpodをFlutterプロジェクトで利用するには `flutter_riverpod` パッケージをインポートします[cite: 1]。"
+      "answer": 1,
+      "commentary": "initState メソッドは、StatefulWidget の State が作られるときに最初に1度だけ呼ばれるメソッドで、変数の初期化などに使います。"
     },
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "変化しない状態を管理するProviderをグローバル変数として定義しています。空欄に入る型名を選んでください。<pre><code>final provider = ___&lt;String&gt;((_) =&gt; 'This is provider');</code></pre>",
+      "question": "画面遷移時に引数（arguments）として渡された Genre データを受け取るコードです。空欄に入る適切な記述を選んでください。<pre><code>routes: {\n  '/card_add': (context) => CardAddPage(\n    genre: ModalRoute.of(context)!.settings.___ as Genre,\n  ),\n}</code></pre>",
       "options": [
-        "Provider",
-        "StateProvider",
-        "NotifierProvider",
-        "ValueProvider"
+        "arguments",
+        "params",
+        "data",
+        "values"
       ],
       "answer": 0,
-      "commentary": "変化しない一定の状態（管理データ）を生成・公開するには `Provider` を使用します[cite: 1]。"
+      "commentary": "ModalRoute.of(context)!.settings.arguments を使うことで、前の画面から渡されたデータを取得することができます。"
     },
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "他のProviderの値を読み取って新しいProviderを定義しています。空欄に入るメソッド名を選んでください。<pre><code>final readProvider = Provider&lt;String&gt;((ref) =&gt; ref.___(provider));</code></pre>",
+      "question": "TextFormField に設定した GlobalKey から直接現在の入力値を取り出すコードです。空欄に入る適切なプロパティ名を選んでください。<pre><code>final question = questionFormKey.currentState!.___;</code></pre>",
       "options": [
-        "read",
-        "watch",
-        "get",
-        "listen"
+        "text",
+        "value",
+        "data",
+        "input"
       ],
-      "answer": 0,
-      "commentary": "他のProviderの値をその時点で1回読み取るには `ref.read()` メソッドを使用します[cite: 1]。"
+      "answer": 1,
+      "commentary": "FormFieldState の currentState!.value を使うことで、その入力欄に入力されている現在の値を取り出すことができます。"
     },
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "アプリ内でProviderを利用できるように対象範囲を囲むウィジェットです。空欄に入るウィジェット名を選んでください。<pre><code>void main() { \n  runApp(\n    const ___(\n      child: MyApp(),\n    ),\n  );\n}</code></pre>",
+      "question": "TextFormField の高さをあらかじめ 4 行分に固定したい場合に使用するプロパティの組み合わせを選んでください。<pre><code>TextFormField(\n  ___: 4,\n  ___: 4,\n)</code></pre>",
       "options": [
-        "ProviderScope",
-        "ProviderContainer",
-        "RiverpodScope",
-        "ProviderApp"
+        "minLines / maxLines",
+        "minRow / maxRow",
+        "startLines / endLines",
+        "height / width"
       ],
       "answer": 0,
-      "commentary": "RiverpodでProviderを利用可能にするには、ルートウィジェットなどを `ProviderScope` で囲む必要があります[cite: 1]。"
+      "commentary": "minLines（最小行数）と maxLines（最大行数）を指定することで、入力欄の行数を調整できます。"
     },
     {
       "id": 5,
-      "type": "コード穴埋め",
-      "question": "RiverpodでProviderの値を読み取るためのStatelessWidgetに相当するクラスです。空欄に入るクラス名を選んでください。<pre><code>class RiverpodDemo extends ___ { \n  const RiverpodDemo({super.key});\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    return Center();\n  }\n}</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下の validator コードを実行したとき、ユーザーが空白スペースだけを入力してボタンを押した場合に返される値は何ですか？<pre><code>validator: (value) {\n  if (value == null || value.trim() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
       "options": [
-        "ConsumerWidget",
-        "StatefulWidget",
-        "ProviderWidget",
-        "ConsumerStatefulWidget"
+        "null",
+        "'入力してください'",
+        "''（空文字）",
+        "エラー（例外が発生する）"
       ],
-      "answer": 0,
-      "commentary": "Providerの値をウィジェット内で参照するには、`ConsumerWidget` を継承して `build` メソッドで `WidgetRef` を受け取ります[cite: 1]。"
+      "answer": 1,
+      "commentary": "trim() によって前後の空白が削除されるため、空白だけの場合は空文字 '' となり、'入力してください' というエラーメッセージが返されます。"
     },
     {
       "id": 6,
-      "type": "コード穴埋め",
-      "question": "`ConsumerWidget` の `build` メソッドの引数です。空欄に入る適切な型名を選んでください。<pre><code>@override\nWidget build(BuildContext context, ___ ref) { \n  return Text(ref.read(provider));\n}</code></pre>",
+      "type": "文法チェック",
+      "question": "DropdownButton の選択項目（アイテム）を作るために使用する正しいウィジェットはどれですか？",
       "options": [
-        "WidgetRef",
-        "ProviderRef",
-        "BuildContext",
-        "Ref"
+        "DropdownItem",
+        "SelectItem",
+        "DropdownMenuItem",
+        "MenuItem"
       ],
-      "answer": 0,
-      "commentary": "ウィジェット内でProviderを参照するためには、第2引数として `WidgetRef` を受け取る必要があります[cite: 1]。"
+      "answer": 2,
+      "commentary": "DropdownButton の items プロパティには DropdownMenuItem のリストを渡します。"
     },
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "Notifierクラスを作成する際、継承すべき基本クラス名を選んでください。<pre><code>class MyNotifier extends ___&lt;int&gt; { \n  @override\n  int build() {\n    return 0;\n  }\n}</code></pre>",
+      "question": "DropdownButton の幅を親要素いっぱいに広げるためのプロパティを指定するコードです。空欄に入る適切な記述を選んでください。<pre><code>DropdownButton(\n  value: selectedValue,\n  items: dropdownMenuItemList,\n  ___: true,\n)</code></pre>",
       "options": [
-        "Notifier",
-        "StateNotifier",
-        "ChangeNotifier",
-        "ValueNotifier"
+        "isExpanded",
+        "fullWidth",
+        "fitParent",
+        "expand"
       ],
       "answer": 0,
-      "commentary": "NotifierProviderで変化する状態を管理するクラスは `Notifier` クラスを継承して定義します[cite: 1]。"
+      "commentary": "isExpanded プロパティを true に設定すると、DropdownButton の横幅が親要素いっぱいに広がります。"
     },
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "Notifierクラス内で初期状態を設定するためにオーバーライドするメソッドを選んでください。<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int ___() {\n    return 0;\n  }\n}</code></pre>",
+      "question": "Form 内のすべての validator を実行して入力をチェックするコードです。空欄に入るメソッド名を選んでください。<pre><code>if (formKey.currentState!.___()) {\n  // 処理を実行\n}</code></pre>",
       "options": [
-        "build",
-        "init",
-        "create",
-        "initState"
+        "check",
+        "save",
+        "validate",
+        "submit"
       ],
-      "answer": 0,
-      "commentary": "Notifierクラスの中では `build()` メソッドの戻り値として管理データの初期状態（初期値）を返します[cite: 1]。"
+      "answer": 2,
+      "commentary": "formKey.currentState!.validate() を呼び出すことで、Form 内の入力欄すべてのバリデーション（入力チェック）を実行できます。"
     },
     {
       "id": 9,
-      "type": "コード穴埋め",
-      "question": "Notifierクラス内で保持している状態の値を1増やすメソッドの定義です。空欄に入るプロパティ名を選んでください。<pre><code>void increment() { \n  ___++;\n}</code></pre>",
+      "type": "用語理解",
+      "question": "Flutterで、現在の画面を閉じて前の画面に戻るために使用する正しいコードはどれですか？",
       "options": [
-        "state",
-        "value",
-        "data",
-        "count"
+        "Navigator.of(context).back();",
+        "Navigator.of(context).pop();",
+        "Navigator.of(context).close();",
+        "Navigator.of(context).push();"
       ],
-      "answer": 0,
-      "commentary": "Notifierクラス内では `state` プロパティを使って現在の状態の参照や更新を行います[cite: 1]。"
+      "answer": 1,
+      "commentary": "Navigator.of(context).pop(); を実行すると、スタックされている現在の画面が取り除かれ、前の画面に戻ります。"
     },
     {
       "id": 10,
-      "type": "コード穴埋め",
-      "question": "状態の変化を監視し、変更があった際にウィジェットを再描画（自動更新）させるための読み取りメソッドを選んでください。<pre><code>final counter = ref.___(counterProvider);</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下の initState メソッドの記述について、正しい説明を選んでください。<pre><code>@override\nvoid initState() {\n  super.initState();\n  selectedValue = widget.genre.id;\n}</code></pre>",
       "options": [
-        "watch",
-        "read",
-        "listen",
-        "observe"
+        "画面が再描画されるたびに何度も実行される。",
+        "Stateが生成されるときに1度だけ実行され、widget.genre.id が selectedValue に代入される。",
+        "ボタンを押したときに実行される。",
+        "super.initState(); を削除しても正しく動作する。"
       ],
-      "answer": 0,
-      "commentary": "状態の変更を感知してウィジェットの自動再描画を行うには `ref.watch()` を使用します[cite: 1]。"
+      "answer": 1,
+      "commentary": "initState は State 作成時に一度だけ実行され、親ウィジェットから渡された widget.genre.id の値を selectedValue に代入します。"
     },
     {
       "id": 11,
       "type": "コード穴埋め",
-      "question": "NotifierProviderを通してNotifier本体のインスタンスにアクセスし、メソッドを呼び出す記述です。空欄に入るキーワードを選んでください。<pre><code>ref.read(counterProvider.___).increment();</code></pre>",
+      "question": "リストに新しいカードデータを追加する処理です。空欄に入る適切なメソッドを選んでください。<pre><code>flashcardList.___( \n  Flashcard(\n    id: flashcardList.length,\n    question: question,\n    answer: answer,\n    genre: genre,\n  )\n);</code></pre>",
       "options": [
-        "notifier",
-        "state",
-        "class",
-        "instance"
+        "push",
+        "insert",
+        "add",
+        "append"
       ],
-      "answer": 0,
-      "commentary": "NotifierProviderが管理するNotifierオブジェクトのメソッドを呼び出すには `.notifier` を指定します[cite: 1]。"
+      "answer": 2,
+      "commentary": "Dartのリストに要素を末尾に追加するには add メソッドを使用します。"
     },
     {
       "id": 12,
       "type": "コード穴埋め",
-      "question": "NotifierProviderをグローバル変数として定義する正しいコードを選んでください。<pre><code>final counterProvider = ___&lt;MyNotifier, int&gt;(() =&gt; MyNotifier());</code></pre>",
+      "question": "DropdownButton の選択が変更された時に状態を更新する処理です。空欄に入る適切な記述を選んでください。<pre><code>DropdownButton(\n  onChanged: (value) {\n    ___(() {\n      selectedValue = value!;\n    });\n  },\n)</code></pre>",
       "options": [
-        "NotifierProvider",
-        "StateNotifierProvider",
-        "ChangeNotifierProvider",
-        "Provider"
+        "refresh",
+        "setState",
+        "updateUI",
+        "rebuild"
       ],
-      "answer": 0,
-      "commentary": "Notifierクラスを扱うプロバイダーは `NotifierProvider` クラスで定義します[cite: 1]。"
+      "answer": 1,
+      "commentary": "StatefulWidget 内で値を更新して画面を再描画するためには setState メソッドを使います。"
     },
     {
       "id": 13,
       "type": "実行結果予測",
-      "question": "次のコードを実行したとき、画面のTextウィジェットに表示される文字列は何ですか？<pre><code>final msgProvider = Provider&lt;String&gt;((_) =&gt; 'Hello Riverpod');\n\nclass Demo extends ConsumerWidget { \n  const Demo({super.key});\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    return Text(ref.read(msgProvider));\n  }\n}</code></pre>",
+      "question": "次のコードで、genreList に要素が 3 つ入っているとき、生成される dropdownMenuItemList の要素数はいくつになりますか？<pre><code>final dropdownMenuItemList = <DropdownMenuItem<int>>[];\nfor (var i = 0; i < genreList.length; i++) {\n  dropdownMenuItemList.add(\n    DropdownMenuItem(\n      value: genreList[i].id,\n      child: Text(genreList[i].title)\n    )\n  );\n}</code></pre>",
       "options": [
-        "Hello Riverpod",
-        "msgProvider",
-        "Provider<String>",
-        "null"
+        "0個",
+        "1個",
+        "3個",
+        "4個"
       ],
-      "answer": 0,
-      "commentary": "`msgProvider` の戻り値である `'Hello Riverpod'` を `ref.read` で取得して表示します[cite: 1]。"
+      "answer": 2,
+      "commentary": "for文が genreList.length（3回）ループするため、dropdownMenuItemList にも 3 箇の DropdownMenuItem が追加されます。"
     },
     {
       "id": 14,
-      "type": "実行結果予測",
-      "question": "次のNotifierクラスの `build()` メソッドで設定される初期値は何ですか？<pre><code>class ScoreNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() {\n    return 100;\n  }\n}</code></pre>",
+      "type": "用語理解",
+      "question": "今回作成したアプリで、アプリを再起動すると追加したカードが消えてしまう理由として正しいものはどれですか？",
       "options": [
-        "100",
-        "0",
-        "null",
-        "1"
+        "コードにバグがあるから",
+        "データをデータベースではなくメモリ上（変数）にだけ保存しているから",
+        "Flutter の制限で 10 件以上データを持てないから",
+        "StatefulWidget を使っていないから"
       ],
-      "answer": 0,
-      "commentary": "`build()` メソッドの戻り値である `100` が状態の初期状態として設定されます[cite: 1]。"
+      "answer": 1,
+      "commentary": "データベース等の永続化処理を行わずメモリ上の変数（リスト）に追加しているだけのため、アプリを再起動するとデータはリセットされます。"
     },
     {
       "id": 15,
-      "type": "実行結果予測",
-      "question": "次の `increment` メソッドを2回呼び出したとき、`state` の値はいくつになりますか？<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 0;\n  \n  void increment() {\n    state += 5;\n  }\n}</code></pre>",
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の + ボタン（FloatingActionButton）を押した際に、カード追加画面へジャンルデータを渡しながら遷移するコードです。空欄に入る記述を選んでください。<pre><code>FloatingActionButton(\n  onPressed: () {\n    Navigator.of(context).pushNamed(\n      '/card_add',\n      ___: widget.genre,\n    );\n  },\n  child: const Icon(Icons.add),\n)</code></pre>",
       "options": [
-        "10",
-        "5",
-        "2",
-        "0"
+        "params",
+        "arguments",
+        "data",
+        "props"
       ],
-      "answer": 0,
-      "commentary": "初期値 `0` から `+= 5` を2回実行すると、`0 + 5 + 5 = 10` になります。"
+      "answer": 1,
+      "commentary": "pushNamed で画面遷移を行う際、引数 arguments にデータを指定して次の画面に渡すことができます。"
     },
     {
       "id": 16,
-      "type": "実行結果予測",
-      "question": "次のコードで、`readProvider` から取得できる値は何ですか？<pre><code>final firstProvider = Provider&lt;int&gt;((_) =&gt; 10);\nfinal readProvider = Provider&lt;int&gt;((ref) =&gt; ref.read(firstProvider) * 2);</code></pre>",
+      "type": "文法チェック",
+      "question": "Form 全体の状態（検証や保存など）を管理するために利用する GlobalKey の正しい型指定はどれですか？",
       "options": [
-        "20",
-        "10",
-        "2",
-        "エラーになる"
+        "GlobalKey<FormState>()",
+        "GlobalKey<WidgetState>()",
+        "GlobalKey<TextState>()",
+        "GlobalKey<FormFieldState>()"
       ],
       "answer": 0,
-      "commentary": "`ref.read(firstProvider)` で `10` が読み込まれ、それを2倍した `20` が `readProvider` の値となります[cite: 1]。"
+      "commentary": "Form 全体を管理するキーには GlobalKey<FormState>() を使用します。"
     },
     {
       "id": 17,
-      "type": "実行結果予測",
-      "question": "次のコードでボタンを押し、`reset()` が実行された後の状態（`counter`）の値は何になりますか？<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 10;\n  void reset() {\n    state = 0;\n  }\n}</code></pre>",
+      "type": "コード穴埋め",
+      "question": "文字列を入力する単一のフォーム項目の状態を管理する GlobalKey の型指定です。空欄に入る正しい型を選んでください。<pre><code>final questionFormKey = GlobalKey<___<String>>();</code></pre>",
       "options": [
-        "0",
-        "10",
-        "-10",
-        "1"
+        "FormState",
+        "FormFieldState",
+        "TextFieldState",
+        "InputState"
       ],
-      "answer": 0,
-      "commentary": "`reset()` メソッド内で `state = 0` が代入されているため、状態の値は `0` に更新されます[cite: 1]。"
+      "answer": 1,
+      "commentary": "TextFormField などの個別の入力フィールドを管理するキーには FormFieldState<T> 型を指定します。"
     },
     {
       "id": 18,
-      "type": "文法チェック",
-      "question": "Providerを定義する際の変数宣言として正しいものはどれですか？",
+      "type": "実行結果予測",
+      "question": "以下のコードにおいて、`minLines: 2, maxLines: 5` と指定した場合の入力欄の表示挙動として正しいものはどれですか？<pre><code>TextFormField(\n  minLines: 2,\n  maxLines: 5,\n)</code></pre>",
       "options": [
-        "final myProvider = Provider<String>((_) => 'Data');",
-        "const myProvider = Provider<String>((_) => 'Data');",
-        "var myProvider = new Provider<String>((_) => 'Data');",
-        "Provider myProvider = Provider<String>((_) => 'Data');"
+        "常に 2 行の高さで固定される",
+        "常に 5 行の高さで固定される",
+        "最初は 2 行分の高さで、文字数が増えると最大 5 行まで自動で伸びる",
+        "エラーになり表示されない"
       ],
-      "answer": 0,
-      "commentary": "RiverpodのProviderはグローバル変数として `final` を用いて定義します[cite: 1]。"
+      "answer": 2,
+      "commentary": "minLines と maxLines に異なる値を設定すると、初期高さは minLines になり、入力行数に応じて maxLines の高さまで自動で拡張されます。"
     },
     {
       "id": 19,
-      "type": "文法チェック",
-      "question": "ConsumerWidgetを正しく継承したクラスの記述はどれですか？",
+      "type": "コード穴埋め",
+      "question": "CardAddPage コンストラクタで、ジャンルを受け取り必須にするためのキーワードを選んでください。<pre><code>class CardAddPage extends StatefulWidget {\n  const CardAddPage({\n    super.key,\n    ___ this.genre\n  });\n  final Genre genre;\n}</code></pre>",
       "options": [
-        "class MyWidget extends ConsumerWidget { const MyWidget({super.key}); @override Widget build(BuildContext context, WidgetRef ref) => const Text('Hi'); }",
-        "class MyWidget extends ConsumerWidget { const MyWidget({super.key}); @override Widget build(BuildContext context) => const Text('Hi'); }",
-        "class MyWidget extends StatelessWidget { const MyWidget({super.key}); @override Widget build(BuildContext context, WidgetRef ref) => const Text('Hi'); }",
-        "class MyWidget extends ConsumerWidget { const MyWidget({super.key}); @override Widget build(WidgetRef ref) => const Text('Hi'); }"
+        "must",
+        "required",
+        "final",
+        "static"
       ],
-      "answer": 0,
-      "commentary": "`ConsumerWidget` の `build` メソッドは `(BuildContext context, WidgetRef ref)` の2つの引数を取る必要があります[cite: 1]。"
+      "answer": 1,
+      "commentary": "named parameter を必須（呼び出し時に指定必須）にするには required をつけます。"
     },
     {
       "id": 20,
-      "type": "文法チェック",
-      "question": "Notifierクラスを正しく定義している文法はどれですか？",
+      "type": "用語理解",
+      "question": "TextFormField で、入力欄の中に薄い文字でラベル（見出し）を表示するための InputDecoration プロパティはどれですか？",
       "options": [
-        "class MyNotifier extends Notifier<String> { @override String build() => 'Hello'; }",
-        "class MyNotifier implements Notifier<String> { String build() => 'Hello'; }",
-        "class MyNotifier extends Notifier { void build() => 'Hello'; }",
-        "class MyNotifier extends State<String> { String build() => 'Hello'; }"
+        "titleText",
+        "labelText",
+        "headerText",
+        "placeholder"
       ],
-      "answer": 0,
-      "commentary": "`Notifier<型>` を `extends`（継承）し、`build()` メソッドで初期値を返すのが正しい形式です[cite: 1]。"
+      "answer": 1,
+      "commentary": "InputDecoration 内の labelText プロパティで、入力欄のラベル文字を指定できます。"
     },
     {
       "id": 21,
-      "type": "用語理解",
-      "question": "Riverpodにおいて、アプリケーションの状態を管理・カプセル化する中心的な役割を持つオブジェクトは何ですか？",
+      "type": "コード穴埋め",
+      "question": "DropdownMenuItem を作成する際、選択されたときに内部で扱われる値を設定するプロパティ名を選んでください。<pre><code>DropdownMenuItem(\n  ___: genreList[i].id,\n  child: Text(genreList[i].title)\n)</code></pre>",
       "options": [
-        "Provider",
-        "StatefulWidget",
-        "BuildContext",
-        "WidgetRef"
+        "key",
+        "id",
+        "value",
+        "data"
       ],
-      "answer": 0,
-      "commentary": "ProviderはRiverpodの状態管理システムの基盤であり、状態をカプセル化して公開する中心的なオブジェクトです[cite: 1]。"
+      "answer": 2,
+      "commentary": "DropdownMenuItem の value プロパティに設定された値が、ドロップダウンで選択された際に渡されるデータになります。"
     },
     {
       "id": 22,
-      "type": "用語理解",
-      "question": "変化する状態を管理し、ロジックと状態を明確に分離して記述するために使うProviderの種類は何ですか？",
+      "type": "実行結果予測",
+      "question": "以下のコードを実行した際、UI画面上の DropdownMenuItem に直接表示されるテキストは何ですか？<pre><code>DropdownMenuItem(\n  value: genre.id,\n  child: Text(genre.title)\n)</code></pre>",
       "options": [
-        "NotifierProvider",
-        "Provider",
-        "FutureProvider",
-        "StreamProvider"
+        "genre.id の数値",
+        "genre.title の文字列",
+        "両方が並んで表示される",
+        "何も表示されない"
       ],
-      "answer": 0,
-      "commentary": "変化する状態を管理し、Notifierクラスでロジックを分離する場合は `NotifierProvider` を使用します[cite: 1]。"
+      "answer": 1,
+      "commentary": "child プロパティに指定された Text(genre.title) が、ドロップダウンのメニュー選択肢として画面上に表示されます。"
     },
     {
       "id": 23,
-      "type": "用語理解",
-      "question": "ConsumerWidgetなどでProviderの値を参照・操作するために `build` メソッドへ渡されるオブジェクトは何ですか？",
+      "type": "コード穴埋め",
+      "question": "StatefulWidget 内で、親クラスの Widget から受け取ったプロパティ（genre 等）に State 内からアクセスするために使用するキーワードを選んでください。<pre><code>@override\nvoid initState() {\n  super.initState();\n  selectedValue = ___ .genre.id;\n}</code></pre>",
       "options": [
-        "WidgetRef",
-        "ProviderRef",
-        "ProviderScope",
-        "ElementRef"
+        "parent",
+        "this",
+        "widget",
+        "context"
       ],
-      "answer": 0,
-      "commentary": "ウィジェット内でProviderにアクセスする際には `WidgetRef` インスタンスを使用します[cite: 1]。"
+      "answer": 2,
+      "commentary": "State クラス内から StatefulWidget 側のプロパティを参照するときは widget キーワードを使用します。"
     },
     {
       "id": 24,
-      "type": "コード穴埋め",
-      "question": "Riverpodパッケージをターミナルから追加するためのコマンドです。空欄に入るツール名を選んでください。<pre><code>flutter ___ add flutter_riverpod</code></pre>",
+      "type": "文法チェック",
+      "question": "initState メソッドをオーバーライドする際、必ずメソッド内の最初で呼び出す必要があるコードはどれですか？",
       "options": [
-        "pub",
-        "pkg",
-        "get",
-        "run"
+        "super.initState();",
+        "super.build();",
+        "setState();",
+        "super.dispose();"
       ],
       "answer": 0,
-      "commentary": "Flutterで外部ライブラリをプロジェクトに追加するには `flutter pub add ライブラリ名` を実行します[cite: 1]。"
+      "commentary": "initState をオーバーライドするときは、最初に必ず super.initState(); を呼ぶ必要があります。"
     },
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "レガシーなRiverpodプロバイダーを使用する際にインポートするファイルパスの空欄を埋めてください。<pre><code>import 'package:flutter_riverpod/___';</code></pre>",
+      "question": "ElevatedButton を配置してクリック時の処理を記述する際、ボタンを押したときの処理を設定するプロパティを選んでください。<pre><code>ElevatedButton(\n  ___: () {\n    // カード追加処理\n  },\n  child: const Text('カードを追加する'),\n)</code></pre>",
       "options": [
-        "legacy.dart",
-        "deprecated.dart",
-        "old.dart",
-        "compat.dart"
+        "onClick",
+        "onTap",
+        "onPressed",
+        "onChange"
       ],
-      "answer": 0,
-      "commentary": "以前のバージョンのレガシープロバイダーを使うには `legacy.dart` をインポートします[cite: 1]。"
+      "answer": 2,
+      "commentary": "ElevatedButton のタップ時イベントを設定するプロパティは onPressed です。"
     },
     {
       "id": 26,
       "type": "実行結果予測",
-      "question": "次のコードで、`counter` の初期表示数値は何になりますか？<pre><code>final numProvider = NotifierProvider&lt;NumNotifier, int&gt;(() =&gt; NumNotifier());\nclass NumNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 42;\n}</code></pre>",
+      "question": "配列 `genreList` から、選択されたインデックス `selectedValue` に対応する Genre オブジェクトを取り出す正しいコードはどれですか？",
       "options": [
-        "42",
-        "0",
-        "null",
-        "エラーになる"
+        "genreList.get(selectedValue)",
+        "genreList[selectedValue]",
+        "genreList(selectedValue)",
+        "genreList.find(selectedValue)"
       ],
-      "answer": 0,
-      "commentary": "`build()` の戻り値が `42` であるため、初期値は `42` となります[cite: 1]。"
+      "answer": 1,
+      "commentary": "Dartのリスト（配列）要素には `リスト[インデックス]` の形式でアクセスします。"
     },
     {
       "id": 27,
-      "type": "実行結果予測",
-      "question": "次の `decrement` メソッドが実行された後の `state` の値はどうなりますか？<pre><code>class MyNotifier extends Notifier&lt;int&gt; { \n  @override\n  int build() =&gt; 10;\n  void decrement() {\n    state--;\n  }\n}</code></pre>",
+      "type": "コード穴埋め",
+      "question": "現在 `flashcardList` に入っている要素の件数を取得して新しいカードの id に割り当てるコードです。空欄に入るプロパティ名を選んでください。<pre><code>Flashcard(\n  id: flashcardList.___,\n  question: question,\n  answer: answer,\n  genre: genre,\n)</code></pre>",
       "options": [
-        "9",
-        "10",
-        "11",
-        "0"
+        "count",
+        "length",
+        "size",
+        "total"
       ],
-      "answer": 0,
-      "commentary": "初期値 `10` に対して `state--`（1減らす）を実行するため、値は `9` になります[cite: 1]。"
+      "answer": 1,
+      "commentary": "Dartのリストの要素数を取得するには length プロパティを使用します。"
     },
     {
       "id": 28,
-      "type": "コード穴埋め",
-      "question": "Notifier内で文字列のリスト状態を空にするメソッドの処理です。空欄に入るコードを選んでください。<pre><code>class ListNotifier extends Notifier&lt;List&lt;String&gt;&gt; { \n  @override\n  List&lt;String&gt; build() =&gt; ['A', 'B'];\n  void clearAll() {\n    state = ___; \n  }\n}</code></pre>",
+      "type": "用語理解",
+      "question": "TextFormField の枠線スタイルを四角いアウトライン形式にするために InputDecoration の border に指定するクラスはどれですか？",
       "options": [
-        "[]",
-        "null",
-        "''",
-        "0"
+        "OutlineInputBorder()",
+        "BoxInputBorder()",
+        "SquareBorder()",
+        "SimpleBorder()"
       ],
       "answer": 0,
-      "commentary": "文字列の空リストで状態を更新するには空のリスト `[]` を代入します。"
+      "commentary": "InputDecoration(border: OutlineInputBorder()) と指定すると、入力欄を四角い枠線で囲むスタイルになります。"
     },
     {
       "id": 29,
-      "type": "文法チェック",
-      "question": "ElevatedButtonの `onPressed` 内で `increment()` メソッドを呼び出す正しい記述はどれですか？",
+      "type": "コード穴埋め",
+      "question": "選択されているジャンルの id と DropdownButton の表示を連動させるために指定するプロパティ名を選んでください。<pre><code>DropdownButton(\n  ___: selectedValue,\n  items: dropdownMenuItemList,\n  onChanged: (value) { ... },\n)</code></pre>",
       "options": [
-        "ref.read(counterProvider.notifier).increment()",
-        "ref.watch(counterProvider.notifier).increment()",
-        "ref.read(counterProvider).increment()",
-        "ref.watch(counterProvider).increment()"
+        "selected",
+        "current",
+        "value",
+        "index"
       ],
-      "answer": 0,
-      "commentary": "イベントハンドラ内などでNotifierのメソッドを呼び出す際は `ref.read(provider.notifier).method()` と記述します[cite: 1]。"
+      "answer": 2,
+      "commentary": "DropdownButton の value プロパティに現在の選択中の値を渡すことで、選択状態を画面に反映させます。"
     },
     {
       "id": 30,
-      "type": "コード穴埋め",
-      "question": "NotifierProviderの型引数（ジェネリクス）の並び順です。空欄に入る適切な型を選んでください。<pre><code>final counterProvider = NotifierProvider&lt;___, int&gt;(() =&gt; MyNotifier());</code></pre>",
+      "type": "実行結果予測",
+      "question": "TextFormField で以下のように validator を記述し、入力欄に `\" Flutter \"` （前後に空白あり）と入力してボタンを押した場合、戻り値はどうなりますか？<pre><code>validator: (value) {\n  if (value == null || value.trim() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
       "options": [
-        "MyNotifier",
-        "int",
-        "Notifier",
-        "Provider"
+        "'入力してください'",
+        "null",
+        "エラーが発生する",
+        "false"
       ],
-      "answer": 0,
-      "commentary": "`NotifierProvider` の型指定は `<Notifierのクラス名, 管理する状態の型>` の順番で記述します[cite: 1]。"
+      "answer": 1,
+      "commentary": "trim() 後も 'Flutter' という文字列が残るため、if文の条件は成立せず、バリデーション成功を意味する null が返されます。"
     },
     {
       "id": 31,
-      "type": "実行結果予測",
-      "question": "次のコードで、`ref.watch(textProvider)` が返す値は何ですか？<pre><code>final textProvider = Provider&lt;String&gt;((ref) =&gt; 'Flutter');</code></pre>",
+      "type": "コード穴埋め",
+      "question": "Column 内の要素同士の「間隔（隙間）」を16ピクセル開けるために設定するプロパティを選んでください。<pre><code>Column(\n  ___: 16,\n  children: [\n    // 各フォーム項目\n  ],\n)</code></pre>",
       "options": [
-        "Flutter",
-        "textProvider",
-        "String",
-        "null"
+        "padding",
+        "margin",
+        "spacing",
+        "gap"
       ],
-      "answer": 0,
-      "commentary": "`textProvider` は文字列 `'Flutter'` を生成して返すため、取得される値は `'Flutter'` です[cite: 1]。"
+      "answer": 2,
+      "commentary": "Flutterの最新の Column / Row ウィジェットでは、spacing プロパティを使って子要素間の余白を一括設定できます。"
     },
     {
       "id": 32,
-      "type": "コード穴埋め",
-      "question": "Notifierのプロパティ `state` に新しい真偽値を設定して反転させるコードです。空欄に入る記号を選んでください。<pre><code>class ToggleNotifier extends Notifier&lt;bool&gt; { \n  @override\n  bool build() =&gt; false;\n  void toggle() {\n    state = ___state;\n  }\n}</code></pre>",
+      "type": "文法チェック",
+      "question": "DropdownMenuItem を含むリスト変数を生成する際の正しい型定義文はどれですか？",
       "options": [
-        "!",
-        "?",
-        "~",
-        "-"
+        "final dropdownMenuItemList = <DropdownMenuItem<int>>[];",
+        "final dropdownMenuItemList = DropdownMenuItemList<int>();",
+        "final dropdownMenuItemList = [DropdownMenuItem<int>];",
+        "final dropdownMenuItemList = Array<DropdownMenuItem>();"
       ],
       "answer": 0,
-      "commentary": "bool値を反転させる論理否定演算子は `!` です。"
+      "commentary": "Dartで特定型の空リストを作成するときは `<DropdownMenuItem<int>>[]` のように記述します。"
     },
     {
       "id": 33,
-      "type": "用語理解",
-      "question": "以前のRiverpodで使われており、現在は「レガシー（非推奨）」とされている単純な変化する状態を管理するプロバイダーは何ですか？",
+      "type": "コード穴埋め",
+      "question": "TextFormField のラベル位置を入力欄の最上部に揃えるためのプロパティ設定です。空欄に入るプロパティ名を選んでください。<pre><code>InputDecoration(\n  border: const OutlineInputBorder(),\n  labelText: '問題',\n  ___: true\n)</code></pre>",
       "options": [
-        "StateProvider",
-        "NotifierProvider",
-        "Provider",
-        "FutureProvider"
+        "alignLabelWithHint",
+        "topLabel",
+        "alignTop",
+        "centerLabel"
       ],
       "answer": 0,
-      "commentary": "以前のバージョンで単純な状態を管理するために使われていた `StateProvider` は、現在レガシーとされています[cite: 1]。"
+      "commentary": "複数行テキスト入力欄などでラベルの位置を上部に揃えるには alignLabelWithHint: true を指定します。"
     },
     {
       "id": 34,
-      "type": "コード穴埋め",
-      "question": "非同期処理（Future型）の状態を管理するために使用するRiverpodのProviderを選んでください。<pre><code>// Future型の状態を管理する\nfinal myFutureProvider = ___...</code></pre>",
+      "type": "実行結果予測",
+      "question": "次のコードにおいて、`questionFormKey.currentState!.value` が null でないことを保証して確実に値を取り出すために使用されている記号 `!` は何と呼ばれますか？<pre><code>final question = questionFormKey.currentState!.value!;</code></pre>",
       "options": [
-        "FutureProvider",
-        "NotifierProvider",
-        "StreamProvider",
-        "AsyncProvider"
+        "エルビス演算子",
+        "nullチェック演算子（Null assertion operator）",
+        "スプレッド演算子",
+        "三項演算子"
       ],
-      "answer": 0,
-      "commentary": "Future型の非同期な状態を管理するには `FutureProvider` を使用します[cite: 1]。"
+      "answer": 1,
+      "commentary": "末尾に付ける `!` は「Null assertion operator（null判定/強制参照演算子）」と呼ばれ、対象が絶対に null でないことをコンパイラに伝えます。"
     },
     {
       "id": 35,
-      "type": "実行結果予測",
-      "question": "次のコードを実行したときの `title` の値は何になりますか？<pre><code>final titleProvider = Provider&lt;String&gt;((_) =&gt; 'Riverpod Demo');\n\nvoid main() {\n  final name = 'App: ';\n  print(name + 'Riverpod Demo');\n}</code></pre>",
+      "type": "コード穴埋め",
+      "question": "Padding ウィジェットを使って、左右だけに 16 ピクセルの余白を空ける正しい書き方を選んでください。<pre><code>Padding(\n  padding: const EdgeInsets.___(\n    left: 16,\n    right: 16,\n  ),\n  child: TextFormField(...),\n)</code></pre>",
       "options": [
-        "App: Riverpod Demo",
-        "Riverpod Demo",
-        "App: ",
-        "エラーになる"
+        "all",
+        "symmetric",
+        "only",
+        "fromLTRB"
       ],
-      "answer": 0,
-      "commentary": "文字列の結合 `name + 'Riverpod Demo'` により `'App: Riverpod Demo'` が出力されます[cite: 1]。"
+      "answer": 2,
+      "commentary": "left や right など特定の方角だけ余白を指定する場合は `EdgeInsets.only(...)` を使用します。"
     },
     {
       "id": 36,
-      "type": "文法チェック",
-      "question": "`ProviderScope` でアプリ全体を囲む `main` 関数の書き方として正しいものはどれですか？",
+      "type": "用語理解",
+      "question": "入力欄で前後の余分なスペース（空白）を取り除くために使用する Dart の文字列メソッドはどれですか？",
       "options": [
-        "void main() { runApp(const ProviderScope(child: MyApp())); }",
-        "void main() { runApp(const MyApp(child: ProviderScope())); }",
-        "void main() { ProviderScope(child: runApp(const MyApp())); }",
-        "void main() { runApp(ProviderScope.run(const MyApp())); }"
+        "strip()",
+        "trim()",
+        "clean()",
+        "cut()"
       ],
-      "answer": 0,
-      "commentary": "`runApp` の引数の中で `ProviderScope` の `child` にルートウィジェット（`MyApp` など）を渡します[cite: 1]。"
+      "answer": 1,
+      "commentary": "文字列の前後にある空白を削除するには `trim()` メソッドを使用します。"
     },
     {
       "id": 37,
-      "type": "コード穴埋め",
-      "question": "Notifierの `state` を直接更新するメソッドの処理です。空欄に入る代入演算子を選んでください。<pre><code>void updateName(String newName) { \n  state ___ newName;\n}</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下の `addCard` 関数を実行した直後、`flashcardList.length`（要素数）はどう変化しますか？<pre><code>void addCard(String question, String answer, Genre genre) {\n  flashcardList.add(\n    Flashcard(\n      id: flashcardList.length,\n      question: question,\n      answer: answer,\n      genre: genre,\n    )\n  );\n}</code></pre>",
       "options": [
-        "=",
-        "==",
-        "+=",
-        ":"
+        "1 つ減る",
+        "変化しない",
+        "1 つ増える",
+        "0 にリセットされる"
       ],
-      "answer": 0,
-      "commentary": "新しい状態の値を `state` にセットするには代入演算子 `=` を使います[cite: 1]。"
+      "answer": 2,
+      "commentary": "flashcardList.add() によって要素が1つ追加されるため、リストの要素数（length）は 1 増えます。"
     },
     {
       "id": 38,
-      "type": "実行結果予測",
-      "question": "次のコードで `ref.watch(counterProvider)` を使用した場合、`increment()` が呼ばれると何が起きますか？<pre><code>// counterProvider の値が更新された場合</code></pre>",
+      "type": "コード穴埋め",
+      "question": "CardAddPage を StatelessWidget から変更し、状態を保持できるようにするために継承するクラス名を選んでください。<pre><code>class CardAddPage extends ___ {\n  const CardAddPage({super.key, required this.genre});\n  final Genre genre;\n  @override\n  _CardAddState createState() => _CardAddState();\n}</code></pre>",
       "options": [
-        "状態の変化が感知され、ウィジェットが自動で再描画される",
-        "値は更新されるが、画面は再描画されない",
-        "エラーが発生してアプリが停止する",
-        "Providerの初期値がリセットされる"
+        "StatelessWidget",
+        "StatefulWidget",
+        "InheritedWidget",
+        "State"
       ],
-      "answer": 0,
-      "commentary": "`ref.watch` を使うと状態の変更を監視し、変更時にRiverpodがウィジェットを自動で再描画します[cite: 1]。"
+      "answer": 1,
+      "commentary": "状態（State）を持つ画面を作成するためには StatelessWidget ではなく StatefulWidget を継承します。"
     },
     {
       "id": 39,
-      "type": "用語理解",
-      "question": "StatefulWidgetで状態をウィジェット単位で管理した場合に生じる問題点として、教材で挙げられているものはどれですか？",
+      "type": "文法チェック",
+      "question": "アプリのメイン画面ルーティングを設定する MaterialApp のプロパティで、最初に表示するルート名を指定するものはどれですか？",
       "options": [
-        "構造が複雑になった場合にコンストラクタに渡す状態の情報が増えてしまう",
-        "アプリの実行速度が極端に低下してしまう",
-        "画面の更新が一切できなくなってしまう",
-        "データベースとの接続が切断されてしまう"
+        "firstRoute",
+        "initialRoute",
+        "startRoute",
+        "homeRoute"
       ],
-      "answer": 0,
-      "commentary": "ウィジェット単位での状態管理では、構造が複雑化した際にコンストラクタでバケツリレーする状態情報が増えて管理が難しくなります[cite: 1]。"
+      "answer": 1,
+      "commentary": "MaterialApp の initialRoute プロパティで、アプリ起動時に最初に開く画面のルート名（'/' など）を指定します。"
     },
     {
       "id": 40,
       "type": "コード穴埋め",
-      "question": "数値状態を保持するNotifierProviderから、現在のカウント数値を文字列に変換して表示するコードです。空欄に入るメソッドを選んでください。<pre><code>Text(counter.___)</code></pre>",
+      "question": "DropdownButton の選択変更時に渡される新しい値（value）を非ヌル型として代入する処理です。空欄に入る記号を選んでください。<pre><code>onChanged: (value) {\n  setState(() {\n    selectedValue = value___;\n  });\n}</code></pre>",
       "options": [
-        "toString()",
-        "parse()",
-        "toInt()",
-        "stringValue"
+        "?",
+        "!",
+        "==",
+        "%"
       ],
-      "answer": 0,
-      "commentary": "int型の数値 `counter` をTextウィジェットで表示するためには `.toString()` で文字列型に変換します[cite: 1]。"
+      "answer": 1,
+      "commentary": "引数 value はヌル許容型（int?）のため、非ヌル型（int）の selectedValue に代入するには `value!` と記述します。"
     }
   ]
 }
