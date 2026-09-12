@@ -4,522 +4,522 @@
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "暗記カードアプリ全体でProviderを利用できるように、main関数で設定するウィジェットを選んでください。<pre><code>void main() {\n  runApp(\n    const ___(\n      child: MyApp(),\n    ),\n  );\n}</code></pre>",
+      "question": "アプリ全体で Provider を利用可能にするため、main 関数内で MyApp を囲む適切なウィジェットを選んでください。<pre><code>void main() {\n  runApp(\n    const ___(\n      child: MyApp(),\n    ),\n  );\n}</code></pre>",
       "options": [
         "ProviderScope",
-        "ProviderContainer",
         "RiverpodScope",
-        "ProviderApp"
+        "ProviderContainer",
+        "MaterialApp"
       ],
       "answer": 0,
-      "commentary": "Riverpodで管理するProviderをアプリ全体で読み取れるようにするには、ルートウィジェットを ProviderScope で囲みます[cite: 3]。"
+      "commentary": "Riverpod の Provider を全画面で読み取れるようにするには、ルートウィジェットを ProviderScope で囲む必要があります。"
     },
     {
       "id": 2,
-      "type": "コード穴埋め",
-      "question": "変化しないジャンル一覧データ（genreList）を管理する `genreProvider` の定義です。空欄に入る適切なクラス名を選んでください。<pre><code>final genreProvider = ___&lt;List&lt;Genre&gt;&gt;((ref) =&gt; genreList);</code></pre>",
+      "type": "文法チェック",
+      "question": "ジャンル一覧のデータ（genreList）のように「アプリ動作中に追加・変更されないデータ」を管理するのに最も適した Provider はどれですか？",
       "options": [
-        "Provider",
         "NotifierProvider",
+        "Provider",
         "StateProvider",
-        "FutureProvider"
+        "ChangeNotifierProvider"
       ],
-      "answer": 0,
-      "commentary": "ジャンル一覧のような途中で変化しない（定数的な）状態を管理・公開する場合は `Provider` を使用します[cite: 3]。"
+      "answer": 1,
+      "commentary": "追加や変更が起こらない「変化しない状態」を管理するためには、シンプルな Provider を使用します。"
     },
     {
       "id": 3,
-      "type": "コード穴埋め",
-      "question": "カードリスト（flashcardList）のように変更が加わる状態を管理するNotifierクラスの継承部分です。空欄を埋めてください。<pre><code>class FlashcardListNotifier extends ___&lt;List&lt;Flashcard&gt;&gt; {\n  @override\n  List&lt;Flashcard&gt; build() {\n    return flashcardList;\n  }\n}</code></pre>",
+      "type": "文法チェック",
+      "question": "カード一覧データ（flashcardList）のように「ユーザー操作によって新しいカードが追加されるデータ」を管理するのに最も適した Provider はどれですか？",
       "options": [
-        "Notifier",
-        "StateNotifier",
-        "ChangeNotifier",
-        "Provider"
+        "Provider",
+        "NotifierProvider",
+        "FutureProvider",
+        "StreamProvider"
       ],
-      "answer": 0,
-      "commentary": "NotifierProviderで状態管理ロジックを持つクラスを作成する際は `Notifier` クラスを継承します[cite: 3]。"
+      "answer": 1,
+      "commentary": "新しいデータの追加など「変化する状態」を管理し、変更メソッドを定義する場合は NotifierProvider を使用します。"
     },
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "NotifierProviderに管理対象のNotifierクラスと状態の型を指定してインスタンス化しています。空欄に入る記述を選んでください。<pre><code>final flashcardProvider = NotifierProvider&lt;FlashcardListNotifier, ___&gt;(\n  () =&gt; FlashcardListNotifier(),\n);</code></pre>",
+      "question": "genreList を管理する Provider の定義コードです。空欄に入る型指定を選んでください。<pre><code>final genreProvider = Provider<___>((ref) => genreList);</code></pre>",
       "options": [
-        "List<Flashcard>",
-        "Flashcard",
         "List<Genre>",
-        "FlashcardListNotifier"
+        "Genre",
+        "List<String>",
+        "Map<int, Genre>"
       ],
       "answer": 0,
-      "commentary": "NotifierProviderの第2型引数には、管理する状態の型（ここでは `List<Flashcard>`）を指定します[cite: 3]。"
+      "commentary": "genreList は Genre オブジェクトの配列（リスト）であるため、型には List<Genre> を指定します。"
     },
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "NotifierProvider内でカードを追加する際、既存の要素を展開して新しいリストを作成するスプレッド構文の記号を選んでください。<pre><code>void addCard(String question, String answer, Genre genre) {\n  state = [\n    ___state,\n    Flashcard(\n      id: state.length,\n      question: question,\n      answer: answer,\n      genre: genre,\n    ),\n  ];\n}</code></pre>",
+      "question": "NotifierProvider の定義コードです。空欄に入る記述を選んでください。<pre><code>final flashcardProvider =\n  NotifierProvider<FlashcardListNotifier, List<Flashcard>>(\n    ___,\n  );</code></pre>",
       "options": [
-        "...",
-        "***",
-        "&&&",
-        "+++"
+        "FlashcardListNotifier.new",
+        "FlashcardListNotifier()",
+        "FlashcardListNotifier.create",
+        "FlashcardListNotifier.build"
       ],
       "answer": 0,
-      "commentary": "Dartでリストの要素を別のリストに展開・結合するには、スプレッド構文 `...` を使用します[cite: 3]。"
+      "commentary": "NotifierProvider の引数には、クラスのコンストラクタ参照である FlashcardListNotifier.new を渡します。"
     },
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "StatelessWidget から書き換えた `GenreListPage` のクラス定義です。空欄に入る適切なクラス名を選んでください。<pre><code>class GenreListPage extends ___ {\n  const GenreListPage({super.key});\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    ...\n  }\n}</code></pre>",
+      "question": "Notifier クラスで状態の初期値を決定するオーバーライドメソッド名を選んでください。<pre><code>class FlashcardListNotifier extends Notifier<List<Flashcard>> {\n  @override\n  List<Flashcard> ___() {\n    return flashcardList;\n  }\n}</code></pre>",
       "options": [
-        "ConsumerWidget",
-        "StatelessWidget",
-        "ConsumerStatefulWidget",
-        "ProviderWidget"
+        "init",
+        "build",
+        "create",
+        "initState"
       ],
-      "answer": 0,
-      "commentary": "RiverpodでStatelessWidgetに代わる基本ウィジェットとして `ConsumerWidget` を継承します[cite: 3]。"
+      "answer": 1,
+      "commentary": "Notifier クラスでは build() メソッドをオーバーライドして、状態（state）の初期値を返します。"
     },
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "GenreListPage内でジャンル一覧をProviderから取得・監視するコードです。空欄に入る適切なメソッドを選んでください。<pre><code>Widget build(BuildContext context, WidgetRef ref) {\n  final genreList = ref.___(genreProvider);\n  return Scaffold( ... );\n}</code></pre>",
+      "question": "Notifier 内で配列（List）に新しい要素を追加して新しいリストを state に再代入する際、既存の要素を展開するために使用する構文を選んでください。<pre><code>state = [\n  ___state,\n  Flashcard(...),\n];</code></pre>",
       "options": [
-        "watch",
-        "read",
-        "listen",
-        "get"
+        "...",
+        "&&",
+        "==",
+        "++"
       ],
       "answer": 0,
-      "commentary": "ウィジェット内でProviderの状態を取得し、変化を監視して自動で描画更新を行うには `ref.watch()` を利用します[cite: 3]。"
+      "commentary": "Dart のスプレッド構文（...）を使うことで、既存の state（リスト）の全要素を新しいリスト内に展開できます。"
     },
     {
       "id": 8,
       "type": "実行結果予測",
-      "question": "初期状態で `flashcardList` に2件のカードがあるとき、`FlashcardListNotifier` 内の `build()` メソッドが返す初期状態の要素数はいくつか？<pre><code>class FlashcardListNotifier extends Notifier&lt;List&lt;Flashcard&gt;&gt; {\n  @override\n  List&lt;Flashcard&gt; build() {\n    return flashcardList; // 最初は2件含まれる\n  }\n}</code></pre>",
+      "question": "Notifier 内で `state.add(newCard)` とだけ記述してリストに要素を追加した場合の挙動について正しいものはどれですか？",
       "options": [
-        "2",
-        "0",
-        "1",
-        "null"
+        "正常に画面が再描画され、新しいカードが表示される",
+        "state オブジェクト自体の参照が変わらないため、Riverpod が変更を検知できず画面が自動再描画されない",
+        "コンパイルエラーになりアプリが起動しない",
+        "state が null にリセットされる"
       ],
-      "answer": 0,
-      "commentary": "初期データである `flashcardList` がそのまま返されるため、要素数は 2 となります[cite: 3]。"
+      "answer": 1,
+      "commentary": "リストの要素だけを書き換えても state オブジェクト自体の参照が変わらないため、Riverpod は変更を検知できず再描画が起きません。スプレッド構文等で新しいリストを代入する必要があります。"
     },
     {
       "id": 9,
-      "type": "実行結果予測",
-      "question": "次のコードで `addCard` を1回実行した後、`state.length` はいくつになりますか？（初期状態は要素数3）<pre><code>void addCard(String question, String answer, Genre genre) {\n  state = [\n    ...state,\n    Flashcard(id: state.length, question: question, answer: answer, genre: genre),\n  ];\n}</code></pre>",
+      "type": "用語理解",
+      "question": "データの定義や変更処理を一箇所（providers.dart など）にまとめることで得られる主なメリットは何ですか？",
       "options": [
-        "4",
-        "3",
-        "1",
-        "0"
+        "データベースを使わなくてもアプリを再起動した後にデータが永続化されるようになる",
+        "各画面が個別ファイルに依存せず整理され、アプリ全体の見通しが良くなる",
+        "Flutter の画面描画速度が 10 倍以上高速化する",
+        "iOS や Android のビルドが不要になる"
       ],
-      "answer": 0,
-      "commentary": "既存の3つの要素を展開（...state）した上で新しく1要素を追加した配列を代入するため、長さは 3 + 1 = 4 になります[cite: 3]。"
+      "answer": 1,
+      "commentary": "Provider のファイルにデータの保持や処理を一元化することで、依存関係がスッキリし、コードの見通しが良くなります。"
     },
     {
       "id": 10,
-      "type": "実行結果予測",
-      "question": "次のコードで、追加された新カードの `id` にセットされる値は何ですか？（追加前の `state.length` は 5）<pre><code>Flashcard(\n  id: state.length,\n  question: 'Q',\n  answer: 'A',\n  genre: genre,\n)</code></pre>",
+      "type": "コード穴埋め",
+      "question": "GenreListPage を Riverpod 対応させるために継承元を変更するコードです。空欄に入るクラス名を選んでください。<pre><code>class GenreListPage extends ___ {\n  const GenreListPage({super.key});\n}</code></pre>",
       "options": [
-        "5",
-        "6",
-        "4",
-        "0"
+        "StatelessWidget",
+        "ConsumerWidget",
+        "StatefulWidget",
+        "ConsumerState"
       ],
-      "answer": 0,
-      "commentary": "追加前の `state.length`（5）がそのまま `id` の値として設定されます[cite: 3]。"
+      "answer": 1,
+      "commentary": "StatelessWidget の代わりに Riverpod の ConsumerWidget を継承することで、build メソッド内で ref を利用できるようになります。"
     },
     {
       "id": 11,
-      "type": "文法チェック",
-      "question": "スプレッド構文を使って元のリスト `state` に新しい要素 `newItem` を末尾追加した新しいリストを作成する正しい書き方はどれですか？",
+      "type": "コード穴埋め",
+      "question": "ConsumerWidget の build メソッドの定義です。空欄に入る第2引数の型を選んでください。<pre><code>@override\nWidget build(BuildContext context, ___ ref) {\n  final genreList = ref.watch(genreProvider);\n  return Scaffold(...);\n}</code></pre>",
       "options": [
-        "[...state, newItem]",
-        "[state..., newItem]",
-        "[...state + newItem]",
-        "[state.add(newItem)]"
+        "WidgetRef",
+        "BuildContext",
+        "ProviderRef",
+        "ConsumerRef"
       ],
       "answer": 0,
-      "commentary": "Dartでのスプレッド構文によるリスト作成は `[...古いリスト, 新要素]` の形式で行います[cite: 3]。"
+      "commentary": "ConsumerWidget の build メソッドは第2引数として WidgetRef を受け取ります。"
     },
     {
       "id": 12,
-      "type": "文法チェック",
-      "question": "ConsumerWidgetを継承したクラスの `build` メソッドのシグネチャ（引数）として正しいものはどれですか？",
+      "type": "コード穴埋め",
+      "question": "build メソッド内で genreProvider からジャンル一覧を取得して画面更新を監視するコードです。空欄に入るメソッドを選んでください。<pre><code>final genreList = ref.___(genreProvider);</code></pre>",
       "options": [
-        "Widget build(BuildContext context, WidgetRef ref)",
-        "Widget build(BuildContext context)",
-        "Widget build(WidgetRef ref)",
-        "Widget build(BuildContext context, ProviderRef ref)"
+        "read",
+        "watch",
+        "listen",
+        "get"
       ],
-      "answer": 0,
-      "commentary": "ConsumerWidgetの `build` メソッドは第1引数に `BuildContext context`、第2引数に `WidgetRef ref` を受け取ります[cite: 3]。"
+      "answer": 1,
+      "commentary": "ウィジェット内で Provider の状態を参照・監視するためには `ref.watch` を使用します。"
     },
     {
       "id": 13,
-      "type": "文法チェック",
-      "question": "NotifierProviderにおける `state` プロパティの更新方法に関する記述として正しいものはどれですか？",
+      "type": "実行結果予測",
+      "question": "以下の `addCard` を実行した直後、新しい `Flashcard` の `id` に割り当てられる数値は何になりますか？（実行前の `state.length` は 5 とする）<pre><code>void addCard(String question, String answer, Genre genre) {\n  state = [\n    ...state,\n    Flashcard(\n      id: state.length,\n      question: question,\n      answer: answer,\n      genre: genre,\n    ),\n  ];\n}</code></pre>",
       "options": [
-        "state プロパティそのものに新しいオブジェクト（リスト等）を代入して更新する",
-        "state.add() メソッドなどを直接呼んで中身を変更すれば自動検知される",
-        "state プロパティは読み取り専用なので更新できない",
-        "setState() メソッドを呼び出して更新する"
+        "4",
+        "5",
+        "6",
+        "0"
       ],
-      "answer": 0,
-      "commentary": "NotifierProviderで変更を検知させるには、`state = ...` のように `state` プロパティ自体に新しい状態を代入する必要があります[cite: 3]。"
+      "answer": 1,
+      "commentary": "追加前の `state.length` が 5 の場合、`id: state.length` により 5 が設定されます。"
     },
     {
       "id": 14,
-      "type": "用語理解",
-      "question": "暗記カードアプリにおいて、途中でカードが追加されるような「変化する状態」を管理するのに適したProviderはどれですか？",
+      "type": "文法チェック",
+      "question": "Riverpod ライブラリをプロジェクトに追加するための正確なコマンドはどれですか？",
       "options": [
-        "NotifierProvider",
-        "Provider",
-        "FutureProvider",
-        "StreamProvider"
+        "flutter pub add riverpod",
+        "flutter pub add flutter_riverpod",
+        "flutter install riverpod",
+        "pub get riverpod"
       ],
-      "answer": 0,
-      "commentary": "カード追加などのロジックを持ち、変化する動的な状態を管理するには `NotifierProvider` が適しています[cite: 3]。"
+      "answer": 1,
+      "commentary": "Flutter プロジェクトに Riverpod を追加するコマンドは `flutter pub add flutter_riverpod` です。"
     },
     {
       "id": 15,
-      "type": "用語理解",
-      "question": "暗記カードアプリにおいて、初期データから変更されないジャンル一覧のような「変化しない状態」を管理するのに最も適したProviderはどれですか？",
+      "type": "コード穴埋め",
+      "question": "ジャンル一覧画面（`GenreListPage`）で選択したジャンルの詳細画面へ遷移する際、arguments に指定している値を選んでください。<pre><code>onTap: () {\n  Navigator.of(context).pushNamed(\n    '/card_list',\n    arguments: ___,\n  );\n}</code></pre>",
       "options": [
-        "Provider",
-        "NotifierProvider",
-        "StateNotifierProvider",
-        "FutureProvider"
+        "genreList[index]",
+        "genreList",
+        "index",
+        "genreList[index].title"
       ],
       "answer": 0,
-      "commentary": "アプリ内で変化しない一定のデータを管理する場合はシンプルな `Provider` が適しています[cite: 3]。"
+      "commentary": "タップされた要素に対応する Genre オブジェクト（`genreList[index]`）を渡します。"
     },
     {
       "id": 16,
-      "type": "コード穴埋め",
-      "question": "ListView.builder のアイテム数を指定するため、`genreList` の要素数を取得しているプロパティを選んでください。<pre><code>ListView.builder(\n  itemCount: genreList.___,\n  itemBuilder: (context, index) =&gt; Card( ... ),\n)</code></pre>",
+      "type": "実行結果予測",
+      "question": "`ListView.builder` の `itemCount` に `genreList.length` を指定した場合、表示されるリスト項目の数はいくつになりますか？",
       "options": [
-        "length",
-        "count",
-        "size",
-        "total"
+        "常に 0 個",
+        "genreList の要素数と同じ数",
+        "genreList の要素数 + 1 個",
+        "無限に表示される"
       ],
-      "answer": 0,
-      "commentary": "リストの要素数を取得するには `.length` プロパティを使用します[cite: 3]。"
+      "answer": 1,
+      "commentary": "`itemCount` に指定されたリストの要素数（`genreList.length`）の分だけリスト項目が作成・表示されます。"
     },
     {
       "id": 17,
-      "type": "実行結果予測",
-      "question": "次のコードで `genreList[1].title` を表示した場合、何が画面に出力されますか？（`genreList` は ['英単語', '歴史', '理科'] の要素を持つオブジェクトのリストとする）<pre><code>Text(genreList[1].title)</code></pre>",
+      "type": "コード穴埋め",
+      "question": "Notifier クラスの定義文です。空欄に入る型指定を選んでください。<pre><code>class FlashcardListNotifier extends Notifier<___> {\n  @override\n  List<Flashcard> build() {\n    return flashcardList;\n  }\n}</code></pre>",
       "options": [
-        "歴史",
-        "英単語",
-        "理科",
-        "1"
+        "List<Flashcard>",
+        "Flashcard",
+        "List<Genre>",
+        "void"
       ],
       "answer": 0,
-      "commentary": "リストのインデックスは0から始まるため、`genreList[1]` は2番目の要素「歴史」となります[cite: 3]。"
+      "commentary": "管理する状態の型がカードのリストなので `Notifier<List<Flashcard>>` と定義します。"
     },
     {
       "id": 18,
-      "type": "コード穴埋め",
-      "question": "カード一覧画面に渡す引数（arguments）として選択されたジャンルオブジェクトを指定するコードです。空欄に入るインデックス変数を指定してください。<pre><code>Navigator.of(context).pushNamed(\n  '/card_list',\n  arguments: genreList[___],\n);</code></pre>",
+      "type": "用語理解",
+      "question": "StatelessWidget を ConsumerWidget に書き換える際、不要になる（直接参照しなくなる）データファイルの import はどれですか？",
       "options": [
-        "index",
-        "i",
-        "count",
-        "0"
+        "package:flutter/material.dart",
+        "../providers.dart",
+        "../data/genre.dart",
+        "package:flutter_riverpod/flutter_riverpod.dart"
       ],
-      "answer": 0,
-      "commentary": "ListView.builder の `itemBuilder` 内では、現在描画対象となっている要素の順序を表す `index` 変数を使用します[cite: 3]。"
+      "answer": 2,
+      "commentary": "`providers.dart` 経由でデータを参照するようになるため、以前使っていた `../data/genre.dart` の直接 import は不要になります。"
     },
     {
       "id": 19,
-      "type": "文法チェック",
-      "question": "Notifierを継承したクラスの中で初期化時に必ずオーバーライドしなければならないメソッドはどれですか？",
+      "type": "コード穴埋め",
+      "question": "Card の子要素として、タイトル表示やタップ処理（onTap）を持つ標準的なウィジェットを選んでください。<pre><code>itemBuilder: (context, index) => Card(\n  child: ___(\n    title: Text(genreList[index].title),\n    onTap: () { ... },\n  ),\n)</code></pre>",
       "options": [
-        "build()",
-        "initState()",
-        "createState()",
-        "init()"
+        "ListTile",
+        "ListView",
+        "Column",
+        "Container"
       ],
       "answer": 0,
-      "commentary": "Notifierを継承するクラスでは、初期状態を返す `build()` メソッドの定義が必須です[cite: 3]。"
+      "commentary": "リストの 1 行分をキレイにレイアウトするために ListTile ウィジェットが使用されています。"
     },
     {
       "id": 20,
-      "type": "用語理解",
-      "question": "画面を構築するファイル（`genre_list.dart` など）が `providers.dart` 経由でデータにアクセスすることにより得られる利点はどれですか？",
+      "type": "文法チェック",
+      "question": "Provider を外部ファイルに定義して共有する際、変数の定義方法として正しいものはどれですか？",
       "options": [
-        "データの取得方法や元のデータファイルを意識せずに画面を構築できる",
-        "アプリの通信速度が格段に上昇する",
-        "データベースが全自動でバックアップされる",
-        "Flutterのビルドコマンドを実行する必要がなくなる"
+        "クラスの中で static な変数として定義する",
+        "ファイル内のグローバルな変数として final で定義する",
+        "build メソッドの中で毎回 var で定義する",
+        "const で定義する"
       ],
-      "answer": 0,
-      "commentary": "データ管理をProviderに集約することで、UI層のファイルは元データファイルの場所や取得詳細を意識せずに開発できます[cite: 3]。"
+      "answer": 1,
+      "commentary": "Riverpod の Provider は、グローバル領域で `final` を使って定数・変数のように定義するのが基本ルールです。"
     },
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "Riverpodライブラリをプロジェクトに追加するコマンドの空欄を埋めてください。<pre><code>flutter pub add ___</code></pre>",
+      "question": "Riverpod 導入後、main.dart でインポートすべきパッケージ名を選んでください。<pre><code>import 'package:___/flutter_riverpod.dart';</code></pre>",
       "options": [
         "flutter_riverpod",
         "riverpod",
-        "riverpod_flutter",
-        "provider"
+        "provider",
+        "flutter_provider"
       ],
       "answer": 0,
-      "commentary": "プロジェクトにRiverpodを追加するには `flutter pub add flutter_riverpod` を実行します[cite: 3]。"
+      "commentary": "Flutter で Riverpod を使うためのインポート文は `import 'package:flutter_riverpod/flutter_riverpod.dart';` です。"
     },
     {
       "id": 22,
       "type": "コード穴埋め",
-      "question": "providers.dartで定義した `genreProvider` をインポートして画面で利用するためのパス記述の空欄を埋めてください。<pre><code>import '___/providers.dart';</code></pre>",
+      "question": "新規作成する `providers.dart` が配置されるフォルダの場所を選んでください。<pre><code>flashcard_app/\n└── lib/\n    ├── main.dart\n    ├── pages/\n    └── ___</code></pre>",
       "options": [
-        "..",
-        ".",
-        "lib",
-        "src"
+        "providers.dart",
+        "data/providers.dart",
+        "models/providers.dart",
+        "src/providers.dart"
       ],
       "answer": 0,
-      "commentary": "pagesフォルダ内のファイルから一つ上の階層にある `providers.dart` を参照するには `../providers.dart` と記述します[cite: 3]。"
+      "commentary": "教科書の指定構成では `lib/providers.dart` として直下に作成します。"
     },
     {
       "id": 23,
       "type": "実行結果予測",
-      "question": "次のコードが実行されたとき、`genreProvider` が返す値の型は何ですか？<pre><code>final genreProvider = Provider&lt;List&lt;Genre&gt;&gt;((ref) =&gt; genreList);</code></pre>",
+      "question": "以下のコードを実行して `genreProvider` を参照したとき、返されるデータは何ですか？<pre><code>final genreProvider = Provider<List<Genre>>((ref) => genreList);</code></pre>",
       "options": [
-        "List<Genre>",
-        "Genre",
-        "Provider",
-        "WidgetRef"
+        "空のリスト `[]`",
+        "genreList （ジャンルのリストデータ）",
+        "null",
+        "文字列 'genreList'"
       ],
-      "answer": 0,
-      "commentary": "ジェネリクスで `<List<Genre>>` が指定されているため、返されるデータ型は `List<Genre>` です[cite: 3]。"
+      "answer": 1,
+      "commentary": "アロー関数 `(ref) => genreList` が定義されているため、参照時には `genreList` そのものが返されます。"
     },
     {
       "id": 24,
-      "type": "文法チェック",
-      "question": "NotifierProvider の定義部分として文法上正しいものはどれですか？",
+      "type": "用語理解",
+      "question": "Riverpod の Notifier クラス内で、現在管理している状態オブジェクトを保持しているプロパティ名はどれですか？",
       "options": [
-        "final flashcardProvider = NotifierProvider<FlashcardListNotifier, List<Flashcard>>(() => FlashcardListNotifier());",
-        "const flashcardProvider = NotifierProvider<FlashcardListNotifier, List<Flashcard>>(() => FlashcardListNotifier());",
-        "var flashcardProvider = NotifierProvider(() => FlashcardListNotifier());",
-        "final flashcardProvider = new NotifierProvider(() => FlashcardListNotifier());"
+        "value",
+        "state",
+        "data",
+        "object"
       ],
-      "answer": 0,
-      "commentary": "プロバイダーは `final` キーワードを用い、型引数と生成関数を指定して定義します[cite: 3]。"
+      "answer": 1,
+      "commentary": "Notifier クラス内部では `state` プロパティを使って管理対象の状態にアクセス・再代入します。"
     },
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "ListTileのタイトル部分にジャンルのタイトルテキストを表示するコードです。空欄を埋めてください。<pre><code>title: Text(genreList[index].___),</code></pre>",
+      "question": "Genre のリストを取得後、ListView 内のカードタイトルとして描画するコードです。空欄に入る記述を選んでください。<pre><code>title: Text(genreList[index].___)</code></pre>",
       "options": [
         "title",
         "name",
-        "text",
-        "label"
+        "label",
+        "id"
       ],
       "answer": 0,
-      "commentary": "Genreモデルのタイトルプロパティである `title` を指定して表示します[cite: 3]。"
+      "commentary": "Genre モデルが持っているジャンル名プロパティは `title` です。"
     },
     {
       "id": 26,
-      "type": "用語理解",
-      "question": "StatefulWidgetで画面ごとに管理していた状態をRiverpodで管理するように変更する最大のメリットは何ですか？",
+      "type": "文法チェック",
+      "question": "NotifierProvider のジェネリクス指定 `NotifierProvider<A, B>` における A と B の役割として正しいものはどれですか？",
       "options": [
-        "アプリ全体で状態を一括管理できるようになること",
-        "画面の作成が完全に不要になること",
-        "Dart言語以外の言語で開発できるようになること",
-        "Flutterアプリがブラウザ上でしか動かなくなること"
+        "A: 管理対象の状態の型, B: Notifierを継承したクラス名",
+        "A: Notifierを継承したクラス名, B: 管理対象の状態の型",
+        "A: WidgetRef の型, B: BuildContext の型",
+        "A: ProviderScope の型, B: State の型"
       ],
-      "answer": 0,
-      "commentary": "Riverpodを使うことで、特定画面に閉じていた状態をアプリ全体から参照・一括管理できるようになります[cite: 3]。"
+      "answer": 1,
+      "commentary": "第1引数 A には Notifier 継承クラス名、第2引数 B にはそれが管理する状態の型（`List<Flashcard>` など）を指定します。"
     },
     {
       "id": 27,
-      "type": "実行結果予測",
-      "question": "次のコードを実行して `addCard` を呼び出した際、新しい `Flashcard` の `id` はどう決まりますか？<pre><code>state = [\n  ...state,\n  Flashcard(\n    id: state.length,\n    question: question,\n    answer: answer,\n    genre: genre,\n  )\n];</code></pre>",
+      "type": "コード穴埋め",
+      "question": "スプレッド構文を使って既存の state に新しい要素を1つ末尾追加した配列を作成する書き方です。<pre><code>state = [\n  ...state,\n  ___,\n];</code></pre>",
       "options": [
-        "既存のリストの長さを基準にユニークなIDとして割り振られる",
-        "常に0に固定される",
-        "ランダムな文字列が設定される",
-        "null に設定される"
+        "新しい要素",
+        "state.add()",
+        "state++",
+        "state[0]"
       ],
       "answer": 0,
-      "commentary": "`state.length` により、新要素追加前の末尾インデックスに相当する数値がIDとしてセットされます[cite: 3]。"
+      "commentary": "新配列の中に `...state`（既存全要素）と `新しい要素` をカンマ区切りで記述することで、末尾追加された新リストが生成されます。"
     },
     {
       "id": 28,
-      "type": "コード穴埋め",
-      "question": "画面遷移を行う際に、遷移先の画面へジャンルデータを引き渡す引数名を選んでください。<pre><code>Navigator.of(context).pushNamed(\n  '/card_list',\n  ___: genreList[index],\n);</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下の `genreProvider` の定義で、`List<Genre>` の代わりに誤って `Genre` 型を指定して `genreList`（リスト）を返した場合どうなりますか？<pre><code>final genreProvider = Provider<Genre>((ref) => genreList);</code></pre>",
       "options": [
-        "arguments",
-        "params",
-        "data",
-        "args"
+        "型が一致しないためコンパイルエラー（型エラー）になる",
+        "リストの最初の 1 要素だけが自動的に抽出される",
+        "正常に動く",
+        "アプリが強制終了するがエラーログは出ない"
       ],
       "answer": 0,
-      "commentary": "Named Routeによる遷移でパラメータを渡す際は `arguments` プロパティを使用します[cite: 3]。"
+      "commentary": "返す値の型（List<Genre>）とジェネリクス指定（Genre）が合わないため、Dart の型チェックによりコンパイルエラーになります。"
     },
     {
       "id": 29,
-      "type": "文法チェック",
-      "question": "Riverpodを使うために `main.dart` で追加すべきインポート文はどれですか？",
+      "type": "コード穴埋め",
+      "question": "ジャンル一覧画面（`GenreListPage`）のAppBarに表示するタイトル文字列を設定しているコードです。<pre><code>appBar: AppBar(\n  title: const Text('___'),\n),</code></pre>",
       "options": [
-        "import 'package:flutter_riverpod/flutter_riverpod.dart';",
-        "import 'package:riverpod/riverpod.dart';",
-        "import 'package:provider/provider.dart';",
-        "import 'package:flutter/riverpod.dart';"
+        "ジャンル一覧",
+        "カード一覧",
+        "カード追加",
+        "ホーム"
       ],
       "answer": 0,
-      "commentary": "FlutterでRiverpodを利用する際は `package:flutter_riverpod/flutter_riverpod.dart` をインポートします[cite: 3]。"
+      "commentary": "教科書のコードでは、`GenreListPage` のタイトルに 'ジャンル一覧' が設定されています。"
     },
     {
       "id": 30,
-      "type": "実行結果予測",
-      "question": "次のコードで `GenreListPage` 内の `genreList` に代入される値は何ですか？<pre><code>final genreList = ref.watch(genreProvider);</code></pre>",
+      "type": "用語理解",
+      "question": "プロパティ `genreProvider` が「変化しない状態」であるにもかかわらず `ref.watch(genreProvider)` を使用する理由として教材で触れられているものはどれですか？",
       "options": [
-        "genreProviderが管理するジャンルオブジェクトのリスト（List<Genre>）",
-        "ジャンルの件数を表す数値",
-        "Providerのインスタンス自体",
-        "null"
+        "ref.read を使うとエラーが発生するため",
+        "他の画面と書き方を揃え、将来 Provider の中身が変更可能に差し替わった際にも対応できるようにするため",
+        "watch を使わないとメモリが解放されないため",
+        "watch を使わないとビルド速度が極端に落ちるため"
       ],
-      "answer": 0,
-      "commentary": "`ref.watch(genreProvider)` は、`genreProvider` が返す値（`List<Genre>`）を取得します[cite: 3]。"
+      "answer": 1,
+      "commentary": "記述の一貫性を保ち、将来データ定義が可変に差し替わった場合にも自動で画面更新できるように `ref.watch` を使用しています。"
     },
     {
       "id": 31,
       "type": "コード穴埋め",
-      "question": "ジャンルリストのカードをタップした際のイベント処理ハンドラ名を選んでください。<pre><code>ListTile(\n  title: Text(genreList[index].title),\n  ___: () {\n    Navigator.of(context).pushNamed('/card_list', arguments: genreList[index]);\n  },\n)</code></pre>",
+      "question": "ListView.builder ウィジェットでスクロール可能なリストを構築する際、各行の要素を生成する関数を渡すプロパティ名を選んでください。<pre><code>ListView.builder(\n  itemCount: genreList.length,\n  ___: (context, index) => Card(...),\n)</code></pre>",
       "options": [
-        "onTap",
-        "onPressed",
-        "onClick",
-        "onChange"
+        "itemBuilder",
+        "builder",
+        "itemDelegate",
+        "children"
       ],
       "answer": 0,
-      "commentary": "ListTile要素がタップされた時の処理を指定するには `onTap` プロパティを使用します[cite: 3]。"
+      "commentary": "ListView.builder の各要素を生成するコールバック関数は `itemBuilder` プロパティに指定します。"
     },
     {
       "id": 32,
-      "type": "用語理解",
-      "question": "Riverpodで管理されている状態が変更された際、その状態を参照しているUIウィジェットはどうなりますか？",
+      "type": "文法チェック",
+      "question": "コンストラクタ `GenreListPage({super.key})` における `super.key` の役割は何ですか？",
       "options": [
-        "自動的に再描画されて最新の状態が画面に反映される",
-        "アプリを再起動しないと変化が反映されない",
-        "画面全体が消去されて空白になる",
-        "手動で setState() を呼ぶまで何も変わらない"
+        "親クラス（ConsumerWidget / Widget）の key プロパティへ引数を渡す",
+        "GlobalKey を全自動で作成する",
+        "データベースの主キー（Primary Key）を指定する",
+        "ProviderScope の識別 ID を設定する"
       ],
       "answer": 0,
-      "commentary": "`ref.watch` 等で参照しているウィジェットは、状態更新を検知して自動的に再描画が行われます[cite: 3]。"
+      "commentary": "`super.key` は、スーパークラス（親クラス）のコンストラクタの key パラメータに値を引き渡すショートハンド記法です。"
     },
     {
       "id": 33,
       "type": "コード穴埋め",
-      "question": "Flashcardクラスのインスタンス生成に必要な引数 `question` に値を渡すコードです。空欄を埋めてください。<pre><code>Flashcard(\n  id: state.length,\n  question: ___,\n  answer: answer,\n  genre: genre,\n)</code></pre>",
+      "question": "画面遷移を行う際に、Flutter 標準の Navigator で指定ルートを呼び出すメソッドを選んでください。<pre><code>Navigator.of(context).___(\n  '/card_list',\n  arguments: genreList[index],\n);</code></pre>",
       "options": [
-        "question",
-        "answer",
-        "genre",
-        "title"
+        "pushNamed",
+        "popAndPush",
+        "pushReplacement",
+        "openRoute"
       ],
       "answer": 0,
-      "commentary": "引数として渡された問題文変数 `question` をそのままプロパティに割り当てます[cite: 3]。"
+      "commentary": "名前付きルートに画面遷移させるには `pushNamed` メソッドを使用します。"
     },
     {
       "id": 34,
       "type": "実行結果予測",
-      "question": "次のコードにおいて、`genreProvider` が管理する状態を変更しようとした場合どうなりますか？<pre><code>final genreProvider = Provider&lt;List&lt;Genre&gt;&gt;((ref) =&gt; genreList);</code></pre>",
+      "question": "以下の `addCard` 処理が実行された後、`build()` メソッドで `ref.watch(flashcardProvider)` しているウィジェットはどうなりますか？<pre><code>void addCard(String question, String answer, Genre genre) {\n  state = [\n    ...state,\n    Flashcard(...),\n  ];\n}</code></pre>",
       "options": [
-        "Providerは読み取り専用であり状態更新メソッドを提供しないため変更できない",
-        "genreProvider.state で自由に更新できる",
-        "自動的にNotifierProviderへ変換される",
-        "アプリがクラッシュする"
+        "何も起こらない",
+        "state の変更が検知され、自動的に再描画されて画面表示が更新される",
+        "アプリが一度再起動する",
+        "ProviderScope が破棄される"
       ],
-      "answer": 0,
-      "commentary": "通常の `Provider` は変化しない不変な値を管理するためのものであり、状態の外部更新機能を持ちません[cite: 3]。"
+      "answer": 1,
+      "commentary": "state に新しいリストが再代入されたことで Riverpod が状態変更を検知し、`ref.watch` しているウィジェットが再描画されます。"
     },
     {
       "id": 35,
-      "type": "文法チェック",
-      "question": "ConsumerWidget内でProviderの値を参照する文法として正しくないものはどれですか？",
+      "type": "コード穴埋め",
+      "question": "Scaffold の中央（メイン領域）に表示するウィジェットを設定するプロパティ名を選んでください。<pre><code>Scaffold(\n  appBar: AppBar(...),\n  ___: ListView.builder(...),\n)</code></pre>",
       "options": [
-        "final data = genreProvider.read();",
-        "final data = ref.watch(genreProvider);",
-        "final data = ref.read(genreProvider);",
-        "final data = ref.watch(flashcardProvider);"
+        "body",
+        "child",
+        "content",
+        "main"
       ],
       "answer": 0,
-      "commentary": "Provider自体から `.read()` を呼ぶことはできず、必ず `ref`（WidgetRefなど）のメソッド経由で読み取ります[cite: 3]。"
+      "commentary": "Scaffold のメインコンテンツ表示領域は `body` プロパティです。"
     },
     {
       "id": 36,
-      "type": "コード穴埋め",
-      "question": "Notifierクラス内で管理中の状態 `state` にアクセスしてカード件数を取得しているコードです。空欄を埋めてください。<pre><code>id: state.___,</code></pre>",
+      "type": "用語理解",
+      "question": "Dart のパッケージ管理コマンドで、`pubspec.yaml` に記述されたライブラリをダウンロード・同期するコマンドはどれですか？",
       "options": [
-        "length",
-        "count",
-        "size",
-        "number"
+        "flutter pub get",
+        "flutter build",
+        "flutter doctor",
+        "flutter clean"
       ],
       "answer": 0,
-      "commentary": "リスト型の `state` から要素数を取得するために `state.length` を使用します[cite: 3]。"
+      "commentary": "依存関係のライブラリを取得・更新するには `flutter pub get` を実行します。"
     },
     {
       "id": 37,
-      "type": "実行結果予測",
-      "question": "次のコードを実行した際、`genreList` はどこから読み込まれますか？<pre><code>final genreList = ref.watch(genreProvider);</code></pre>",
+      "type": "コード穴埋め",
+      "question": "Flashcard モデルのインスタンス作成時、問題文と回答の引数名を指定するコードです。<pre><code>Flashcard(\n  id: state.length,\n  ___: question,\n  ___: answer,\n  genre: genre,\n)</code></pre>",
       "options": [
-        "providers.dart で定義された genreProvider",
-        "直接 genre.dart ファイルから読み込まれる",
-        "インターネット上のサーバーから自動ダウンロードされる",
-        "ローカルのデータベース"
+        "question / answer",
+        "title / content",
+        "front / back",
+        "q / a"
       ],
       "answer": 0,
-      "commentary": "`genreProvider` を監視することで、Provider経由でジャンルデータが読み込まれます[cite: 3]。"
+      "commentary": "Flashcard モデルのプロパティ名は `question` と `answer` です。"
     },
     {
       "id": 38,
-      "type": "用語理解",
-      "question": "Dartにおける `...` （ドット3つ）の演算子を何と呼びますか？",
+      "type": "実行結果予測",
+      "question": "以下のコードで、`genreList` が空のリスト `[]` だった場合、画面上には何が表示されますか？<pre><code>itemCount: genreList.length, // 0\nitemBuilder: (context, index) => Card(...),</code></pre>",
       "options": [
-        "スプレッド構文（スプレッド演算子）",
-        "レスト構文",
-        "ドット演算子",
-        "カスケード演算子"
+        "エラーが表示される",
+        "何もリスト項目（Card）が表示されない空の画面になる",
+        "デフォルトのカードが1枚表示される",
+        "アプリがクラッシュする"
       ],
-      "answer": 0,
-      "commentary": "コレクション要素を展開して新しいコレクションに埋め込む `...` は「スプレッド構文（演算子）」と呼ばれます[cite: 3]。"
+      "answer": 1,
+      "commentary": "`itemCount` が 0 の場合、`itemBuilder` は一度も呼ばれないため、リスト項目は一切表示されません。"
     },
     {
       "id": 39,
       "type": "文法チェック",
-      "question": "暗記カードアプリの `main()` 関数で `ProviderScope` を配置する正しい記述はどれですか？",
+      "question": "Riverpod の Provider を定義する際、`final` キーワードを使用する理由として適切なものはどれですか？",
       "options": [
-        "void main() { runApp(const ProviderScope(child: MyApp())); }",
-        "void main() { ProviderScope(runApp(const MyApp())); }",
-        "void main() { runApp(const MyApp(scope: ProviderScope())); }",
-        "void main() { runApp(ProviderScope.init()); }"
+        "Provider インスタンス自体の再代入を防ぎ、安全にグローバルに公開するため",
+        "管理している内部データ（state）を永久に変更不可にするため",
+        "コンパイル時に定数化して高速化するため",
+        "Dart の文法上 `const` が使えない場合の警告消しのため"
       ],
       "answer": 0,
-      "commentary": "`runApp` に渡すルートウィジェットとして `ProviderScope` を配置し、`child` に `MyApp()` を指定します[cite: 3]。"
+      "commentary": "Provider 変数自体の参照が途中で上書き変更されるのを防ぐため、グローバル変数として `final` で宣言します。"
     },
     {
       "id": 40,
       "type": "コード穴埋め",
-      "question": "カードリストのNotifierで、カード追加後に新しいリストを代入するプロパティ名を選んでください。<pre><code>void addCard(String question, String answer, Genre genre) {\n  ___ = [\n    ...state,\n    Flashcard( ... ),\n  ];\n}</code></pre>",
+      "question": "GenreListPage で Riverpod を使うためにインポートする、自作 Provider の定義ファイルのパスを選んでください。<pre><code>import 'package:flutter/material.dart';\nimport 'package:flutter_riverpod/flutter_riverpod.dart';\nimport '___';</code></pre>",
       "options": [
-        "state",
-        "value",
-        "data",
-        "list"
+        "../providers.dart",
+        "../data/genre.dart",
+        "../models/genre.dart",
+        "../main.dart"
       ],
       "answer": 0,
-      "commentary": "Notifierが保持する現在の状態を更新するには `state` プロパティに新しい値を代入します[cite: 3]。"
+      "commentary": "`pages` ディレクトリから1つ上の階層にある `providers.dart` をインポートするため `../providers.dart` を指定します。"
     }
   ]
 }

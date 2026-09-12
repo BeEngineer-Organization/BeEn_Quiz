@@ -3,523 +3,523 @@
   "questions": [
     {
       "id": 1,
-      "type": "コード穴埋め",
-      "question": "ローカルな状態管理や initState メソッドを保持しつつ、RiverpodのProviderへアクセスするために継承するウィジェットクラス名を選んでください。<pre><code>class CardAddPage extends ___ {\n  const CardAddPage({\n    super.key,\n    required this.genre,\n  });\n  final Genre genre;\n  ...\n}</code></pre>",
+      "type": "用語理解",
+      "question": "CardAddPage のように formKey や selectedValue などのローカルな状態を保持しつつ、Riverpod の Provider にアクセスしたい場合に使われる正しい組み合わせはどれですか？",
       "options": [
-        "ConsumerStatefulWidget",
-        "StatefulWidget",
-        "ConsumerWidget",
-        "StatelessWidget"
+        "StatelessWidget と State",
+        "ConsumerWidget と WidgetRef",
+        "ConsumerStatefulWidget と ConsumerState",
+        "ProviderScope と Consumer"
       ],
-      "answer": 0,
-      "commentary": "initState などを備えたローカルな状態と Riverpod の Provider アクセスを両立させるには ConsumerStatefulWidget を継承します[cite: 5]。"
+      "answer": 2,
+      "commentary": "ローカルな状態（State）をカスタマイズして保持しながら Provider へアクセスしたい場合は、ConsumerStatefulWidget と ConsumerState の組み合わせを使用します。"
     },
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "ConsumerStatefulWidget の createState メソッドで指定する戻り値の型を選んでください。<pre><code>@override\n___&lt;CardAddPage&gt; createState() =&gt; _CardAddState();</code></pre>",
+      "question": "CardAddPage を Riverpod 対応させるため、StatefulWidget から切り替える親クラスを選んでください。<pre><code>class CardAddPage extends ___ {\n  const CardAddPage({\n    super.key,\n    required this.genre\n  });\n\n  final Genre genre;\n\n  @override\n  ConsumerState<CardAddPage> createState() => _CardAddState();\n}</code></pre>",
       "options": [
+        "ConsumerWidget",
+        "ConsumerStatefulWidget",
         "ConsumerState",
-        "State",
-        "WidgetState",
-        "ProviderState"
+        "InheritedWidget"
       ],
-      "answer": 0,
-      "commentary": "ConsumerStatefulWidget の createState メソッドは ConsumerState<クラス名> 型のオブジェクトを返します[cite: 5]。"
+      "answer": 1,
+      "commentary": "StatefulWidget の代わりに ConsumerStatefulWidget を継承することで、対となる ConsumerState を生成できます。"
     },
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "CardAddPage のStateクラスが継承すべきクラスを選んでください。<pre><code>class _CardAddState extends ___&lt;CardAddPage&gt; {\n  ...\n}</code></pre>",
+      "question": "ConsumerStatefulWidget の State クラスが継承すべき適切なクラスを選んでください。<pre><code>class _CardAddState extends ___<CardAddPage> {\n  final formKey = GlobalKey<FormState>();\n  int selectedValue = 0;\n}</code></pre>",
       "options": [
-        "ConsumerState",
         "State",
         "ConsumerWidget",
+        "ConsumerState",
         "WidgetState"
       ],
-      "answer": 0,
-      "commentary": "ConsumerStatefulWidget に対応する State クラスは ConsumerState を継承して作成します[cite: 5]。"
+      "answer": 2,
+      "commentary": "ConsumerStatefulWidget とペアで使う State は ConsumerState を継承します。"
     },
     {
       "id": 4,
-      "type": "コード穴埋め",
-      "question": "NotifierProvider経由で addCard メソッドを呼び出し、新しいカードを追加するコードの空欄を埋めてください。<pre><code>ref.read(flashcardProvider.___).addCard(\n  question,\n  answer,\n  genre,\n);</code></pre>",
+      "type": "文法チェック",
+      "question": "ConsumerState を継承したクラスの build メソッドに関する説明として正しいものはどれですか？",
       "options": [
-        "notifier",
-        "state",
-        "provider",
-        "value"
+        "引数として BuildContext と WidgetRef の2つを受け取る必要がある",
+        "ConsumerState のプロパティとして ref を持っているため、build メソッドの引数に WidgetRef を追加する必要はない",
+        "build メソッド内で ref を使用することはできない",
+        "initState メソッド内で ref を使用することはできない"
       ],
-      "answer": 0,
-      "commentary": "Notifierクラス本体が定義しているメソッドを呼び出す際は .notifier を指定してアクセスします[cite: 5]。"
+      "answer": 1,
+      "commentary": "ConsumerState はクラスのプロパティとして最初から ref を保持しているため、build メソッドの引数に WidgetRef を追加する必要はありません。"
     },
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "ボタンタップ時の処理で、カードの追加登録を実行する前に画面を再描画しないため ref.read を利用している箇所です。空欄に入るメソッドを選んでください。<pre><code>ref.___(flashcardProvider.notifier).addCard(\n  question,\n  answer,\n  genre,\n);</code></pre>",
+      "question": "genreList の要素を DropdownMenuItem に変換する処理です。空欄に入る適切なメソッドを選んでください。<pre><code>final dropdownMenuItemList = genreList.___((genre) {\n  return DropdownMenuItem(\n    value: genre.id,\n    child: Text(genre.title),\n  );\n}).toList();</code></pre>",
       "options": [
-        "read",
-        "watch",
-        "listen",
-        "get"
+        "where",
+        "map",
+        "forEach",
+        "filter"
       ],
-      "answer": 0,
-      "commentary": "カード追加直後に画面遷移（pop）で前の画面に戻るため、自身を再描画する必要がない場面では ref.read() を使います[cite: 5]。"
+      "answer": 1,
+      "commentary": "リストの各要素を別の形式（DropdownMenuItem）へ変換・加工するには map メソッドを使用します。"
     },
     {
       "id": 6,
-      "type": "コード穴埋め",
-      "question": "フォーム全体の入力値が有効かどうか（バリデーションチェック）を検証する条件式です。空欄に入るメソッド名を選んでください。<pre><code>if (formkey.currentState!.___) {\n  // 登録処理...\n}</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下のコードを実行した際、`dropdownMenuItemList` の型として正しく生成されるものはどれですか？<pre><code>final dropdownMenuItemList = genreList.map((genre) {\n  return DropdownMenuItem(\n    value: genre.id,\n    child: Text(genre.title),\n  );\n}).toList();</code></pre>",
       "options": [
-        "validate()",
-        "check()",
-        "isValid()",
-        "verify()"
+        "List<DropdownMenuItem<dynamic>>",
+        "List<Text>",
+        "List<Genre>",
+        "Iterable<Genre>"
       ],
       "answer": 0,
-      "commentary": "FormState の validate() メソッドを実行すると、配下のフォームのバリデーションチェックを一斉に行えます[cite: 5]。"
+      "commentary": "map 内で DropdownMenuItem を返し、最後に `.toList()` を呼んでいるため、DropdownMenuItem の List が生成されます。"
     },
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "入力フォームから入力された文字列値を取り出すプロパティ名を選んでください。<pre><code>final question = questionFormKey.currentState!.___;</code></pre>",
+      "question": "genreList から、選択されている selectedValue と id が一致するジャンルを1つ安全に検索して取得するコードです。空欄に入るメソッドを選んでください。<pre><code>final genre = genreList.___(\n  (genre) => genre.id == selectedValue,\n);</code></pre>",
       "options": [
-        "value",
-        "text",
-        "data",
-        "string"
+        "firstWhere",
+        "where",
+        "indexOf",
+        "select"
       ],
       "answer": 0,
-      "commentary": "FormFieldState オブジェクトの value プロパティから現在の入力値を取り出せます[cite: 5]。"
+      "commentary": "条件に一致する最初の1要素を取得するには `firstWhere` メソッドを使用します。"
     },
     {
       "id": 8,
-      "type": "コード穴埋め",
-      "question": "カードを追加し終えた後、カード追加画面を閉じて前の画面に戻るためのコードです。空欄を埋めてください。<pre><code>Navigator.of(context).___();</code></pre>",
+      "type": "文法チェック",
+      "question": "ジャンル取得時に `genreList[selectedValue]` ではなく `genreList.firstWhere(...)` を使う理由として正しいものはどれですか？",
       "options": [
-        "pop",
-        "push",
-        "remove",
-        "back"
+        "firstWhere の方が処理速度が 10 倍速いため",
+        "selectedValue はインデックスではなく ID であり、データに欠番や並び順の相違があっても誤取得やエラーを防ぎ安全になるため",
+        "genreList[selectedValue] と書くとコンパイルエラーになるため",
+        "firstWhere を使わないと Riverpod が画面を再描画できないため"
       ],
-      "answer": 0,
-      "commentary": "現在の画面をスタックから取り除いて前の画面へ戻るには Navigator.of(context).pop() を呼び出します[cite: 5]。"
+      "answer": 1,
+      "commentary": "selectedValue は ID でありインデックス番号ではないため、`firstWhere` で ID 絞り込みを行うことで並び順に依存しない安全なコードになります。"
     },
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "ドロップダウン（DropdownButton）で新しい選択肢が選ばれたときに、選択状態（selectedValue）を更新して画面再描画を行うコードです。空欄を埋めてください。<pre><code>onChanged: (value) {\n  ___(() {\n    selectedValue = value!;\n  });\n}</code></pre>",
+      "question": "ボタンタップ時に NotifierProvider（flashcardProvider）の addCard メソッドを呼び出す正しいコードを選んでください。<pre><code>ref.___ (flashcardProvider.notifier).addCard(\n  question,\n  answer,\n  genre,\n);</code></pre>",
       "options": [
-        "setState",
-        "updateState",
-        "refresh",
-        "rebuild"
+        "watch",
+        "read",
+        "listen",
+        "get"
       ],
-      "answer": 0,
-      "commentary": "StatefulWidget / ConsumerStatefulWidget のローカル状態を更新して再描画するには setState() を使用します[cite: 5]。"
+      "answer": 1,
+      "commentary": "イベント処理内でメソッドを実行する際、その画面自体を直接再描画させる必要がなければ `ref.read` を使用します。"
     },
     {
       "id": 10,
-      "type": "コード穴埋め",
-      "question": "入力項目が未入力（空文字）の際にバリデーションエラーメッセージを返す条件式の空欄を埋めてください。<pre><code>validator: (value) {\n  if (value == null || value.___() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下のコードが実行されバリデーション（validate）が成功したとき、最初に実行されるデータ操作は何ですか？<pre><code>onPressed: () {\n  if (formKey.currentState!.validate()) {\n    final question = questionFormKey.currentState!.value!;\n    final answer = answerFormKey.currentState!.value!;\n    final genre = genreList.firstWhere(\n      (genre) => genre.id == selectedValue,\n    );\n    ref.read(flashcardProvider.notifier).addCard(\n      question,\n      answer,\n      genre,\n    );\n    Navigator.of(context).pop();\n  }\n}</code></pre>",
       "options": [
-        "trim",
-        "clean",
-        "clear",
-        "strip"
+        "Navigator.of(context).pop() による画面終了",
+        "genreList から条件に合う Genre の取得",
+        "addCard メソッドによるカード追加処理",
+        "State の破棄処理"
       ],
-      "answer": 0,
-      "commentary": "文字列前後の余白を除去して空文字判定を行うには trim() メソッドを使用します[cite: 5]。"
+      "answer": 1,
+      "commentary": "記述順に従い、フォームから問題と答えの値を取得した後、まず `genreList.firstWhere` で Genre を取得し、その後に `addCard` や `pop` が実行されます。"
     },
     {
       "id": 11,
-      "type": "実行結果予測",
-      "question": "入力欄に空白スペースのみ（'   '）が入力された場合、validator の戻り値はどうなりますか？<pre><code>validator: (value) {\n  if (value == null || value.trim() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
+      "type": "コード穴埋め",
+      "question": "Form 内の各入力フィールドの一括バリデーションを実行するコードです。空欄に入るメソッドを選んでください。<pre><code>if (formKey.currentState!.___()) {\n  // 成功時の処理\n}</code></pre>",
       "options": [
-        "'入力してください'",
-        "null",
-        "エラーになる",
-        "''（空文字）"
+        "validate",
+        "check",
+        "save",
+        "submit"
       ],
       "answer": 0,
-      "commentary": "'   '.trim() は空文字 '' になるため、条件が成り立ち '入力してください' のエラーメッセージが返されます[cite: 5]。"
+      "commentary": "FormState の `validate()` メソッドを呼ぶことで、Form 配下の各入力欄の検証が走ります。"
     },
     {
       "id": 12,
-      "type": "実行結果予測",
-      "question": "入力欄に 'Flutter' と正しく入力された場合、validator 関数は何を返しますか？<pre><code>validator: (value) {\n  if (value == null || value.trim() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
+      "type": "コード穴埋め",
+      "question": "CardAddPage の initState 内で、受け取ったジャンル ID を selectedValue の初期値として代入するコードです。<pre><code>@override\nvoid initState() {\n  super.initState();\n  selectedValue = ___ .genre.id;\n}</code></pre>",
       "options": [
-        "null",
-        "'入力してください'",
-        "'Flutter'",
-        "True"
+        "widget",
+        "this",
+        "ref",
+        "state"
       ],
       "answer": 0,
-      "commentary": "バリデーションエラーがない場合は null を返す仕様になっています[cite: 5]。"
+      "commentary": "ConsumerState から親の ConsumerStatefulWidget のプロパティにアクセスするには `widget` を使います。"
     },
     {
       "id": 13,
       "type": "実行結果予測",
-      "question": "genreList の件数が 3 件のとき、生成される dropdownMenuItemList の要素数はいくつになりますか？<pre><code>for (var i = 0; i < genreList.length; i++) {\n  dropdownMenuItemList.add(\n    DropdownMenuItem(\n      value: genreList[i].id,\n      child: Text(genreList[i].title),\n    ),\n  );\n}</code></pre>",
+      "question": "以下の validator を持つ TextFormField に、空白スペースのみ「   」を入力して送信ボタンを押したときの返り値はどうなりますか？<pre><code>validator: (value) {\n  if (value == null || value.trim() == '') {\n    return '入力してください';\n  }\n  return null;\n}</code></pre>",
       "options": [
-        "3",
-        "0",
-        "4",
-        "1"
+        "null",
+        "'入力してください'",
+        "''（空文字）",
+        "エラー例外が発生する"
       ],
-      "answer": 0,
-      "commentary": "ループ処理により genreList の要素数（3）と同数の DropdownMenuItem が追加されます[cite: 5]。"
+      "answer": 1,
+      "commentary": "`trim()` によって空白が除外され空文字 `''` となるため、条件式が真となり `'入力してください'` が返されます。"
     },
     {
       "id": 14,
-      "type": "実行結果予測",
-      "question": "次のコードで、initState 実行直後の selectedValue に設定される値は何ですか？（widget.genre.id の値は 2 とする）<pre><code>int selectedValue = 0;\n@override\nvoid initState() {\n  super.initState();\n  selectedValue = widget.genre.id;\n}</code></pre>",
+      "type": "文法チェック",
+      "question": "カード追加処理を行った後に `Navigator.of(context).pop()` を呼び出す主な目的は何ですか？",
       "options": [
-        "2",
-        "0",
-        "null",
-        "1"
+        "アプリを強制終了する",
+        "カード追加画面を閉じ、1つ前の画面（カード一覧画面）へ戻る",
+        "フォームの入力値をリセットして空にする",
+        "ProviderScope を全初期化する"
       ],
-      "answer": 0,
-      "commentary": "initState 内で widget.genre.id（2）が selectedValue に代入されます[cite: 5]。"
+      "answer": 1,
+      "commentary": "`Navigator.of(context).pop()` を実行すると現在の画面が閉じられ、前の画面（カード一覧画面）に戻ります。"
     },
     {
       "id": 15,
-      "type": "実行結果予測",
-      "question": "次のボタンの onPressed が実行されたとき、正常に入力されていれば何が起こりますか？<pre><code>ref.read(flashcardProvider.notifier).addCard(question, answer, genre);\nNavigator.of(context).pop();</code></pre>",
+      "type": "コード穴埋め",
+      "question": "TextFormField の高さを複数行（4行固定）で広めに確保するためのプロパティの組み合わせを選んでください。<pre><code>TextFormField(\n  key: answerFormKey,\n  ___: 4,\n  ___: 4,\n)</code></pre>",
       "options": [
-        "新しいカードが追加され、前の画面へ戻る",
-        "入力データがリセットされて画面に止まる",
-        "ジャンル一覧画面へ戻り、カードは削除される",
-        "アプリが再起動する"
+        "minLines / maxLines",
+        "minRow / maxRow",
+        "lines / maxLines",
+        "height / width"
       ],
       "answer": 0,
-      "commentary": "NotifierProvider にカードが追加（addCard）された後、Navigator.pop によってカード一覧画面に戻ります[cite: 5]。"
+      "commentary": "行数を4行に指定固定する場合、`minLines: 4` と `maxLines: 4` をプロパティにセットします。"
     },
     {
       "id": 16,
-      "type": "文法チェック",
-      "question": "ConsumerState クラスの build メソッドの定義として正しいものはどれですか？",
+      "type": "実行結果予測",
+      "question": "DropdownButton の `onChanged` で以下の処理を行ったとき、画面はどう変化しますか？<pre><code>onChanged: (value) {\n  setState(() {\n    selectedValue = value!;\n  });\n}</code></pre>",
       "options": [
-        "@override Widget build(BuildContext context)",
-        "@override Widget build(BuildContext context, WidgetRef ref)",
-        "@override Widget build(WidgetRef ref)",
-        "@override Widget build()"
+        "何も起こらない",
+        "`selectedValue` が更新され、`setState` により画面が再描画されてドロップダウンの選択表示が切り替わる",
+        "エラーが発生してアプリが止まる",
+        "カード追加画面が自動的に閉じる"
       ],
-      "answer": 0,
-      "commentary": "ConsumerState クラスでは ref がプロパティとして提供されるため、build メソッドの引数は BuildContext context のみとなります[cite: 5]。"
+      "answer": 1,
+      "commentary": "`setState` を呼ぶことでローカル変数の更新が反映され、ドロップダウンの選択項目表示が再描画で切り替わります。"
     },
     {
       "id": 17,
-      "type": "文法チェック",
-      "question": "ConsumerStatefulWidget のクラス定義でコンストラクタを正しく宣言しているものはどれですか？",
+      "type": "コード穴埋め",
+      "question": "DropdownButton の幅を親要素の横幅いっぱいに広げるためのプロパティ設定を選んでください。<pre><code>DropdownButton(\n  value: selectedValue,\n  items: dropdownMenuItemList,\n  ___: true,\n)</code></pre>",
       "options": [
-        "const CardAddPage({super.key, required this.genre});",
-        "CardAddPage({Key? key, Genre genre});",
-        "const ConsumerStatefulWidget({super.key, required this.genre});",
-        "void CardAddPage({super.key, required this.genre});"
+        "isExpanded",
+        "fullWidth",
+        "expand",
+        "fitParent"
       ],
       "answer": 0,
-      "commentary": "通常の StatefulWidget と同じ構文で const CardAddPage({super.key, required this.genre}); と記述します[cite: 5]。"
+      "commentary": "DropdownButton を親幅いっぱいに拡大するには `isExpanded: true` を指定します。"
     },
     {
       "id": 18,
       "type": "文法チェック",
-      "question": "TextFormField の枠線として OutlineInputBorder を正しく指定しているプロパティ設定はどれですか？",
+      "question": "CardAddPage を Riverpod 化する際、不要になってファイル（card_add.dart）から削除すべきものはどれですか？",
       "options": [
-        "decoration: const InputDecoration(border: OutlineInputBorder())",
-        "border: const OutlineInputBorder()",
-        "decoration: const OutlineInputBorder()",
-        "inputBorder: const OutlineInputBorder()"
+        "build メソッド",
+        "CardAddPage コンストラクタ",
+        "card_add.dart 内に最初から定義されていたローカルな addCard() 関数",
+        "formKey 変数"
       ],
-      "answer": 0,
-      "commentary": "TextFormField の枠線は InputDecoration の border プロパティに指定します[cite: 5]。"
+      "answer": 2,
+      "commentary": "providers.dart に定義した Notifier の `addCard()` を呼ぶように変更するため、card_add.dart 内の不要になった旧 `addCard()` 関数は削除します。"
     },
     {
       "id": 19,
-      "type": "用語理解",
-      "question": "入力フォーム全体の識別や状態操作（一括バリデーションなど）を行うために用いるグローバルキーの型は何ですか？",
+      "type": "コード穴埋め",
+      "question": "Form 内の各要素の間隔を Column で 16 ピクセル空けるための設定コードです。<pre><code>Column(\n  ___: 16,\n  children: [...],\n)</code></pre>",
       "options": [
-        "GlobalKey<FormState>",
-        "GlobalKey<FormFieldState<String>>",
-        "GlobalKey<CardState>",
-        "FormKey"
+        "spacing",
+        "padding",
+        "margin",
+        "gap"
       ],
       "answer": 0,
-      "commentary": "Formウィジェット全体の状態を管理するキーには GlobalKey<FormState> を使用します[cite: 5]。"
+      "commentary": "Column 内の子要素の間隔を一括で開けるには `spacing` プロパティを利用します。"
     },
     {
       "id": 20,
-      "type": "用語理解",
-      "question": "特定の1つの入力テキストフィールド（TextFormField）の値を保持・参照するために用いるキーの型は何ですか？",
+      "type": "実行結果予測",
+      "question": "CardAddPage でカードを追加した直後、戻ったカード一覧画面（CardListPage）で新カードが即座に表示される理由として正しいものはどれですか？",
       "options": [
-        "GlobalKey<FormFieldState<String>>",
-        "GlobalKey<FormState>",
-        "GlobalKey<TextState>",
-        "FormFieldKey"
+        "CardListPage が StatefulWidget で setState しているから",
+        "NotifierProvider 内の state が新リストに再代入され、CardListPage 側の ref.watch(flashcardProvider) が変化を検知して自動再描画されるから",
+        "アプリがバックグラウンドで再起動するから",
+        "Navigator.pop() が全画面を強制更新させるから"
       ],
-      "answer": 0,
-      "commentary": "文字列入力用の個別のフィールドキーには GlobalKey<FormFieldState<String>> を指定します[cite: 5]。"
+      "answer": 1,
+      "commentary": "NotifierProvider の state が更新されると、その Provider を `ref.watch` している CardListPage が自動検知して再描画されるためです。"
     },
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "複数行入力が可能な「答え」入力用のTextFormFieldで、入力欄の高さを4行分に設定しているプロパティ記述です。空欄を埋めてください。<pre><code>TextFormField(\n  key: answerFormKey,\n  minLines: 4,\n  ___: 4,\n)</code></pre>",
+      "question": "TextFormField で枠線を四角く囲むデザインを指定するための設定コードです。<pre><code>decoration: const InputDecoration(\n  border: ___(),\n  labelText: '問題',\n)</code></pre>",
       "options": [
-        "maxLines",
-        "lines",
-        "totalLines",
-        "height"
+        "OutlineInputBorder",
+        "BoxInputBorder",
+        "SquareBorder",
+        "BorderLine"
       ],
       "answer": 0,
-      "commentary": "入力行数の最大値を指定するには maxLines プロパティを設定します[cite: 5]。"
+      "commentary": "入力欄の外周を四角い枠線にするには `OutlineInputBorder()` を使用します。"
     },
     {
       "id": 22,
-      "type": "実行結果予測",
-      "question": "次のコードで、ElevatedButton のテキストとして表示される内容は何ですか？<pre><code>ElevatedButton(\n  onPressed: () { ... },\n  child: const Text('カードを追加する'),\n)</code></pre>",
+      "type": "用語理解",
+      "question": "TextFormField に個別に指定し、`currentState!.value` 経由で入力値を直接取り出すために使われるオブジェクトはどれですか？",
       "options": [
-        "カードを追加する",
-        "追加",
-        "登録",
-        "送信"
+        "GlobalKey<FormFieldState<String>>",
+        "TextEditingController",
+        "FormState",
+        "BuildContext"
       ],
       "answer": 0,
-      "commentary": "child プロパティの Text ウィジェットに 'カードを追加する' が指定されています[cite: 5]。"
+      "commentary": "各FormFieldState の状態および現在の入力値を取得するため、`GlobalKey<FormFieldState<String>>` を設定します。"
     },
     {
       "id": 23,
       "type": "コード穴埋め",
-      "question": "入力フォームの各要素に左右16ピクセルの余白を設定しているコードです。空欄に入るエッジインセッツ記述を選んでください。<pre><code>Padding(\n  padding: const EdgeInsets.only(\n    left: 16,\n    ___: 16,\n  ),\n  child: DropdownButton( ... ),\n)</code></pre>",
+      "question": "build メソッド内で genreProvider を監視して genreList を取得するコードです。<pre><code>final genreList = ref.___(genreProvider);</code></pre>",
       "options": [
-        "right",
-        "top",
-        "bottom",
-        "horizontal"
+        "watch",
+        "read",
+        "listen",
+        "select"
       ],
       "answer": 0,
-      "commentary": "EdgeInsets.only で右側の余白を指定するプロパティは right です[cite: 5]。"
+      "commentary": "build メソッド内で Provider のデータを取得し、変更を監視するためには `ref.watch` を使用します。"
     },
     {
       "id": 24,
-      "type": "文法チェック",
-      "question": "Riverpodのインポート文として正しく記述されているものはどれですか？",
+      "type": "実行結果予測",
+      "question": "以下のコードで `questionFormKey.currentState!.value!` の末尾についている `!` マークの説明として正しいものはどれですか？<pre><code>final question = questionFormKey.currentState!.value!;</code></pre>",
       "options": [
-        "import 'package:flutter_riverpod/flutter_riverpod.dart';",
-        "import 'package:riverpod/flutter_riverpod.dart';",
-        "import 'package:flutter/riverpod.dart';",
-        "import 'riverpod.dart';"
+        "値が null でないことを開発者がコンパイラに保証する Null チェック演算子",
+        "文字列を否定反転する論理演算子",
+        "フォームを初期化する演算子",
+        "非同期処理の完了を待つ演算子"
       ],
       "answer": 0,
-      "commentary": "package:flutter_riverpod/flutter_riverpod.dart をインポートします[cite: 5]。"
+      "commentary": "末尾の `!` は Null assertion operator（Null 強制解除演算子）で、対象が null でないことをコンパイラに提示します。"
     },
     {
       "id": 25,
-      "type": "用語理解",
-      "question": "ドロップダウン選択肢（DropdownButton）で選択項目が画面幅いっぱいに広がるように設定するプロパティは何ですか？",
+      "type": "文法チェック",
+      "question": "CardAddPage で `ref.watch(flashcardProvider)` ではなく `ref.read(flashcardProvider.notifier).addCard(...)` を使用する理由は何ですか？",
       "options": [
-        "isExpanded",
-        "isFullWidth",
-        "autofocus",
-        "dense"
+        "CardAddPage はカード追加後すぐに pop() で閉じるため、この画面自体を監視・再描画する必要がないから",
+        "ref.watch では notifier のメソッドを一切呼び出せないから",
+        "ref.read を使わないとデータベースへ保存されないから",
+        "ref.watch を使うとアプリがメモリ不足でクラッシュするから"
       ],
       "answer": 0,
-      "commentary": "DropdownButton の幅を親要素一杯に広げるには isExpanded: true を設定します[cite: 5]。"
+      "commentary": "カード追加後すぐに画面を離脱（pop）するため CardAddPage 自身を再描画する必要がなく、メソッド呼び出しのみのため `ref.read` が適しています。"
     },
     {
       "id": 26,
       "type": "コード穴埋め",
-      "question": "ドロップダウンで選択されているアイテムの値を保持するプロパティ名を選んでください。<pre><code>DropdownButton(\n  ___: selectedValue,\n  items: dropdownMenuItemList,\n  onChanged: (value) { ... },\n)</code></pre>",
+      "question": "ElevatedButton のラベルテキストを設定しているコードです。<pre><code>ElevatedButton(\n  onPressed: () { ... },\n  child: const Text('___'),\n)</code></pre>",
       "options": [
-        "value",
-        "selected",
-        "item",
-        "data"
+        "カードを追加する",
+        "送信",
+        "保存",
+        "決定"
       ],
       "answer": 0,
-      "commentary": "現在選択されている値を設定・制御するのは value プロパティです[cite: 5]。"
+      "commentary": "教材のテキストおよびコードでは、ボタンのテキストに `'カードを追加する'` が指定されています。"
     },
     {
       "id": 27,
-      "type": "実行結果予測",
-      "question": "現時点の教材の実装において、追加したカードデータはアプリを再起動した際にどうなりますか？<pre><code>// データベース未導入時の状態に関する解説より</code></pre>",
+      "type": "コード穴埋め",
+      "question": "CardAddPage で使用する自作 Provider ファイルのインポート文です。<pre><code>import '___';</code></pre>",
       "options": [
-        "メモリ上に保持されているだけのため、再起動すると失われる",
-        "ローカルファイルへ自動保存されるため残る",
-        "クラウドへバックアップされる",
-        "ジャンルデータと一緒に永続化される"
+        "../providers.dart",
+        "../data/flashcard.dart",
+        "../data/genre.dart",
+        "providers.dart"
       ],
       "answer": 0,
-      "commentary": "まだデータベース等の永続化処理を行っていないため、アプリ再起動によって追加データは消去されます[cite: 5]。"
+      "commentary": "pages フォルダ内から 1 階層上の `providers.dart` を参照するため `../providers.dart` をインポートします。"
     },
     {
       "id": 28,
-      "type": "コード穴埋め",
-      "question": "DropdownButton の選択肢リストを設定するプロパティ名を選んでください。<pre><code>DropdownButton(\n  value: selectedValue,\n  ___: dropdownMenuItemList,\n  onChanged: (value) { ... },\n)</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下の `genreList.firstWhere` 処理において、条件に一致する ID がリスト内に存在しなかった場合の挙動はどうなりますか？<pre><code>final genre = genreList.firstWhere(\n  (genre) => genre.id == selectedValue,\n);</code></pre>",
       "options": [
-        "items",
-        "children",
-        "list",
-        "options"
+        "null が返される",
+        "要素が見つからないため StateError（例外）が発生する",
+        "リストの最初の要素が自動で返される",
+        "空の Genre オブジェクトが返される"
       ],
-      "answer": 0,
-      "commentary": "選択肢アイテムのリスト（DropdownMenuItemのリスト）は items プロパティに渡します[cite: 5]。"
+      "answer": 1,
+      "commentary": "`orElse` パラメータを指定せずに `firstWhere` で一致する要素が見つからない場合、Dart では StateError 例外がスローされます。"
     },
     {
       "id": 29,
-      "type": "文法チェック",
-      "question": "Nullable型（int? など）の変数 value が null でないことを保証して値を参照するDartの演算子はどれですか？",
+      "type": "用語理解",
+      "question": "Riverpod において、NotifierProvider で定義した状態変更メソッド（addCard 等）を呼び出すために経由するプロパティはどれですか？",
       "options": [
-        "value!",
-        "value?",
-        "value!!",
-        "value#"
+        "notifier",
+        "state",
+        "value",
+        "builder"
       ],
       "answer": 0,
-      "commentary": "null 判定・強制アサーションを行うには変数名の直後に ! を付けます[cite: 5]。"
+      "commentary": "Notifier クラス自身のメソッドを呼び出すには `ref.read(provider.notifier)` のように `.notifier` を指定します。"
     },
     {
       "id": 30,
-      "type": "用語理解",
-      "question": "入力フォーム項目において、ラベルテキストの位置をヒント文の高さと揃える設定プロパティは何ですか？",
+      "type": "コード穴埋め",
+      "question": "ConsumerStatefulWidget の createState メソッドのアロー関数による実装です。<pre><code>@override\nConsumerState<CardAddPage> createState() => ___();</code></pre>",
       "options": [
-        "alignLabelWithHint",
-        "centerLabel",
-        "fitLabel",
-        "labelTextAlignment"
+        "_CardAddState",
+        "CardAddState",
+        "createState",
+        "_ConsumerState"
       ],
       "answer": 0,
-      "commentary": "複数行入力フィールド等でラベルの高さをヒントに揃えるには alignLabelWithHint: true を指定します[cite: 5]。"
+      "commentary": "対となる State クラス名である `_CardAddState()` をインスタンス化して返します。"
     },
     {
       "id": 31,
-      "type": "実行結果予測",
-      "question": "次のコードで、genreList 内の指定したインデックスのジャンルを取得する処理の結果はどうなりますか？<pre><code>final genre = genreList[selectedValue];</code></pre>",
+      "type": "文法チェック",
+      "question": "ConsumerStatefulWidget を使用するメリットとして正しくない説明はどれですか？",
       "options": [
-        "selectedValue に一致するインデックス番号の Genre オブジェクトが取得される",
-        "選択されたジャンルのタイトル文字列（String）が取得される",
-        "エラーになって処理が停止する",
-        "新しい Genre オブジェクトが作成される"
+        "formKey や selectedValue などのローカルな状態をそのまま維持できる",
+        "initState メソッドなどのライフサイクル処理を利用できる",
+        "WidgetRef を引数にとらずにクラス内どこからでも ref を利用できる",
+        "アプリを再起動しても追加したデータが永久に自動保存されるようになる"
       ],
-      "answer": 0,
-      "commentary": "genreList（ジャンルオブジェクトのリスト）から指定インデックスの要素を取得します[cite: 5]。"
+      "answer": 3,
+      "commentary": "Riverpod による状態管理のみではメモリ上の保持であるため、データベース等を導入しない限り再起動時の永久自動保存は行われません。"
     },
     {
       "id": 32,
       "type": "コード穴埋め",
-      "question": "TextFormField のラベルとして表示する文字を指定する InputDecoration のプロパティ名を選んでください。<pre><code>decoration: const InputDecoration(\n  border: OutlineInputBorder(),\n  ___: '問題',\n)</code></pre>",
+      "question": "AppBar のタイトルを設定するコードです。<pre><code>appBar: AppBar(\n  title: const Text('___'),\n),</code></pre>",
       "options": [
-        "labelText",
-        "hintText",
-        "title",
-        "helperText"
+        "カード追加",
+        "ジャンル追加",
+        "カード編集",
+        "新規登録"
       ],
       "answer": 0,
-      "commentary": "入力欄の上部に表示されるラベル文言は labelText プロパティで指定します[cite: 5]。"
+      "commentary": "CardAddPage の AppBar タイトルには `'カード追加'` が指定されています。"
     },
     {
       "id": 33,
-      "type": "コード穴埋め",
-      "question": "Columnの要素同士の間隔を16ピクセルに設定するプロパティ名を選んでください。<pre><code>Column(\n  ___: 16,\n  children: [ ... ],\n)</code></pre>",
+      "type": "実行結果予測",
+      "question": "以下のコードで `Form` ウィジェットに `key: formKey` を設定する目的は何ですか？<pre><code>Form(\n  key: formKey,\n  child: Column(...),\n)</code></pre>",
       "options": [
-        "spacing",
-        "gap",
-        "padding",
-        "margin"
+        "Form 内の全ての入力項目のバリデーションを一括で呼び出せるようにするため",
+        "Form のデザインを赤色に変更するため",
+        "Form の入力を自動でデータベースに保存するため",
+        "Form を画面から非表示にするため"
       ],
       "answer": 0,
-      "commentary": "Flutterの最新の Column / Row ウィジェットでは spacing プロパティで要素間の固定ギャップを指定できます[cite: 5]。"
+      "commentary": "GlobalKey<FormState> を Form に渡すことで、`formKey.currentState!.validate()` による一括入力チェックが可能になります。"
     },
     {
       "id": 34,
-      "type": "文法チェック",
-      "question": "ConsumerState クラス内部において ref を使用する際の正しい記述はどれですか？",
+      "type": "コード穴埋め",
+      "question": "Padding で左右のみに 16 ピクセルの余白を設定するコードです。<pre><code>Padding(\n  padding: const EdgeInsets.only(\n    left: 16,\n    ___: 16,\n  ),\n  child: ...,\n)</code></pre>",
       "options": [
-        "ref.watch(genreProvider) のように引数なしでクラス内プロパティの ref を直接使う",
-        "build メソッドの引数に WidgetRef ref 手動追加しなければならない",
-        "context.ref と記述しなければならない",
-        "ProviderScope.of(context).ref と記述しなければならない"
+        "right",
+        "top",
+        "bottom",
+        "all"
       ],
       "answer": 0,
-      "commentary": "ConsumerState では ref が定義済みプロパティとして存在するため、build メソッドの引数に足さずそのまま参照できます[cite: 5]。"
+      "commentary": "左右の余白を個別設定する場合、`left` と `right` を指定します。"
     },
     {
       "id": 35,
-      "type": "用語理解",
-      "question": "暗記カードアプリの Riverpod 書き換えによって得られた大きなメリットとして教材でまとめられているものはどれですか？",
+      "type": "コード穴埋め",
+      "question": "TextFormField のラベル文字を入力欄の上に配置するためのプロパティ指定です。<pre><code>InputDecoration(\n  border: const OutlineInputBorder(),\n  labelText: '問題',\n  ___: true\n)</code></pre>",
       "options": [
-        "データの管理方法と画面の実装（UI）を分離でき、見通しの良いコードになったこと",
-        "アプリの通信速度が従来の10倍に向上したこと",
-        "データベースが自動生成されて永久に保存されるようになったこと",
-        "Dart言語のコードを書く必要がなくなったこと"
+        "alignLabelWithHint",
+        "alignTop",
+        "topLabel",
+        "floatingLabel"
       ],
       "answer": 0,
-      "commentary": "Riverpod を導入することで、データ（状態）管理ロジックと画面描画コードが分離し、構造が整理されます[cite: 5]。"
+      "commentary": "マルチライン等でラベルを上部に揃える設定は `alignLabelWithHint: true` です。"
     },
     {
       "id": 36,
-      "type": "実行結果予測",
-      "question": "次のコードを実行して ref.watch(genreProvider) を呼んだ場合、返されるオブジェクトの型は何ですか？<pre><code>final genreList = ref.watch(genreProvider);</code></pre>",
+      "type": "用語理解",
+      "question": "Flutter の Riverpod で、アプリ全体の最上位に配置して Provider のアクセス有効範囲を確定させるウィジェットはどれですか？",
       "options": [
-        "List<Genre>",
-        "Genre",
-        "WidgetRef",
-        "Provider"
+        "ProviderScope",
+        "RiverpodApp",
+        "MaterialApp",
+        "ConsumerArea"
       ],
       "answer": 0,
-      "commentary": "genreProvider は List<Genre> 型の状態を返します[cite: 5]。"
+      "commentary": "Provider の利用可能範囲を確定するため、ルート付近を `ProviderScope` で囲みます。"
     },
     {
       "id": 37,
       "type": "コード穴埋め",
-      "question": "AppBar のタイトルテキストに「カード追加」と表示させるコードの空欄を埋めてください。<pre><code>appBar: AppBar(\n  title: const Text('___'),\n),</code></pre>",
+      "question": "DropdownMenuItem ウィジェットの表示テキストを指定するプロパティ名を選んでください。<pre><code>DropdownMenuItem(\n  value: genre.id,\n  ___: Text(genre.title),\n)</code></pre>",
       "options": [
-        "カード追加",
-        "ジャンル一覧",
-        "カード一覧",
-        "新規作成"
+        "child",
+        "label",
+        "title",
+        "widget"
       ],
       "answer": 0,
-      "commentary": "画面タイトルとして 'カード追加' を設定します[cite: 5]。"
+      "commentary": "DropdownMenuItem の表示部分を指定するプロパティは `child` です。"
     },
     {
       "id": 38,
-      "type": "文法チェック",
-      "question": "Formウィジェット内に子要素として Column を配置する構造として正しいものはどれですか？",
+      "type": "実行結果予測",
+      "question": "以下の `initState` 実行時、`selectedValue` に代入される初期値は何ですか？（`widget.genre.id` は 2 とする）<pre><code>@override\nvoid initState() {\n  super.initState();\n  selectedValue = widget.genre.id;\n}</code></pre>",
       "options": [
-        "Form(key: formkey, child: Center(child: Column(children: [...])))",
-        "Form(children: [Column(...)])",
-        "Column(form: Form(...))",
-        "Form(body: Column(...))"
+        "0",
+        "2",
+        "null",
+        "1"
       ],
-      "answer": 0,
-      "commentary": "Form ウィジェットの child プロパティ内に各入力レイアウトを配置します[cite: 5]。"
+      "answer": 1,
+      "commentary": "`widget.genre.id` の値（2）がそのまま `selectedValue` に代入されます。"
     },
     {
       "id": 39,
-      "type": "実行結果予測",
-      "question": "次のコードで Form のキーに設定されている formkey の役割は何ですか？<pre><code>Form(\n  key: formkey,\n  child: Column( ... ),\n)</code></pre>",
+      "type": "文法チェック",
+      "question": "暗記カードアプリ全体を Riverpod 化したことによるメリットの説明として最も適切なものはどれですか？",
       "options": [
-        "フォーム配下の全入力欄を一括でバリデーション検証するための状態キー",
-        "フォームの背景色を変更するためのカラーキー",
-        "データベースのテーブルID",
-        "画面のルート名"
+        "データの管理ロジック（Provider）と画面表示（UI）が綺麗に分離され、コードの見通しが良くなった",
+        "画面遷移コードを書く必要がなくなった",
+        "Form や TextFormField が不要になった",
+        "StatelessWidget が一切使えなくなった"
       ],
       "answer": 0,
-      "commentary": "formkey.currentState!.validate() を呼び出して全入力欄の入力判定を行うために使用されます[cite: 5]。"
+      "commentary": "Riverpod を導入することでデータ管理と UI 実装が分離され、コード構造と見通しが大幅に改善されます。"
     },
     {
       "id": 40,
-      "type": "用語理解",
-      "question": "Riverpod において、画面の描画更新（リビルド）を伴わずに Provider のメソッド実行や値の取得を行いたい場合に使うメソッドは何ですか？",
+      "type": "コード穴埋め",
+      "question": "DropdownButton で現在選択されている値を保持・表示させるためのプロパティ名を選んでください。<pre><code>DropdownButton(\n  ___: selectedValue,\n  items: dropdownMenuItemList,\n  onChanged: (value) { ... },\n)</code></pre>",
       "options": [
-        "ref.read()",
-        "ref.watch()",
-        "ref.listen()",
-        "ref.select()"
+        "value",
+        "selected",
+        "current",
+        "item"
       ],
       "answer": 0,
-      "commentary": "再描画を伴わずにその時点の値を取得したり、Notifier のメソッドを呼び出したりするには ref.read() を使用します[cite: 5]。"
+      "commentary": "DropdownButton の現在の選択値を連動させるプロパティは `value` です。"
     }
   ]
 }
