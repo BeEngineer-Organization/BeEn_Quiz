@@ -38,7 +38,7 @@
         "flutter_provider"
       ],
       "answer": 1,
-      "commentary": "FlutterでRiverpodを利用する際は `flutter pub add flutter_riverpod` コマンドを実行します。"
+      "commentary": "FlutterでRiverpodを利用する際は flutter pub add flutter_riverpod コマンドを実行します。"
     },
     {
       "id": 4,
@@ -51,7 +51,7 @@
         "provider"
       ],
       "answer": 0,
-      "commentary": "Riverpodのインポート文は `import 'package:flutter_riverpod/flutter_riverpod.dart';` と記述します。"
+      "commentary": "Riverpodのインポート文は import 'package:flutter_riverpod/flutter_riverpod.dart'; と記述します。"
     },
     {
       "id": 5,
@@ -64,7 +64,7 @@
         "ValueProvider"
       ],
       "answer": 2,
-      "commentary": "変化しない状態の管理には `Provider` を使用します。変化する状態には `NotifierProvider` を使用します。"
+      "commentary": "変化しない状態の管理には Provider を使用します。変化する状態には NotifierProvider を使用します。"
     },
     {
       "id": 6,
@@ -77,7 +77,7 @@
         "static"
       ],
       "answer": 2,
-      "commentary": "Riverpodの Provider はグローバルな変数として `final` を使用して定義します。"
+      "commentary": "Riverpodの Provider はグローバルな変数として final を使用して定義します。"
     },
     {
       "id": 7,
@@ -90,7 +90,7 @@
         "listen"
       ],
       "answer": 1,
-      "commentary": "別の Provider 内で一時的に値を参照して生成する際などに `ref.read` メソッドを使用します。"
+      "commentary": "別の Provider 内で一時的に値を参照して生成する際などに ref.read メソッドを使用します。"
     },
     {
       "id": 8,
@@ -103,12 +103,12 @@
         "RiverpodApp"
       ],
       "answer": 0,
-      "commentary": "Providerの読み取り範囲を指定するために、アプリのルートウィジェットを `ProviderScope` で囲む必要があります。"
+      "commentary": "Providerの読み取り範囲を指定するために、アプリのルートウィジェットを ProviderScope で囲む必要があります。"
     },
     {
       "id": 9,
       "type": "用語理解",
-      "question": "StatelessWidget の代わりに Riverpod で使われる、`build` メソッドで `WidgetRef` を受け取るウィジェットはどれですか？",
+      "question": "StatelessWidget の代わりに Riverpod で使われる、build メソッドで WidgetRef を受け取るウィジェットはどれですか？",
       "options": [
         "StatefulConsumerWidget",
         "ConsumerWidget",
@@ -116,7 +116,7 @@
         "RiverpodWidget"
       ],
       "answer": 1,
-      "commentary": "Riverpod において StatelessWidget に相当し、`WidgetRef` を受け取るウィジェットは `ConsumerWidget` です。"
+      "commentary": "Riverpod において StatelessWidget に相当し、WidgetRef を受け取るウィジェットは ConsumerWidget です。"
     },
     {
       "id": 10,
@@ -129,7 +129,7 @@
         "ConsumerRef"
       ],
       "answer": 1,
-      "commentary": "ConsumerWidget の build メソッドでは引数として `WidgetRef` を受け取ります。"
+      "commentary": "ConsumerWidget の build メソッドでは引数として WidgetRef を受け取ります。"
     },
     {
       "id": 11,
@@ -142,7 +142,7 @@
         "get"
       ],
       "answer": 1,
-      "commentary": "build メソッド内で Provider の値の変化を監視して再描画を行うには `watch()` メソッドを使用します。"
+      "commentary": "build メソッド内で Provider の値の変化を監視して再描画を行うには watch() メソッドを使用します。"
     },
     {
       "id": 12,
@@ -155,7 +155,7 @@
         "エラーが表示される"
       ],
       "answer": 0,
-      "commentary": "`provider` は 'This is provider' という文字列を返すため、1つ目の Text にはその文字列が表示されます。"
+      "commentary": "provider は 'This is provider' という文字列を返すため、1つ目の Text にはその文字列が表示されます。"
     },
     {
       "id": 13,
@@ -168,7 +168,7 @@
         "0"
       ],
       "answer": 1,
-      "commentary": "`readProvider` は `ref.read(provider)` により `provider` の値を取得して返すため、'This is provider' が表示されます。"
+      "commentary": "readProvider は ref.read(provider) により provider の値を取得して返すため、'This is provider' が表示されます。"
     },
     {
       "id": 14,
@@ -181,7 +181,7 @@
         "StateProvider"
       ],
       "answer": 1,
-      "commentary": "変化する状態を管理し、ロジックをクラスに分離して定義するには `NotifierProvider` を使用します。"
+      "commentary": "変化する状態を管理し、ロジックをクラスに分離して定義するには NotifierProvider を使用します。"
     },
     {
       "id": 15,
@@ -194,7 +194,7 @@
         "double"
       ],
       "answer": 0,
-      "commentary": "MyNotifier が管理する型が int の場合、`NotifierProvider<MyNotifier, int>` と型を指定します。"
+      "commentary": "MyNotifier が管理する型が int の場合、NotifierProvider<MyNotifier, int> と型を指定します。"
     },
     {
       "id": 16,
@@ -207,7 +207,7 @@
         "Widget"
       ],
       "answer": 1,
-      "commentary": "NotifierProvider の管理対象クラスを作成するには `Notifier<T>` を継承します。"
+      "commentary": "NotifierProvider の管理対象クラスを作成するには Notifier<T> を継承します。"
     },
     {
       "id": 17,
@@ -220,7 +220,7 @@
         "initState"
       ],
       "answer": 2,
-      "commentary": "Notifier クラス内では `build()` メソッドをオーバーライドして状態の初期値を返します。"
+      "commentary": "Notifier クラス内では build() メソッドをオーバーライドして状態の初期値を返します。"
     },
     {
       "id": 18,
@@ -233,7 +233,7 @@
         "_counter"
       ],
       "answer": 1,
-      "commentary": "Notifier クラスでは `state` プロパティを通じて管理している状態の値を変更します。"
+      "commentary": "Notifier クラスでは state プロパティを通じて管理している状態の値を変更します。"
     },
     {
       "id": 19,
@@ -246,12 +246,12 @@
         "object"
       ],
       "answer": 0,
-      "commentary": "Notifier 自身のメソッドを実行するには `ref.read(xxxProvider.notifier)` を経由してアクセスします。"
+      "commentary": "Notifier 自身のメソッドを実行するには ref.read(xxxProvider.notifier) を経由してアクセスします。"
     },
     {
       "id": 20,
       "type": "実行結果予測",
-      "question": "初期状態が 0 の MyNotifier において、`increment()`（内部で state++）が1回実行された後、`ref.watch(counterProvider)` が返す値は何ですか？",
+      "question": "初期状態が 0 の MyNotifier において、increment()（内部で state++）が1回実行された後、ref.watch(counterProvider) が返す値は何ですか？",
       "options": [
         "0",
         "1",
@@ -259,7 +259,7 @@
         "null"
       ],
       "answer": 1,
-      "commentary": "初期値 0 から `state++` が実行されるため、値は 1 に更新され画面に反映されます。"
+      "commentary": "初期値 0 から state++ が実行されるため、値は 1 に更新され画面に反映されます。"
     },
     {
       "id": 21,
@@ -276,29 +276,29 @@
     },
     {
       "id": 22,
-      "type": "コード穴埋め",
-      "question": "NotifierProvider のインスタンス生成時にコンストラクタ参照を渡す記法です。空欄に入る記述を選んでください。<pre><code>final counterProvider =\n  NotifierProvider<MyNotifier, int>(MyNotifier.___);</code></pre>",
+      "type": "文法チェック",
+      "question": "Notifier クラスで定義されたメソッド（increment など）を実行する際、`ref.read()` と組み合わせて指定するプロパティはどれですか？",
       "options": [
-        "create",
-        "new",
-        "init",
-        "build"
+        "counterProvider.state",
+        "counterProvider.notifier",
+        "counterProvider.value",
+        "counterProvider.build"
       ],
       "answer": 1,
-      "commentary": "Dartのコンストラクタ参照として `MyNotifier.new` を指定して NotifierProvider を生成します。"
+      "commentary": "Notifier クラス自身に定義したメソッドを呼び出すときは、`ref.read(xxxProvider.notifier)` のように `.notifier` を経由してアクセスします。"
     },
     {
       "id": 23,
-      "type": "実行結果予測",
-      "question": "次のコードで、`ref.watch(counterProvider)` を使用して変数を宣言した直後の `counter` の型は何ですか？<pre><code>final counterProvider =\n  NotifierProvider<MyNotifier, int>(MyNotifier.new);\n\n// ConsumerWidget 内\nfinal counter = ref.watch(counterProvider);</code></pre>",
+      "type": "文法チェック",
+      "question": "Notifier クラス内で管理している現在の値（状態）を参照したり更新したりする際に使用するプロパティ名はどれですか？",
       "options": [
-        "NotifierProvider",
-        "MyNotifier",
-        "int",
-        "WidgetRef"
+        "value",
+        "data",
+        "state",
+        "current"
       ],
       "answer": 2,
-      "commentary": "`counterProvider` は `int` 型の状態を管理しているため、`ref.watch(counterProvider)` が返す型は `int` になります。"
+      "commentary": "Notifier クラス内部では、`state` プロパティを使って管理している状態の値を取得したり書き換えたりします。"
     },
     {
       "id": 24,
@@ -311,7 +311,7 @@
         "ref.select() を使う。状態を破棄してメモリを節約するため。"
       ],
       "answer": 0,
-      "commentary": "build メソッド内では `ref.watch()` で Provider の値を監視すると、状態が更新されたときに自動的に再描画されます。"
+      "commentary": "build メソッドの中で状態を参照する際に ref.read を使ってしまうと、状態が更新されてもウィジェットが変更を検知できず自動再描画されません。状態の変化を監視して画面を自動更新（再描画）させるには ref.watch() を使用する必要があります。"
     },
     {
       "id": 25,
@@ -324,7 +324,7 @@
         "value"
       ],
       "answer": 1,
-      "commentary": "Text ウィジェットには String 型を渡す必要があるため、int 型の数値は `toString()` で文字列に変換します。"
+      "commentary": "Text ウィジェットには String 型を渡す必要があるため、int 型の数値は toString() で文字列に変換します。"
     },
     {
       "id": 26,
@@ -350,12 +350,12 @@
         "Object"
       ],
       "answer": 0,
-      "commentary": "返却する値が文字列 'This is provider' なので、型引数には `String` を指定します。"
+      "commentary": "返却する値が文字列 'This is provider' なので、型引数には String を指定します。"
     },
     {
       "id": 28,
       "type": "実行結果予測",
-      "question": "以下のコードで `ElevatedButton` の `onPressed` が押されたときに実行される処理として正しいものはどれですか？<pre><code>ElevatedButton(\n  onPressed: () {\n    ref.read(counterProvider.notifier).increment();\n  },\n  child: const Text('Increment'),\n)</code></pre>",
+      "question": "以下のコードで ElevatedButton の onPressed が押されたときに実行される処理として正しいものはどれですか？<pre><code>ElevatedButton(\n  onPressed: () {\n    ref.read(counterProvider.notifier).increment();\n  },\n  child: const Text('Increment'),\n)</code></pre>",
       "options": [
         "画面全体が即座に破棄される",
         "MyNotifier の increment() が呼び出され、state が更新される",
@@ -363,7 +363,7 @@
         "エラーが発生してアプリが停止する"
       ],
       "answer": 1,
-      "commentary": "`ref.read(counterProvider.notifier)` を通じて MyNotifier インスタンスを取得し、その `increment()` メソッドを実行します。"
+      "commentary": "ref.read(counterProvider.notifier) を通じて MyNotifier インスタンスを取得し、その increment() メソッドを実行します。"
     },
     {
       "id": 29,
@@ -389,7 +389,7 @@
         "StateDemo"
       ],
       "answer": 0,
-      "commentary": "Scaffold の body には作成した ConsumerWidget である `RiverpodDemo` を指定しています。"
+      "commentary": "Scaffold の body には作成した ConsumerWidget である RiverpodDemo を指定しています。"
     },
     {
       "id": 31,
@@ -402,7 +402,7 @@
         "読み取り：ref.get / 変更：ref.set"
       ],
       "answer": 0,
-      "commentary": "状態の読み取り（監視）には `ref.watch` を使い、イベント時の状態変更（メソッド呼び出し）には `ref.read(...notifier)` を使用します。"
+      "commentary": "状態の読み取り（監視）には ref.watch を使い、イベント時の状態変更（メソッド呼び出し）には ref.read(...notifier) を使用します。"
     },
     {
       "id": 32,
@@ -415,7 +415,7 @@
         "spaceBetween"
       ],
       "answer": 2,
-      "commentary": "Column の主軸（縦方向）で中央に配置する場合は `MainAxisAlignment.center` を指定します。"
+      "commentary": "Column の主軸（縦方向）で中央に配置する場合は MainAxisAlignment.center を指定します。"
     },
     {
       "id": 33,
@@ -428,7 +428,7 @@
         "1"
       ],
       "answer": 1,
-      "commentary": "Notifier の `build()` メソッドで返した値が初期状態（state）となるため、100 が表示されます。"
+      "commentary": "Notifier の build() メソッドで返した値が初期状態（state）となるため、100 が表示されます。"
     },
     {
       "id": 34,
@@ -441,7 +441,7 @@
         "void"
       ],
       "answer": 0,
-      "commentary": "Dartでは使用しない引数を `_`（アンダースコア）で表す慣習があります。"
+      "commentary": "Dartでは使用しない引数を _（アンダースコア）で表す慣習があります。"
     },
     {
       "id": 35,
@@ -467,7 +467,7 @@
         "Notifier App"
       ],
       "answer": 0,
-      "commentary": "サンプルコードの AppBar タイトルには `'Riverpod Demo'` が設定されています。"
+      "commentary": "サンプルコードの AppBar タイトルには 'Riverpod Demo' が設定されています。"
     },
     {
       "id": 37,
@@ -480,12 +480,12 @@
         "refresh"
       ],
       "answer": 1,
-      "commentary": "StatefulWidget 内で状態を更新して再描画を発生させるには `setState()` を使用していました。"
+      "commentary": "StatefulWidget 内で状態を更新して再描画を発生させるには setState() を使用していました。"
     },
     {
       "id": 38,
       "type": "実行結果予測",
-      "question": "以下の `MyNotifier` で `decrement()` メソッドを実行した場合、`state` の値はどうなりますか？<pre><code>class MyNotifier extends Notifier<int> {\n  @override\n  int build() => 5;\n\n  void decrement() {\n    state--;\n  }\n}</code></pre>",
+      "question": "以下の MyNotifier で decrement() メソッドを実行した場合、state の値はどうなりますか？<pre><code>class MyNotifier extends Notifier<int> {\n  @override\n  int build() => 5;\n\n  void decrement() {\n    state--;\n  }\n}</code></pre>",
       "options": [
         "5 から 4 に減る",
         "5 から 6 に増える",
@@ -493,7 +493,7 @@
         "エラーになる"
       ],
       "answer": 0,
-      "commentary": "`state--` が実行されるため、5 から 4 へ1減ります。"
+      "commentary": "state-- が実行されるため、5 から 4 へ1減ります。"
     },
     {
       "id": 39,
@@ -506,7 +506,7 @@
         "green"
       ],
       "answer": 0,
-      "commentary": "サンプルコードでは `Colors.deepPurple` が seedColor として指定されています。"
+      "commentary": "サンプルコードでは Colors.deepPurple が seedColor として指定されています。"
     },
     {
       "id": 40,
@@ -519,7 +519,7 @@
         "onPressed などのイベントハンドラを一切記述できない"
       ],
       "answer": 0,
-      "commentary": "ConsumerWidget は StatelessWidget のようにシンプルに記述でき、build メソッドで `WidgetRef` を受け取ることで Provider へアクセスできます。"
+      "commentary": "ConsumerWidget は StatelessWidget のようにシンプルに記述でき、build メソッドで WidgetRef を受け取ることで Provider へアクセスできます。"
     }
   ]
 }
