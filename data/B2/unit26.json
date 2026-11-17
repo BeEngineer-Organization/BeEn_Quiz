@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit26",
-  "questions": []
+  "unit_title": "SQLite - 暗記カードアプリに導入",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "SQLite からデータを非同期で取得して管理する際、NotifierProvider の代わりに使用する Riverpod のプロバイダはどれですか？",
+      "options": [
+        "Provider",
+        "FutureProvider",
+        "StateProvider",
+        "StreamProvider"
+      ],
+      "answer": 1,
+      "commentary": "データベースからのデータ取得のように時間がかかる非同期処理を扱う場合は、FutureProvider を使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "SQLite データベースからカード一覧を取得する FutureProvider を定義するコードです。空欄に入るプロバイダ名を選んでください。<pre><code>final flashcardProvider = ___<List<Flashcard>>(\n  (ref) => FlashcardDatabase().getFlashcards(),\n);</code></pre>",
+      "options": [
+        "NotifierProvider",
+        "FutureProvider",
+        "Provider",
+        "AsyncProvider"
+      ],
+      "answer": 1,
+      "commentary": "`FlashcardDatabase().getFlashcards()` は `Future<List<Flashcard>>` を返すため、`FutureProvider<List<Flashcard>>` で定義します。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "データベースからすべてのカードデータを非同期で取得するメソッドを呼び出すコードです。空欄に入るメソッド名を選んでください。<pre><code>final flashcardProvider = FutureProvider<List<Flashcard>>(\n  (ref) => FlashcardDatabase().___(),\n);</code></pre>",
+      "options": [
+        "getFlashcards",
+        "initDatabase",
+        "insertFlashcard",
+        "fetchCards"
+      ],
+      "answer": 0,
+      "commentary": "`FlashcardDatabase` に定義した全カード取得用のメソッド名は `getFlashcards()` です。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "データベースに新しいカードを追加したあと、プロバイダが管理している古い状態を破棄してデータの再取得を促すために使うメソッドはどれですか？",
+      "options": [
+        "ref.watch()",
+        "ref.read()",
+        "ref.invalidate()",
+        "ref.dispose()"
+      ],
+      "answer": 2,
+      "commentary": "`ref.invalidate(プロバイダ名)` を呼び出すと、そのプロバイダの現在のキャッシュ（状態）が破棄され、データの再取得が実行されます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "カードを追加したあと、`flashcardProvider` の状態を破棄して最新データを再取得させるコードです。空欄に入るメソッド名を選んでください。<pre><code>await FlashcardDatabase().insertFlashcard(question, answer, genre);\nref.___(flashcardProvider);</code></pre>",
+      "options": [
+        "refresh",
+        "invalidate",
+        "update",
+        "reload"
+      ],
+      "answer": 1,
+      "commentary": "データベース変更後にプロバイダを再読み込みさせるには `ref.invalidate(flashcardProvider)` を記述します。"
+    },
+    {
+      "id": 6,
+      "type": "実行結果予測",
+      "question": "カード追加処理の中で `ref.invalidate(flashcardProvider)` を書き忘れた場合、カードを追加して一覧画面に戻ったときにどのような挙動になりますか？",
+      "options": [
+        "エラーが発生してアプリが停止する",
+        "プロバイダが再取得を行わないため、一覧画面が更新されず追加したカードが表示されない",
+        "既存のカードがすべて消えてしまう",
+        "自動的にデータベースが初期化される"
+      ],
+      "answer": 1,
+      "commentary": "`ref.invalidate(flashcardProvider)` を呼ばないと古い状態のまま再取得が走らないため、画面に新しいカードが反映されません。"
+    },
+    {
+      "id": 7,
+      "type": "文法チェック",
+      "question": "`flashcardProvider` を NotifierProvider から FutureProvider に変更した際、不要になって削除するものはどれですか？",
+      "options": [
+        "genreProvider",
+        "FlashcardListNotifier クラスと addCard メソッド",
+        "ProviderScope",
+        "FlashcardDatabase クラス"
+      ],
+      "answer": 1,
+      "commentary": "FutureProvider ではプロバイダ内で状態変更メソッドを持たず、データベースクラスを直接操作するため、`FlashcardListNotifier` と `addCard` は不要になり削除します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "`flashcardProvider` を `FutureProvider<List<Flashcard>>` に変更したとき、`ref.watch(flashcardProvider)` が返す値の型は何ですか？",
+      "options": [
+        "List<Flashcard>",
+        "AsyncValue<List<Flashcard>>",
+        "Future<List<Flashcard>>",
+        "Flashcard"
+      ],
+      "answer": 1,
+      "commentary": "FutureProvider を `watch` すると、読み込み中・成功・エラーの状態を扱う `AsyncValue<List<Flashcard>>` 型が返されます。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "AsyncValue から「読み込み中」「エラー」「取得成功」の3つの状態に応じたウィジェットを返すメソッドを選んでください。<pre><code>body: flashcardListAsync.___(\n  loading: () => const CircularProgressIndicator(),\n  error: (err, stack) => Text('エラー: $err'),\n  data: (flashcardList) => ListView.builder(...),\n),</code></pre>",
+      "options": [
+        "when",
+        "map",
+        "build",
+        "select"
+      ],
+      "answer": 0,
+      "commentary": "`AsyncValue` の `.when()` メソッドを使うことで、`loading`・`error`・`data` の3パターンに分けてUIを記述できます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面で、データベースからデータ取得が成功したとき（`data`）に受け取ったリストから、現在のジャンルに一致するカードだけを絞り込むコードです。空欄に入る記述を選んでください。<pre><code>data: (flashcardList) {\n  final shownList = flashcardList.___(\n    (card) => card.genre.id == genre.id\n  ).toList();\n  return ListView.builder(...);\n}</code></pre>",
+      "options": [
+        "map",
+        "where",
+        "firstWhere",
+        "find"
+      ],
+      "answer": 1,
+      "commentary": "条件に一致する複数の要素を抽出するには `where` メソッドを使用します。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の `when` メソッドで、データ読み込み中に画面中央へ回転するインジケータを表示するコードです。空欄に入る引数名を選んでください。<pre><code>flashcardListAsync.when(\n  ___: () => const Center(\n    child: CircularProgressIndicator(),\n  ),\n  error: (err, stack) => ...,\n  data: (flashcardList) => ...,\n)</code></pre>",
+      "options": [
+        "loading",
+        "waiting",
+        "progress",
+        "init"
+      ],
+      "answer": 0,
+      "commentary": "データの取得中（ロード中）に表示するウィジェットは `loading` 引数に指定します。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の `when` メソッドで、データベースからの取得に失敗したときにエラー文を表示するコードです。空欄に入る引数名を選んでください。<pre><code>flashcardListAsync.when(\n  loading: () => ...,\n  ___: (err, stack) => Center(\n    child: Text('エラーが発生しました: $err'),\n  ),\n  data: (flashcardList) => ...,\n)</code></pre>",
+      "options": [
+        "catch",
+        "fail",
+        "error",
+        "exception"
+      ],
+      "answer": 2,
+      "commentary": "エラー発生時の表示は `error` 引数に記述します。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "カード一覧画面を開いた直後、SQLite からのデータ読み込みが完了する前の短い間に表示されるものは何ですか？<pre><code>loading: () => const Center(\n  child: CircularProgressIndicator(),\n),</code></pre>",
+      "options": [
+        "空のリスト",
+        "画面中央の CircularProgressIndicator（読み込みマーク）",
+        "エラーが発生しました という文字",
+        "ジャンル一覧画面"
+      ],
+      "answer": 1,
+      "commentary": "読み込み完了までは `loading` の処理が実行されるため、画面中央に `CircularProgressIndicator` が表示されます。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "カード追加画面の `onPressed` の中で `await` を使ってデータベースへ保存するため、関数に追加するキーワードを選んでください。<pre><code>ElevatedButton(\n  onPressed: () ___ {\n    if (formKey.currentState!.validate()) {\n      await FlashcardDatabase().insertFlashcard(question, answer, genre);\n    }\n  },\n  child: const Text('カードを追加する'),\n)</code></pre>",
+      "options": [
+        "await",
+        "async",
+        "future",
+        "sync"
+      ],
+      "answer": 1,
+      "commentary": "コールバック関数内で `await` を使用するには、`() async { ... }` のように `async` キーワードをつける必要があります。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "カード追加ボタンが押されたとき、入力された問題・答え・ジャンルを SQLite に保存するメソッドを呼び出すコードです。空欄に入るメソッド名を選んでください。<pre><code>await FlashcardDatabase().___(\n  question,\n  answer,\n  genre,\n);</code></pre>",
+      "options": [
+        "addCard",
+        "insertFlashcard",
+        "saveCard",
+        "getFlashcards"
+      ],
+      "answer": 1,
+      "commentary": "`FlashcardDatabase` に定義したデータ挿入メソッド名は `insertFlashcard` です。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "非同期処理（`await`）の完了後に `BuildContext` を使う際、ウィジェットがまだ画面上に存在しているか確認する安全対策のコードです。空欄に入るプロパティ名を選んでください。<pre><code>if (!context.___) return;\nNavigator.of(context).pop();</code></pre>",
+      "options": [
+        "exists",
+        "mounted",
+        "active",
+        "isAlive"
+      ],
+      "answer": 1,
+      "commentary": "`context.mounted` を確認することで、非同期処理の待機中に画面がすでに破棄されていた場合のエラーを防ぐことができます。"
+    },
+    {
+      "id": 17,
+      "type": "文法チェック",
+      "question": "`await` を使った非同期処理のあとに `if (!context.mounted) return;` を書く理由として正しいものはどれですか？",
+      "options": [
+        "非同期処理の完了を待っている間にユーザーが別画面へ移動し、元のウィジェットが破棄されている可能性があるため",
+        "データベースの保存処理が失敗したときに自動的にやり直すため",
+        "フォームの入力内容をすべて空にリセットするため",
+        "Flutter のバージョンを自動更新するため"
+      ],
+      "answer": 0,
+      "commentary": "待機中に画面遷移などでウィジェットが破棄された状態で `Navigator.of(context)` などを呼ぶと不具合になるため、`context.mounted` で存在確認を行います。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "SQLite を導入したあとの暗記カードアプリで、新しいカードを追加し、一度アプリを完全に終了してから再起動しました。追加したカードはどうなりますか？",
+      "options": [
+        "メモリから消えるため、追加したカードはなくなっている",
+        "SQLite によってデータが永続化されているため、再起動後も追加したカードが残っている",
+        "最初の1枚だけ残って他は消える",
+        "アプリが起動できなくなる"
+      ],
+      "answer": 1,
+      "commentary": "SQLite データベースにデータを保存しているため、アプリを再起動しても追加したデータが失われずに残ります。"
+    },
+    {
+      "id": 19,
+      "type": "文法チェック",
+      "question": "FutureProvider を使用する際の注意点として、教科書で説明されている正しい内容はどれですか？",
+      "options": [
+        "FutureProvider の中で直接リストの追加や編集を行うことができる",
+        "FutureProvider 内ではデータの編集はできず、取得中・成功・失敗の3つで場合分けが必要になる",
+        "FutureProvider を使うときは ProviderScope が不要になる",
+        "FutureProvider は同期処理専用である"
+      ],
+      "answer": 1,
+      "commentary": "FutureProvider は非同期でデータを取得・公開するためのものであり、データの追加・編集はデータベースクラス側で行い、表示側では3つの状態の場合分けを行います。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "Web ブラウザ（Chrome）上でも SQLite を使えるようにするためのパッケージをインストールするコマンドです。空欄に入るパッケージ名を選んでください。<pre><code>flutter pub add ___</code></pre>",
+      "options": [
+        "sqflite_web",
+        "sqflite_common_ffi_web",
+        "flutter_sqlite_web",
+        "web_database"
+      ],
+      "answer": 1,
+      "commentary": "Web ブラウザで sqflite を動作させるには `sqflite_common_ffi_web` パッケージを追加します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "`sqflite_common_ffi_web` をインストールしたあと、Web 実行に必要なファイル（`sqlite3.wasm` と `sqflite_sw.js`）を作成するために実行するコマンドです。空欄に入る記述を選んでください。<pre><code>dart run ___:setup</code></pre>",
+      "options": [
+        "sqflite",
+        "sqflite_common_ffi_web",
+        "flutter_riverpod",
+        "path"
+      ],
+      "answer": 1,
+      "commentary": "`dart run sqflite_common_ffi_web:setup` を実行することで、`web` フォルダ内に必要な2つのファイルが自動生成されます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "`main.dart` で、アプリが Web ブラウザで実行されているときだけ Web 用のデータベースに切り替える条件式の定数を選んでください。<pre><code>if (___) {\n  databaseFactory = databaseFactoryFfiWeb;\n}</code></pre>",
+      "options": [
+        "isWeb",
+        "kIsWeb",
+        "onWeb",
+        "webMode"
+      ],
+      "answer": 1,
+      "commentary": "`package:flutter/foundation.dart` に定義されている `kIsWeb` は、Web 環境で実行されているときに `true` になる定数です。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "Web 環境で実行している場合に、データベースの仕組みを Web 用に切り替える代入文です。空欄に入る変数名を選んでください。<pre><code>if (kIsWeb) {\n  ___ = databaseFactoryFfiWeb;\n}</code></pre>",
+      "options": [
+        "database",
+        "databaseFactory",
+        "dbInstance",
+        "webFactory"
+      ],
+      "answer": 1,
+      "commentary": "`databaseFactory` に `databaseFactoryFfiWeb` を代入することで、Web ブラウザ上での SQLite 動作に切り替わります。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "通常の `sqflite` パッケージだけを入れた状態で Web ブラウザ（Chrome）で実行すると、画面が真っ白になる理由は何ですか？",
+      "options": [
+        "`sqflite` は Android / iOS / macOS 向けであり Web には未対応のため、runApp() の前のデータベース初期化で例外が発生するから",
+        "Web ブラウザでは MaterialApp が使えないから",
+        "Chrome では文字の色がすべて白色になってしまうから",
+        "ProviderScope が Web に対応していないから"
+      ],
+      "answer": 0,
+      "commentary": "通常の `sqflite` は Web 非対応のため、`runApp()` より前に呼ばれる `initDatabase()` でエラーが起き、描画処理まで進まず白い画面になります。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "Web ブラウザで実行する際、毎回同じデータベースを使い続けられるようにポート番号 `8000` を指定して起動するコマンドです。空欄に入るオプションを選んでください。<pre><code>flutter run -d chrome ___ 8000</code></pre>",
+      "options": [
+        "--port",
+        "--web-port",
+        "-p",
+        "--host-port"
+      ],
+      "answer": 1,
+      "commentary": "ポート番号を固定して Chrome で起動するには `flutter run -d chrome --web-port 8000` を実行します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "カード一覧画面で `flashcardListAsync.when(...)` を使ったとき、`data: (flashcardList)` の引数 `flashcardList` に入ってくるデータの型は何ですか？",
+      "options": [
+        "AsyncValue<List<Flashcard>>",
+        "Future<List<Flashcard>>",
+        "List<Flashcard>",
+        "Map<String, dynamic>"
+      ],
+      "answer": 2,
+      "commentary": "`when` の `data` コールバックには、非同期処理が完了して取り出された中身の型である `List<Flashcard>` がそのまま渡されます。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "カード追加画面のフォーム送信時、バリデーションが成功したかどうかを判定する条件式のメソッドを選んでください。<pre><code>if (formKey.currentState!.___()) {\n  // データベースへの保存処理\n}</code></pre>",
+      "options": [
+        "validate",
+        "check",
+        "save",
+        "isValid"
+      ],
+      "answer": 0,
+      "commentary": "`formKey.currentState!.validate()` を実行し、すべての入力項目が正しければ `true` が返ります。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "カード追加画面で、選択されている `selectedValue` に一致する `Genre` オブジェクトを `genreList` から取得するコードです。空欄に入るメソッドを選んでください。<pre><code>final genre = genreList.___(\n  (genre) => genre.id == selectedValue,\n);</code></pre>",
+      "options": [
+        "where",
+        "firstWhere",
+        "map",
+        "contains"
+      ],
+      "answer": 1,
+      "commentary": "条件に一致する1つの `Genre` を取得するために `firstWhere` を使用します。"
+    },
+    {
+      "id": 29,
+      "type": "実行結果予測",
+      "question": "カード追加画面で追加ボタンを押し、バリデーションが通ったあとに実行される処理の正しい順番はどれですか？",
+      "options": [
+        "Navigator.pop() → ref.invalidate() → insertFlashcard()",
+        "insertFlashcard() → ref.invalidate() → context.mounted確認 → Navigator.pop()",
+        "ref.invalidate() → Navigator.pop() → insertFlashcard()",
+        "context.mounted確認 → insertFlashcard() → Navigator.pop()"
+      ],
+      "answer": 1,
+      "commentary": "まず `await` でデータベースに保存し、次に `ref.invalidate` でプロバイダを更新、その後 `context.mounted` を確認してから `Navigator.pop()` で前の画面に戻ります。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "カード追加画面の保存処理完了後、1つ前の画面（カード一覧画面）に戻るためのコードです。空欄に入るメソッドを選んでください。<pre><code>if (!context.mounted) return;\nNavigator.of(context).___();</code></pre>",
+      "options": [
+        "push",
+        "pop",
+        "back",
+        "close"
+      ],
+      "answer": 1,
+      "commentary": "現在の画面を閉じて前の画面に戻るには `Navigator.of(context).pop()` を呼び出します。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "`providers.dart` において、`genreProvider` が `FutureProvider` ではなく `Provider` のままでよい理由は何ですか？",
+      "options": [
+        "ジャンル一覧はアプリ内で最初から決まっている変化しないデータであり、SQLite から非同期で取得していないから",
+        "genreProvider には文字列しか入れられないから",
+        "Provider は FutureProvider よりも通信速度が速いから",
+        "ジャンル一覧画面は ConsumerWidget ではないから"
+      ],
+      "answer": 0,
+      "commentary": "ジャンルデータ（`genreList`）は同期的に用意された変化しないリストのまま管理するため、`Provider` のまま変更しません。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "`providers.dart` で新しくインポートする必要があり、逆に不要になって削除するインポート文の組み合わせとして正しいものはどれですか？",
+      "options": [
+        "追加: '../flashcard_database.dart' / 削除: 'data/flashcard.dart'",
+        "追加: 'data/flashcard.dart' / 削除: 'data/genre.dart'",
+        "追加: 'models/genre.dart' / 削除: 'models/flashcard.dart'",
+        "追加: 'package:sqflite/sqflite.dart' / 削除: 'package:flutter_riverpod/flutter_riverpod.dart'"
+      ],
+      "answer": 0,
+      "commentary": "データベースから取得するようになるため `flashcard_database.dart` を追加し、固定データだった `data/flashcard.dart` のインポートを削除します。"
+    },
+    {
+      "id": 33,
+      "type": "用語理解",
+      "question": "Dart において、変数名や関数名の先頭に `!` をつけて `!context.mounted` のように書いたとき、`!` はどのような意味を持ちますか？",
+      "options": [
+        "真偽値（true / false）を反転させる否定演算子（〜ではない）",
+        "null でないことを保証する演算子",
+        "変数を定数にする記号",
+        "非同期処理を開始する記号"
+      ],
+      "answer": 0,
+      "commentary": "`bool` 型の式の前に `!` をつけると「〜ではない（false のとき true になる）」という論理否定の意味になります。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "以下のコードで、`if (!context.mounted) return;` の `context.mounted` が `false` だった場合、その直後の `Navigator.of(context).pop();` は実行されますか？<pre><code>if (!context.mounted) return;\nNavigator.of(context).pop();</code></pre>",
+      "options": [
+        "実行される",
+        "`!false` が `true` になるため `return` が実行され、`pop()` は実行されない",
+        "エラーが発生する",
+        "2回実行される"
+      ],
+      "answer": 1,
+      "commentary": "`context.mounted` が `false`（すでに画面が存在しない）の場合、`!context.mounted` が真となり `return` で処理を抜けるため安全にスキップされます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面で、絞り込んだ `shownList` の件数だけカードを表示する `ListView.builder` のプロパティ設定です。空欄に入る記述を選んでください。<pre><code>return ListView.builder(\n  itemCount: shownList.___,\n  itemBuilder: (context, index) => Card(...),\n);</code></pre>",
+      "options": [
+        "count",
+        "length",
+        "size",
+        "total"
+      ],
+      "answer": 1,
+      "commentary": "リストの要素数を取得するプロパティは `length` です。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面のカードをタップしたとき、問題と答えをモーダルダイアログで表示する関数を呼び出すコードです。空欄に入る関数名を選んでください。<pre><code>onTap: () {\n  ___(\n    context,\n    shownList[index]\n  );\n},</code></pre>",
+      "options": [
+        "showDialog",
+        "activateModal",
+        "openModal",
+        "showCard"
+      ],
+      "answer": 1,
+      "commentary": "`CardListPage` に定義されているモーダル表示用のメソッド名は `activateModal` です。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "Web 環境でデータベースの保存データをリセットしたり、画面が白いまま直らないときに実行するよう補足で紹介されているコマンドはどれですか？",
+      "options": [
+        "flutter doctor",
+        "flutter clean",
+        "flutter upgrade",
+        "flutter test"
+      ],
+      "answer": 1,
+      "commentary": "修正後も画面が白いままの場合などは、ビルドキャッシュを削除する `flutter clean` を実行してから再起動します。"
+    },
+    {
+      "id": 38,
+      "type": "実行結果予測",
+      "question": "Web ブラウザで実行した場合と、スマホ（Android / iOS）のエミュレータで実行した場合で、保存されるデータベースのデータはどうなりますか？",
+      "options": [
+        "自動的にクラウドで同期され、まったく同じデータが表示される",
+        "Web ではブラウザ内に保存されるため、スマホで実行した場合とはデータが別々になる",
+        "スマホでは保存されず、Web でのみ保存される",
+        "Web で実行するとスマホのデータがすべて削除される"
+      ],
+      "answer": 1,
+      "commentary": "SQLite はそれぞれの端末やブラウザのローカル領域に保存されるため、Web ブラウザとスマホ実機・エミュレータでは別のデータとして管理されます。"
+    },
+    {
+      "id": 39,
+      "type": "コード穴埋め",
+      "question": "カード追加画面で、問題文の入力欄から現在のテキスト値を取り出すコードです。空欄に入るプロパティを選んでください。<pre><code>final question = questionFormKey.currentState!.___!;</code></pre>",
+      "options": [
+        "text",
+        "value",
+        "data",
+        "input"
+      ],
+      "answer": 1,
+      "commentary": "`FormFieldState` の現在の入力値は `currentState!.value` で取得します。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "今回の授業のように、データベースへの追加処理を「プロバイダ経由」ではなく「データベースクラスを直接呼び出す」形にした理由とセットで覚えるべき重要な仕組みは何ですか？",
+      "options": [
+        "データベースを変更したあと、`ref.invalidate()` を呼んでプロバイダにデータの再取得をさせること",
+        "データベースを変更したあと、アプリを毎回手動で再起動すること",
+        "データベースを変更したあと、`setState()` を10回呼ぶこと",
+        "データベースを変更したあと、`genreList` を空にすること"
+      ],
+      "answer": 0,
+      "commentary": "データベースクラスを直接操作しただけではプロバイダが変化に気づかないため、必ず `ref.invalidate()` で再取得を促すのが重要なポイントです。"
+    }
+  ]
 }

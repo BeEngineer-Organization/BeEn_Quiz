@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit23",
-  "questions": []
+  "unit_title": "非同期処理",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "1つの処理が完了するのを待ってから次の処理に移る、上から下へと順番に実行される処理形式を何と呼びますか？",
+      "options": [
+        "同期処理",
+        "非同期処理",
+        "並列処理",
+        "例外処理"
+      ],
+      "answer": 0,
+      "commentary": "1つの処理が完了してから次の処理に移る形式を「同期処理」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "時間がかかる処理の完了を待たずに次の処理へ進み、待ち時間を有効に活用する処理形式を何と呼びますか？",
+      "options": [
+        "同期処理",
+        "非同期処理",
+        "順次処理",
+        "再帰処理"
+      ],
+      "answer": 1,
+      "commentary": "処理の完了を待たずに次の処理に移る形式を「非同期処理」と呼びます。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "非同期処理が必要となる操作の代表的な特徴として、最も適切なものはどれですか？",
+      "options": [
+        "足し算や引き算などの単純な数値計算",
+        "変数への数値の代入",
+        "ネット通信やデータベースなど、外部に対して操作をすること",
+        "if文やfor文による条件分岐や繰り返し"
+      ],
+      "answer": 2,
+      "commentary": "ネット通信（API）やデータベース、外部ファイルへのアクセスなど、外部と連携し時間がかかる可能性がある操作では非同期処理が必須となります。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "Dartの非同期処理において、結果が返ってくるまでの「仮の処理結果」を表すクラスはどれですか？",
+      "options": [
+        "Duration",
+        "Future",
+        "Async",
+        "Await"
+      ],
+      "answer": 1,
+      "commentary": "Future クラスは、非同期処理の結果が返ってくるまでの仮の状態や完了後の結果を扱うためのクラスです。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "5秒間待った後に文字列 'finished' を返す非同期処理を作成するコードです。空欄に入るクラス名を選んでください。<pre><code>void main() {\n  ___<String> demo = Future.delayed(\n    Duration(seconds: 5),\n    () {\n      return 'finished';\n    },\n  );\n}</code></pre>",
+      "options": [
+        "Future",
+        "Duration",
+        "Async",
+        "String"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理の結果として文字列（String）を扱う場合、型は Future<String> と指定します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "指定した時間だけ処理を遅らせる Future クラスのコンストラクタ名を選んでください。<pre><code>Future<String> demo = Future.___(\n  Duration(seconds: 5),\n  () => 'finished',\n);</code></pre>",
+      "options": [
+        "wait",
+        "sleep",
+        "delayed",
+        "timer"
+      ],
+      "answer": 2,
+      "commentary": "指定時間待ってから処理を実行するには `Future.delayed(待ち時間, 処理)` を使用します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "Future.delayed の第1引数に「5秒」という時間を指定するためのクラス名を選んでください。<pre><code>Future.delayed(\n  ___(seconds: 5),\n  () => 'finished',\n);</code></pre>",
+      "options": [
+        "Time",
+        "Second",
+        "Duration",
+        "Delay"
+      ],
+      "answer": 2,
+      "commentary": "Dartで1秒、1分、1時間などの時間の長さを表すには `Duration` クラスを使用します。"
+    },
+    {
+      "id": 8,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、コンソールに出力される内容は何ですか？<pre><code>void main() {\n  Future<String> demo = Future.delayed(\n    Duration(seconds: 5),\n    () {\n      return 'finished';\n    },\n  );\n  print(demo);\n}</code></pre>",
+      "options": [
+        "finished",
+        "Instance of 'Future<String>'",
+        "null",
+        "5"
+      ],
+      "answer": 1,
+      "commentary": "await を付けていないため5秒待たずに print(demo) が実行され、仮の処理結果である Future インスタンスの文字列表現 `Instance of 'Future<String>'` が出力されます。"
+    },
+    {
+      "id": 9,
+      "type": "実行結果予測",
+      "question": "型指定を省略して `Future demo = ...` と書いた場合、以下のコードを実行すると何が出力されますか？<pre><code>void main() {\n  Future demo = Future.delayed(\n    Duration(seconds: 5),\n    () {\n      return 'finished';\n    },\n  );\n  print(demo);\n}</code></pre>",
+      "options": [
+        "Instance of 'Future<String>'",
+        "Instance of 'Future<dynamic>'",
+        "finished",
+        "エラーが発生する"
+      ],
+      "answer": 1,
+      "commentary": "Future の内部データの型を指定しない場合、すべての型に対応する `dynamic` が使われるため `Instance of 'Future<dynamic>'` と出力されます。"
+    },
+    {
+      "id": 10,
+      "type": "コード穴埋め",
+      "question": "関数内で `await` を使えるようにするため、`{}` の前に記述するキーワードを選んでください。<pre><code>void main() ___ {\n  Future demo = Future.delayed(\n    Duration(seconds: 5),\n    () => 'finished',\n  );\n  print(await demo);\n}</code></pre>",
+      "options": [
+        "await",
+        "async",
+        "future",
+        "sync"
+      ],
+      "answer": 1,
+      "commentary": "関数やメソッドの中で `await` を使用するには、関数の `{}` の前に `async` キーワードをつける必要があります。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "demo の非同期処理が完了するのを待ってから結果を取り出すために、`demo` の前につけるキーワードを選んでください。<pre><code>void main() async {\n  Future demo = Future.delayed(\n    Duration(seconds: 5),\n    () => 'finished',\n  );\n  print(___ demo);\n}</code></pre>",
+      "options": [
+        "async",
+        "wait",
+        "await",
+        "stop"
+      ],
+      "answer": 2,
+      "commentary": "非同期処理の完了を待って結果を取り出すには、Future の前に `await` キーワードをつけます。"
+    },
+    {
+      "id": 12,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、最終的にコンソールに出力される内容は何ですか？<pre><code>void main() async {\n  Future demo = Future.delayed(\n    Duration(seconds: 5),\n    () {\n      return 'finished';\n    },\n  );\n  print(await demo);\n}</code></pre>",
+      "options": [
+        "Instance of 'Future<dynamic>'",
+        "finished",
+        "null",
+        "エラーが発生する"
+      ],
+      "answer": 1,
+      "commentary": "`await demo` によって5秒間の非同期処理が完了するのを待ってから print() が実行されるため、戻り値である `finished` が出力されます。"
+    },
+    {
+      "id": 13,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、出力される順番として正しいものはどれですか？<pre><code>void main() {\n  Future<void> demo = Future.delayed(\n    Duration(seconds: 5),\n    () => print('finished'),\n  );\n  print(demo);\n  print('print');\n}</code></pre>",
+      "options": [
+        "finished → Instance of 'Future<void>' → print",
+        "Instance of 'Future<void>' → print → finished",
+        "print → finished → Instance of 'Future<void>'",
+        "Instance of 'Future<void>' → finished → print"
+      ],
+      "answer": 1,
+      "commentary": "await がないため、まず `print(demo)` と `print('print')` が即座に実行され、5秒後に非同期処理が完了して `finished` が出力されます。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、出力される順番として正しいものはどれですか？<pre><code>void main() async {\n  Future<void> demo = Future.delayed(\n    Duration(seconds: 5),\n    () => print('finished'),\n  );\n  await demo;\n  print('print');\n}</code></pre>",
+      "options": [
+        "print → finished",
+        "finished → print",
+        "Instance of 'Future<void>' → print",
+        "finished のみ出力される"
+      ],
+      "answer": 1,
+      "commentary": "`await demo;` によって5秒後の `print('finished')` が完了するまで待機するため、先に `finished`、その後に `print` が出力されます。"
+    },
+    {
+      "id": 15,
+      "type": "文法チェック",
+      "question": "`async` と `await` のルールに関する説明として、誤っているものはどれですか？",
+      "options": [
+        "`await` は `async` がついている関数やメソッドの中でしか使えない",
+        "`async` は関数やメソッドのボディ `{}` の前につける",
+        "`await` をつけると非同期処理の完了を待って同期的に扱える",
+        "関数に `async` をつけなくても、いつでも自由に `await` を書くことができる"
+      ],
+      "answer": 3,
+      "commentary": "`await` キーワードは、必ず `async` キーワードが付与された関数やメソッドの内部でしか使用できません。"
+    },
+    {
+      "id": 16,
+      "type": "文法チェック",
+      "question": "Future の処理が開始されるタイミングと `await` の役割について正しい説明はどれですか？",
+      "options": [
+        "`await` が書かれた行に到達して初めて Future の処理がスタートする",
+        "Future は作成（定義）された時点で裏側で処理が始まっており、`await` は結果が必要になる箇所で完了を待たせる役割を持つ",
+        "`await` を書かないと Future の処理は永遠に実行されない",
+        "`await` は処理を強制終了させるためのキーワードである"
+      ],
+      "answer": 1,
+      "commentary": "Future はインスタンスが作成された時点で処理が開始されます。`await` は処理を開始させるものではなく、完了を待つためのキーワードです。"
+    },
+    {
+      "id": 17,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、1秒経過〜5秒経過まですべて出力し終えるのにかかる合計時間はおよそ何秒ですか？<pre><code>void main() {\n  for (int i = 1; i <= 5; i++) {\n    Future.delayed(\n      Duration(seconds: i),\n      () => print('$i 秒経過'),\n    );\n  }\n}</code></pre>",
+      "options": [
+        "約1秒",
+        "約5秒",
+        "約15秒（1+2+3+4+5秒）",
+        "0秒"
+      ],
+      "answer": 1,
+      "commentary": "await がないため5つの処理がほぼ同時にスタートし、最も長い `Duration(seconds: 5)` が終わる約5秒後にすべて完了します。"
+    },
+    {
+      "id": 18,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、同時に裏側で走っているタイマー処理は常にいくつですか？<pre><code>void main() async {\n  for (int i = 1; i <= 5; i++) {\n    await Future.delayed(\n      Duration(seconds: 1),\n      () => print('$i 秒経過'),\n    );\n  }\n}</code></pre>",
+      "options": [
+        "0個",
+        "1個",
+        "5個",
+        "ループの回数に応じて増える"
+      ],
+      "answer": 1,
+      "commentary": "1回ごとに `await` で1秒間の完了を待ってから次のループに進むため、同時に実行されている処理は常に1つだけです。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "1秒ごとにカウントアップするタイマーを `await` を使って実装するコードです。空欄に入るキーワードを選んでください。<pre><code>void main() async {\n  for (int i = 1; i <= 5; i++) {\n    ___ Future.delayed(\n      Duration(seconds: 1),\n      () => print('$i 秒経過'),\n    );\n  }\n}</code></pre>",
+      "options": [
+        "async",
+        "await",
+        "return",
+        "yield"
+      ],
+      "answer": 1,
+      "commentary": "1回のループごとに1秒間の完了を待つため、`Future.delayed` の前に `await` を記述します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "5秒後に文字列 'Welcome to BeEngineer' を返す `showMessage` 関数の戻り値の型を指定するコードです。空欄に入る型を選んでください。<pre><code>___<String> showMessage() async {\n  await Future.delayed(Duration(seconds: 5));\n  return 'Welcome to BeEngineer';\n}</code></pre>",
+      "options": [
+        "String",
+        "Future",
+        "void",
+        "Async"
+      ],
+      "answer": 1,
+      "commentary": "`async` をつけた関数から文字列を返す場合、戻り値の型は `Future<String>` と指定します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "非同期関数 `showMessage()` の結果を待ってから `print()` で出力するコードです。空欄に入るキーワードを選んでください。<pre><code>void main() async {\n  print('少しお待ちください。');\n  print(___ showMessage());\n}</code></pre>",
+      "options": [
+        "async",
+        "await",
+        "future",
+        "delay"
+      ],
+      "answer": 1,
+      "commentary": "`showMessage()` は `Future<String>` を返す非同期関数なので、完了を待って文字列を取り出すために `await` をつけます。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、画面に正しく表示されるメッセージは何ですか？<pre><code>void main() async {\n  print('少しお待ちください。');\n  print(await showTitle());\n}\n\nFuture<String> showTitle() async {\n  var title = await getTitle();\n  return 'Welcome to $title';\n}\n\nFuture<String> getTitle() {\n  return Future.delayed(\n    const Duration(seconds: 5),\n    () => 'BeEngineer',\n  );\n}</code></pre>",
+      "options": [
+        "少しお待ちください。 → Welcome to BeEngineer",
+        "少しお待ちください。 → Welcome to Instance of 'Future<String>'",
+        "Welcome to BeEngineer → 少しお待ちください。",
+        "エラーが発生して何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "`getTitle()` と `showTitle()` の両方に適切に `await` がついているため、5秒後に正しく `Welcome to BeEngineer` が出力されます。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "もし `showTitle()` の中の `getTitle()` に `await` をつけ忘れた場合、どのような文字列が返ってしまいますか？<pre><code>Future<String> showTitle() async {\n  var title = getTitle(); // await をつけ忘れた\n  return 'Welcome to $title';\n}</code></pre>",
+      "options": [
+        "Welcome to BeEngineer",
+        "Welcome to Instance of 'Future<String>'",
+        "Welcome to null",
+        "Welcome to "
+      ],
+      "answer": 1,
+      "commentary": "`await` をつけ忘れると `title` には完了前の Future インスタンスが入るため、`Welcome to Instance of 'Future<String>'` となってしまいます。"
+    },
+    {
+      "id": 24,
+      "type": "文法チェック",
+      "question": "関数名と戻り値の型を省略して書く `( 引数 ) { 処理 }` のような関数の書き方を何と呼びますか？",
+      "options": [
+        "無名関数",
+        "再帰関数",
+        "コンストラクタ",
+        "同期関数"
+      ],
+      "answer": 0,
+      "commentary": "`Future.delayed` の第2引数などで使われる、関数名や戻り値の型を省略した書き方を「無名関数」と呼びます。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "戻り値がない（何も返さない）非同期処理の Future 型を指定するコードです。空欄に入る型を選んでください。<pre><code>Future<___> demo = Future.delayed(\n  Duration(seconds: 5),\n  () => print('finished'),\n);</code></pre>",
+      "options": [
+        "null",
+        "void",
+        "empty",
+        "none"
+      ],
+      "answer": 1,
+      "commentary": "`print()` のように値を返さない処理の Future 型には `Future<void>` を指定します。"
+    },
+    {
+      "id": 26,
+      "type": "実行結果予測",
+      "question": "以下の同期処理のコードを実行したとき、コンソールに出力される数字は何ですか？<pre><code>void main() {\n  int x = 5;\n  x = 10;\n  print(x);\n}</code></pre>",
+      "options": [
+        "5",
+        "10",
+        "15",
+        "0"
+      ],
+      "answer": 1,
+      "commentary": "同期処理では上から順に1つずつ処理が完了するため、x に 10 が代入された後の `print(x)` では `10` が出力されます。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "`showMessage` 関数の中で5秒待機する処理だけを行い、その後に文字列を返すコードです。空欄に入る記述を選んでください。<pre><code>Future<String> showMessage() async {\n  ___ Future.delayed(Duration(seconds: 5));\n  return 'Welcome to BeEngineer';\n}</code></pre>",
+      "options": [
+        "await",
+        "async",
+        "return",
+        "print"
+      ],
+      "answer": 0,
+      "commentary": "`return` 文が実行される前に5秒間待機させるため、`Future.delayed` の前に `await` を記述します。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "アロー関数を使って、5秒後に文字列 'BeEngineer' を返す `Future.delayed` の第2引数を完成させてください。<pre><code>Future<String> getTitle() {\n  return Future.delayed(\n    const Duration(seconds: 5),\n    () ___ 'BeEngineer',\n  );\n}</code></pre>",
+      "options": [
+        "=>",
+        "->",
+        "==",
+        "::"
+      ],
+      "answer": 0,
+      "commentary": "Dartで1行の処理や戻り値を簡潔に書くアロー関数では `=>` 記号を使用します。"
+    },
+    {
+      "id": 29,
+      "type": "文法チェック",
+      "question": "非同期処理の注意点として、教科書で説明されている正しい内容はどれですか？",
+      "options": [
+        "非同期処理を使えばどんな処理も0秒で瞬時に終わるようになる",
+        "前の処理の結果を使って次の処理を行う場合、完了を待たずに進むと期待通りの結果にならないため制御が必要",
+        "非同期処理は画面のデザイン（UI）を作るためだけに使う",
+        "非同期処理の中では変数を一切使うことができない"
+      ],
+      "answer": 1,
+      "commentary": "処理Bの結果をもとに処理Cを行う場合など、結果が返ってくる前に次の処理へ進むと正しく動作しないため、`async` や `await` による制御が必要です。"
+    },
+    {
+      "id": 30,
+      "type": "コード穴埋め",
+      "question": "i秒ごとに 'i 秒経過' と出力する非同期ループのコードです。空欄に入る変数名を選んでください。<pre><code>void main() {\n  for (int i = 1; i <= 5; i++) {\n    Future.delayed(\n      Duration(seconds: ___),\n      () => print('$i 秒経過'),\n    );\n  }\n}</code></pre>",
+      "options": [
+        "1",
+        "5",
+        "i",
+        "0"
+      ],
+      "answer": 2,
+      "commentary": "ループ変数 `i`（1〜5）を `Duration(seconds: i)` に指定することで、1秒後、2秒後…と順番に出力されるようになります。"
+    },
+    {
+      "id": 31,
+      "type": "用語理解",
+      "question": "今回作成したプログラムのように、複数のファイルに分かれず1つのファイルだけで動作が完結する実装スタイルを何と呼びますか？",
+      "options": [
+        "単一ファイルで完結する実装",
+        "データベース連携実装",
+        "マルチスレッド実装",
+        "オブジェクト指向設計"
+      ],
+      "answer": 0,
+      "commentary": "今回はアプリ全体ではなく `async.dart` という単一ファイルで完結する形で基礎を学習しています。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "定義時に `await` をつけて、変数 `demo` に Future ではなく完了後の文字列を直接代入するコードです。空欄に入る型を選んでください。<pre><code>void main() async {\n  ___ demo = await Future.delayed(\n    Duration(seconds: 5),\n    () => 'finished',\n  );\n  print(demo);\n}</code></pre>",
+      "options": [
+        "Future<String>",
+        "String",
+        "Duration",
+        "void"
+      ],
+      "answer": 1,
+      "commentary": "`await` を定義時につけると処理完了後の結果の値（文字列）が直接代入されるため、変数の型は `String` にする必要があります。"
+    },
+    {
+      "id": 33,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、'print' という文字が出力されるのはプログラム開始からおよそ何秒後ですか？<pre><code>void main() {\n  Future<void> demo = Future.delayed(\n    Duration(seconds: 5),\n    () => print('finished'),\n  );\n  print(demo);\n  print('print');\n}</code></pre>",
+      "options": [
+        "ほぼ 0 秒後（すぐに出力される）",
+        "5 秒後",
+        "10 秒後",
+        "出力されない"
+      ],
+      "answer": 0,
+      "commentary": "`await` がないため、`demo` の5秒待ちを待たずに次の行へ進み、ほぼ0秒後（即座）に `'print'` が出力されます。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、'print' という文字が出力されるのはプログラム開始からおよそ何秒後ですか？<pre><code>void main() async {\n  Future<void> demo = Future.delayed(\n    Duration(seconds: 5),\n    () => print('finished'),\n  );\n  await demo;\n  print('print');\n}</code></pre>",
+      "options": [
+        "ほぼ 0 秒後",
+        "約 5 秒後",
+        "約 10 秒後",
+        "出力されない"
+      ],
+      "answer": 1,
+      "commentary": "`await demo;` によって5秒間の処理が終わるまで待機するため、約5秒後に `'finished'` に続いて `'print'` が出力されます。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "`getTitle()` 関数の定義において、非同期処理の結果（文字列）を返すことを示す戻り値の型を選んでください。<pre><code>___ getTitle() {\n  return Future.delayed(\n    const Duration(seconds: 5),\n    () => 'BeEngineer',\n  );\n}</code></pre>",
+      "options": [
+        "String",
+        "Future<String>",
+        "void",
+        "Duration"
+      ],
+      "answer": 1,
+      "commentary": "`Future.delayed` で文字列を返すため、関数の戻り値の型は `Future<String>` とします。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "`Future.delayed` メソッドに指定する2つの引数の順番として正しいものはどれですか？",
+      "options": [
+        "第1引数：実行する処理、第2引数：待ち時間",
+        "第1引数：待ち時間、第2引数：実行する処理",
+        "第1引数：戻り値の型、第2引数：待ち時間",
+        "第1引数：関数名、第2引数：変数名"
+      ],
+      "answer": 1,
+      "commentary": "`Future.delayed(待ち時間, 処理)` の順番で、第1引数に Duration 型の待ち時間、第2引数に実行する処理を記述します。"
+    },
+    {
+      "id": 37,
+      "type": "用語理解",
+      "question": "ネット経由で外部のサービスから情報を取得したり連携したりする仕組みの略称として、教科書に挙げられている言葉はどれですか？",
+      "options": [
+        "API",
+        "UI",
+        "OS",
+        "ID"
+      ],
+      "answer": 0,
+      "commentary": "教科書では非同期処理が必要な代表例として「ネット経由の情報通信（API）など」が挙げられています。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`showTitle()` 関数内で `getTitle()` の処理が完了するのを待ってから変数 `title` に代入するコードです。空欄に入るキーワードを選んでください。<pre><code>Future<String> showTitle() async {\n  var title = ___ getTitle();\n  return 'Welcome to $title';\n}</code></pre>",
+      "options": [
+        "async",
+        "await",
+        "future",
+        "sync"
+      ],
+      "answer": 1,
+      "commentary": "`getTitle()` は `Future<String>` を返すため、結果の文字列を取り出すために `await` をつけて呼び出します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、1行目に出力される文字列は何ですか？<pre><code>void main() async {\n  print('少しお待ちください。');\n  print(await showMessage());\n}</code></pre>",
+      "options": [
+        "少しお待ちください。",
+        "Welcome to BeEngineer",
+        "Instance of 'Future<String>'",
+        "何も出力されない"
+      ],
+      "answer": 0,
+      "commentary": "最初の `print('少しお待ちください。');` は待機せずにすぐ実行されるため、1行目に「少しお待ちください。」が出力されます。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "非同期処理において、Future のインスタンスの中身が時間の経過とともにどのように変化するか説明した正しい文はどれですか？",
+      "options": [
+        "「完了」の状態から始まり、時間が経つと「処理中」になる",
+        "最初は「処理中」の状態を表し、処理が終わると実際の戻り値を保持した「完了」の状態に変わる",
+        "最初から最後まで中身は一切変化しない",
+        "時間が経つと自動的に削除されてエラーになる"
+      ],
+      "answer": 1,
+      "commentary": "Future のインスタンスは、作成直後は「処理中」の状態ですが、非同期処理が完了すると戻り値を保持した「完了」の状態へと変化します。"
+    }
+  ]
 }

@@ -228,14 +228,20 @@
           ]
         },
         {
+          "id": "B2-sqlite",
+          "name": "SQLite の導入",
+          "units": [
+            { "id": "B2-u23", "title": "非同期処理", "jsonPath": "data/B2/unit23.json" },
+            { "id": "B2-u24", "title": "FutureProvider", "jsonPath": "data/B2/unit24.json" },
+            { "id": "B2-u25", "title": "SQLite - 概要", "jsonPath": "data/B2/unit25.json" },
+            { "id": "B2-u26", "title": "SQLite - 暗記カードアプリに導入", "jsonPath": "data/B2/unit26.json" },
+            { "id": "B2-u27", "title": "SQLite - 暗記カードアプリに導入（演習）", "jsonPath": "data/B2/unit27.json" }
+          ]
+        },
+        {
           "id": "B2-preparing",
           "name": "準備中",
           "units": [
-            { "id": "B2-u23", "title": "unit23", "jsonPath": "data/B2/unit23.json" },
-            { "id": "B2-u24", "title": "unit24", "jsonPath": "data/B2/unit24.json" },
-            { "id": "B2-u25", "title": "unit25", "jsonPath": "data/B2/unit25.json" },
-            { "id": "B2-u26", "title": "unit26", "jsonPath": "data/B2/unit26.json" },
-            { "id": "B2-u27", "title": "unit27", "jsonPath": "data/B2/unit27.json" },
             { "id": "B2-u28", "title": "unit28", "jsonPath": "data/B2/unit28.json" },
             { "id": "B2-u29", "title": "unit29", "jsonPath": "data/B2/unit29.json" },
             { "id": "B2-u30", "title": "unit30", "jsonPath": "data/B2/unit30.json" },

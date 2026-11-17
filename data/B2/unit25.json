@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit25",
-  "questions": []
+  "unit_title": "SQLite - 概要",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "アプリを再起動してもデータが失われないように、データベースなどを使ってデータを保存し続けることを何と呼びますか？",
+      "options": [
+        "データの永続化",
+        "データの初期化",
+        "データの圧縮",
+        "データのキャッシュ"
+      ],
+      "answer": 0,
+      "commentary": "リスト（メモリ）上だけでなく、アプリを閉じてもデータが残るように保存することを「データの永続化」と呼びます。"
+    },
+    {
+      "id": 2,
+      "type": "用語理解",
+      "question": "組み込み型で設定が不要、サーバーもいらず軽量なため、個人利用やスマホアプリに最適なデータベースはどれですか？",
+      "options": [
+        "PostgreSQL",
+        "MySQL",
+        "SQLite",
+        "Oracle"
+      ],
+      "answer": 2,
+      "commentary": "SQLite はサーバー不要で軽量な組み込み型データベースであり、スマートフォンアプリのローカルデータ保存に適しています。"
+    },
+    {
+      "id": 3,
+      "type": "用語理解",
+      "question": "データベースに対してデータの作成・取得・更新・削除などの操作を行うための言語は何ですか？",
+      "options": [
+        "Dart",
+        "HTML",
+        "SQL",
+        "JSON"
+      ],
+      "answer": 2,
+      "commentary": "SQL（エスキューエル）はデータベースを操作するための専用言語です。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "SQL で新しいテーブルを作成するコマンドです。空欄に入るキーワードを選んでください。<pre><code>___ TABLE User(id int, username text, age int);</code></pre>",
+      "options": [
+        "MAKE",
+        "CREATE",
+        "NEW",
+        "ADD"
+      ],
+      "answer": 1,
+      "commentary": "テーブルを新しく作成するときは `CREATE TABLE テーブル名 (...)` という SQL コマンドを使います。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "SQL でテーブルに新しいデータを挿入（追加）するコマンドです。空欄に入るキーワードを選んでください。<pre><code>___ INTO User VALUES(1, 'suzuki', 12);</code></pre>",
+      "options": [
+        "ADD",
+        "PUSH",
+        "INSERT",
+        "SELECT"
+      ],
+      "answer": 2,
+      "commentary": "テーブルにデータを追加するときは `INSERT INTO テーブル名 VALUES(...)` を使用します。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "SQL で `User` テーブルからすべてのデータを取得するコマンドです。空欄に入るキーワードを選んでください。<pre><code>___ * FROM User;</code></pre>",
+      "options": [
+        "GET",
+        "SELECT",
+        "FIND",
+        "FETCH"
+      ],
+      "answer": 1,
+      "commentary": "データベースからデータを取得するときは `SELECT 列名 FROM テーブル名` を使用します。`*` はすべての列を意味します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "SQL で `id` が 1 の人の `username` を `'sato'` に更新するコマンドです。空欄に入るキーワードを選んでください。<pre><code>___ User SET username = 'sato' WHERE id = 1;</code></pre>",
+      "options": [
+        "CHANGE",
+        "MODIFY",
+        "UPDATE",
+        "REPLACE"
+      ],
+      "answer": 2,
+      "commentary": "既存のデータを書き換えて更新するときは `UPDATE テーブル名 SET ... WHERE ...` を使用します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "SQL で `id` が 1 の人のデータを削除するコマンドです。空欄に入るキーワードを選んでください。<pre><code>___ FROM User WHERE id = 1;</code></pre>",
+      "options": [
+        "REMOVE",
+        "DROP",
+        "DELETE",
+        "CLEAR"
+      ],
+      "answer": 2,
+      "commentary": "条件を指定してテーブル内のデータ行を削除するときは `DELETE FROM テーブル名 WHERE ...` を使用します。"
+    },
+    {
+      "id": 9,
+      "type": "文法チェック",
+      "question": "SQL で `User` テーブルそのものを丸ごと削除したいときに使う正しいコマンドはどれですか？",
+      "options": [
+        "DELETE TABLE User;",
+        "DROP TABLE User;",
+        "REMOVE TABLE User;",
+        "CLEAR TABLE User;"
+      ],
+      "answer": 1,
+      "commentary": "テーブル自体を削除するときは `DROP TABLE テーブル名;` を使用します（データの削除は `DELETE FROM`）。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "次の User テーブルに対して `SELECT username FROM User WHERE id = 1;` を実行したとき、取得される結果は何ですか？<pre><code>id | username | age\n1  | suzuki   | 12\n2  | tanaka   | 16</code></pre>",
+      "options": [
+        "suzuki",
+        "tanaka",
+        "12",
+        "1, suzuki, 12"
+      ],
+      "answer": 0,
+      "commentary": "`WHERE id = 1` で1行目に絞り込み、`SELECT username` で名前列だけを指定しているため、`suzuki` が取得されます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "Flutter で SQLite とファイルパス操作を使うために、2つのパッケージを同時にインストールするコマンドです。空欄に入るパッケージ名を選んでください。<pre><code>flutter pub add ___ path</code></pre>",
+      "options": [
+        "sqlite",
+        "sqflite",
+        "flutter_sqlite",
+        "database"
+      ],
+      "answer": 1,
+      "commentary": "Flutter で SQLite を扱うための公式的に広く使われるパッケージ名は `sqflite` です。"
+    },
+    {
+      "id": 12,
+      "type": "コード穴埋め",
+      "question": "sqflite で SQL 文（テーブル作成など）を直接データベースに実行させるメソッド名を選んでください。<pre><code>db.___(\n  'CREATE TABLE items(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)',\n);</code></pre>",
+      "options": [
+        "run",
+        "execute",
+        "query",
+        "sql"
+      ],
+      "answer": 1,
+      "commentary": "任意の SQL クエリを実行する際は `db.execute(...)` メソッドを使用します。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "sqflite でデータベースから条件を満たすデータを検索して取得するメソッド名を選んでください。<pre><code>database.___(\n  'User',\n  where: 'id = ?',\n  whereArgs: [id],\n);</code></pre>",
+      "options": [
+        "select",
+        "search",
+        "query",
+        "find"
+      ],
+      "answer": 2,
+      "commentary": "テーブルからデータを取得する sqflite のメソッドは `query` です。"
+    },
+    {
+      "id": 14,
+      "type": "用語理解",
+      "question": "データベースにデータを追加・更新する際、主キー（PRIMARY KEY）の重複などによって制約違反が起きることを何と呼びますか？",
+      "options": [
+        "コンフリクト（conflict）",
+        "シングルトン（singleton）",
+        "マイグレーション（migration）",
+        "キャッシュ（cache）"
+      ],
+      "answer": 0,
+      "commentary": "すでに同じ主キーのデータが存在する状態でデータを追加しようとしたときなどに起きる競合を「コンフリクト（conflict）」と呼びます。"
+    },
+    {
+      "id": 15,
+      "type": "文法チェック",
+      "question": "sqflite の `conflictAlgorithm` において、「操作を無視して既存のデータをそのまま優先して残す」設定はどれですか？",
+      "options": [
+        "ConflictAlgorithm.replace",
+        "ConflictAlgorithm.ignore",
+        "ConflictAlgorithm.abort",
+        "ConflictAlgorithm.fail"
+      ],
+      "answer": 1,
+      "commentary": "`ConflictAlgorithm.ignore` は重複が起きた際に新しい操作を無視して既存データを残します（上書きする場合は `replace`）。"
+    },
+    {
+      "id": 16,
+      "type": "用語理解",
+      "question": "アプリ全体でデータベースのインスタンスを1つだけ作成し、どこから呼び出しても常に同じインスタンスを使い回す設計手法を何と呼びますか？",
+      "options": [
+        "ファクトリーパターン",
+        "シングルトンパターン",
+        "オブザーバーパターン",
+        "ビルダーパターン"
+      ],
+      "answer": 1,
+      "commentary": "インスタンスを1つしか作らず、常に同じインスタンスにアクセスさせる設計手法を「シングルトンパターン」と呼びます。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "シングルトンパターンを実装する際、呼び出されるたびに必ずしも新しいインスタンスを作らず、既存の `_instance` を返すコンストラクタに付けるキーワードを選んでください。<pre><code>class FlashcardDatabase {\n  ___ FlashcardDatabase() => _instance;\n\n  FlashcardDatabase._internal();\n  static final FlashcardDatabase _instance = FlashcardDatabase._internal();\n}</code></pre>",
+      "options": [
+        "static",
+        "factory",
+        "const",
+        "late"
+      ],
+      "answer": 1,
+      "commentary": "`factory` コンストラクタを使うことで、新規作成ではなくキャッシュ済みの `_instance` を返すことができます。"
+    },
+    {
+      "id": 18,
+      "type": "文法チェック",
+      "question": "名前付きコンストラクタ `FlashcardDatabase._internal();` のように名前の先頭にアンダースコア `_` をつける理由は何ですか？",
+      "options": [
+        "非同期処理であることを示すため",
+        "プライベートになり、ファイルの外から勝手に新しいインスタンスが作られるのを防ぐため",
+        "静的（static）メソッドにするため",
+        "データベースのバージョン番号を指定するため"
+      ],
+      "answer": 1,
+      "commentary": "Dart では識別子の先頭に `_` をつけるとライブラリ（ファイル）外からアクセスできないプライベートになり、外部からのインスタンス化を禁止できます。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "宣言時点では値が決まっておらず、後で `initDatabase()` 内で代入する `database` 変数に付けるキーワードを選んでください。<pre><code>___ final Database database;</code></pre>",
+      "options": [
+        "static",
+        "late",
+        "async",
+        "var"
+      ],
+      "answer": 1,
+      "commentary": "変数の初期化を宣言時ではなく後回しにすることをコンパイラに伝えるには `late` キーワードを使用します。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "テーブル作成の SQL で、データを追加するたびに `id` に 1, 2, 3... と自動で連番を割り振るためのキーワードを選んでください。<pre><code>'CREATE TABLE Flashcard(id INTEGER PRIMARY KEY ___, question TEXT, answer TEXT, genreId INTEGER);'</code></pre>",
+      "options": [
+        "AUTO_NUMBER",
+        "AUTOINCREMENT",
+        "SERIAL",
+        "INCREMENT"
+      ],
+      "answer": 1,
+      "commentary": "SQLite で主キーの連番を自動採番するには `INTEGER PRIMARY KEY AUTOINCREMENT` と記述します。"
+    },
+    {
+      "id": 21,
+      "type": "実行結果予測",
+      "question": "`AUTOINCREMENT` を設定したテーブルで、id が 1 と 2 のデータを登録したあと、id が 2 のデータを削除しました。次に新しいデータを追加したとき、割り当てられる id は何番ですか？",
+      "options": [
+        "2",
+        "3",
+        "0",
+        "1"
+      ],
+      "answer": 1,
+      "commentary": "SQLite の `AUTOINCREMENT` では一度使われた番号は削除しても再利用されないため、次は `3` が割り当てられます。"
+    },
+    {
+      "id": 22,
+      "type": "コード穴埋め",
+      "question": "データベースファイルを開くために使用する sqflite の関数名を選んでください。<pre><code>database = await ___(\n  join(await getDatabasesPath(), 'flashcard.db'),\n  version: 1,\n  onUpgrade: (db, oldVersion, newVersion) async { ... },\n);</code></pre>",
+      "options": [
+        "createDatabase",
+        "openDatabase",
+        "initDatabase",
+        "connectDatabase"
+      ],
+      "answer": 1,
+      "commentary": "SQLite データベースを開き（存在しなければ作成し）、`Database` インスタンスを取得するには `openDatabase` を使用します。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "`getFlashcards()` メソッドで、`Flashcard` テーブル内のすべてのデータを取得するコードです。空欄に入るメソッド名を選んでください。<pre><code>Future<List<Flashcard>> getFlashcards() async {\n  final List<Map<String, dynamic>> rows = await database.___('Flashcard');\n  // ...\n}</code></pre>",
+      "options": [
+        "select",
+        "query",
+        "execute",
+        "getAll"
+      ],
+      "answer": 1,
+      "commentary": "`database.query('テーブル名')` のように条件を指定せずに呼び出すと、そのテーブルの全データを取得できます。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "`await database.query('Flashcard')` を実行したとき、データベースから返ってくるデータの型は何ですか？",
+      "options": [
+        "List<Flashcard>",
+        "List<Map<String, dynamic>>",
+        "Map<String, String>",
+        "String"
+      ],
+      "answer": 1,
+      "commentary": "sqflite の `query` メソッドは、1行を「列名: 値」の Map としたリスト `List<Map<String, dynamic>>` 型で結果を返します。"
+    },
+    {
+      "id": 25,
+      "type": "コード穴埋め",
+      "question": "取得した Map データのリスト `rows` から、保存されている `row['genreId']` に一致する `Genre` オブジェクトを `genreList` から1つ見つけるコードです。空欄に入るメソッドを選んでください。<pre><code>final genre = genreList.___(\n  (genre) => genre.id == row['genreId'],\n);</code></pre>",
+      "options": [
+        "where",
+        "firstWhere",
+        "indexOf",
+        "map"
+      ],
+      "answer": 1,
+      "commentary": "条件に一致する最初の1要素をオブジェクトとして取り出すには `firstWhere` を使用します。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "入力されたカードデータを `Flashcard` テーブルに保存するメソッドのコードです。空欄に入るメソッド名を選んでください。<pre><code>await database.___(\n  'Flashcard',\n  {\n    'question': question,\n    'answer': answer,\n    'genreId': genre.id,\n  },\n  conflictAlgorithm: ConflictAlgorithm.ignore,\n);</code></pre>",
+      "options": [
+        "add",
+        "insert",
+        "save",
+        "push"
+      ],
+      "answer": 1,
+      "commentary": "テーブルに新しいレコードを挿入するには `database.insert(...)` を使用します。"
+    },
+    {
+      "id": 27,
+      "type": "文法チェック",
+      "question": "`insertFlashcard` でデータベースに保存する Map に `'id'` を含めなくてよい理由として正しいものはどれですか？",
+      "options": [
+        "Flashcard モデルには id が存在しないから",
+        "テーブル作成時に id に AUTOINCREMENT を設定しており、自動で番号が割り振られるから",
+        "id は後から手入力で設定する仕様だから",
+        "sqflite では id を保存することが禁止されているから"
+      ],
+      "answer": 1,
+      "commentary": "`id INTEGER PRIMARY KEY AUTOINCREMENT` を設定しているため、insert 時に id を省略しても自動的に連番が採番されます。"
+    },
+    {
+      "id": 28,
+      "type": "文法チェック",
+      "question": "データベースの `Flashcard` テーブルに、`Genre` クラスそのものではなく `genreId`（整数）を保存する理由は何ですか？",
+      "options": [
+        "SQLite には Dart の独自クラス（Genre）のインスタンスをそのまま保存できないため",
+        "文字列よりも整数の方が画面のデザインがきれいになるため",
+        "Genre クラスにはタイトルしか入っていないため",
+        "データベースの容量制限が 100 バイトしかないため"
+      ],
+      "answer": 0,
+      "commentary": "データベースには INTEGER や TEXT などの基本データ型しか保存できないため、`genre.id`（整数）を保存し、取得時に `genreList` と照合します。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "データベースが空のときだけ初期データを投入する処理で、すでにデータが入っている場合に処理を終了するコードです。空欄に入るプロパティ名を選んでください。<pre><code>final flashcards = await getFlashcards();\nif (flashcards.___) return;</code></pre>",
+      "options": [
+        "isEmpty",
+        "isNotEmpty",
+        "length",
+        "hasData"
+      ],
+      "answer": 1,
+      "commentary": "リストに1件以上のデータが存在する（空ではない）ことを判定するプロパティは `isNotEmpty` です。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "すでにデータベースに3件のカードが保存されている状態で、アプリを再起動して `seedInitialFlashcardsIfEmpty(flashcardList)` が呼ばれたとき、どうなりますか？",
+      "options": [
+        "初期データがさらに追加されて合計6件になる",
+        "`if (flashcards.isNotEmpty) return;` により何もせず終了するため、重複して追加されない",
+        "既存の3件がすべて削除される",
+        "エラーが発生してアプリが起動しない"
+      ],
+      "answer": 1,
+      "commentary": "すでにデータがある場合は `isNotEmpty` が true となり即座に `return` するため、2回目以降の起動で初期データが重複することはありません。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "`main()` 関数の中で、データベース初期化など Flutter の仕組みを使う非同期処理を安全に実行する前に必ず呼び出す1行です。空欄に入る記述を選んでください。<pre><code>Future<void> main() async {\n  WidgetsFlutterBinding.___();\n  await FlashcardDatabase().initDatabase();\n  runApp(const ProviderScope(child: MyApp()));\n}</code></pre>",
+      "options": [
+        "initialize",
+        "ensureInitialized",
+        "initApp",
+        "start"
+      ],
+      "answer": 1,
+      "commentary": "`runApp()` の前に非同期処理（データベース初期化など）を行う際は、`WidgetsFlutterBinding.ensureInitialized();` を最初に呼び出す必要があります。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "`main.dart` でデータベースの初期化を行うメソッドを呼び出すコードです。空欄に入るメソッド名を選んでください。<pre><code>await FlashcardDatabase().___();</code></pre>",
+      "options": [
+        "openDatabase",
+        "initDatabase",
+        "createDatabase",
+        "startDatabase"
+      ],
+      "answer": 1,
+      "commentary": "`FlashcardDatabase` クラスに定義した初期化メソッド名は `initDatabase()` です。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "データベースの保存先ディレクトリパスとファイル名 `'flashcard.db'` を安全に結合する `path` パッケージの関数名を選んでください。<pre><code>database = await openDatabase(\n  ___(await getDatabasesPath(), 'flashcard.db'),\n  version: 1,\n);</code></pre>",
+      "options": [
+        "connect",
+        "join",
+        "merge",
+        "combine"
+      ],
+      "answer": 1,
+      "commentary": "OSごとの区切り文字の違いを吸収してファイルパスを結合するには、`path` パッケージの `join()` 関数を使用します。"
+    },
+    {
+      "id": 34,
+      "type": "文法チェック",
+      "question": "リストとデータベースを比較したとき、「リスト」のデメリットとして正しいものはどれですか？",
+      "options": [
+        "Dart の標準機能だけでは使用できない",
+        "メモリ内で高速にアクセスすることができない",
+        "アプリを閉じるとデータが消えてしまい、永続化が難しい",
+        "設定やインストールが非常に複雑である"
+      ],
+      "answer": 2,
+      "commentary": "リストはメモリ上にデータを置くため高速で手軽ですが、アプリを終了するとデータが消えてしまい永続化できない点がデメリットです。"
+    },
+    {
+      "id": 35,
+      "type": "文法チェック",
+      "question": "データベースの種類である「PostgreSQL」や「MySQL」と比較したときの「SQLite」の特徴として正しいものはどれですか？",
+      "options": [
+        "大規模システム向けで、専用のデータベースサーバーを立てる必要がある",
+        "組み込み型でサーバーが不要なため、デプロイや設定が簡単である",
+        "同時アクセスに非常に強く、何万人もの同時書き込みに適している",
+        "SQL という言語では一切操作することができない"
+      ],
+      "answer": 1,
+      "commentary": "SQLite はサーバー不要の組み込み型データベースで、設定が簡単で軽量なため個人利用のアプリに適しています。"
+    },
+    {
+      "id": 36,
+      "type": "コード穴埋め",
+      "question": "シングルトンパターンのクラス内で、自分自身の唯一のインスタンスを保持する静的プロパティの定義です。空欄に入るキーワードを選んでください。<pre><code>___ final FlashcardDatabase _instance = FlashcardDatabase._internal();</code></pre>",
+      "options": [
+        "const",
+        "static",
+        "late",
+        "void"
+      ],
+      "answer": 1,
+      "commentary": "クラスに1つだけ存在する変数を定義するには `static` キーワードを使用します。"
+    },
+    {
+      "id": 37,
+      "type": "実行結果予測",
+      "question": "以下の SQL 文を実行したとき、テーブルのどのデータが更新されますか？<pre><code>UPDATE User SET username = 'sato' WHERE id = 1;</code></pre>",
+      "options": [
+        "User テーブルのすべての人の名前が 'sato' になる",
+        "id が 1 の人の名前だけが 'sato' に変更される",
+        "id が 1 の人のデータが削除される",
+        "新しく 'sato' というデータが追加される"
+      ],
+      "answer": 1,
+      "commentary": "`WHERE id = 1` と条件が指定されているため、`id` が 1 のレコードの `username` だけが `'sato'` に更新されます。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`getFlashcards()` 内で、データベースから取得した 1 行分の `Map`（`row`）を使って `Flashcard` インスタンスを生成するコードです。空欄に入るキー名を選んでください。<pre><code>return Flashcard(\n  id: row['id'],\n  question: row['___'],\n  answer: row['answer'],\n  genre: genre,\n);</code></pre>",
+      "options": [
+        "title",
+        "question",
+        "text",
+        "content"
+      ],
+      "answer": 1,
+      "commentary": "CREATE TABLE で定義した列名と同じキー名 `'question'` を使って Map から値を取り出します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、`FlashcardDatabase()` を2回呼び出して取得した `db1` と `db2` の関係はどうなりますか？<pre><code>final db1 = FlashcardDatabase();\nfinal db2 = FlashcardDatabase();</code></pre>",
+      "options": [
+        "別々の新しいインスタンスが2つ作られる",
+        "シングルトンパターンのため、db1 と db2 はまったく同じ1つのインスタンスを指す",
+        "2回目の呼び出しでエラーが発生する",
+        "db2 は null になる"
+      ],
+      "answer": 1,
+      "commentary": "factory コンストラクタが常に同じ `_instance` を返すため、何度呼び出しても同一のインスタンスが得られます。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "`initDatabase()` や `getFlashcards()` の戻り値の型が `Future<Database>` や `Future<List<Flashcard>>` になっている理由は何ですか？",
+      "options": [
+        "データベースへの読み書きは外部ストレージへのアクセスとなり時間がかかるため、非同期処理として扱う必要があるから",
+        "SQLite ではすべての変数を Future 型にしないとコンパイルできないから",
+        "画面のデザインをアニメーションさせるため",
+        "データを暗号化してセキュリティを高めるため"
+      ],
+      "answer": 0,
+      "commentary": "データベースアクセスは完了までに時間がかかる可能性がある外部操作であるため、`Future` と `async / await` を使った非同期処理として実装します。"
+    }
+  ]
 }

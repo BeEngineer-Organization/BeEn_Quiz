@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit24",
-  "questions": []
+  "unit_title": "FutureProvider",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "Riverpod において、時間がかかる処理（データベースアクセスや通信など）の「非同期処理の結果」を管理するために使用する Provider はどれですか？",
+      "options": [
+        "Provider",
+        "NotifierProvider",
+        "FutureProvider",
+        "StateProvider"
+      ],
+      "answer": 2,
+      "commentary": "非同期処理（Future型）の結果を管理し、読み込み中・成功・エラーの状態を扱うには FutureProvider を使用します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "5秒待ってから文字列 'finish' を返す FutureProvider を定義するコードです。空欄に入るキーワードを選んでください。<pre><code>final futureProvider = FutureProvider<String>(\n  (_) ___ {\n    return await Future.delayed(\n      const Duration(seconds: 5),\n      () => 'finish',\n    );\n  },\n);</code></pre>",
+      "options": [
+        "await",
+        "async",
+        "future",
+        "sync"
+      ],
+      "answer": 1,
+      "commentary": "関数の中で `await` を使用して非同期処理の完了を待つため、波括弧 `{}` の前に `async` キーワードをつけます。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "FutureProvider から現在の状態を読み取り、非同期処理が完了したときに画面が自動で再描画されるようにするメソッドを選んでください。<pre><code>final data = ref.___(futureProvider);</code></pre>",
+      "options": [
+        "read",
+        "watch",
+        "listen",
+        "get"
+      ],
+      "answer": 1,
+      "commentary": "非同期処理の完了（データの変化）を検知してウィジェットを自動再描画させるには、`ref.watch()` メソッドを使用します。"
+    },
+    {
+      "id": 4,
+      "type": "用語理解",
+      "question": "`ref.watch(futureProvider)` を実行したときに返ってくる、「処理中」「成功」「エラー」の3つの状態を持つ型は何ですか？",
+      "options": [
+        "Future",
+        "AsyncValue",
+        "WidgetRef",
+        "StateValue"
+      ],
+      "answer": 1,
+      "commentary": "FutureProvider を `watch` すると `AsyncValue` 型の値が返却され、これを使って状態ごとの表示を出し分けます。"
+    },
+    {
+      "id": 5,
+      "type": "コード穴埋め",
+      "question": "AsyncValue 型の変数 `data` に対して、処理中・成功・エラーの3つの状態に応じたウィジェットを出し分けるメソッドを選んでください。<pre><code>data.___(\n  loading: () => const CircularProgressIndicator(),\n  data: (config) => Text(config),\n  error: (err, stack) => Text('Error: $err'),\n)</code></pre>",
+      "options": [
+        "when",
+        "map",
+        "switch",
+        "build"
+      ],
+      "answer": 0,
+      "commentary": "AsyncValue 型の `.when()` メソッドを使うと、`loading`・`data`・`error` の3つのケースに応じたウィジェットを簡単に記述できます。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "`data.when()` において、非同期処理がまだ実行中で待機している間に表示するウィジェットを指定する引数名を選んでください。<pre><code>data.when(\n  ___: () => const CircularProgressIndicator(),\n  data: (config) => Text(config),\n  error: (err, stack) => Text('Error: $err'),\n)</code></pre>",
+      "options": [
+        "waiting",
+        "loading",
+        "progress",
+        "pending"
+      ],
+      "answer": 1,
+      "commentary": "非同期処理の途中（読み込み中）に返すウィジェットは `loading` 引数に指定します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "`data.when()` において、非同期処理が成功して結果のデータが返ってきたときに表示するウィジェットを指定する引数名を選んでください。<pre><code>data.when(\n  loading: () => const CircularProgressIndicator(),\n  ___: (config) => Text(config),\n  error: (err, stack) => Text('Error: $err'),\n)</code></pre>",
+      "options": [
+        "success",
+        "result",
+        "data",
+        "value"
+      ],
+      "answer": 2,
+      "commentary": "非同期処理が完了し正常に値が取得できたときの表示は `data` 引数に記述します。引数（configなど）に結果のデータが渡されます。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`data.when()` において、非同期処理の途中で例外（エラー）が発生したときに表示するウィジェットを指定する引数名を選んでください。<pre><code>data.when(\n  loading: () => const CircularProgressIndicator(),\n  data: (config) => Text(config),\n  ___: (err, stack) => Text('Error: $err'),\n)</code></pre>",
+      "options": [
+        "catch",
+        "exception",
+        "error",
+        "fail"
+      ],
+      "answer": 2,
+      "commentary": "エラー発生時の表示は `error` 引数に指定します。第1引数にエラー内容、第2引数にスタックトレースが渡されます。"
+    },
+    {
+      "id": 9,
+      "type": "用語理解",
+      "question": "`when()` メソッドの `error: (err, stack) => ...` で第2引数 `stack` に渡される「スタックトレース」とは何ですか？",
+      "options": [
+        "エラーが発生した際に、それまで実行していた関数やメソッドなどの履歴",
+        "通信にかかった合計時間（ミリ秒）",
+        "ユーザーに入力してもらった文字列データ",
+        "アプリ内で保存されている画像のリスト"
+      ],
+      "answer": 0,
+      "commentary": "スタックトレースとは、エラーが起きたときにどの関数やメソッドを順番に実行していたかを示す履歴情報のことです。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "以下のコードを実行したとき、アプリ起動直後（5秒が経過する前）に画面の中央に表示されるウィジェットは何ですか？<pre><code>final futureProvider = FutureProvider<String>((_) async {\n  return await Future.delayed(const Duration(seconds: 5), () => 'finish');\n});\n\n// build 内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () => const CircularProgressIndicator(),\n  data: (config) => Text(config),\n  error: (err, stack) => Text('Error: $err'),\n);</code></pre>",
+      "options": [
+        "CircularProgressIndicator（くるくる回る読み込みアイコン）",
+        "finish という文字",
+        "Error: という文字",
+        "何も表示されない"
+      ],
+      "answer": 0,
+      "commentary": "5秒が経過するまでは非同期処理が実行中（読み込み状態）であるため、`loading` に指定された `CircularProgressIndicator` が表示されます。"
+    },
+    {
+      "id": 11,
+      "type": "実行結果予測",
+      "question": "上記のコードで、5秒が経過して非同期処理が正常に完了した後、画面の表示はどのように変化しますか？",
+      "options": [
+        "CircularProgressIndicator のまま変わらない",
+        "自動的に再描画され、'finish' という文字が表示される",
+        "エラー画面に切り替わる",
+        "アプリが自動的に閉じる"
+      ],
+      "answer": 1,
+      "commentary": "`ref.watch` で監視しているため、5秒後に処理が完了すると自動的に再描画され、`data` に指定されたウィジェット（'finish'）に切り替わります。"
+    },
+    {
+      "id": 12,
+      "type": "文法チェック",
+      "question": "FutureProvider の内部処理が1行のみの場合、アロー関数を使って短縮して書く方法として正しいものはどれですか？",
+      "options": [
+        "FutureProvider<String>((_) async => 非同期処理)",
+        "FutureProvider<String>((_) => async 非同期処理)",
+        "FutureProvider<String>(async (_) -> 非同期処理)",
+        "FutureProvider<String>((_) await => 非同期処理)"
+      ],
+      "answer": 0,
+      "commentary": "1行で返す場合は `(_) async => 非同期処理` のようにアロー関数を使ってすっきりと記述できます。"
+    },
+    {
+      "id": 13,
+      "type": "用語理解",
+      "question": "外部からのクラスの継承を制限し、あらかじめ決められた種類（成功・エラー・読み込み中）以外を増やせないようにする Dart の機能は何ですか？",
+      "options": [
+        "sealed クラス",
+        "abstract クラス",
+        "static クラス",
+        "mixin クラス"
+      ],
+      "answer": 0,
+      "commentary": "AsyncValue は `sealed` クラスとして定義されているため、状態が「成功・エラー・読み込み中」の3種類のみに限定されます。"
+    },
+    {
+      "id": 14,
+      "type": "コード穴埋め",
+      "question": "switch 文を使って AsyncValue の「読み込み中」の状態を判定するコードです。空欄に入るクラス名を選んでください。<pre><code>return switch (data) {\n  ___() => const CircularProgressIndicator(),\n  AsyncData(:final value) => Text(value),\n  AsyncError(:final error) => Text('Error: $error'),\n};</code></pre>",
+      "options": [
+        "AsyncLoading",
+        "AsyncWaiting",
+        "AsyncProgress",
+        "AsyncStart"
+      ],
+      "answer": 0,
+      "commentary": "読み込み中の状態を表す AsyncValue のサブクラスは `AsyncLoading` です。"
+    },
+    {
+      "id": 15,
+      "type": "コード穴埋め",
+      "question": "switch 文を使って AsyncValue の「成功（データ取得完了）」の状態から値を取り出すコードです。空欄に入るクラス名を選んでください。<pre><code>return switch (data) {\n  AsyncLoading() => const CircularProgressIndicator(),\n  ___(:final value) => Text(value),\n  AsyncError(:final error) => Text('Error: $error'),\n};</code></pre>",
+      "options": [
+        "AsyncSuccess",
+        "AsyncResult",
+        "AsyncData",
+        "AsyncFinish"
+      ],
+      "answer": 2,
+      "commentary": "成功状態を表すクラスは `AsyncData` で、`(:final value)` のように記述することで中の結果データを取り出せます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "switch 文を使って AsyncValue の「エラー発生」の状態を判定するコードです。空欄に入るクラス名を選んでください。<pre><code>return switch (data) {\n  AsyncLoading() => const CircularProgressIndicator(),\n  AsyncData(:final value) => Text(value),\n  ___(:final error) => Text('Error: $error'),\n};</code></pre>",
+      "options": [
+        "AsyncFail",
+        "AsyncException",
+        "AsyncError",
+        "AsyncCatch"
+      ],
+      "answer": 2,
+      "commentary": "エラー状態を表すクラスは `AsyncError` です。"
+    },
+    {
+      "id": 17,
+      "type": "文法チェック",
+      "question": "`switch (data)` を使って AsyncValue の状態を分岐する際、`default` ケースを書く必要がない理由は何ですか？",
+      "options": [
+        "sealed クラスにより、状態が AsyncLoading・AsyncData・AsyncError の3種類しかないことが保証されているため",
+        "Dart の switch 文ではすべての型で default を書いてはいけないルールがあるため",
+        "エラーが発生したときは switch 文が自動的にスキップされるため",
+        "Riverpod が裏側で勝手に default を追加してくれるため"
+      ],
+      "answer": 0,
+      "commentary": "AsyncValue が sealed クラスであり3種類しか存在しないことがコンパイラに保証されているため、3つすべてを書けば `default` は不要になります。"
+    },
+    {
+      "id": 18,
+      "type": "用語理解",
+      "question": "Provider の非同期処理に外部からパラメータ（id など）を渡せるようにするために付ける修飾子はどれですか？",
+      "options": [
+        ".family",
+        ".param",
+        ".args",
+        ".id"
+      ],
+      "answer": 0,
+      "commentary": "`.family` 修飾子をつけることで、1つの Provider 定義に対して外部から異なるパラメータを渡してデータを取得できるようになります。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "int 型の `id` を受け取り、String 型のモンスター名を返す FutureProvider を `.family` 付きで定義するコードです。空欄に入る型引数の組み合わせを選んでください。<pre><code>final monsterProvider = FutureProvider.family<___, ___>((ref, id) async {\n  // 処理\n});</code></pre>",
+      "options": [
+        "int, String",
+        "String, int",
+        "String, String",
+        "int, int"
+      ],
+      "answer": 1,
+      "commentary": "`.family<戻り値の型, 渡すパラメータの型>` の順番で指定するため、今回は `String, int` となります。"
+    },
+    {
+      "id": 20,
+      "type": "コード穴埋め",
+      "question": "`.family` 修飾子がついた `itemProvider` に対して、id に `3` を渡してデータを監視（watch）するコードです。空欄に入る記述を選んでください。<pre><code>final item = ref.watch(___);</code></pre>",
+      "options": [
+        "itemProvider[3]",
+        "itemProvider(3)",
+        "itemProvider.family(3)",
+        "itemProvider<3>"
+      ],
+      "answer": 1,
+      "commentary": "`.family` をつけた Provider を利用するときは、`itemProvider(3)` のように Provider 名の後ろに丸括弧 `()` をつけてパラメータを渡します。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "演習問題で、範囲外の `id` が渡されたときにエラー（例外）を発生させるコードです。空欄に入るキーワードを選んでください。<pre><code>if (id < 0 || id >= monsters.length) {\n  ___ Exception('そのモンスターは見つかりませんでした');\n}</code></pre>",
+      "options": [
+        "return",
+        "throw",
+        "catch",
+        "error"
+      ],
+      "answer": 1,
+      "commentary": "プログラム中で意図的に例外（エラー）を発生させるには `throw` キーワードを使用します。"
+    },
+    {
+      "id": 22,
+      "type": "実行結果予測",
+      "question": "以下のコードで `monsterProvider(1)` を呼び出したとき、2秒後に返されるモンスターの名前は何ですか？<pre><code>final List<String> monsters = [\n  'ファイアドラゴン',\n  'アイスウルフ',\n  'サンダーイーグル',\n];\n\nfinal monsterProvider = FutureProvider.family<String, int>((ref, id) async {\n  await Future.delayed(const Duration(seconds: 2));\n  if (id < 0 || id >= monsters.length) {\n    throw Exception('そのモンスターは見つかりませんでした');\n  }\n  return monsters[id];\n});</code></pre>",
+      "options": [
+        "ファイアドラゴン",
+        "アイスウルフ",
+        "サンダーイーグル",
+        "エラーが発生する"
+      ],
+      "answer": 1,
+      "commentary": "リストのインデックスは 0 から始まるため、`monsters[1]` である `'アイスウルフ'` が返されます。"
+    },
+    {
+      "id": 23,
+      "type": "実行結果予測",
+      "question": "上記の `monsterProvider` に対して `monsterProvider(3)` を呼び出したとき、どのような状態になりますか？",
+      "options": [
+        "サンダーイーグルが返される",
+        "例外（Exception）が投げられ、AsyncValue の error 状態になる",
+        "ファイアドラゴンが返される",
+        "null が返される"
+      ],
+      "answer": 1,
+      "commentary": "`monsters.length` は 3 なので `id >= 3` の条件に当てはまり、`throw Exception(...)` が実行されてエラー状態になります。"
+    },
+    {
+      "id": 24,
+      "type": "コード穴埋め",
+      "question": "4つのボタン（No.0 〜 No.3）をリストとしてまとめて生成するためのコードです。空欄に入るメソッド名を選んでください。<pre><code>children: List.___(4, (id) {\n  return ElevatedButton(\n    onPressed: () { ... },\n    child: Text('No.$id'),\n  );\n}),</code></pre>",
+      "options": [
+        "create",
+        "generate",
+        "builder",
+        "map"
+      ],
+      "answer": 1,
+      "commentary": "指定した個数分の要素をインデックス番号（0〜3）を使って自動生成するには `List.generate(個数, 関数)` を使用します。"
+    },
+    {
+      "id": 25,
+      "type": "実行結果予測",
+      "question": "`List.generate(4, (id) => Text('No.$id'))` を実行したとき、生成される 4 つのテキストの内容はどれですか？",
+      "options": [
+        "No.1, No.2, No.3, No.4",
+        "No.0, No.1, No.2, No.3",
+        "No.0, No.0, No.0, No.0",
+        "No.4 のみが 4 つ"
+      ],
+      "answer": 1,
+      "commentary": "`List.generate` のコールバックに渡されるインデックス `id` は 0 から始まるため、`No.0` から `No.3` までが生成されます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "モンスター図鑑アプリで、まだどのボタンも押されていない初期状態を表すために定義した nullable な整数変数の型を選んでください。<pre><code>class _MonsterDexDemoState extends ConsumerState<MonsterDexDemo> {\n  ___ _selectedId;\n}</code></pre>",
+      "options": [
+        "int",
+        "int?",
+        "String?",
+        "bool?"
+      ],
+      "answer": 1,
+      "commentary": "初期値として `null`（未選択状態）を許容する整数型を扱うため、型の後ろに `?` をつけた `int?` を使用します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "`_selectedId` が null でない場合のみ検索結果の Consumer を表示する if 文のコードです。空欄に入る演算子を選んでください。<pre><code>if (_selectedId ___ null)\n  Consumer(\n    builder: (context, ref, child) { ... },\n  ),</code></pre>",
+      "options": [
+        "==",
+        "!=",
+        "<=",
+        "??"
+      ],
+      "answer": 1,
+      "commentary": "「null ではないとき」という条件を表す比較演算子は `!=` です。"
+    },
+    {
+      "id": 28,
+      "type": "コード穴埋め",
+      "question": "null でないことを確認した後の `_selectedId` を、非 null の `int` 型として `monsterProvider` に渡すコードです。空欄に入る記号を選んでください。<pre><code>final monster = ref.watch(monsterProvider(_selectedId___));</code></pre>",
+      "options": [
+        "?",
+        "!",
+        "*",
+        "&"
+      ],
+      "answer": 1,
+      "commentary": "`int?` 型の変数が null でないことを保証して `int` 型として渡すには、変数名の後ろに `!` をつけます。"
+    },
+    {
+      "id": 29,
+      "type": "用語理解",
+      "question": "一度取得したデータをアプリが一時的に記憶しておき、同じデータを再度要求されたときに通信や待ち時間なしで即座に返す仕組みを何と呼びますか？",
+      "options": [
+        "キャッシュ",
+        "コンパイル",
+        "デバッグ",
+        "マイグレーション"
+      ],
+      "answer": 0,
+      "commentary": "一度取得したデータを記憶しておく仕組みを「キャッシュ」と呼びます。Riverpod ではこのキャッシュ機能が自動で働きます。"
+    },
+    {
+      "id": 30,
+      "type": "実行結果予測",
+      "question": "モンスター図鑑アプリで「No.0」ボタンを1回押して2秒後に結果が表示されたあと、別のボタンを押し、再び「No.0」ボタンを押したときの挙動はどうなりますか？",
+      "options": [
+        "もう一度 2 秒間読み込みアイコンが表示される",
+        "キャッシュが残っているため、2 秒待たずに即座に結果が表示される",
+        "エラーになって検索できなくなる",
+        "アプリが最初の画面にリセットされる"
+      ],
+      "answer": 1,
+      "commentary": "`.family` を使うと id ごとに結果がキャッシュされるため、2回目以降に同じ id を選んだときは待ち時間なしで即座に表示されます。"
+    },
+    {
+      "id": 31,
+      "type": "文法チェック",
+      "question": "FutureProvider の値をウィジェットで読み取る際、`ref.read(futureProvider)` を使ってはいけない（`ref.watch` を使うべき）理由は何ですか？",
+      "options": [
+        "`read` を使うと、非同期処理が完了して実際の値が返ってきたことを検知できず画面が再描画されないため",
+        "`read` は FutureProvider に対して使うと必ずコンパイルエラーになるため",
+        "`read` を使うと通信速度が極端に遅くなるため",
+        "`read` を使うとキャッシュが毎回削除されてしまうため"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理は「処理中」から「完了後」へと状態が変化するため、`read()` ではなく `watch()` を使って変化を感知し再描画させる必要があります。"
+    },
+    {
+      "id": 32,
+      "type": "コード穴埋め",
+      "question": "処理中に表示する読み込みアイコンのウィジェット名を選んでください。<pre><code>loading: () => const ___(),</code></pre>",
+      "options": [
+        "LoadingIcon",
+        "CircularProgressIndicator",
+        "ProgressSpinner",
+        "WaitingIndicator"
+      ],
+      "answer": 1,
+      "commentary": "Flutter で円形の読み込み中アニメーションを表示する標準ウィジェットは `CircularProgressIndicator` です。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "ボタンがタップされたときに `_selectedId` を更新して画面を再描画させるコードです。空欄に入るメソッド名を選んでください。<pre><code>onPressed: () {\n  ___(() {\n    _selectedId = id;\n  });\n},</code></pre>",
+      "options": [
+        "setState",
+        "refresh",
+        "rebuild",
+        "updateState"
+      ],
+      "answer": 0,
+      "commentary": "ConsumerStatefulWidget（State）内のローカル変数を変更して画面を更新するには `setState()` を使用します。"
+    },
+    {
+      "id": 34,
+      "type": "実行結果予測",
+      "question": "以下のコードで、`id` に `-1` を渡して `monsterProvider(-1)` を実行したとき、どの処理が実行されますか？<pre><code>if (id < 0 || id >= monsters.length) {\n  throw Exception('そのモンスターは見つかりませんでした');\n}\nreturn monsters[id];</code></pre>",
+      "options": [
+        "`monsters[-1]` が返される",
+        "`id < 0` が true になるため、`throw Exception(...)` が実行される",
+        "`monsters[0]` が代わりに返される",
+        "何も起こらず処理が終了する"
+      ],
+      "answer": 1,
+      "commentary": "`-1 < 0` の条件を満たすため、if 文の中の `throw Exception(...)` が実行されエラーとなります。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "読み込みアイコンのサイズを幅 60、高さ 60 に制限するために囲むウィジェットを選んでください。<pre><code>loading: () => const ___(\n  width: 60,\n  height: 60,\n  child: CircularProgressIndicator(),\n),</code></pre>",
+      "options": [
+        "SizedBox",
+        "BoxSize",
+        "SizeContainer",
+        "FixedBox"
+      ],
+      "answer": 0,
+      "commentary": "ウィジェットの幅（width）や高さ（height）を特定のサイズに指定したい場合は `SizedBox` を使用します。"
+    },
+    {
+      "id": 36,
+      "type": "文法チェック",
+      "question": "`.family` 修飾子を使うメリットとして最も適切な説明はどれですか？",
+      "options": [
+        "id ごとに別々の Provider を何個も定義しなくても、1つの Provider にパラメータを渡して使い回せること",
+        "非同期処理を同期処理に自動変換できること",
+        "ProviderScope を書かなくてもエラーにならなくなること",
+        "アプリのデザインテーマを自動変更できること"
+      ],
+      "answer": 0,
+      "commentary": "`.family` を使うことで、外部からパラメータ（id など）を受け取れるようになり、1つの Provider で多様なデータ取得に対応できます。"
+    },
+    {
+      "id": 37,
+      "type": "コード穴埋め",
+      "question": "switch 文の `AsyncData` ケースで、取得したデータ（value）を変数として取り出すための構文です。空欄に入るキーワードを選んでください。<pre><code>AsyncData(:___ value) => Text(value.toString()),</code></pre>",
+      "options": [
+        "late",
+        "final",
+        "const",
+        "int"
+      ],
+      "answer": 1,
+      "commentary": "Dart のパターンマッチング構文では `AsyncData(:final value)` のように記述してプロパティの値を変数に取り出します。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "switch 文の `AsyncError` ケースで、エラー内容を取り出すためのパターンマッチング構文です。空欄に入るプロパティ名を選んでください。<pre><code>AsyncError(:final ___, :final stackTrace) => Text('Error: $error'),</code></pre>",
+      "options": [
+        "err",
+        "error",
+        "exception",
+        "message"
+      ],
+      "answer": 1,
+      "commentary": "AsyncError クラスが持つエラー情報のプロパティ名は `error` です。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "モンスター図鑑アプリを起動した直後（まだどのボタンも押していないとき）、画面のボタンの下には何が表示されていますか？<pre><code>const SizedBox(height: 20),\nif (_selectedId != null)\n  Consumer(...),</code></pre>",
+      "options": [
+        "CircularProgressIndicator が表示されている",
+        "何も表示されていない（`_selectedId` が null のため if 文の中が実行されない）",
+        "ファイアドラゴンが表示されている",
+        "Error メッセージが表示されている"
+      ],
+      "answer": 1,
+      "commentary": "初期状態では `_selectedId` は `null` であるため、`if (_selectedId != null)` の条件を満たさず、結果表示の Consumer は描画されません。"
+    },
+    {
+      "id": 40,
+      "type": "文法チェック",
+      "question": "`data.when()` メソッドを使用する際に必ず記述しなければならない 3 つの引数の組み合わせはどれですか？",
+      "options": [
+        "loading, data, error",
+        "start, progress, finish",
+        "init, build, dispose",
+        "try, catch, finally"
+      ],
+      "answer": 0,
+      "commentary": "`AsyncValue.when()` を使用する際は、`loading`（読み込み中）、`data`（成功時）、`error`（エラー時）の 3 つの引数を必ず指定する必要があります。"
+    }
+  ]
 }

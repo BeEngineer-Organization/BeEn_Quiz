@@ -366,12 +366,23 @@ function escapeHtml(text) {
  * 問題文でタグ名を扱う単元向け。&lt;pre&gt; 内のコード表示はそのまま残す。
  * @param {string} html
  */
+function escapeAnglesInsidePre(block) {
+  return block.replace(/(<pre\b[^>]*>)([\s\S]*?)(<\/pre>)/i, (_, open, inner, close) => {
+    const escaped = inner.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const restored = escaped.replace(/&lt;(\/?)(code|br)(\s[^&]*?)?&gt;/gi, (__, slash, tag) => {
+      if (tag.toLowerCase() === "br") return "<br>";
+      return `<${slash}${tag.toLowerCase()}>`;
+    });
+    return open + restored + close;
+  });
+}
+
 function escapeLiteralHtmlTagsOutsidePre(html) {
   const preBlocks = [];
   let n = 0;
   const withPlaceholders = String(html).replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/gi, (block) => {
     const token = `\x00PRE${n++}\x00`;
-    preBlocks.push(block);
+    preBlocks.push(escapeAnglesInsidePre(block));
     return token;
   });
   // <pre> 外の HTML 風タグは文字として表示（例: <a>, <span>）。ただし <br> は改行として活かす。

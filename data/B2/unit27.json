@@ -1,4 +1,525 @@
 {
-  "unit_title": "unit27",
-  "questions": []
+  "unit_title": "SQLite - 暗記カードアプリに導入（演習）",
+  "questions": [
+    {
+      "id": 1,
+      "type": "用語理解",
+      "question": "これまでの実装で、すべてのカードをデータベースから取得したあとにアプリ側で `where` を使って絞り込んでいた方法が非効率だった理由は何ですか？",
+      "options": [
+        "表示中のジャンル以外の不要なデータまで大量に取得してしまうから",
+        "SQLite には `where` という仕組みが存在しないから",
+        "カード一覧画面では 1 枚しかカードを表示できないから",
+        "リストの `where` メソッドを使うとアプリが強制終了するから"
+      ],
+      "answer": 0,
+      "commentary": "カードの数が増えるほど、表示中のジャンル以外の不要なデータまで毎回すべて読み込むことになり非効率になるため、SQL の WHERE を使って最初から必要なデータだけを取得するように改良します。"
+    },
+    {
+      "id": 2,
+      "type": "コード穴埋め",
+      "question": "データベースから特定の `genreId` に一致するカードだけを検索して取得するコードです。空欄に入る引数名を選んでください。<pre><code>final List<Map<String, dynamic>> rows = await database.query(\n  'Flashcard',\n  ___: 'genreId = ?',\n  whereArgs: [genreId],\n);</code></pre>",
+      "options": [
+        "filter",
+        "where",
+        "select",
+        "condition"
+      ],
+      "answer": 1,
+      "commentary": "sqflite の `query` メソッドで検索条件を指定するときは、`where` プロパティに `'列名 = ?'` の形式で条件式を書きます。"
+    },
+    {
+      "id": 3,
+      "type": "コード穴埋め",
+      "question": "`where: 'genreId = ?'` の `?` に当てはめる値を渡すための `database.query` の引数名を選んでください。<pre><code>final List<Map<String, dynamic>> rows = await database.query(\n  'Flashcard',\n  where: 'genreId = ?',\n  ___: [genreId],\n);</code></pre>",
+      "options": [
+        "whereArgs",
+        "params",
+        "values",
+        "args"
+      ],
+      "answer": 0,
+      "commentary": "`where` 句の `?`（プレースホルダ）に代入する値のリストは、`whereArgs` プロパティに指定します。"
+    },
+    {
+      "id": 4,
+      "type": "コード穴埋め",
+      "question": "`whereArgs` に `genreId` を渡すとき、正しい囲み方（データ型）を選んでください。<pre><code>where: 'genreId = ?',\nwhereArgs: ___,</code></pre>",
+      "options": [
+        "genreId",
+        "[genreId]",
+        "{genreId}",
+        "(genreId)"
+      ],
+      "answer": 1,
+      "commentary": "`whereArgs` は複数の `?` に対応できるようリスト（List）型を受け取るため、`[genreId]` のように角括弧で囲んで渡します。"
+    },
+    {
+      "id": 5,
+      "type": "文法チェック",
+      "question": "`getFlashcards()` と `getFlashcardsByGenre()` で共通していた「データベースの行データを `List<Flashcard>` に変換する処理」を `_rowsToFlashcards` という別メソッドに切り出した主な目的は何ですか？",
+      "options": [
+        "同じような処理の重複を減らし、プログラムを読みやすく保守しやすくするため",
+        "データベースの保存容量を半分に減らすため",
+        "プライベートメソッドにしないとコンパイルエラーになるため",
+        "非同期処理を同期処理に変えるため"
+      ],
+      "answer": 0,
+      "commentary": "複数のメソッドで同じ変換処理が重複するのを防ぎ、コードをスッキリさせて修正しやすくするために共通メソッド化を行います。"
+    },
+    {
+      "id": 6,
+      "type": "コード穴埋め",
+      "question": "データベースから取得した行データ `rows` を `List<Flashcard>` に変換する共通メソッドを呼び出すコードです。空欄に入るメソッド名を選んでください。<pre><code>Future<List<Flashcard>> getFlashcardsByGenre(int genreId) async {\n  final List<Map<String, dynamic>> rows = await database.query(\n    'Flashcard',\n    where: 'genreId = ?',\n    whereArgs: [genreId],\n  );\n  return ___(rows);\n}</code></pre>",
+      "options": [
+        "_rowsToFlashcards",
+        "toFlashcards",
+        "convertRows",
+        "mapFlashcards"
+      ],
+      "answer": 0,
+      "commentary": "同じクラス内に定義した共通変換メソッド `_rowsToFlashcards(rows)` を呼び出して結果を返します。"
+    },
+    {
+      "id": 7,
+      "type": "コード穴埋め",
+      "question": "ジャンルID（`int` 型）を受け取って、該当するカードのリスト（`List<Flashcard>`）を返すプロバイダを定義するコードです。空欄に入る修飾子を選んでください。<pre><code>final flashcardsByGenreProvider = FutureProvider.___<List<Flashcard>, int>(\n  (ref, genreId) => FlashcardDatabase().getFlashcardsByGenre(genreId),\n);</code></pre>",
+      "options": [
+        "family",
+        "param",
+        "args",
+        "group"
+      ],
+      "answer": 0,
+      "commentary": "プロバイダに外部からパラメータ（`genreId`）を渡せるようにするには `.family` 修飾子を使用します。"
+    },
+    {
+      "id": 8,
+      "type": "コード穴埋め",
+      "question": "`FutureProvider.family<A, B>` の型引数 `A` と `B` に指定する型の正しい組み合わせを選んでください。<pre><code>final flashcardsByGenreProvider = FutureProvider.family<___, ___>(\n  (ref, genreId) => FlashcardDatabase().getFlashcardsByGenre(genreId),\n);</code></pre>",
+      "options": [
+        "int, List<Flashcard>",
+        "List<Flashcard>, int",
+        "Flashcard, Genre",
+        "String, int"
+      ],
+      "answer": 1,
+      "commentary": "第1型引数には戻り値の型（`List<Flashcard>`）、第2型引数には受け取るパラメータの型（`int`）を指定します。"
+    },
+    {
+      "id": 9,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面で、現在のジャンルの ID（`genre.id`）を渡して `flashcardsByGenreProvider` を監視するコードです。空欄に入る記述を選んでください。<pre><code>final shownListAsync = ref.watch(___);</code></pre>",
+      "options": [
+        "flashcardsByGenreProvider[genre.id]",
+        "flashcardsByGenreProvider(genre.id)",
+        "flashcardsByGenreProvider.family(genre.id)",
+        "flashcardsByGenreProvider"
+      ],
+      "answer": 1,
+      "commentary": "`.family` 修飾子をつけたプロバイダを参照するときは、`プロバイダ名(パラメータ)` の形で括弧をつけて引数を渡します。"
+    },
+    {
+      "id": 10,
+      "type": "実行結果予測",
+      "question": "`flashcardsByGenreProvider(genre.id)` を使うようにカード一覧画面を書き換えたあと、`shownListAsync.when(...)` の `data: (shownList)` の引数 `shownList` にはどのようなデータが入っていますか？",
+      "options": [
+        "すべてのジャンルのカードが混ざったリスト",
+        "すでにデータベース側で `genre.id` によって絞り込まれたカードのリスト",
+        "ジャンル名（文字列）だけのリスト",
+        "空のリスト"
+      ],
+      "answer": 1,
+      "commentary": "`getFlashcardsByGenre` 内の SQL（`WHERE genreId = ?`）によってすでに絞り込まれているため、アプリ側で `where` を使わなくても該当ジャンルのリストがそのまま受け取れます。"
+    },
+    {
+      "id": 11,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の `shownListAsync.when(...)` で、データベースからの取得が成功したときにリストを表示する引数名を選んでください。<pre><code>body: shownListAsync.when(\n  loading: () => const Center(child: CircularProgressIndicator()),\n  error: (err, stack) => Center(child: Text('エラーが発生しました: $err')),\n  ___: (shownList) {\n    return ListView.builder(...);\n  },\n),</code></pre>",
+      "options": [
+        "success",
+        "data",
+        "result",
+        "list"
+      ],
+      "answer": 1,
+      "commentary": "`AsyncValue.when()` でデータ取得成功時の処理を記述する引数は `data` です。"
+    },
+    {
+      "id": 12,
+      "type": "文法チェック",
+      "question": "`.family` 修飾子を使ったプロバイダ（`flashcardsByGenreProvider`）に対して `ref.invalidate()` を呼び出すときの正しいルールはどれですか？",
+      "options": [
+        "`ref.invalidate(flashcardsByGenreProvider);` のようにパラメータなしで呼ぶ",
+        "`ref.invalidate(flashcardsByGenreProvider(genre.id));` のように参照時と同じ形でパラメータを指定して呼ぶ",
+        "`.family` をつけたプロバイダは `invalidate` を呼ぶことが禁止されている",
+        "`ref.invalidateAll()` を呼んでアプリ全体のデータをすべて消す"
+      ],
+      "answer": 1,
+      "commentary": "`.family` 修飾子を用いたプロバイダはパラメータごとに別々の状態を管理しているため、`invalidate` する際もパラメータを指定して呼び出す必要があります。"
+    },
+    {
+      "id": 13,
+      "type": "コード穴埋め",
+      "question": "カード追加画面で新しいカードをデータベースに保存したあと、該当ジャンルのカード一覧を再取得させるためのコードです。空欄に入る記述を選んでください。<pre><code>await FlashcardDatabase().insertFlashcard(question, answer, genre);\nref.invalidate(___);</code></pre>",
+      "options": [
+        "flashcardProvider",
+        "flashcardsByGenreProvider(genre.id)",
+        "flashcardsByGenreProvider",
+        "genreProvider"
+      ],
+      "answer": 1,
+      "commentary": "追加したカードが属するジャンルの ID（`genre.id`）を指定して `flashcardsByGenreProvider(genre.id)` を `invalidate` します。"
+    },
+    {
+      "id": 14,
+      "type": "実行結果予測",
+      "question": "カード追加画面で `ref.invalidate(flashcardsByGenreProvider(genre.id));` を書き忘れて古い `ref.invalidate(flashcardProvider);` のままにしていた場合、カード追加後にどうなりますか？",
+      "options": [
+        "カード一覧画面に新しく追加したカードが反映されない",
+        "すべてのジャンルのカードが画面に表示されてしまう",
+        "アプリが自動的に再起動する",
+        "データベースからカードが削除される"
+      ],
+      "answer": 0,
+      "commentary": "一覧画面が監視しているのは `flashcardsByGenreProvider(genre.id)` であるため、そちらを `invalidate` しないと再取得が行われず画面が更新されません。"
+    },
+    {
+      "id": 15,
+      "type": "実行結果予測",
+      "question": "以下のコードで、`genreId` に `2` を渡して `getFlashcardsByGenre(2)` を呼び出したとき、SQLite 内部で実行される条件はどれですか？<pre><code>final List<Map<String, dynamic>> rows = await database.query(\n  'Flashcard',\n  where: 'genreId = ?',\n  whereArgs: [genreId],\n);</code></pre>",
+      "options": [
+        "`genreId` が `2` であるレコードだけを取得する",
+        "`id` が `2` であるレコードだけを取得する",
+        "先頭から `2` 件のレコードを取得する",
+        "`genreId` が `2` 以外のすべてのレコードを取得する"
+      ],
+      "answer": 0,
+      "commentary": "`where: 'genreId = ?'` と `whereArgs: [2]` により、`genreId` 列の値が `2` と一致するデータだけが抽出されます。"
+    },
+    {
+      "id": 16,
+      "type": "コード穴埋め",
+      "question": "共通メソッド `_rowsToFlashcards` の中で、Map のリスト `rows` の各要素を `Flashcard` オブジェクトに変換するメソッドを選んでください。<pre><code>List<Flashcard> _rowsToFlashcards(List<Map<String, dynamic>> rows) {\n  return rows.___((row) {\n    final genre = genreList.firstWhere(\n      (genre) => genre.id == row['genreId'],\n    );\n    return Flashcard(\n      id: row['id'],\n      question: row['question'],\n      answer: row['answer'],\n      genre: genre,\n    );\n  }).toList();\n}</code></pre>",
+      "options": [
+        "where",
+        "map",
+        "forEach",
+        "reduce"
+      ],
+      "answer": 1,
+      "commentary": "リストの各要素（`row`）を別の型（`Flashcard`）に 1 対 1 で変換するには `map` メソッドを使用します。"
+    },
+    {
+      "id": 17,
+      "type": "コード穴埋め",
+      "question": "`_rowsToFlashcards` メソッドの末尾で、`map` の結果（Iterable）を `List<Flashcard>` 型に変換するために呼び出すメソッドを選んでください。<pre><code>return rows.map((row) {\n  // Flashcard を返す処理\n}).___();</code></pre>",
+      "options": [
+        "toList",
+        "toArray",
+        "asList",
+        "build"
+      ],
+      "answer": 0,
+      "commentary": "`map` メソッドの戻り値は `Iterable` 型なので、リストとして返すために `.toList()` をつけます。"
+    },
+    {
+      "id": 18,
+      "type": "文法チェック",
+      "question": "SQLite 側（`WHERE genreId = ?`）でデータの絞り込みを行うように改良したことで得られるメリットとして正しいものはどれですか？",
+      "options": [
+        "必要なジャンルのデータだけを取得するため効率が良くなり、カード一覧画面側のコードもシンプルになる",
+        "データベースのファイルを毎回手動で削除しなくて済むようになる",
+        "インターネットに接続しなくても Web サイトを公開できるようになる",
+        "ConsumerWidget を使わずに StatelessWidget だけで ref.watch ができるようになる"
+      ],
+      "answer": 0,
+      "commentary": "データベース側で条件を絞ることで無駄なデータ取得が減り、画面側での `where` 絞り込み処理も不要になってコードがシンプルになります。"
+    },
+    {
+      "id": 19,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の `ListView.builder` で、表示するカード枚数を指定するコードです。空欄に入る記述を選んでください。<pre><code>data: (shownList) {\n  return ListView.builder(\n    itemCount: ___,\n    itemBuilder: (context, index) => Card(...),\n  );\n}</code></pre>",
+      "options": [
+        "shownList.length",
+        "shownList.count",
+        "genre.length",
+        "flashcardList.length"
+      ],
+      "answer": 0,
+      "commentary": "表示対象のリスト `shownList` の要素数（`shownList.length`）を `itemCount` に指定します。"
+    },
+    {
+      "id": 20,
+      "type": "実行結果予測",
+      "question": "カード追加画面で「英単語（id: 0）」のジャンルを選んで新しいカードを追加したあと、カード一覧画面に戻りました。このとき `ref.invalidate(flashcardsByGenreProvider(0))` が実行されると何が起こりますか？",
+      "options": [
+        "英単語（id: 0）のカード一覧データがデータベースから再取得され、画面に新しいカードが表示される",
+        "すべてのジャンルのデータがデータベースから削除される",
+        "他のジャンル（id: 1 など）の画面に強制的に移動する",
+        "読み込みエラーが発生する"
+      ],
+      "answer": 0,
+      "commentary": "`flashcardsByGenreProvider(0)` のキャッシュが破棄され、一覧画面の `ref.watch` によって最新データの再取得と再描画が行われます。"
+    },
+    {
+      "id": 21,
+      "type": "コード穴埋め",
+      "question": "`getFlashcards()` メソッド（全件取得）でも共通メソッド `_rowsToFlashcards` を使うように書き換えたコードです。空欄に入る記述を選んでください。<pre><code>Future<List<Flashcard>> getFlashcards() async {\n  final List<Map<String, dynamic>> rows = await database.query('Flashcard');\n  return ___(rows);\n}</code></pre>",
+      "options": [
+        "_rowsToFlashcards",
+        "getFlashcardsByGenre",
+        "insertFlashcard",
+        "initDatabase"
+      ],
+      "answer": 0,
+      "commentary": "全件取得した `rows` も同じ `_rowsToFlashcards(rows)` に渡すことで、変換ロジックを共通化できます。"
+    },
+    {
+      "id": 22,
+      "type": "用語理解",
+      "question": "SQL の `WHERE genreId = ?` のように、あとから実際の値を当てはめるために仮置きする `?` 記号のことを一般的に何と呼びますか？",
+      "options": [
+        "プレースホルダ",
+        "シングルトン",
+        "コンストラクタ",
+        "イテレータ"
+      ],
+      "answer": 0,
+      "commentary": "`?` のように後から値を埋め込むための仮の記号は「プレースホルダ」と呼ばれ、`whereArgs` の値が順番に安全に埋め込まれます。"
+    },
+    {
+      "id": 23,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面で、データベースからのデータ取得中にエラーが起きた場合にメッセージを表示するコードです。空欄に入る引数を選んでください。<pre><code>shownListAsync.when(\n  loading: () => const Center(child: CircularProgressIndicator()),\n  ___: (err, stack) => Center(\n    child: Text('エラーが発生しました: $err'),\n  ),\n  data: (shownList) => ...,\n)</code></pre>",
+      "options": [
+        "error",
+        "loading",
+        "data",
+        "catch"
+      ],
+      "answer": 0,
+      "commentary": "エラー発生時の表示ウィジェットは `error` 引数に記述します。"
+    },
+    {
+      "id": 24,
+      "type": "実行結果予測",
+      "question": "以下のコードで、選択中のジャンルに属するカードがデータベースに 1 件も登録されていない場合、カード一覧画面の `body` には何が表示されますか？<pre><code>data: (shownList) {\n  return ListView.builder(\n    itemCount: shownList.length,\n    itemBuilder: (context, index) => Card(...),\n  );\n}</code></pre>",
+      "options": [
+        "エラー画面（Text('エラーが発生しました')）",
+        "ずっと CircularProgressIndicator が回り続ける",
+        "エラーにはならず、カードが 0 枚の空のリスト画面が表示される",
+        "他のジャンルのカードが代わりに表示される"
+      ],
+      "answer": 2,
+      "commentary": "0 件という結果の取得自体は「成功（`data`）」扱いとなり、`shownList.length` が `0` の `ListView.builder`（空の一覧画面）が正常に描画されます。"
+    },
+    {
+      "id": 25,
+      "type": "文法チェック",
+      "question": "`_rowsToFlashcards` のようにメソッド名の先頭にアンダースコア `_` をつけると、どのようなアクセス制限がかかりますか？",
+      "options": [
+        "同じファイル（ライブラリ）内からしか呼び出せないプライベートメソッドになる",
+        "どのファイルからでも呼び出せるグローバルメソッドになる",
+        "アプリ起動時に 1 回しか実行できなくなる",
+        "戻り値を返せない void メソッドになる"
+      ],
+      "answer": 0,
+      "commentary": "Dart では名前の先頭に `_` をつけるとプライベートになり、外部ファイルからの誤った呼び出しを防ぐことができます。"
+    },
+    {
+      "id": 26,
+      "type": "コード穴埋め",
+      "question": "カード追加画面で `Navigator.of(context).pop()` を実行する前に、画面がまだ存在するかを確認する安全チェックのコードです。空欄に入る記述を選んでください。<pre><code>ref.invalidate(flashcardsByGenreProvider(genre.id));\nif (!context.___) return;\nNavigator.of(context).pop();</code></pre>",
+      "options": [
+        "mounted",
+        "exists",
+        "active",
+        "valid"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理のあとに `BuildContext` を安全に使うため、`if (!context.mounted) return;` でウィジェットの存在を確認します。"
+    },
+    {
+      "id": 27,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の `FloatingActionButton` を押したとき、現在のジャンル情報を渡してカード追加画面へ遷移するコードです。空欄に入る記述を選んでください。<pre><code>floatingActionButton: FloatingActionButton(\n  onPressed: () {\n    Navigator.of(context).pushNamed(\n      '/card_add',\n      ___: genre,\n    );\n  },\n  child: const Icon(Icons.add),\n),</code></pre>",
+      "options": [
+        "arguments",
+        "params",
+        "data",
+        "genre"
+      ],
+      "answer": 0,
+      "commentary": "名前付きルート（`pushNamed`）で次の画面にデータを渡すときは `arguments` プロパティを使用します。"
+    },
+    {
+      "id": 28,
+      "type": "実行結果予測",
+      "question": "「数学（id: 1）」のカード一覧画面を開いてデータを取得したあと、一度ジャンル一覧に戻り、もう一度「数学（id: 1）」のカード一覧画面を開きました。新しいカードを追加していない場合、Riverpod のキャッシュ機能によりどう動作しますか？",
+      "options": [
+        "キャッシュされたデータが即座に使われるため、待ち時間なしで一覧が表示される",
+        "毎回必ず 5 秒間読み込みアイコンが表示される",
+        "キャッシュが消えているためエラーになる",
+        "数学以外のカードもすべて表示される"
+      ],
+      "answer": 0,
+      "commentary": "`.family` を使ったプロバイダはパラメータ（`genre.id`）ごとに結果をキャッシュするため、`invalidate` されるまでは再取得なしで即座に表示されます。"
+    },
+    {
+      "id": 29,
+      "type": "コード穴埋め",
+      "question": "`getFlashcardsByGenre` メソッドの戻り値の型を指定するコードです。空欄に入る型を選んでください。<pre><code>___ getFlashcardsByGenre(int genreId) async {\n  final List<Map<String, dynamic>> rows = await database.query(...);\n  return _rowsToFlashcards(rows);\n}</code></pre>",
+      "options": [
+        "List<Flashcard>",
+        "Future<List<Flashcard>>",
+        "Future<Flashcard>",
+        "void"
+      ],
+      "answer": 1,
+      "commentary": "`async` をつけた非同期メソッドで `List<Flashcard>` を返すため、戻り値の型は `Future<List<Flashcard>>` となります。"
+    },
+    {
+      "id": 30,
+      "type": "文法チェック",
+      "question": "今回の演習で `flashcardsByGenreProvider` を作成したあと、使わなくなった古い `flashcardProvider` について教材で指示されている対応はどれですか？",
+      "options": [
+        "コメントアウトして無効化しておく",
+        "必ず `Provider` に書き換えて残す",
+        "`main.dart` の中に移動する",
+        "ジャンル一覧画面で必ず呼び出す"
+      ],
+      "answer": 0,
+      "commentary": "今回の実装では `flashcardsByGenreProvider` のみを使用し `flashcardProvider` は利用しなくなるため、コメントアウトして無効化します。"
+    },
+    {
+      "id": 31,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の各カードをタップしたとき、解答モーダルを表示する関数を呼び出すコードです。空欄に入る引数を選んでください。<pre><code>onTap: () {\n  activateModal(\n    context,\n    ___[index]\n  );\n},</code></pre>",
+      "options": [
+        "shownList",
+        "flashcardList",
+        "genreList",
+        "rows"
+      ],
+      "answer": 0,
+      "commentary": "`data: (shownList)` で受け取ったリストの `index` 番目の要素（`shownList[index]`）を渡します。"
+    },
+    {
+      "id": 32,
+      "type": "実行結果予測",
+      "question": "`_rowsToFlashcards` 内で `row['genreId']` の値が `1` のとき、`genreList.firstWhere((genre) => genre.id == row['genreId'])` はどのオブジェクトを返しますか？",
+      "options": [
+        "`id` が `1` の `Genre` オブジェクト",
+        "数値の `1`",
+        "`genreList` のすべての要素",
+        "`null`"
+      ],
+      "answer": 0,
+      "commentary": "`genre.id == 1` の条件に最初に一致する `Genre` インスタンスが `firstWhere` によって返されます。"
+    },
+    {
+      "id": 33,
+      "type": "コード穴埋め",
+      "question": "`flashcardsByGenreProvider` のアロー関数内で、データベースのメソッドを呼び出すコードです。空欄に入る引数を選んでください。<pre><code>final flashcardsByGenreProvider = FutureProvider.family<List<Flashcard>, int>(\n  (ref, genreId) => FlashcardDatabase().getFlashcardsByGenre(___),\n);</code></pre>",
+      "options": [
+        "ref",
+        "genreId",
+        "id",
+        "genre.id"
+      ],
+      "answer": 1,
+      "commentary": "コールバック関数の第2引数として受け取った `genreId` をそのまま `getFlashcardsByGenre(genreId)` に渡します。"
+    },
+    {
+      "id": 34,
+      "type": "用語理解",
+      "question": "データベースのテーブルから条件に合う行だけを抽出するときに使う SQL の句（キーワード）は何ですか？",
+      "options": [
+        "WHERE",
+        "ORDER",
+        "GROUP",
+        "JOIN"
+      ],
+      "answer": 0,
+      "commentary": "SQL で取得・更新・削除の対象を条件で絞り込むときには `WHERE` を使用します。"
+    },
+    {
+      "id": 35,
+      "type": "コード穴埋め",
+      "question": "カード一覧画面の AppBar に選択されたジャンルのタイトルを表示するコードです。空欄に入る記述を選んでください。<pre><code>appBar: AppBar(\n  title: Text(___.title),\n),</code></pre>",
+      "options": [
+        "genre",
+        "shownList",
+        "widget.genre",
+        "card"
+      ],
+      "answer": 0,
+      "commentary": "`CardListPage` は `ConsumerWidget` であるため、コンストラクタで受け取った `genre` に直接アクセスして `genre.title` と書きます。"
+    },
+    {
+      "id": 36,
+      "type": "実行結果予測",
+      "question": "以下のコードで `database.query` の第1引数に指定している `'Flashcard'` は何を表していますか？<pre><code>final List<Map<String, dynamic>> rows = await database.query(\n  'Flashcard',\n  where: 'genreId = ?',\n  whereArgs: [genreId],\n);</code></pre>",
+      "options": [
+        "検索対象のデータベースのテーブル名",
+        "データベースのファイル名",
+        "Dart のクラス名",
+        "保存先のフォルダ名"
+      ],
+      "answer": 0,
+      "commentary": "`database.query` の第1引数には、データを検索・取得したい SQLite のテーブル名（`'Flashcard'`）を指定します。"
+    },
+    {
+      "id": 37,
+      "type": "文法チェック",
+      "question": "`FutureProvider.family` を定義する際、コールバック関数 `(ref, genreId) => ...` が受け取る 2 つの引数の順番として正しいものはどれですか？",
+      "options": [
+        "第1引数：Ref（ref）、第2引数：外部から渡されるパラメータ（genreId）",
+        "第1引数：外部から渡されるパラメータ（genreId）、第2引数：Ref（ref）",
+        "第1引数：BuildContext、第2引数：WidgetRef",
+        "第1引数：Database、第2引数：int"
+      ],
+      "answer": 0,
+      "commentary": "`.family` をつけたプロバイダの関数は、常に第1引数に `ref`、第2引数に呼び出し側から渡されたパラメータを受け取ります。"
+    },
+    {
+      "id": 38,
+      "type": "コード穴埋め",
+      "question": "`_rowsToFlashcards` メソッドの中で、1行分のデータ `row` から `id` と `question` と `answer` を取り出して `Flashcard` を作るコードです。空欄に入る記述を選んでください。<pre><code>return Flashcard(\n  id: row['id'],\n  question: row['question'],\n  answer: row['answer'],\n  genre: ___,\n);</code></pre>",
+      "options": [
+        "genre",
+        "row['genre']",
+        "row['genreId']",
+        "genreId"
+      ],
+      "answer": 0,
+      "commentary": "直前の `genreList.firstWhere(...)` で取得した `Genre` オブジェクトの変数 `genre` を渡します。"
+    },
+    {
+      "id": 39,
+      "type": "実行結果予測",
+      "question": "カード一覧画面で、データベースの読み込みがまだ完了していない間に画面に表示されるウィジェットは何ですか？<pre><code>body: shownListAsync.when(\n  loading: () => const Center(\n    child: CircularProgressIndicator(),\n  ),\n  error: (err, stack) => Center(child: Text('エラーが発生しました: $err')),\n  data: (shownList) => ListView.builder(...),\n),</code></pre>",
+      "options": [
+        "画面中央の CircularProgressIndicator",
+        "画面中央のエラーメッセージ",
+        "空の ListView",
+        "カード追加画面"
+      ],
+      "answer": 0,
+      "commentary": "非同期処理が完了するまでは `loading` のコールバックが呼ばれ、画面中央に `CircularProgressIndicator` が表示されます。"
+    },
+    {
+      "id": 40,
+      "type": "用語理解",
+      "question": "暗記カードアプリの完成にあたり、SQLite と Riverpod（`FutureProvider.family`）を組み合わせることで実現できたことのまとめとして最も適切なものはどれですか？",
+      "options": [
+        "アプリを再起動してもデータが消えず、さらに必要なジャンルのカードだけを効率よく取得して画面に反映できるようになった",
+        "データベースを使わずにメモリ上だけで永久にデータを保存できるようになった",
+        "すべての画面を StatefulWidget だけで書けるようになった",
+        "プログラムを 1 行も書かずにアプリが作れるようになった"
+      ],
+      "answer": 0,
+      "commentary": "SQLite によるデータの永続化と、`FutureProvider.family` によるジャンルごとの効率的なデータ取得・状態管理を実現できました。"
+    }
+  ]
 }
