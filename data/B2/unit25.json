@@ -354,16 +354,16 @@
     },
     {
       "id": 28,
-      "type": "文法チェック",
-      "question": "データベースの `Flashcard` テーブルに、`Genre` クラスそのものではなく `genreId`（整数）を保存する理由は何ですか？",
+      "type": "コード穴埋め",
+      "question": "カードを `Flashcard` テーブルへ保存するとき、`genreId` に入れる値を選んでください。<pre><code>await database.insert(\n  'Flashcard',\n  {\n    'question': question,\n    'answer': answer,\n    'genreId': ___,\n  },\n  conflictAlgorithm: ConflictAlgorithm.ignore,\n);</code></pre>",
       "options": [
-        "SQLite には Dart の独自クラス（Genre）のインスタンスをそのまま保存できないため",
-        "文字列よりも整数の方が画面のデザインがきれいになるため",
-        "Genre クラスにはタイトルしか入っていないため",
-        "データベースの容量制限が 100 バイトしかないため"
+        "genre.id",
+        "genre",
+        "genreList",
+        "row['genreId']"
       ],
       "answer": 0,
-      "commentary": "データベースには INTEGER や TEXT などの基本データ型しか保存できないため、`genre.id`（整数）を保存し、取得時に `genreList` と照合します。"
+      "commentary": "教科書の insert では `'genreId': genre.id` と書き、選ばれている Genre の id を保存します。読み出すときは、この値と `genreList` の `genre.id` を `firstWhere` で照合します。"
     },
     {
       "id": 29,
