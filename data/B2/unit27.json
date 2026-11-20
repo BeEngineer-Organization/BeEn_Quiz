@@ -264,28 +264,28 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "`getFlashcards()` メソッド（全件取得）でも共通メソッド `_rowsToFlashcards` を使うように書き換えたコードです。空欄に入る記述を選んでください。<pre><code>Future<List<Flashcard>> getFlashcards() async {\n  final List<Map<String, dynamic>> rows = await database.query('Flashcard');\n  return ___(rows);\n}</code></pre>",
+      "question": "全件取得した行データを、カードのリストへ変換する共通メソッドに渡すコードです。空欄に入る引数を選んでください。<pre><code>Future<List<Flashcard>> getFlashcards() async {\n  final List<Map<String, dynamic>> rows = await database.query('Flashcard');\n  return _rowsToFlashcards(___);\n}</code></pre>",
       "options": [
-        "_rowsToFlashcards",
-        "getFlashcardsByGenre",
-        "insertFlashcard",
-        "initDatabase"
+        "rows",
+        "genreId",
+        "flashcardList",
+        "genreList"
       ],
       "answer": 0,
-      "commentary": "全件取得した `rows` も同じ `_rowsToFlashcards(rows)` に渡すことで、変換ロジックを共通化できます。"
+      "commentary": "`database.query` で全件取得した `rows` を `_rowsToFlashcards` に渡すと、ジャンル指定の取得と同じ変換で `List<Flashcard>` になります。"
     },
     {
       "id": 22,
-      "type": "用語理解",
-      "question": "SQL の `WHERE genreId = ?` のように、あとから実際の値を当てはめるために仮置きする `?` 記号のことを一般的に何と呼びますか？",
+      "type": "文法チェック",
+      "question": "`getFlashcards()` のデータベース取得が、`getFlashcardsByGenre()` と違う点はどれですか？<pre><code>Future<List<Flashcard>> getFlashcards() async {\n  final List<Map<String, dynamic>> rows = await database.query('Flashcard');\n  return _rowsToFlashcards(rows);\n}</code></pre>",
       "options": [
-        "プレースホルダ",
-        "シングルトン",
-        "コンストラクタ",
-        "イテレータ"
+        "where や whereArgs を付けず、Flashcard テーブルの全件を取得する",
+        "genreId が 0 のカードだけを取得する",
+        "insert で新しいカードを 1 件追加する",
+        "genreList の中身をデータベースへ保存する"
       ],
       "answer": 0,
-      "commentary": "`?` のように後から値を埋め込むための仮の記号は「プレースホルダ」と呼ばれ、`whereArgs` の値が順番に安全に埋め込まれます。"
+      "commentary": "`getFlashcards()` は `database.query('Flashcard')` だけを呼ぶので、ジャンルの条件を付けずに全件を取得します。その `rows` を `_rowsToFlashcards` に渡して `List<Flashcard>` にします。"
     },
     {
       "id": 23,
@@ -315,16 +315,16 @@
     },
     {
       "id": 25,
-      "type": "文法チェック",
-      "question": "`_rowsToFlashcards` のようにメソッド名の先頭にアンダースコア `_` をつけると、どのようなアクセス制限がかかりますか？",
+      "type": "コード穴埋め",
+      "question": "取得済みの行データを `Flashcard` のリストへ変換するメソッドです。空欄に入る戻り値の型を選んでください。<pre><code>___ _rowsToFlashcards(List<Map<String, dynamic>> rows) {\n  return rows.map((row) {\n    // Flashcard を返す処理\n  }).toList();\n}</code></pre>",
       "options": [
-        "同じファイル（ライブラリ）内からしか呼び出せないプライベートメソッドになる",
-        "どのファイルからでも呼び出せるグローバルメソッドになる",
-        "アプリ起動時に 1 回しか実行できなくなる",
-        "戻り値を返せない void メソッドになる"
+        "List<Flashcard>",
+        "Future<List<Flashcard>>",
+        "List<Map<String, dynamic>>",
+        "Future<Map<String, dynamic>>"
       ],
       "answer": 0,
-      "commentary": "Dart では名前の先頭に `_` をつけるとプライベートになり、外部ファイルからの誤った呼び出しを防ぐことができます。"
+      "commentary": "このメソッドは受け取った `rows` を `map` で変換し、`toList()` でリストにして返すだけです。`await` はしないので、戻り値の型は `List<Flashcard>` です。"
     },
     {
       "id": 26,
