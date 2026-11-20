@@ -134,7 +134,7 @@
     {
       "id": 11,
       "type": "実行結果予測",
-      "question": "上記のコードで、5秒が経過して非同期処理が正常に完了した後、画面の表示はどのように変化しますか？",
+      "question": "以下のコードで、5秒が経過して非同期処理が正常に完了した後、画面の表示はどのように変化しますか？<pre><code>final futureProvider = FutureProvider<String>((_) async {\n  return await Future.delayed(const Duration(seconds: 5), () => 'finish');\n});\n\n// build 内\nfinal data = ref.watch(futureProvider);\nreturn data.when(\n  loading: () => const CircularProgressIndicator(),\n  data: (config) => Text(config),\n  error: (err, stack) => Text('Error: $err'),\n);</code></pre>",
       "options": [
         "CircularProgressIndicator のまま変わらない",
         "自動的に再描画され、'finish' という文字が表示される",

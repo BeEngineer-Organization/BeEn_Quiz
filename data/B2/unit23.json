@@ -225,15 +225,15 @@
     {
       "id": 18,
       "type": "実行結果予測",
-      "question": "以下のコードを実行したとき、同時に裏側で走っているタイマー処理は常にいくつですか？<pre><code>void main() async {\n  for (int i = 1; i <= 5; i++) {\n    await Future.delayed(\n      Duration(seconds: 1),\n      () => print('$i 秒経過'),\n    );\n  }\n}</code></pre>",
+      "question": "以下のコードを実行したとき、5回のタイマー処理はどのように進みますか？<pre><code>void main() async {\n  for (int i = 1; i <= 5; i++) {\n    await Future.delayed(\n      Duration(seconds: 1),\n      () => print('$i 秒経過'),\n    );\n  }\n}</code></pre>",
       "options": [
-        "0個",
-        "1個",
-        "5個",
-        "ループの回数に応じて増える"
+        "1つずつ順番に実行される",
+        "5つすべて同時に実行される",
+        "2つずつ同時に実行される",
+        "1つ目の途中で2つ目も動き始める"
       ],
-      "answer": 1,
-      "commentary": "1回ごとに `await` で1秒間の完了を待ってから次のループに進むため、同時に実行されている処理は常に1つだけです。"
+      "answer": 0,
+      "commentary": "`await` で1回の `Future.delayed` が終わるまで次のループに進まないため、2つ目以降は前の1秒が完了してから始まります。5回のタイマーは重ならず、1つずつ順番に実行されます。"
     },
     {
       "id": 19,
@@ -394,15 +394,15 @@
     {
       "id": 31,
       "type": "用語理解",
-      "question": "今回作成したプログラムのように、複数のファイルに分かれず1つのファイルだけで動作が完結する実装スタイルを何と呼びますか？",
+      "question": "`await` を使って Future から取り出されるものはどれですか？",
       "options": [
-        "単一ファイルで完結する実装",
-        "データベース連携実装",
-        "マルチスレッド実装",
-        "オブジェクト指向設計"
+        "非同期処理が完了したあとの結果（戻り値）",
+        "完了前の Future インスタンス",
+        "待ち時間を表す Duration の値",
+        "関数につけた async キーワード"
       ],
       "answer": 0,
-      "commentary": "今回はアプリ全体ではなく `async.dart` という単一ファイルで完結する形で基礎を学習しています。"
+      "commentary": "`await` は処理の完了を待ち、Future の中の戻り値を取り出します。文字列を返す処理なら、取り出される値は String です。"
     },
     {
       "id": 32,
@@ -498,7 +498,7 @@
     {
       "id": 39,
       "type": "実行結果予測",
-      "question": "以下のコードを実行したとき、1行目に出力される文字列は何ですか？<pre><code>void main() async {\n  print('少しお待ちください。');\n  print(await showMessage());\n}</code></pre>",
+      "question": "以下のコードを実行したとき、1行目に出力される文字列は何ですか？<pre><code>void main() async {\n  print('少しお待ちください。');\n  print(await showMessage());\n}\n\nFuture<String> showMessage() async {\n  await Future.delayed(Duration(seconds: 5));\n  return 'Welcome to BeEngineer';\n}</code></pre>",
       "options": [
         "少しお待ちください。",
         "Welcome to BeEngineer",
@@ -506,7 +506,7 @@
         "何も出力されない"
       ],
       "answer": 0,
-      "commentary": "最初の `print('少しお待ちください。');` は待機せずにすぐ実行されるため、1行目に「少しお待ちください。」が出力されます。"
+      "commentary": "最初の `print('少しお待ちください。');` は `showMessage()` を待つ前に実行されるため、1行目には「少しお待ちください。」が出力されます。"
     },
     {
       "id": 40,
