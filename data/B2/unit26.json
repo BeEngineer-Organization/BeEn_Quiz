@@ -264,28 +264,28 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "`sqflite_common_ffi_web` をインストールしたあと、Web 実行に必要なファイル（`sqlite3.wasm` と `sqflite_sw.js`）を作成するために実行するコマンドです。空欄に入る記述を選んでください。<pre><code>dart run ___:setup</code></pre>",
+      "question": "カード一覧画面で、SQLite から取得したカード一覧の状態を監視するコードです。空欄に入るメソッドを選んでください。<pre><code>@override\nWidget build(BuildContext context, WidgetRef ref) {\n  final flashcardListAsync = ref.___(flashcardProvider);\n  return Scaffold(\n    body: flashcardListAsync.when(\n      loading: () => const CircularProgressIndicator(),\n      error: (err, stack) => Text('エラー: $err'),\n      data: (flashcardList) => ListView.builder(...),\n    ),\n  );\n}</code></pre>",
       "options": [
-        "sqflite",
-        "sqflite_common_ffi_web",
-        "flutter_riverpod",
-        "path"
+        "watch",
+        "read",
+        "listen",
+        "invalidate"
       ],
-      "answer": 1,
-      "commentary": "`dart run sqflite_common_ffi_web:setup` を実行することで、`web` フォルダ内に必要な2つのファイルが自動生成されます。"
+      "answer": 0,
+      "commentary": "取得の完了や `invalidate` のあとの再取得を画面へ反映するには `ref.watch(flashcardProvider)` を使います。返り値は `AsyncValue<List<Flashcard>>` です。"
     },
     {
       "id": 22,
       "type": "コード穴埋め",
-      "question": "`main.dart` で、アプリが Web ブラウザで実行されているときだけ Web 用のデータベースに切り替える条件式の定数を選んでください。<pre><code>if (___) {\n  databaseFactory = databaseFactoryFfiWeb;\n}</code></pre>",
+      "question": "カード一覧画面で、いま開いているジャンルのカードだけを残す条件を選んでください。<pre><code>final shownList = flashcardList.where(\n  (card) => ___,\n).toList();</code></pre>",
       "options": [
-        "isWeb",
-        "kIsWeb",
-        "onWeb",
-        "webMode"
+        "card.genre.id == genre.id",
+        "card.id == genre.id",
+        "card.question == genre.title",
+        "card.genre == genreList"
       ],
-      "answer": 1,
-      "commentary": "`package:flutter/foundation.dart` に定義されている `kIsWeb` は、Web 環境で実行されているときに `true` になる定数です。"
+      "answer": 0,
+      "commentary": "一覧に出すのは、開いているジャンルと `genre.id` が一致するカードです。`where` の条件は `card.genre.id == genre.id` にします。"
     },
     {
       "id": 23,
