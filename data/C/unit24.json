@@ -4,7 +4,7 @@
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "アクセストークンの有効性を確認し、真偽値を非同期で返す `verify` 関数の定義です。空欄に入る適切な型指定を選んでください。<br><pre><code>Future&lt;___&gt; verify() async { ... }</code></pre>",
+      "question": "アクセストークンの有効性を確認し、真偽値を非同期で返す `verify` 関数の定義です。空欄に入る適切な型指定を選んでください。<br><pre><code>Future<___> verify() async { ... }</code></pre>",
       "options": [
         "bool",
         "String",
@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "初期ルートプロバイダー `InitialRoute` を自動生成クラスを継承して定義するコードです。<br><pre><code>@Riverpod(keepAlive: true)\nclass InitialRoute extends ___ {\n  @override\n  Future&lt;String&gt; build() async { ... }\n}</code></pre>",
+      "question": "初期ルートプロバイダー `InitialRoute` を自動生成クラスを継承して定義するコードです。<br><pre><code>@Riverpod(keepAlive: true)\nclass InitialRoute extends ___ {\n  @override\n  Future<String> build() async { ... }\n}</code></pre>",
       "options": [
         "_$InitialRoute",
         "_InitialRoute",
@@ -173,7 +173,7 @@
     {
       "id": 14,
       "type": "コード穴埋め",
-      "question": "`InitialRoute` クラス内で、初期ルートの文字列を非同期で決定して返すメソッド定義です。<br><pre><code>@override\nFuture&lt;String&gt; ___() async {\n  final isVerified = await AccountService().verify();\n  return isVerified ? Routes.home : Routes.login;\n}</code></pre>",
+      "question": "`InitialRoute` クラス内で、初期ルートの文字列を非同期で決定して返すメソッド定義です。<br><pre><code>@override\nFuture<String> ___() async {\n  final isVerified = await AccountService().verify();\n  return isVerified ? Routes.home : Routes.login;\n}</code></pre>",
       "options": [
         "build",
         "create",

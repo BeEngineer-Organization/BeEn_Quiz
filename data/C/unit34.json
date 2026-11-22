@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "JSON形式の辞書データから `Account` インスタンスを生成するファクトリコンストラクタの記述です。<br><pre><code>factory Account.fromJson(Map&lt;String, Object?&gt; json) =>\n    _$AccountFromJson(___);</code></pre>",
+      "question": "JSON形式の辞書データから `Account` インスタンスを生成するファクトリコンストラクタの記述です。<br><pre><code>factory Account.fromJson(Map<String, Object?> json) =>\n    _$AccountFromJson(___);</code></pre>",
       "options": [
         "json",
         "data",
@@ -56,7 +56,7 @@
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "`AccountService` で自分のアカウント情報を認証付きで取得するGET通信コードです。<br><pre><code>Future&lt;Account&gt; fetchAccount() async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/';\n  final response = await dioClient.___.get(url);\n  return Account.fromJson(response.data);\n}</code></pre>",
+      "question": "`AccountService` で自分のアカウント情報を認証付きで取得するGET通信コードです。<br><pre><code>Future<Account> fetchAccount() async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/';\n  final response = await dioClient.___.get(url);\n  return Account.fromJson(response.data);\n}</code></pre>",
       "options": [
         "authDio",
         "unauthDio",
@@ -82,7 +82,7 @@
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "アカウント情報を取得・管理する Riverpod のプロバイダークラス定義です。空欄に入るアノテーション記述を選んでください。<br><pre><code>___ \nclass AccountInfo extends _$AccountInfo {\n  @override\n  Future&lt;Account&gt; build() async {\n    final accountService = AccountService();\n    return accountService.fetchAccount();\n  }\n}</code></pre>",
+      "question": "アカウント情報を取得・管理する Riverpod のプロバイダークラス定義です。空欄に入るアノテーション記述を選んでください。<br><pre><code>___ \nclass AccountInfo extends _$AccountInfo {\n  @override\n  Future<Account> build() async {\n    final accountService = AccountService();\n    return accountService.fetchAccount();\n  }\n}</code></pre>",
       "options": [
         "@riverpod",
         "@Provider",

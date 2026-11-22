@@ -20,7 +20,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "テンプレート変数をHTMLに記述する際、正しい記号はどれですか？<pre><code>&lt;p&gt;こんにちは、___ name ___ さん&lt;/p&gt;</code></pre>",
+      "question": "テンプレート変数をHTMLに記述する際、正しい記号はどれですか？<pre><code><p>こんにちは、___ name ___ さん</p></code></pre>",
       "options": ["{{ }}", "{% %}", "[[ ]]", "(( ))"],
       "answer": 0,
       "commentary": "変数を表示する場合は、二重の波カッコ「{{ }}」で囲みます。"
@@ -180,7 +180,7 @@
     {
       "id": 23,
       "type": "コード穴埋め",
-      "question": "URL設定で「name='detail'」と名付けたURLへのリンクを生成するためのタグは何ですか？<pre><code>&lt;a href=\"___ 'detail' ___\"&gt;詳細&lt;/a&gt;</code></pre>",
+      "question": "URL設定で「name='detail'」と名付けたURLへのリンクを生成するためのタグは何ですか？<pre><code><a href=\"___ 'detail' ___\">詳細</a></code></pre>",
       "options": ["{{ url }}", "{% url %}", "{% link %}", "{{ link }}"],
       "answer": 1,
       "commentary": "URLの逆引きには「{% url '名前' %}」タグを使用します。"

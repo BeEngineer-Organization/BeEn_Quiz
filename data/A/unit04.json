@@ -20,7 +20,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "ページ上に表示されるすべての情報を記述するタグを選んでください。<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n  &lt;head&gt;...&lt;/head&gt;\n  &lt;___&gt;\n    &lt;h1&gt;山田 太郎&lt;/h1&gt;\n  &lt;/___&gt;\n&lt;/html&gt;</code></pre>",
+      "question": "ページ上に表示されるすべての情報を記述するタグを選んでください。<pre><code><!DOCTYPE html>\n<html>\n  <head>...</head>\n  <___>\n    <h1>山田 太郎</h1>\n  </___>\n</html></code></pre>",
       "options": ["title", "div", "header", "body"],
       "answer": 3,
       "commentary": "ブラウザの画面内に表示されるコンテンツはすべて body タグの中に記述します。"
@@ -28,7 +28,7 @@
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "好きなものを箇条書きにする際に使用する、リストの項目を表すタグは何ですか？<pre><code>&lt;ul&gt;\n  &lt;___&gt;野球&lt;/___&gt;\n  &lt;___&gt;映画&lt;/___&gt;\n&lt;/ul&gt;</code></pre>",
+      "question": "好きなものを箇条書きにする際に使用する、リストの項目を表すタグは何ですか？<pre><code><ul>\n  <___>野球</___>\n  <___>映画</___>\n</ul></code></pre>",
       "options": ["ol", "li", "list", "p"],
       "answer": 1,
       "commentary": "箇条書きの各項目は li (list item) タグで囲みます。"
@@ -36,7 +36,7 @@
     {
       "id": 5,
       "type": "実行結果予測",
-      "question": "次のコードを実行したとき、画面にはどのように表示されますか？<pre><code>&lt;a href=\"https://google.com\"&gt;検索サイト&lt;/a&gt;</code></pre>",
+      "question": "次のコードを実行したとき、画面にはどのように表示されますか？<pre><code><a href=\"https://google.com\">検索サイト</a></code></pre>",
       "options": ["「検索サイト」という文字が表示され、クリックするとGoogleに飛ぶ", "Googleのロゴ画像が表示される", "「https://google.com」というURLがそのまま文字で表示される", "何も表示されない"],
       "answer": 0,
       "commentary": "aタグはハイパーリンクを作成します。href属性で指定したリンク先へ、タグで囲った文字をクリックすることで移動できます。"
@@ -68,7 +68,7 @@
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "HTMLファイルから外部のCSSファイル「style.css」を読み込むための正しい記述を選んでください。<pre><code>&lt;head&gt;\n  &lt;link rel=\"___\" href=\"style.css\"&gt;\n&lt;/head&gt;</code></pre>",
+      "question": "HTMLファイルから外部のCSSファイル「style.css」を読み込むための正しい記述を選んでください。<pre><code><head>\n  <link rel=\"___\" href=\"style.css\">\n</head></code></pre>",
       "options": ["css", "style", "stylesheet", "link"],
       "answer": 2,
       "commentary": "外部CSSを読み込む際は link タグを使い、rel属性に \"stylesheet\" を指定します。"
@@ -183,7 +183,7 @@
       "question": "HTML内でコメント（ブラウザには表示されないメモ）を書く際の記号はどれですか？<pre><code>___ 山田太郎のポートフォリオ ___</code></pre>",
       "options": ["/* ... */", "// ...", "<!-- ... -->", "# ..."],
       "answer": 2,
-      "commentary": "HTMLのコメントは &lt;!-- ... --&gt; で囲みます。"
+      "commentary": "HTMLのコメントは <!-- ... --> で囲みます。"
     },
     {
       "id": 24,
@@ -220,7 +220,7 @@
     {
       "id": 28,
       "type": "コード穴埋め",
-      "question": "HTML5の文書であることを宣言する、ファイルの1行目に書く記述はどれですか？<pre><code>___ \n&lt;html lang=\"ja\"&gt;</code></pre>",
+      "question": "HTML5の文書であることを宣言する、ファイルの1行目に書く記述はどれですか？<pre><code>___ \n<html lang=\"ja\"></code></pre>",
       "options": ["<html>", "<!DOCTYPE html>", "<meta charset=\"UTF-8\">", "<body>"],
       "answer": 1,
       "commentary": "<!DOCTYPE html> は、このファイルがHTML5で書かれていることをブラウザに伝えます。"
@@ -244,7 +244,7 @@
     {
       "id": 31,
       "type": "実行結果予測",
-      "question": "aタグの中にimgタグを入れた場合、どうなりますか？<pre><code>&lt;a href=\"...\"&gt;&lt;img src=\"...\"&gt;&lt;/a&gt;</code></pre>",
+      "question": "aタグの中にimgタグを入れた場合、どうなりますか？<pre><code><a href=\"...\"><img src=\"...\"></a></code></pre>",
       "options": ["画像が表示されなくなる", "画像がクリックできるリンクになる", "画像の横にURLが表示される", "エラーで画面が真っ白になる"],
       "answer": 1,
       "commentary": "aタグの中に別の要素を入れることで、その要素全体をリンクにすることができます（画像をボタンのように使えます）。"
@@ -292,7 +292,7 @@
     {
       "id": 37,
       "type": "コード穴埋め",
-      "question": "metaタグで文字コードを「UTF-8」に設定する正しい記述はどれですか？<pre><code>&lt;meta ___=\"UTF-8\"&gt;</code></pre>",
+      "question": "metaタグで文字コードを「UTF-8」に設定する正しい記述はどれですか？<pre><code><meta ___=\"UTF-8\"></code></pre>",
       "options": ["charset", "code", "lang", "content"],
       "answer": 0,
       "commentary": "charset属性で文字エンコーディングを指定します。これを忘れると文字化けの原因になります。"

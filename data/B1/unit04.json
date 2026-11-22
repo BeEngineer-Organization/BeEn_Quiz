@@ -108,7 +108,7 @@
     {
       "id": 14,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、検索ワードを維持したまま2ページ目へ飛ぶ正しい書き方はどれですか？<pre><code>&lt;a href=\"{% url 'friends' %}?___={{ keyword }}&page=2\"&gt;次へ&lt;/a&gt;</code></pre>",
+      "question": "テンプレート内で、検索ワードを維持したまま2ページ目へ飛ぶ正しい書き方はどれですか？<pre><code><a href=\"{% url 'friends' %}?___={{ keyword }}&page=2\">次へ</a></code></pre>",
       "options": ["word", "search", "keyword", "input"],
       "answer": 2,
       "commentary": "ビューで受け取る名前と同じ「keyword」というパラメータ名を使います。"
@@ -133,7 +133,7 @@
       "id": 17,
       "type": "文法チェック",
       "question": "検索用の input タグを <code>{{ form.keyword }}</code> で出力したとき、HTML上ではどのようなタグに変換されますか？",
-      "options": ["&lt;search&gt;", "&lt;input type=\"text\"&gt;", "&lt;textarea&gt;", "&lt;form&gt;"],
+      "options": ["<search>", "<input type=\"text\">", "<textarea>", "<form>"],
       "answer": 1,
       "commentary": "Djangoのフォームクラスの定義（CharField）に基づいて標準的な input タグが生成されます。"
     },
@@ -148,7 +148,7 @@
     {
       "id": 19,
       "type": "コード穴埋め",
-      "question": "ユーザー名で検索するためのフォームをテンプレート内で表示する際、忘れずに書かなければならないタグは何ですか？<pre><code>&lt;___ method=\"get\"&gt;\n    {{ form.keyword }}\n    &lt;button type=\"submit\"&gt;検索&lt;/button&gt;\n&lt;/___&gt;</code></pre>",
+      "question": "ユーザー名で検索するためのフォームをテンプレート内で表示する際、忘れずに書かなければならないタグは何ですか？<pre><code><___ method=\"get\">\n    {{ form.keyword }}\n    <button type=\"submit\">検索</button>\n</___></code></pre>",
       "options": ["div", "form", "section", "label"],
       "answer": 1,
       "commentary": "入力を送信可能にするためには必ず form タグで囲む必要があります。"
@@ -188,7 +188,7 @@
     {
       "id": 24,
       "type": "コード穴埋め",
-      "question": "検索フォームの横にアイコンを表示するために使われている、ライブラリ名は何ですか？<pre><code>&lt;i class=\"fas fa-search\"&gt;&lt;/i&gt;</code></pre>",
+      "question": "検索フォームの横にアイコンを表示するために使われている、ライブラリ名は何ですか？<pre><code><i class=\"fas fa-search\"></i></code></pre>",
       "options": ["Google Fonts", "Bootstrap", "Font Awesome", "Django Icons"],
       "answer": 2,
       "commentary": "fa-search などのクラスは Font Awesome のアイコンフォントでよく使われます。"
@@ -308,10 +308,10 @@
     {
       "id": 39,
       "type": "コード穴埋め",
-      "question": "ページネーションのリンクを「&laquo; 先頭へ」と書いた時の「&laquo;」とは何を表示するための記号ですか？",
-      "options": ["数字の1", "二重の左矢印（≪）", "クエスチョンマーク", "下線"],
-      "answer": 1,
-      "commentary": "HTML特殊文字（エンティティ）で、デザイン上の記号を表示するために使われます。"
+      "question": "検索条件を保ったまま、ページネーションの先頭へ戻るリンクです。空欄に入るページ番号を選んでください。<pre><code><a href=\"{% url 'friends' %}?keyword={{ keyword }}&page=___\">先頭へ</a></code></pre>",
+      "options": ["1", "0", "page_obj.number", "next"],
+      "answer": 0,
+      "commentary": "先頭は 1 ページ目なので `page=1` を指定します。検索語の `keyword` は `&` でつなぎます。"
     },
     {
       "id": 40,

@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "URLからIDなどの情報を整数として受け取るための正しいパス指定を選んでください。<pre><code>path(\"categories/&lt;___:category_id&gt;/recipes/\", ...)</code></pre>",
+      "question": "URLからIDなどの情報を整数として受け取るための正しいパス指定を選んでください。<pre><code>path(\"categories/<___:category_id>/recipes/\", ...)</code></pre>",
       "options": ["str", "id", "int", "pk"],
       "answer": 2,
       "commentary": "<int:変数名> と記述することで、URLの該当部分を整数型としてキャプチャできます。"
@@ -190,7 +190,7 @@
     {
       "id": 18,
       "type": "コード穴埋め",
-      "question": "特定の ID に対応するレシピを取得するパスの定義です。<pre><code>path(\"recipes/&lt;int:___&gt;/\", ...)</code></pre>",
+      "question": "特定の ID に対応するレシピを取得するパスの定義です。<pre><code>path(\"recipes/<int:___>/\", ...)</code></pre>",
       "options": ["id", "num", "pk", "key"],
       "answer": 2,
       "commentary": "DRF の ViewSet のデフォルト動作では ID を指定する変数として pk (Primary Key) を想定します。"
@@ -274,7 +274,7 @@
     {
       "id": 26,
       "type": "用語理解",
-      "question": "エンドポイント <code>/categories/&lt;category_id&gt;/recipes/</code> が提供すべきデータの種類として適切なのはどれですか？",
+      "question": "エンドポイント <code>/categories/<category_id>/recipes/</code> が提供すべきデータの種類として適切なのはどれですか？",
       "options": [
         "すべてのカテゴリーのリスト",
         "特定のカテゴリーそのもの",

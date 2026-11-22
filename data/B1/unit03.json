@@ -156,7 +156,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "URLパスの書き換えで、整数型のパラメータを受け取る指定方法を完成させてください。<pre><code>path('&lt;___:topic_id&gt;/', views.ForumView.as_view(), name='forum'),</code></pre>",
+      "question": "URLパスの書き換えで、整数型のパラメータを受け取る指定方法を完成させてください。<pre><code>path('<___:topic_id>/', views.ForumView.as_view(), name='forum'),</code></pre>",
       "options": ["str", "num", "int", "id"],
       "answer": 2,
       "commentary": "intを指定することで、URLのその部分を数値として認識し、topic_idという変数名でビューに渡します。"
@@ -295,7 +295,7 @@
       "question": "<code>redirect(\"forum\", topic_id=topic.id)</code> の引数にある <code>topic_id</code> は、どこで使われる名前ですか？",
       "options": ["データベースのテーブル名", "urls.py で定義したパスの変数名", "HTMLのクラス名", "ユーザーのパスワード"],
       "answer": 1,
-      "commentary": "URLパターンの &lt;int:topic_id&gt; と名前を一致させることで、正しいURLが作成されます。"
+      "commentary": "URLパターンの <int:topic_id> と名前を一致させることで、正しいURLが作成されます。"
     },
     {
       "id": 38,

@@ -145,7 +145,7 @@
     {
       "id": 18,
       "type": "実行結果予測",
-      "question": "<code>List&lt;Post&gt; list = []</code> と宣言されたリストに、数値を入れようとするとどうなりますか？",
+      "question": "<code>List<Post> list = []</code> と宣言されたリストに、数値を入れようとするとどうなりますか？",
       "options": ["自動的に文字列に変換される", "エラー（型不一致）になる", "リストの末尾に追加される", "Noneという値になる"],
       "answer": 1,
       "commentary": "ジェネリクス（<Post>）により、そのリストにはPostクラスのインスタンスしか入れられなくなります。"
@@ -238,7 +238,7 @@
     {
       "id": 29,
       "type": "実行結果予測",
-      "question": "<code>List&lt;Post&gt; posts = [p1, p2];</code> に対して <code>posts[2]</code> にアクセスしようとするとどうなりますか？",
+      "question": "<code>List<Post> posts = [p1, p2];</code> に対して <code>posts[2]</code> にアクセスしようとするとどうなりますか？",
       "options": ["nullが返る", "p2が返る", "エラー（範囲外）になる", "空のPostが作られる"],
       "answer": 2,
       "commentary": "要素数が2の場合、インデックスは0と1のみ有効です。範囲外アクセスはエラーになります。"

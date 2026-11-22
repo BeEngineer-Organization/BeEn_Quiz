@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "HTMLファイルから「style.css」という名前のCSSファイルを読み込む正しい書き方を選んでください。<pre><code>&lt;link rel=\"___\" href=\"style.css\"&gt;</code></pre>",
+      "question": "HTMLファイルから「style.css」という名前のCSSファイルを読み込む正しい書き方を選んでください。<pre><code><link rel=\"___\" href=\"style.css\"></code></pre>",
       "options": [
         "css",
         "style",

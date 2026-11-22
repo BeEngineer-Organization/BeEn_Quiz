@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "HTMLのフォーム内に配置し、Djangoフォームをテーブル形式（`<tr>`や`<td>`）で自動描画する変数の記法は何ですか？<br><pre><code>&lt;table&gt;\n    {{ form.___ }}\n&lt;/table&gt;</code></pre>",
+      "question": "HTMLのフォーム内に配置し、Djangoフォームをテーブル形式（`<tr>`や`<td>`）で自動描画する変数の記法は何ですか？<br><pre><code><table>\n    {{ form.___ }}\n</table></code></pre>",
       "options": [
         "as_table",
         "as_p",
@@ -368,7 +368,7 @@
     {
       "id": 29,
       "type": "コード穴埋め",
-      "question": "会員登録フォームの送信ボタン（HTML要素）を作成する正しいタグ記述はどれですか？<br><pre><code>&lt;button type=\"___\" class=\"signup-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "question": "会員登録フォームの送信ボタン（HTML要素）を作成する正しいタグ記述はどれですか？<br><pre><code><button type=\"___\" class=\"signup-form__submit\">送信</button></code></pre>",
       "options": [
         "submit",
         "button",
@@ -459,7 +459,7 @@
     {
       "id": 36,
       "type": "コード穴埋め",
-      "question": "HTMLの `<form>` タグで、会員登録のフォームデータを安全に送信するために指定する `method` 属性は何ですか？<br><pre><code>&lt;form action=\"{% url 'signup' %}\" method=\"___\" class=\"signup-form\"&gt;</code></pre>",
+      "question": "HTMLの `<form>` タグで、会員登録のフォームデータを安全に送信するために指定する `method` 属性は何ですか？<br><pre><code><form action=\"{% url 'signup' %}\" method=\"___\" class=\"signup-form\"></code></pre>",
       "options": [
         "POST",
         "GET",

@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "`posts/urls.py` で、特定の投稿のID（主キー）を数値として受け取るための動的パス記述です。空欄に入る記述を選んでください。<br><pre><code>urlpatterns = [\n    path(\"posts/\", views.PostListView.as_view(), name=\"post-list\"),\n    path(\"posts/&lt;___:pk&gt;/\", views.PostDetailView.as_view(), name=\"post-detail\"),\n]</code></pre>",
+      "question": "`posts/urls.py` で、特定の投稿のID（主キー）を数値として受け取るための動的パス記述です。空欄に入る記述を選んでください。<br><pre><code>urlpatterns = [\n    path(\"posts/\", views.PostListView.as_view(), name=\"post-list\"),\n    path(\"posts/<___:pk>/\", views.PostDetailView.as_view(), name=\"post-detail\"),\n]</code></pre>",
       "options": [
         "int",
         "str",
@@ -43,7 +43,7 @@
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "クラスベースビュー `PostDetailView` を `urls.py` のルーティングに登録する際に呼び出す必須メソッドは何ですか？<br><pre><code>path(\"posts/&lt;int:pk&gt;/\", views.PostDetailView.___(), name=\"post-detail\")</code></pre>",
+      "question": "クラスベースビュー `PostDetailView` を `urls.py` のルーティングに登録する際に呼び出す必須メソッドは何ですか？<br><pre><code>path(\"posts/<int:pk>/\", views.PostDetailView.___(), name=\"post-detail\")</code></pre>",
       "options": [
         "as_view",
         "to_view",
@@ -407,7 +407,7 @@
     {
       "id": 32,
       "type": "コード穴埋め",
-      "question": "curlコマンドで既存データを「部分更新（PATCH）」するために指定するHTTPメソッドのフラグ記述です。<br><pre><code>curl ___ PATCH http://127.0.0.1:8000/api/posts/11/ \\\n  -H \"Authorization: Bearer &lt;トークン&gt;\" \\\n  -d '{\"content\":\"test1\"}'</code></pre>",
+      "question": "curlコマンドで既存データを「部分更新（PATCH）」するために指定するHTTPメソッドのフラグ記述です。<br><pre><code>curl ___ PATCH http://127.0.0.1:8000/api/posts/11/ \\\n  -H \"Authorization: Bearer <トークン>\" \\\n  -d '{\"content\":\"test1\"}'</code></pre>",
       "options": [
         "-X",
         "-M",
@@ -420,7 +420,7 @@
     {
       "id": 33,
       "type": "コード穴埋め",
-      "question": "curlコマンドでデータを「削除（DELETE）」するために指定するHTTPメソッドのフラグ記述です。<br><pre><code>curl ___ DELETE http://127.0.0.1:8000/api/posts/11/ \\\n  -H \"Authorization: Bearer &lt;トークン&gt;\"</code></pre>",
+      "question": "curlコマンドでデータを「削除（DELETE）」するために指定するHTTPメソッドのフラグ記述です。<br><pre><code>curl ___ DELETE http://127.0.0.1:8000/api/posts/11/ \\\n  -H \"Authorization: Bearer <トークン>\"</code></pre>",
       "options": [
         "-X",
         "-D",

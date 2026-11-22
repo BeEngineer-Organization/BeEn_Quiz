@@ -44,7 +44,7 @@
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "特定のレシピの編集画面を開くとき、どのレシピかを特定するためにURLパスからビューへ渡すパラメータ名（主キー）は何ですか？<pre><code>path('recipe/&lt;int:___&gt;/edit/', views.RecipeUpdateView.as_view(), name='recipe_edit'),</code></pre>",
+      "question": "特定のレシピの編集画面を開くとき、どのレシピかを特定するためにURLパスからビューへ渡すパラメータ名（主キー）は何ですか？<pre><code>path('recipe/<int:___>/edit/', views.RecipeUpdateView.as_view(), name='recipe_edit'),</code></pre>",
       "options": ["id_num", "pk", "code", "key"],
       "answer": 1,
       "commentary": "DetailViewやUpdateView、DeleteViewなどの1件のデータを扱うビューは、URLから「pk（プライマリキー）」という名前でIDを受け取ります。"
@@ -52,7 +52,7 @@
     {
       "id": 7,
       "type": "文法チェック",
-      "question": "確認画面で「削除ボタン」を押して実際にデータベースからデータを消すときは、どのHTTPメソッドを使って送信すべきですか？<pre><code>&lt;form method=\"___\" action=\"\"&gt;\n    {% csrf_token %}\n    &lt;button type=\"submit\"&gt;本当に削除する&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "確認画面で「削除ボタン」を押して実際にデータベースからデータを消すときは、どのHTTPメソッドを使って送信すべきですか？<pre><code><form method=\"___\" action=\"\">\n    {% csrf_token %}\n    <button type=\"submit\">本当に削除する</button>\n</form></code></pre>",
       "options": ["GET", "POST", "FETCH", "DELETE"],
       "answer": 1,
       "commentary": "データベースのデータを変更・削除する重大なリクエストは、安全のために必ず「POST」メソッドで送信します。"
@@ -100,7 +100,7 @@
     {
       "id": 13,
       "type": "実行結果予測",
-      "question": "DeleteViewの確認画面（recipe_confirm_delete.html）において、削除しようとしている対象のレシピの名前を画面に表示したい時、使うべき標準の変数名は何ですか？<pre><code>&lt;p&gt;本当に「 {{ ___ }} 」を削除しますか？&lt;/p&gt;</code></pre>",
+      "question": "DeleteViewの確認画面（recipe_confirm_delete.html）において、削除しようとしている対象のレシピの名前を画面に表示したい時、使うべき標準の変数名は何ですか？<pre><code><p>本当に「 {{ ___ }} 」を削除しますか？</p></code></pre>",
       "options": ["object", "item", "data", "deleted_data"],
       "answer": 0,
       "commentary": "DetailViewやDeleteViewでは、対象となる1件のデータが自動的に `object`（またはモデル名小文字の `recipe`）という変数名でテンプレートに渡されます。"
@@ -108,7 +108,7 @@
     {
       "id": 14,
       "type": "コード穴埋め",
-      "question": "HTMLのフォームで、UpdateViewやDeleteViewの送信時、セキュリティのために必ず記述しなければならない防衛タグは何ですか？<pre><code>&lt;form method=\"POST\"&gt;\n    ___\n    &lt;input type=\"submit\" value=\"確定\"&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "HTMLのフォームで、UpdateViewやDeleteViewの送信時、セキュリティのために必ず記述しなければならない防衛タグは何ですか？<pre><code><form method=\"POST\">\n    ___\n    <input type=\"submit\" value=\"確定\">\n</form></code></pre>",
       "options": ["{{ token }}", "{% csrf_token %}", "{% protect %}", "[csrf]"],
       "answer": 1,
       "commentary": "DjangoのPOST送信フォームでは、不正なリクエストを防ぐために `{% csrf_token %}` の記述が必須です。"
@@ -132,7 +132,7 @@
     {
       "id": 17,
       "type": "コード穴埋め",
-      "question": "urls.pyでUpdateViewなどのクラスベースビューを登録する際、忘れずに呼び出さなければならないメソッドは何ですか？<pre><code>path('recipe/&lt;int:pk&gt;/edit/', views.RecipeUpdateView.___(), name='recipe_edit'),</code></pre>",
+      "question": "urls.pyでUpdateViewなどのクラスベースビューを登録する際、忘れずに呼び出さなければならないメソッドは何ですか？<pre><code>path('recipe/<int:pk>/edit/', views.RecipeUpdateView.___(), name='recipe_edit'),</code></pre>",
       "options": ["run", "start", "as_view", "view"],
       "answer": 2,
       "commentary": "クラスベースビューをURLパターンに組み込む際は、必ず `.as_view()` を呼び出す必要があります。"
@@ -173,7 +173,7 @@
       "id": 22,
       "type": "文法チェック",
       "question": "DeleteViewの確認画面テンプレート内で、キャンセルして一覧に戻るリンクを作る正しい記述はどれですか？",
-      "options": ["&lt;a href=\"{% url 'recipe_list' %}\"&gt;キャンセル&lt;/a&gt;", "&lt;a href=\"recipe_list\"&gt;キャンセル&lt;/a&gt;", "&lt;a redirect=\"recipe_list\"&gt;キャンセル&lt;/a&gt;", "&lt;a href=\"{{ recipe_list }}\"&gt;キャンセル&lt;/a&gt;"],
+      "options": ["<a href=\"{% url 'recipe_list' %}\">キャンセル</a>", "<a href=\"recipe_list\">キャンセル</a>", "<a redirect=\"recipe_list\">キャンセル</a>", "<a href=\"{{ recipe_list }}\">キャンセル</a>"],
       "answer": 0,
       "commentary": "URLの逆引きには、テンプレートタグの `{% url 'URL名' %}` 構文を使用します。"
     },
@@ -188,7 +188,7 @@
     {
       "id": 24,
       "type": "コード穴埋め",
-      "question": "編集画面のテンプレート内で、Djangoが自動生成したフォーム（各入力欄）をテーブル形式で手軽に表示するための記述は何ですか？<pre><code>&lt;form method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;table&gt;\n        {{ ___ }}\n    &lt;/table&gt;\n    &lt;button type=\"submit\"&gt;保存&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "編集画面のテンプレート内で、Djangoが自動生成したフォーム（各入力欄）をテーブル形式で手軽に表示するための記述は何ですか？<pre><code><form method=\"POST\">\n    {% csrf_token %}\n    <table>\n        {{ ___ }}\n    </table>\n    <button type=\"submit\">保存</button>\n</form></code></pre>",
       "options": ["form.as_p", "form.as_table", "form.all", "form.inputs"],
       "answer": 1,
       "commentary": "フォームをHTMLのtr・tdタグ形式で展開するには、`{{ form.as_table }}` を使用します。"
@@ -236,7 +236,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "フォームにエラーがある場合（文字数オーバーなど）、テンプレート側で個別のエラーメッセージを表示する正しいループの書き方はどれですか？<pre><code>{% if form.errors %}\n    {% for field in form %}\n        {% for error in ___ %}\n            &lt;p&gt;{{ error }}&lt;/p&gt;\n        {% endfor %}\n    {% endfor %}\n{% endif %}</code></pre>",
+      "question": "フォームにエラーがある場合（文字数オーバーなど）、テンプレート側で個別のエラーメッセージを表示する正しいループの書き方はどれですか？<pre><code>{% if form.errors %}\n    {% for field in form %}\n        {% for error in ___ %}\n            <p>{{ error }}</p>\n        {% endfor %}\n    {% endfor %}\n{% endif %}</code></pre>",
       "options": ["form.errors", "field.errors", "errors.list", "field.msg"],
       "answer": 1,
       "commentary": "各入力欄（field）が持っているエラーのリストは、`field.errors` で取得できます。"
@@ -260,7 +260,7 @@
     {
       "id": 33,
       "type": "コード穴埋め",
-      "question": "フォームデータを送信するためのボタンウィジェット（HTMLタグ）に設定すべき正しい「type」は何ですか？<pre><code>&lt;button type=\"___\"&gt;変更を保存&lt;/button&gt;</code></pre>",
+      "question": "フォームデータを送信するためのボタンウィジェット（HTMLタグ）に設定すべき正しい「type」は何ですか？<pre><code><button type=\"___\">変更を保存</button></code></pre>",
       "options": ["button", "submit", "reset", "send"],
       "answer": 1,
       "commentary": "フォームデータをサーバー（ビュー）へ送信するには、`type=\"submit\"` を指定する必要があります。"

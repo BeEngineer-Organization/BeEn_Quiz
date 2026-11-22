@@ -212,7 +212,7 @@
     {
       "id": 17,
       "type": "コード穴埋め",
-      "question": "テンプレート内でログアウトを実行するためのHTMLフォームの記述です。CSRF対策のタグと合わせて空欄に入るメソッドは何ですか？<br><pre><code>&lt;form action=\"{% url 'logout' %}\" method=\"___\"&gt;\n    {% csrf_token %}\n    &lt;button type=\"submit\" class=\"button logout\"&gt;ログアウト&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "テンプレート内でログアウトを実行するためのHTMLフォームの記述です。CSRF対策のタグと合わせて空欄に入るメソッドは何ですか？<br><pre><code><form action=\"{% url 'logout' %}\" method=\"___\">\n    {% csrf_token %}\n    <button type=\"submit\" class=\"button logout\">ログアウト</button>\n</form></code></pre>",
       "options": [
         "post",
         "get",
@@ -251,7 +251,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "テンプレート内でフォームフィールド群をHTMLの表（`<table>`）形式で自動出力する記法を選んでください。<br><pre><code>&lt;table&gt;\n    {{ form.___ }}\n&lt;/table&gt;</code></pre>",
+      "question": "テンプレート内でフォームフィールド群をHTMLの表（`<table>`）形式で自動出力する記法を選んでください。<br><pre><code><table>\n    {{ form.___ }}\n</table></code></pre>",
       "options": [
         "as_table",
         "as_p",
@@ -277,7 +277,7 @@
     {
       "id": 22,
       "type": "コード穴埋め",
-      "question": "設定画面（`settings.html`）から「ユーザー名変更」ページへのリンクを作成するコードです。<br><pre><code>&lt;a href=\"{% ___ 'username_change' %}\" class=\"button\"&gt;ユーザー名変更&lt;/a&gt;</code></pre>",
+      "question": "設定画面（`settings.html`）から「ユーザー名変更」ページへのリンクを作成するコードです。<br><pre><code><a href=\"{% ___ 'username_change' %}\" class=\"button\">ユーザー名変更</a></code></pre>",
       "options": [
         "url",
         "path",
@@ -368,7 +368,7 @@
     {
       "id": 29,
       "type": "コード穴埋め",
-      "question": "設定画面（`settings.html`）から「パスワード変更」画面へのリンクを作成するコードです。<br><pre><code>&lt;a href=\"{% url '___' %}\" class=\"button\"&gt;パスワード変更&lt;/a&gt;</code></pre>",
+      "question": "設定画面（`settings.html`）から「パスワード変更」画面へのリンクを作成するコードです。<br><pre><code><a href=\"{% url '___' %}\" class=\"button\">パスワード変更</a></code></pre>",
       "options": [
         "password_change",
         "change_password",
@@ -381,7 +381,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "設定画面（`settings.html`）から「メールアドレス変更」画面へのリンクを作成するコードです。<br><pre><code>&lt;a href=\"{% url '___' %}\" class=\"button\"&gt;メールアドレス変更&lt;/a&gt;</code></pre>",
+      "question": "設定画面（`settings.html`）から「メールアドレス変更」画面へのリンクを作成するコードです。<br><pre><code><a href=\"{% url '___' %}\" class=\"button\">メールアドレス変更</a></code></pre>",
       "options": [
         "email_change",
         "change_email",
@@ -407,7 +407,7 @@
     {
       "id": 32,
       "type": "コード穴埋め",
-      "question": "フォームを送信するためのボタン要素の `type` 属性に指定するキーワードは何ですか？<br><pre><code>&lt;button type=\"___\"&gt;変更&lt;/button&gt;</code></pre>",
+      "question": "フォームを送信するためのボタン要素の `type` 属性に指定するキーワードは何ですか？<br><pre><code><button type=\"___\">変更</button></code></pre>",
       "options": [
         "submit",
         "button",

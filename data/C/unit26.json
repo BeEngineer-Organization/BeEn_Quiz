@@ -147,7 +147,7 @@
     {
       "id": 12,
       "type": "コード穴埋め",
-      "question": "特定の投稿1件を取得する `getPost` メソッドの定義です。空欄に入る戻り値の型を選んでください。<br><pre><code>Future&lt;___&gt; getPost(int id) async {\n  final url = '$baseUrl/posts/$id/';\n  final response = await dioClient.get(url);\n  if (response.statusCode != 200) {\n    throw Exception('取得に失敗しました');\n  }\n  return Post.fromJson(response.data);\n}</code></pre>",
+      "question": "特定の投稿1件を取得する `getPost` メソッドの定義です。空欄に入る戻り値の型を選んでください。<br><pre><code>Future<___> getPost(int id) async {\n  final url = '$baseUrl/posts/$id/';\n  final response = await dioClient.get(url);\n  if (response.statusCode != 200) {\n    throw Exception('取得に失敗しました');\n  }\n  return Post.fromJson(response.data);\n}</code></pre>",
       "options": [
         "Post",
         "List<Post>",
@@ -199,7 +199,7 @@
     {
       "id": 16,
       "type": "コード穴埋め",
-      "question": "新規投稿を作成する `createPost` メソッドで、`PostForm` から `FormData` を準備して送信するコードです。<br><pre><code>Future&lt;void&gt; createPost(PostForm post) async {\n  final url = '$baseUrl/posts/';\n  final formData = await post.___();\n  final response = await dioClient.post(url, data: formData);\n}</code></pre>",
+      "question": "新規投稿を作成する `createPost` メソッドで、`PostForm` から `FormData` を準備して送信するコードです。<br><pre><code>Future<void> createPost(PostForm post) async {\n  final url = '$baseUrl/posts/';\n  final formData = await post.___();\n  final response = await dioClient.post(url, data: formData);\n}</code></pre>",
       "options": [
         "toFormData",
         "toJson",
@@ -303,7 +303,7 @@
     {
       "id": 24,
       "type": "コード穴埋め",
-      "question": "特定の投稿詳細データを取得するプロバイダ関数 `postDetail` に付与するアノテーションを選んでください。<br><pre><code>___\nFuture&lt;Post&gt; postDetail(Ref ref, int id) async {\n  final postService = PostsService();\n  return postService.getPost(id);\n}</code></pre>",
+      "question": "特定の投稿詳細データを取得するプロバイダ関数 `postDetail` に付与するアノテーションを選んでください。<br><pre><code>___\nFuture<Post> postDetail(Ref ref, int id) async {\n  final postService = PostsService();\n  return postService.getPost(id);\n}</code></pre>",
       "options": [
         "@riverpod",
         "@Provider",
@@ -381,7 +381,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "`toFormData` メソッドの戻り値の型を指定する正しい記述はどれですか？<br><pre><code>Future&lt;___&gt; toFormData() async {\n  final map = &lt;String, dynamic&gt;{\n    'content': content,\n  };\n  ...\n  return FormData.fromMap(map);\n}</code></pre>",
+      "question": "`toFormData` メソッドの戻り値の型を指定する正しい記述はどれですか？<br><pre><code>Future<___> toFormData() async {\n  final map = <String, dynamic>{\n    'content': content,\n  };\n  ...\n  return FormData.fromMap(map);\n}</code></pre>",
       "options": [
         "FormData",
         "Map<String, dynamic>",
@@ -446,7 +446,7 @@
     {
       "id": 35,
       "type": "コード穴埋め",
-      "question": "`postDetail` プロバイダの中で、`PostsService` の単一投稿取得メソッドを呼び出すコードです。<br><pre><code>@riverpod\nFuture&lt;Post&gt; postDetail(Ref ref, int id) async {\n  final postService = PostsService();\n  return postService.___(id);\n}</code></pre>",
+      "question": "`postDetail` プロバイダの中で、`PostsService` の単一投稿取得メソッドを呼び出すコードです。<br><pre><code>@riverpod\nFuture<Post> postDetail(Ref ref, int id) async {\n  final postService = PostsService();\n  return postService.___(id);\n}</code></pre>",
       "options": [
         "getPost",
         "fetchPosts",

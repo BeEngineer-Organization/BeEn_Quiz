@@ -148,7 +148,7 @@
     {
       "id": 19,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、ログインしている場合のみリンクを表示したい。正しい構造はどれですか？<pre><code>{% if request.user.is_authenticated %}\n  &lt;a href=\"...\"&gt;ログアウト&lt;/a&gt;\n{% ___ %}\n  &lt;a href=\"...\"&gt;ログイン&lt;/a&gt;\n{% endif %}</code></pre>",
+      "question": "テンプレート内で、ログインしている場合のみリンクを表示したい。正しい構造はどれですか？<pre><code>{% if request.user.is_authenticated %}\n  <a href=\"...\">ログアウト</a>\n{% ___ %}\n  <a href=\"...\">ログイン</a>\n{% endif %}</code></pre>",
       "options": ["elif", "else", "then", "not"],
       "answer": 1,
       "commentary": "「もしログイン中ならA、そうでなければB」という条件分岐を作るにはelseタグを使います。"

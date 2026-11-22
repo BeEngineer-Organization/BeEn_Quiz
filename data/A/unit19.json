@@ -13,9 +13,9 @@
       "id": 2,
       "type": "文法チェック",
       "question": "HTMLでフォームを作成するときに使用する、全体を囲むタグは何ですか？",
-      "options": ["&lt;input&gt;", "&lt;form&gt;", "&lt;textarea&gt;", "&lt;label&gt;"],
+      "options": ["<input>", "<form>", "<textarea>", "<label>"],
       "answer": 1,
-      "commentary": "フォームの範囲は &lt;form&gt; タグで指定します。"
+      "commentary": "フォームの範囲は <form> タグで指定します。"
     },
     {
       "id": 3,
@@ -36,7 +36,7 @@
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "一行のテキスト入力欄を作るためのtype属性は何ですか？<pre><code>&lt;input type=\"___\"&gt;</code></pre>",
+      "question": "一行のテキスト入力欄を作るためのtype属性は何ですか？<pre><code><input type=\"___\"></code></pre>",
       "options": ["text", "string", "line", "box"],
       "answer": 0,
       "commentary": "type=\"text\" が標準的な一行入力欄です。"
@@ -68,16 +68,16 @@
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "住所や自己紹介など、長い文章を入力させるために使うタグは何ですか？<pre><code>&lt;___ rows=\"10\"&gt;&lt;/___&gt;</code></pre>",
+      "question": "住所や自己紹介など、長い文章を入力させるために使うタグは何ですか？<pre><code><___ rows=\"10\"></___></code></pre>",
       "options": ["input", "text", "textarea", "longtext"],
       "answer": 2,
-      "commentary": "&lt;textarea&gt; は、複数行の入力が可能なエリアを作ります。"
+      "commentary": "<textarea> は、複数行の入力が可能なエリアを作ります。"
     },
     {
       "id": 10,
       "type": "文法チェック",
       "question": "フォームの送信ボタンを作る正しい記述はどれですか？",
-      "options": ["&lt;input type=\"button\"&gt;", "&lt;input type=\"submit\"&gt;", "&lt;input type=\"send\"&gt;", "&lt;button type=\"button\"&gt;送信&lt;/button&gt;"],
+      "options": ["<input type=\"button\">", "<input type=\"submit\">", "<input type=\"send\">", "<button type=\"button\">送信</button>"],
       "answer": 1,
       "commentary": "type=\"submit\" を設定したボタンを押すと、フォームの内容が送信されます。"
     },
@@ -85,9 +85,9 @@
       "id": 11,
       "type": "用語理解",
       "question": "入力欄に名前（ラベル）を付け、使いやすくするために使うタグは何ですか？",
-      "options": ["&lt;label&gt;", "&lt;title&gt;", "&lt;span&gt;", "&lt;p&gt;"],
+      "options": ["<label>", "<title>", "<span>", "<p>"],
       "answer": 0,
-      "commentary": "&lt;label&gt; タグを使うと、項目名をクリックしても入力欄にフォーカスが合うようになります。"
+      "commentary": "<label> タグを使うと、項目名をクリックしても入力欄にフォーカスが合うようになります。"
     },
     {
       "id": 12,
@@ -108,7 +108,7 @@
     {
       "id": 14,
       "type": "コード穴埋め",
-      "question": "DjangoでPOSTフォームを安全に送信するために、必ず記述しなければならないタグは何ですか？<pre><code>&lt;form method=\"POST\"&gt;\n  ___ \n  ... \n&lt;/form&gt;</code></pre>",
+      "question": "DjangoでPOSTフォームを安全に送信するために、必ず記述しなければならないタグは何ですか？<pre><code><form method=\"POST\">\n  ___ \n  ... \n</form></code></pre>",
       "options": ["{% secure %}", "{% csrf_token %}", "{% protect %}", "{% post_data %}"],
       "answer": 1,
       "commentary": "CSRF対策として、Djangoでは {% csrf_token %} が必須です。"
@@ -148,7 +148,7 @@
     {
       "id": 19,
       "type": "コード穴埋め",
-      "question": "ラジオボタンの各項目を区別するためにサーバーへ送られる「名前」を設定する属性は何ですか？<pre><code>&lt;input type=\"radio\" ___=\"choice\"&gt;</code></pre>",
+      "question": "ラジオボタンの各項目を区別するためにサーバーへ送られる「名前」を設定する属性は何ですか？<pre><code><input type=\"radio\" ___=\"choice\"></code></pre>",
       "options": ["id", "name", "class", "title"],
       "answer": 1,
       "commentary": "name属性で指定した名前が、サーバー側でデータを取得する際の「キー」になります。"
@@ -156,7 +156,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "ラジオボタンが選択されたときに、サーバーへ送られる実際の「値」を設定する属性は何ですか？<pre><code>&lt;input type=\"radio\" name=\"choice\" ___=\"{{ choice.id }}\"&gt;</code></pre>",
+      "question": "ラジオボタンが選択されたときに、サーバーへ送られる実際の「値」を設定する属性は何ですか？<pre><code><input type=\"radio\" name=\"choice\" ___=\"{{ choice.id }}\"></code></pre>",
       "options": ["value", "data", "text", "id"],
       "answer": 0,
       "commentary": "value属性に設定した値が、サーバーへ送信されます。"
@@ -284,7 +284,7 @@
     {
       "id": 36,
       "type": "コード穴埋め",
-      "question": "textareaタグで、入力欄の高さを指定する属性は何ですか？<pre><code>&lt;textarea ___=\"10\"&gt;</code></pre>",
+      "question": "textareaタグで、入力欄の高さを指定する属性は何ですか？<pre><code><textarea ___=\"10\"></code></pre>",
       "options": ["height", "lines", "rows", "size"],
       "answer": 2,
       "commentary": "rows属性で行数（高さ）を、cols属性で列数（幅）を指定します。"
@@ -308,7 +308,7 @@
     {
       "id": 39,
       "type": "コード穴埋め",
-      "question": "送信ボタンの見た目の文字（「Vote」など）を変えるための属性は何ですか？<pre><code>&lt;input type=\"submit\" ___=\"投票する\"&gt;</code></pre>",
+      "question": "送信ボタンの見た目の文字（「Vote」など）を変えるための属性は何ですか？<pre><code><input type=\"submit\" ___=\"投票する\"></code></pre>",
       "options": ["text", "label", "value", "title"],
       "answer": 2,
       "commentary": "submit型のinputでは、value属性の値がボタンの表面に表示されます。"

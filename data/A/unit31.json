@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "テンプレート内で渡された友達リスト（`friends`）を1人ずつ取り出して繰り返し処理するタグの記述です。<br><pre><code>{% ___ friend in friends %}\n    &lt;li class=\"friends-list__item\"&gt;{{ friend.username }}&lt;/li&gt;\n{% endfor %}</code></pre>",
+      "question": "テンプレート内で渡された友達リスト（`friends`）を1人ずつ取り出して繰り返し処理するタグの記述です。<br><pre><code>{% ___ friend in friends %}\n    <li class=\"friends-list__item\">{{ friend.username }}</li>\n{% endfor %}</code></pre>",
       "options": [
         "for",
         "foreach",
@@ -173,7 +173,7 @@
     {
       "id": 14,
       "type": "実行結果予測",
-      "question": "`friends` リストに3人のユーザーが含まれている場合、次のテンプレートで生成される `<li>` 要素の数はいくつですか？<br><pre><code>{% for friend in friends %}\n    &lt;li class=\"friends-list__item\"&gt;\n        &lt;div class=\"friends-list__username\"&gt;{{ friend.username }}&lt;/div&gt;\n    &lt;/li&gt;\n{% endfor %}</code></pre>",
+      "question": "`friends` リストに3人のユーザーが含まれている場合、次のテンプレートで生成される `<li>` 要素の数はいくつですか？<br><pre><code>{% for friend in friends %}\n    <li class=\"friends-list__item\">\n        <div class=\"friends-list__username\">{{ friend.username }}</div>\n    </li>\n{% endfor %}</code></pre>",
       "options": [
         "3個",
         "1個",
@@ -251,7 +251,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "フッターのテンプレート内で、名前付きURL `'friends'` へのハイパーリンクを作成する正しい記述を選んでください。<br><pre><code>&lt;a href=\"{% ___ 'friends' %}\" class=\"footer__link\"&gt;</code></pre>",
+      "question": "フッターのテンプレート内で、名前付きURL `'friends'` へのハイパーリンクを作成する正しい記述を選んでください。<br><pre><code><a href=\"{% ___ 'friends' %}\" class=\"footer__link\"></code></pre>",
       "options": [
         "url",
         "path",

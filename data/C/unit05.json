@@ -190,7 +190,7 @@
     {
       "id": 23,
       "type": "文法チェック",
-      "question": "Dart で <code>Future&lt;void&gt; _saveCategory() async { ... }</code> と定義された関数内で、非同期処理の完了を待つために使うキーワードは何ですか？",
+      "question": "Dart で <code>Future<void> _saveCategory() async { ... }</code> と定義された関数内で、非同期処理の完了を待つために使うキーワードは何ですか？",
       "options": ["wait", "stop", "await", "sync"],
       "answer": 2,
       "commentary": "await キーワードを使うことで、非同期処理（Future）が完了するまで次の行の実行を待機させることができます。"

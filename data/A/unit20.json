@@ -28,7 +28,7 @@
     {
       "id": 4,
       "type": "コード穴埋め",
-      "question": "HTMLの&lt;head&gt;タグ内で、CSSファイルを読み込むためのタグを完成させてください。<pre><code>&lt;link rel=\"stylesheet\" href=\"{% ___ 'main/css/index.css' %}\"&gt;</code></pre>",
+      "question": "HTMLの<head>タグ内で、CSSファイルを読み込むためのタグを完成させてください。<pre><code><link rel=\"stylesheet\" href=\"{% ___ 'main/css/index.css' %}\"></code></pre>",
       "options": ["url", "path", "static", "file"],
       "answer": 2,
       "commentary": "{% static 'パス' %} を使うことで、Djangoが正しい静的ファイルのURLを生成してくれます。"
@@ -84,7 +84,7 @@
     {
       "id": 11,
       "type": "用語理解",
-      "question": "リンク（&lt;a&gt;タグ）の下線を消すために使うプロパティは何ですか？",
+      "question": "リンク（<a>タグ）の下線を消すために使うプロパティは何ですか？",
       "options": ["font-style", "line-height", "text-decoration", "border-bottom"],
       "answer": 2,
       "commentary": "text-decoration: none; を指定すると、デフォルトのアンダーラインが消えます。"
@@ -140,7 +140,7 @@
     {
       "id": 18,
       "type": "実行結果予測",
-      "question": "「display: block;」をインライン要素（&lt;a&gt;など）に適用するとどうなりますか？",
+      "question": "「display: block;」をインライン要素（<a>など）に適用するとどうなりますか？",
       "options": ["文字が太くなる", "前後に改行が入り、幅や高さが指定できるようになる", "要素が消える", "色が反転する"],
       "answer": 1,
       "commentary": "ブロック要素として扱うことで、ボタンのような見た目を作りやすくなります。"
@@ -149,7 +149,7 @@
       "id": 19,
       "type": "文法チェック",
       "question": "CSSファイル内でコメントを書くときの正しい記法はどれですか？",
-      "options": ["// コメント", "{# コメント #}", "/* コメント */", "&lt;!-- コメント --&gt;"],
+      "options": ["// コメント", "{# コメント #}", "/* コメント */", "<!-- コメント -->"],
       "answer": 2,
       "commentary": "CSSのコメントは /* */ で囲みます。"
     },

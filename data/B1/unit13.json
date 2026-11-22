@@ -28,10 +28,10 @@
     {
       "id": 4,
       "type": "実行結果予測",
-      "question": "HTMLエンティティ <code>&amp;hellip;</code> をテンプレートに記述した際、ブラウザ上ではどのように表示されますか？",
-      "options": ["問1", "（空欄）", "…（3点リーダー）", "Error"],
-      "answer": 2,
-      "commentary": "&hellip; は水平方向の省略記号（…）を表示するための特殊な記述です。"
+      "question": "ページネーションに出る「…」は、何を表していますか？",
+      "options": ["途中のページ番号を省略している", "商品が売り切れている", "エラーが発生している", "カートが空である"],
+      "answer": 0,
+      "commentary": "ページ数が多いとき、先頭や現在のページから離れた番号のあいだを「…」で省略しています。"
     },
     {
       "id": 5,
@@ -60,7 +60,7 @@
     {
       "id": 8,
       "type": "実行結果予測",
-      "question": "<code>page_obj.number</code> が 3 のとき、<code>{% if page_obj.number &gt;= 3 %}</code> の中の省略記号は表示されますか？",
+      "question": "<code>page_obj.number</code> が 3 のとき、<code>{% if page_obj.number >= 3 %}</code> の中の省略記号は表示されますか？",
       "options": ["表示される", "表示されない", "エラーになる", "条件に関わらず常に表示される"],
       "answer": 0,
       "commentary": "numberが3以上（真）となるため、最初のページ(1)との間の省略記号が表示されます。"
@@ -84,7 +84,7 @@
     {
       "id": 11,
       "type": "コード穴埋め",
-      "question": "削除フォームの `action` 属性に指定すべき、名前付きURLは何ですか？<pre><code>&lt;form method=\"POST\" action=\"{% url '___' %}\"&gt;</code></pre>",
+      "question": "削除フォームの `action` 属性に指定すべき、名前付きURLは何ですか？<pre><code><form method=\"POST\" action=\"{% url '___' %}\"></code></pre>",
       "options": ["index", "delete", "cart", "home"],
       "answer": 2,
       "commentary": "カート内の削除処理は cart ビューの POST メソッドで処理するため、URL名は 'cart' を指定します。"
@@ -140,7 +140,7 @@
     {
       "id": 18,
       "type": "コード穴埋め",
-      "question": "テンプレートの `for` 文で、現在の商品が持つ情報を表示する記述を完成させてください。<pre><code>{% for product in page_obj %}\n  &lt;p&gt;{{ ___.name }}&lt;/p&gt;\n{% endfor %}</code></pre>",
+      "question": "テンプレートの `for` 文で、現在の商品が持つ情報を表示する記述を完成させてください。<pre><code>{% for product in page_obj %}\n  <p>{{ ___.name }}</p>\n{% endfor %}</code></pre>",
       "options": ["object", "product", "item", "data"],
       "answer": 1,
       "commentary": "for文のループ変数（product）を使って、各レコードの属性（nameなど）にアクセスします。"
@@ -196,7 +196,7 @@
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "合計金額を表示するためのテンプレート変数を完成させてください。<pre><code>&lt;span&gt;合計金額: {{ ___ }}円&lt;/span&gt;</code></pre>",
+      "question": "合計金額を表示するためのテンプレート変数を完成させてください。<pre><code><span>合計金額: {{ ___ }}円</span></code></pre>",
       "options": ["price", "total", "total_price", "sum"],
       "answer": 2,
       "commentary": "ビューの get_context_data で `total_price` という名前で渡されているため、これを使用します。"

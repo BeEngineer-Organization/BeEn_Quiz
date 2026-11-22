@@ -60,7 +60,7 @@
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "Riverpodで「引数（categoryId）を受け取る」非同期プロバイダを定義する際に使う特殊なコンストラクタは何ですか？<pre><code>final recipeProvider = FutureProvider.___&lt;List&lt;Recipe&gt;, int&gt;((ref, id) async { ... });</code></pre>",
+      "question": "Riverpodで「引数（categoryId）を受け取る」非同期プロバイダを定義する際に使う特殊なコンストラクタは何ですか？<pre><code>final recipeProvider = FutureProvider.___<List<Recipe>, int>((ref, id) async { ... });</code></pre>",
       "options": ["autoDispose", "family", "group", "link"],
       "answer": 1,
       "commentary": ".family修飾子を使うことで、プロバイダの呼び出し時に外部から値を渡せるようになります。"
@@ -172,7 +172,7 @@
     {
       "id": 22,
       "type": "文法チェック",
-      "question": "FutureProvider.familyの定義において、<code>&lt;List&lt;Recipe&gt;, int&gt;</code> の「int」は何を意味していますか？",
+      "question": "FutureProvider.familyの定義において、<code><List<Recipe>, int></code> の「int」は何を意味していますか？",
       "options": ["取得するデータの個数", "渡される引数（categoryId）の型", "エラーコード", "データのID"],
       "answer": 1,
       "commentary": "二番目の型指定は、このプロバイダを使用する際に外部から受け取る「引数の型」を指定します。"

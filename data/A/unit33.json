@@ -186,7 +186,7 @@
     {
       "id": 15,
       "type": "コード穴埋め",
-      "question": "親テンプレート（`base.html`）にヘッダー用追加ブロックを拡張定義する記述です。空欄に入るタグを選んでください。<br><pre><code>&lt;header class=\"header\"&gt;\n    &lt;div class=\"header__title\"&gt;\n        {% block header_title %}{% endblock %}\n    &lt;/div&gt;\n    {% block ___ %}{% endblock %}\n&lt;/header&gt;</code></pre>",
+      "question": "親テンプレート（`base.html`）にヘッダー用追加ブロックを拡張定義する記述です。空欄に入るタグを選んでください。<br><pre><code><header class=\"header\">\n    <div class=\"header__title\">\n        {% block header_title %}{% endblock %}\n    </div>\n    {% block ___ %}{% endblock %}\n</header></code></pre>",
       "options": [
         "talk_room",
         "header_buttons",
@@ -199,7 +199,7 @@
     {
       "id": 16,
       "type": "コード穴埋め",
-      "question": "トーク画面のヘッダーで、友達一覧画面（`friends`）に戻るためのリンクタグ記述です。<br><pre><code>&lt;a href=\"{% url '___' %}\" class=\"back-button\"&gt;\n    &lt;i class=\"fas fa-angle-left\"&gt;&lt;/i&gt;\n&lt;/a&gt;</code></pre>",
+      "question": "トーク画面のヘッダーで、友達一覧画面（`friends`）に戻るためのリンクタグ記述です。<br><pre><code><a href=\"{% url '___' %}\" class=\"back-button\">\n    <i class=\"fas fa-angle-left\"></i>\n</a></code></pre>",
       "options": [
         "friends",
         "index",
@@ -225,7 +225,7 @@
     {
       "id": 18,
       "type": "コード穴埋め",
-      "question": "HTMLフォームでメッセージを特定の相手のトークルームへPOST送信する際の `action` 属性の記述です。<br><pre><code>&lt;form action=\"{% url 'talk_room' ___ %}\" method=\"POST\" class=\"message-form\"&gt;</code></pre>",
+      "question": "HTMLフォームでメッセージを特定の相手のトークルームへPOST送信する際の `action` 属性の記述です。<br><pre><code><form action=\"{% url 'talk_room' ___ %}\" method=\"POST\" class=\"message-form\"></code></pre>",
       "options": [
         "friend.id",
         "user.id",
@@ -238,7 +238,7 @@
     {
       "id": 19,
       "type": "コード穴埋め",
-      "question": "POSTフォームでセキュリティを保護するために必ず配置するDjangoの必須タグは何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\" class=\"message-form\"&gt;\n    ___\n    {{ form.message }}\n    &lt;button type=\"submit\"&gt;送信&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "POSTフォームでセキュリティを保護するために必ず配置するDjangoの必須タグは何ですか？<br><pre><code><form action=\"...\" method=\"POST\" class=\"message-form\">\n    ___\n    {{ form.message }}\n    <button type=\"submit\">送信</button>\n</form></code></pre>",
       "options": [
         "{% csrf_token %}",
         "{{ csrf_token }}",
@@ -251,7 +251,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "テンプレート内でフォームの `message` フィールド（入力テキストエリア/ボックス）を描画する記述を選んでください。<br><pre><code>&lt;form method=\"POST\" class=\"message-form\"&gt;\n    {% csrf_token %}\n    ___\n    &lt;button type=\"submit\" class=\"message-form__submit\"&gt;送信&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "テンプレート内でフォームの `message` フィールド（入力テキストエリア/ボックス）を描画する記述を選んでください。<br><pre><code><form method=\"POST\" class=\"message-form\">\n    {% csrf_token %}\n    ___\n    <button type=\"submit\" class=\"message-form__submit\">送信</button>\n</form></code></pre>",
       "options": [
         "{{ form.message }}",
         "{% form.message %}",
@@ -264,7 +264,7 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "送信フォームのボタンをクリックした際に、フォームのPOST送信を発生させるボタンの `type` 属性は何ですか？<br><pre><code>&lt;button type=\"___\" class=\"message-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "question": "送信フォームのボタンをクリックした際に、フォームのPOST送信を発生させるボタンの `type` 属性は何ですか？<br><pre><code><button type=\"___\" class=\"message-form__submit\">送信</button></code></pre>",
       "options": [
         "submit",
         "button",
@@ -394,7 +394,7 @@
     {
       "id": 31,
       "type": "コード穴埋め",
-      "question": "FontAwesomeを使って左向きの矢印（＜マーク）を表示する要素の `class` 指定を選んでください。<br><pre><code>&lt;a href=\"...\" class=\"back-button\"&gt;\n    &lt;i class=\"___\"&gt;&lt;/i&gt;\n&lt;/a&gt;</code></pre>",
+      "question": "FontAwesomeを使って左向きの矢印（＜マーク）を表示する要素の `class` 指定を選んでください。<br><pre><code><a href=\"...\" class=\"back-button\">\n    <i class=\"___\"></i>\n</a></code></pre>",
       "options": [
         "fas fa-angle-left",
         "fas fa-arrow-right",
@@ -433,7 +433,7 @@
     {
       "id": 34,
       "type": "実行結果予測",
-      "question": "次のテンプレート記述で、送信されたトークの送信日時（`talk.time`）の表示形式はどうなりますか？<br><pre><code>{{ talk.time|date:\"m/d\" }}&lt;br&gt;\n{{ talk.time|date:\"H:i\" }}</code></pre>",
+      "question": "次のテンプレート記述で、送信されたトークの送信日時（`talk.time`）の表示形式はどうなりますか？<br><pre><code>{{ talk.time|date:\"m/d\" }}<br>\n{{ talk.time|date:\"H:i\" }}</code></pre>",
       "options": [
         "1行目に「月/日」、2行目に「時:分」（例: 05/20<br>14:30）が表示される",
         "「西暦-月-日」の1行で表示される",

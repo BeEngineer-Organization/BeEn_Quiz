@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "ルーティング（`urls.py`）でクラスベースビューを指定する際に呼び出す必須のメソッドは何ですか？<br><pre><code>urlpatterns = [\n    path(\"talk_room/&lt;user_id&gt;\", views.TalkRoomView.___(), name=\"talk_room\"),\n]</code></pre>",
+      "question": "ルーティング（`urls.py`）でクラスベースビューを指定する際に呼び出す必須のメソッドは何ですか？<br><pre><code>urlpatterns = [\n    path(\"talk_room/<user_id>\", views.TalkRoomView.___(), name=\"talk_room\"),\n]</code></pre>",
       "options": [
         "as_view",
         "run_view",
@@ -108,7 +108,7 @@
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "テンプレート内でトークの吹き出しをクリックした際、URLパラメータとしてそのトークのID（`talk.id`）を付与するリンク記述はどれですか？<br><pre><code>&lt;a href=\"___\" class=\"chatboard__message\"&gt;\n    {{ talk.message }}\n&lt;/a&gt;</code></pre>",
+      "question": "テンプレート内でトークの吹き出しをクリックした際、URLパラメータとしてそのトークのID（`talk.id`）を付与するリンク記述はどれですか？<br><pre><code><a href=\"___\" class=\"chatboard__message\">\n    {{ talk.message }}\n</a></code></pre>",
       "options": [
         "?parent_talk_id={{ talk.id }}",
         "&parent_talk_id={{ talk.id }}",
@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "テンプレート内で「返信対象のトーク（`parent_talk`）が存在する場合のみ」返信表示プレビューを出力する条件タグは何ですか？<br><pre><code>{% ___ parent_talk %}\n&lt;p class=\"reply\"&gt;\n    &gt;&gt; {{ parent_talk.sender.username }}: {{ parent_talk.message }}\n&lt;/p&gt;\n{% endif %}</code></pre>",
+      "question": "テンプレート内で「返信対象のトーク（`parent_talk`）が存在する場合のみ」返信表示プレビューを出力する条件タグは何ですか？<br><pre><code>{% ___ parent_talk %}\n<p class=\"reply\">\n    >> {{ parent_talk.sender.username }}: {{ parent_talk.message }}\n</p>\n{% endif %}</code></pre>",
       "options": [
         "if",
         "when",
@@ -173,7 +173,7 @@
     {
       "id": 14,
       "type": "コード穴埋め",
-      "question": "返信先メッセージの「送信者のユーザー名」と「メッセージ本文」をテンプレートで出力する記法はどれですか？<br><pre><code>&gt;&gt; {{ parent_talk.___.username }}: {{ parent_talk.___ }}</code></pre>",
+      "question": "返信先メッセージの「送信者のユーザー名」と「メッセージ本文」をテンプレートで出力する記法はどれですか？<br><pre><code>>> {{ parent_talk.___.username }}: {{ parent_talk.___ }}</code></pre>",
       "options": [
         "sender / message",
         "user / text",
@@ -342,7 +342,7 @@
     {
       "id": 27,
       "type": "コード穴埋め",
-      "question": "HTMLフォームでセキュリティ（CSRF攻撃）を防ぐために必ず挿入するテンプレートタグは何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\" class=\"message-form\"&gt;\n    ___\n    {{ form.message }}\n    &lt;button type=\"submit\"&gt;送信&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "HTMLフォームでセキュリティ（CSRF攻撃）を防ぐために必ず挿入するテンプレートタグは何ですか？<br><pre><code><form action=\"...\" method=\"POST\" class=\"message-form\">\n    ___\n    {{ form.message }}\n    <button type=\"submit\">送信</button>\n</form></code></pre>",
       "options": [
         "{% csrf_token %}",
         "{{ csrf_token }}",
@@ -355,7 +355,7 @@
     {
       "id": 28,
       "type": "実行結果予測",
-      "question": "次のテンプレート記述において、`talk.sender == request.user` が成り立ったとき、`<li>` タグに追加されるクラス名は何ですか？<br><pre><code>&lt;li class=\"chatboard__item {% if talk.sender == request.user %}mine{% endif %}\"&gt;</code></pre>",
+      "question": "次のテンプレート記述において、`talk.sender == request.user` が成り立ったとき、`<li>` タグに追加されるクラス名は何ですか？<br><pre><code><li class=\"chatboard__item {% if talk.sender == request.user %}mine{% endif %}\"></code></pre>",
       "options": [
         "mine",
         "request.user",
@@ -433,7 +433,7 @@
     {
       "id": 34,
       "type": "コード穴埋め",
-      "question": "送信ボタン（`<button>`）をクリックした際にフォーム内容を送信させる `type` 属性の指定は何ですか？<br><pre><code>&lt;button type=\"___\" class=\"message-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "question": "送信ボタン（`<button>`）をクリックした際にフォーム内容を送信させる `type` 属性の指定は何ですか？<br><pre><code><button type=\"___\" class=\"message-form__submit\">送信</button></code></pre>",
       "options": [
         "submit",
         "button",

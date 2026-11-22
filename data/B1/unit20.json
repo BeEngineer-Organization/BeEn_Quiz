@@ -95,7 +95,7 @@
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "画面上に表示せず、フォーム送信時に裏で返信対象のIDをサーバーへ渡すためのHTML `<input>` タグの `type` 属性は何ですか？<br><pre><code>&lt;input type=\"___\" name=\"parent_talk_id\" value=\"{{ parent_talk.id }}\"&gt;</code></pre>",
+      "question": "画面上に表示せず、フォーム送信時に裏で返信対象のIDをサーバーへ渡すためのHTML `<input>` タグの `type` 属性は何ですか？<br><pre><code><input type=\"___\" name=\"parent_talk_id\" value=\"{{ parent_talk.id }}\"></code></pre>",
       "options": [
         "hidden",
         "text",
@@ -277,7 +277,7 @@
     {
       "id": 22,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、返信元の「送信者名」と「本文」が両方存在するときだけ表示する条件タグの空欄に入る論理演算子は何ですか？<br><pre><code>{% if talk.parent_talk_sender_username ___ talk.parent_talk_message %}\n    &gt;&gt; {{ talk.parent_talk_sender_username }}: {{ talk.parent_talk_message }}&lt;br&gt;\n{% endif %}</code></pre>",
+      "question": "テンプレート内で、返信元の「送信者名」と「本文」が両方存在するときだけ表示する条件タグの空欄に入る論理演算子は何ですか？<br><pre><code>{% if talk.parent_talk_sender_username ___ talk.parent_talk_message %}\n    >> {{ talk.parent_talk_sender_username }}: {{ talk.parent_talk_message }}<br>\n{% endif %}</code></pre>",
       "options": [
         "and",
         "or",
@@ -459,7 +459,7 @@
     {
       "id": 36,
       "type": "コード穴埋め",
-      "question": "テンプレートの `for` ループ内でトークのIDをパラメータに渡すリンクタグの記述です。<br><pre><code>&lt;a href=\"?parent_talk_id={{ ___ }}\" class=\"chatboard__message\"&gt;</code></pre>",
+      "question": "テンプレートの `for` ループ内でトークのIDをパラメータに渡すリンクタグの記述です。<br><pre><code><a href=\"?parent_talk_id={{ ___ }}\" class=\"chatboard__message\"></code></pre>",
       "options": [
         "talk.id",
         "parent_talk.id",
@@ -485,7 +485,7 @@
     {
       "id": 38,
       "type": "実行結果予測",
-      "question": "以下のテンプレート記述で `talk.parent_talk_sender_username` が `None` の場合、`{% if %}` 条件の判定はどうなりますか？<br><pre><code>{% if talk.parent_talk_sender_username and talk.parent_talk_message %}\n    &gt;&gt; {{ talk.parent_talk_sender_username }}: {{ talk.parent_talk_message }}&lt;br&gt;\n{% endif %}</code></pre>",
+      "question": "以下のテンプレート記述で `talk.parent_talk_sender_username` が `None` の場合、`{% if %}` 条件の判定はどうなりますか？<br><pre><code>{% if talk.parent_talk_sender_username and talk.parent_talk_message %}\n    >> {{ talk.parent_talk_sender_username }}: {{ talk.parent_talk_message }}<br>\n{% endif %}</code></pre>",
       "options": [
         "False（偽）となり、返信元ヘッダー（>> ...）は画面に描画されない",
         "True（真）となり、空の矢印だけが表示される",

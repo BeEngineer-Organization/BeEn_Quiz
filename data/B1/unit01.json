@@ -172,7 +172,7 @@
     {
       "id": 22,
       "type": "コード穴埋め",
-      "question": "DetailViewにおいて、どのデータを表示するかを判断するためにURLに含めるべきパラメータは何ですか？<pre><code>path(\"product/&lt;int:___&gt;/\", ...)</code></pre>",
+      "question": "DetailViewにおいて、どのデータを表示するかを判断するためにURLに含めるべきパラメータは何ですか？<pre><code>path(\"product/<int:___>/\", ...)</code></pre>",
       "options": ["id", "pk", "key", "num"],
       "answer": 1,
       "commentary": "DetailViewはURLから渡された「pk（プライマリキー）」を使ってデータを特定します。"

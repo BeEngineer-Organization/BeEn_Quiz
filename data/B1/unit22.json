@@ -56,7 +56,7 @@
     {
       "id": 5,
       "type": "実行結果予測",
-      "question": "次のテンプレートコードで、トピックにまだメッセージが1件も投稿されておらず `latest_message_time` が `None` の場合、画面には何が表示されますか？<br><pre><code>&lt;a class=\"topic-link\" href=\"...\"&gt;\n    {{ topic.name }}の掲示板へ\n    {% if topic.latest_message_time %}\n        最終更新: {{ topic.latest_message_time }}\n    {% endif %}\n&lt;/a&gt;</code></pre>",
+      "question": "次のテンプレートコードで、トピックにまだメッセージが1件も投稿されておらず `latest_message_time` が `None` の場合、画面には何が表示されますか？<br><pre><code><a class=\"topic-link\" href=\"...\">\n    {{ topic.name }}の掲示板へ\n    {% if topic.latest_message_time %}\n        最終更新: {{ topic.latest_message_time }}\n    {% endif %}\n</a></code></pre>",
       "options": [
         "「（トピック名）の掲示板へ」のみが表示され、「最終更新:」の部分は表示されない",
         "「（トピック名）の掲示板へ 最終更新: None」と表示される",
@@ -368,7 +368,7 @@
     {
       "id": 29,
       "type": "コード穴埋め",
-      "question": "トピック詳細ページへの動的URLを生成するDjangoテンプレートタグの記述です。空欄に入るタグ名を選んでください。<br><pre><code>&lt;a class=\"topic-link\" href=\"{% ___ 'forum' topic.id %}\"&gt;</code></pre>",
+      "question": "トピック詳細ページへの動的URLを生成するDjangoテンプレートタグの記述です。空欄に入るタグ名を選んでください。<br><pre><code><a class=\"topic-link\" href=\"{% ___ 'forum' topic.id %}\"></code></pre>",
       "options": [
         "url",
         "path",
@@ -472,7 +472,7 @@
     {
       "id": 37,
       "type": "コード穴埋め",
-      "question": "テンプレートのリスト繰り返し処理で、各トピックオブジェクトを取り出すループタグの記述です。<br><pre><code>{% ___ topic in topics %}\n    &lt;li class=\"topic-item\"&gt;...&lt;/li&gt;\n{% endfor %}</code></pre>",
+      "question": "テンプレートのリスト繰り返し処理で、各トピックオブジェクトを取り出すループタグの記述です。<br><pre><code>{% ___ topic in topics %}\n    <li class=\"topic-item\">...</li>\n{% endfor %}</code></pre>",
       "options": [
         "for",
         "foreach",

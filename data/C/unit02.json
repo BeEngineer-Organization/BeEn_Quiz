@@ -275,7 +275,7 @@
     {
       "id": 33,
       "type": "用語理解",
-      "question": "エンドポイント <code>/categories/&lt;category_id&gt;/recipes/</code> が提供すべき機能として最も適切なものはどれですか？",
+      "question": "エンドポイント <code>/categories/<category_id>/recipes/</code> が提供すべき機能として最も適切なものはどれですか？",
       "options": [
         "すべてのカテゴリの一覧取得",
         "特定のカテゴリに属するレシピの一覧取得",

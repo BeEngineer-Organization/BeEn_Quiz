@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "URLから「整数型の相手のID（`friend_id`）」を受け取るためのパス記述です。空欄に入る型指定（パスコンバータ）は何ですか？<br><pre><code>path(\"talk_room/&lt;___:friend_id&gt;/\", views.talk_room, name=\"talk_room\")</code></pre>",
+      "question": "URLから「整数型の相手のID（`friend_id`）」を受け取るためのパス記述です。空欄に入る型指定（パスコンバータ）は何ですか？<br><pre><code>path(\"talk_room/<___:friend_id>/\", views.talk_room, name=\"talk_room\")</code></pre>",
       "options": [
         "int",
         "str",
@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "urls.py にトークルームへのルーティングを登録するコードです。空欄に入る適切な記述を選んでください。<br><pre><code>path(\"talk_room/&lt;int:friend_id&gt;/\", ___, name=\"talk_room\")</code></pre>",
+      "question": "urls.py にトークルームへのルーティングを登録するコードです。空欄に入る適切な記述を選んでください。<br><pre><code>path(\"talk_room/<int:friend_id>/\", ___, name=\"talk_room\")</code></pre>",
       "options": [
         "views.talk_room",
         "views.talk_room()",
@@ -56,7 +56,7 @@
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "友達一覧画面（`friends.html`）から特定の友達（`friend`）のトークルームへ移動するリンクを作成するコードです。空欄に入る記述を選んでください。<br><pre><code>&lt;a href=\"{% url 'talk_room' ___ %}\" class=\"friends-list__link\"&gt;</code></pre>",
+      "question": "友達一覧画面（`friends.html`）から特定の友達（`friend`）のトークルームへ移動するリンクを作成するコードです。空欄に入る記述を選んでください。<br><pre><code><a href=\"{% url 'talk_room' ___ %}\" class=\"friends-list__link\"></code></pre>",
       "options": [
         "friend.id",
         "friend.username",
@@ -303,7 +303,7 @@
     {
       "id": 24,
       "type": "コード穴埋め",
-      "question": "ビューから受け取ったトーク一覧（`talks`）を1件ずつ処理するテンプレートの繰り返しタグです。<br><pre><code>{% ___ talk in talks %}\n    &lt;li class=\"chatboard__item\"&gt;...&lt;/li&gt;\n{% endfor %}</code></pre>",
+      "question": "ビューから受け取ったトーク一覧（`talks`）を1件ずつ処理するテンプレートの繰り返しタグです。<br><pre><code>{% ___ talk in talks %}\n    <li class=\"chatboard__item\">...</li>\n{% endfor %}</code></pre>",
       "options": [
         "for",
         "foreach",
@@ -342,7 +342,7 @@
     {
       "id": 27,
       "type": "コード穴埋め",
-      "question": "各トークの「本文メッセージ」を出力するテンプレート変数です。<br><pre><code>&lt;p class=\"chatboard__message\"&gt;{{ talk.___ }}&lt;/p&gt;</code></pre>",
+      "question": "各トークの「本文メッセージ」を出力するテンプレート変数です。<br><pre><code><p class=\"chatboard__message\">{{ talk.___ }}</p></code></pre>",
       "options": [
         "message",
         "text",
@@ -381,7 +381,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "送信日時の「月/日」と「時:分」の表示の間で改行を入れるためのHTMLタグは何ですか？<br><pre><code>{{ talk.time|date:\"m/d\" }}&lt;___&gt;\n{{ talk.time|date:\"H:i\" }}</code></pre>",
+      "question": "送信日時の「月/日」と「時:分」の表示の間で改行を入れるためのHTMLタグは何ですか？<br><pre><code>{{ talk.time|date:\"m/d\" }}<___>\n{{ talk.time|date:\"H:i\" }}</code></pre>",
       "options": [
         "br",
         "lb",

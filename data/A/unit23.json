@@ -69,7 +69,7 @@
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "Djangoテンプレートで、渡された `topics` リストを順番に処理するためのタグは何ですか？<br><pre><code>{% ___ topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "question": "Djangoテンプレートで、渡された `topics` リストを順番に処理するためのタグは何ですか？<br><pre><code>{% ___ topic in topics %}\n    <a href=\"\">{{ topic.name }}の掲示板へ</a>\n{% endfor %}</code></pre>",
       "options": [
         "foreach",
         "for",
@@ -82,7 +82,7 @@
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "Djangoテンプレートで、変数の値（例: topicのnameフィールド）を画面に出力するための正しい記法はどれですか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;___の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "question": "Djangoテンプレートで、変数の値（例: topicのnameフィールド）を画面に出力するための正しい記法はどれですか？<br><pre><code>{% for topic in topics %}\n    <a href=\"\">___の掲示板へ</a>\n{% endfor %}</code></pre>",
       "options": [
         "{% topic.name %}",
         "{{ topic.name }}",
@@ -95,7 +95,7 @@
     {
       "id": 8,
       "type": "実行結果予測",
-      "question": "`TOPIC_LIST` に2つのオブジェクト（Python, Java）が入っている場合、次のテンプレート文が生成するリンク（<a>タグ）の数はいくつですか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "question": "`TOPIC_LIST` に2つのオブジェクト（Python, Java）が入っている場合、次のテンプレート文が生成するリンク（<a>タグ）の数はいくつですか？<br><pre><code>{% for topic in topics %}\n    <a href=\"\">{{ topic.name }}の掲示板へ</a>\n{% endfor %}</code></pre>",
       "options": [
         "1個",
         "2個",
@@ -238,7 +238,7 @@
     {
       "id": 19,
       "type": "実行結果予測",
-      "question": "`Topic` モデルにレコードが1つも登録されていない状態で、以下のテンプレートを実行した場合に表示される結果はどうなりますか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "question": "`Topic` モデルにレコードが1つも登録されていない状態で、以下のテンプレートを実行した場合に表示される結果はどうなりますか？<br><pre><code>{% for topic in topics %}\n    <a href=\"\">{{ topic.name }}の掲示板へ</a>\n{% endfor %}</code></pre>",
       "options": [
         "エラーが発生して画面が停止する",
         "リンクは何も出力されず、画面がそのまま表示される",
@@ -251,7 +251,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "Djangoの `for` ループタグを閉じるために必要なタグは何ですか？<br><pre><code>{% for topic in topics %}\n    &lt;p&gt;{{ topic.name }}&lt;/p&gt;\n{% ___ %}</code></pre>",
+      "question": "Djangoの `for` ループタグを閉じるために必要なタグは何ですか？<br><pre><code>{% for topic in topics %}\n    <p>{{ topic.name }}</p>\n{% ___ %}</code></pre>",
       "options": [
         "endfor",
         "next",
@@ -381,7 +381,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "モデルクラスのインスタンス属性にアクセスしてトピック名を取得する文法として、空欄に入る記述はどれですか？<br><pre><code>{% for topic in topics %}\n    &lt;a href=\"\"&gt;{{ topic.___ }}の掲示板へ&lt;/a&gt;\n{% endfor %}</code></pre>",
+      "question": "モデルクラスのインスタンス属性にアクセスしてトピック名を取得する文法として、空欄に入る記述はどれですか？<br><pre><code>{% for topic in topics %}\n    <a href=\"\">{{ topic.___ }}の掲示板へ</a>\n{% endfor %}</code></pre>",
       "options": [
         "name",
         "get_name()",
@@ -485,7 +485,7 @@
     {
       "id": 38,
       "type": "コード穴埋め",
-      "question": "HTML内で文字化けを防ぐために指定する文字コード設定タグの一般的な記述はどれですか？<br><pre><code>&lt;head&gt;\n    &lt;meta charset=\"___\"&gt;\n&lt;/head&gt;</code></pre>",
+      "question": "HTML内で文字化けを防ぐために指定する文字コード設定タグの一般的な記述はどれですか？<br><pre><code><head>\n    <meta charset=\"___\">\n</head></code></pre>",
       "options": [
         "UTF-8",
         "Shift_JIS",

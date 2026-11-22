@@ -173,7 +173,7 @@
     {
       "id": 14,
       "type": "コード穴埋め",
-      "question": "`AccountService` クラスの `logout` メソッド内で、セキュアストレージの全トークンを削除する呼び出しコードです。<br><pre><code>Future&lt;bool&gt; logout() async {\n  try {\n    final secureStorage = SecureStorage();\n    await secureStorage.___();\n  } catch (e) {\n    return false;\n  }\n  return true;\n}</code></pre>",
+      "question": "`AccountService` クラスの `logout` メソッド内で、セキュアストレージの全トークンを削除する呼び出しコードです。<br><pre><code>Future<bool> logout() async {\n  try {\n    final secureStorage = SecureStorage();\n    await secureStorage.___();\n  } catch (e) {\n    return false;\n  }\n  return true;\n}</code></pre>",
       "options": [
         "deleteAllToken",
         "clearAll",
@@ -199,7 +199,7 @@
     {
       "id": 16,
       "type": "コード穴埋め",
-      "question": "Flutterの `AccountService` 内で、認証付きDioを用いてパスワード変更API（PATCH）を実行する記述です。<br><pre><code>Future&lt;void&gt; changePassword(ChangePasswordForm formData) async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/password/';\n  await dioClient.authDio.___(url, data: formData.toJson());\n}</code></pre>",
+      "question": "Flutterの `AccountService` 内で、認証付きDioを用いてパスワード変更API（PATCH）を実行する記述です。<br><pre><code>Future<void> changePassword(ChangePasswordForm formData) async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/password/';\n  await dioClient.authDio.___(url, data: formData.toJson());\n}</code></pre>",
       "options": [
         "patch",
         "put",

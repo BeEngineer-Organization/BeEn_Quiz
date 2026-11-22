@@ -459,7 +459,7 @@
     {
       "id": 36,
       "type": "コード穴埋め",
-      "question": "StatefulWidgetで `build` メソッドを記述する正しいクラスはどれですか？<br><pre><code>class CardListPage extends StatefulWidget { ... }\n\nclass _CardListState extends State&lt;CardListPage&gt; {\n  @override\n  Widget ___(BuildContext context) {\n    return Scaffold(...);\n  }\n}</code></pre>",
+      "question": "StatefulWidgetで `build` メソッドを記述する正しいクラスはどれですか？<br><pre><code>class CardListPage extends StatefulWidget { ... }\n\nclass _CardListState extends State<CardListPage> {\n  @override\n  Widget ___(BuildContext context) {\n    return Scaffold(...);\n  }\n}</code></pre>",
       "options": [
         "build",
         "create",

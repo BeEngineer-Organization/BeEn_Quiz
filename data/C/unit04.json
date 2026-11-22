@@ -303,15 +303,15 @@
     {
       "id": 34,
       "type": "用語理解",
-      "question": "FutureProviderが返すデータの型が <code>List&lt;Category&gt;</code> の場合、whenの <code>data</code> 部分に渡される変数の型は何になりますか？",
-      "options": ["String", "Category1つ", "List&lt;Category&gt;", "bool"],
+      "question": "FutureProviderが返すデータの型が <code>List<Category></code> の場合、whenの <code>data</code> 部分に渡される変数の型は何になりますか？",
+      "options": ["String", "Category1つ", "List<Category>", "bool"],
       "answer": 2,
       "commentary": "非同期処理が完了すると、Futureの成功した結果がそのまま渡されます。"
     },
     {
       "id": 35,
       "type": "文法チェック",
-      "question": "Dartで <code>as Map&lt;String, dynamic&gt;</code> と書くことを何と呼びますか？",
+      "question": "Dartで <code>as Map<String, dynamic></code> と書くことを何と呼びますか？",
       "options": ["計算", "代入", "キャスト（型変換）", "初期化"],
       "answer": 2,
       "commentary": "ある変数を特定の型として扱うようにコンピュータに明示することをキャストと言います。"

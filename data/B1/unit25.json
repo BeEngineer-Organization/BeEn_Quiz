@@ -420,7 +420,7 @@
     {
       "id": 33,
       "type": "コード穴埋め",
-      "question": "HTMLテンプレート内で、トーク（`talk`）の経過時間文字列を呼び出して表示する記法を選んでください。<br><pre><code>&lt;p class=\"chatboard__time\"&gt;{{ talk.___ }}&lt;/p&gt;</code></pre>",
+      "question": "HTMLテンプレート内で、トーク（`talk`）の経過時間文字列を呼び出して表示する記法を選んでください。<br><pre><code><p class=\"chatboard__time\">{{ talk.___ }}</p></code></pre>",
       "options": [
         "get_elapsed_time",
         "get_elapsed_time()",
@@ -433,7 +433,7 @@
     {
       "id": 34,
       "type": "コード穴埋め",
-      "question": "フォームの `message` フィールドで発生したバリデーションエラー一覧を取得・ループ表示するテンプレート記述です。<br><pre><code>{% if form.message.___ %}\n  &lt;ul&gt;\n    {% for error in form.message.___ %}\n      &lt;li&gt;{{ error }}&lt;/li&gt;\n    {% endfor %}\n  &lt;/ul&gt;\n{% endif %}</code></pre>",
+      "question": "フォームの `message` フィールドで発生したバリデーションエラー一覧を取得・ループ表示するテンプレート記述です。<br><pre><code>{% if form.message.___ %}\n  <ul>\n    {% for error in form.message.___ %}\n      <li>{{ error }}</li>\n    {% endfor %}\n  </ul>\n{% endif %}</code></pre>",
       "options": [
         "errors",
         "error_list",

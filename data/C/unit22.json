@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "JSONリストデータをDartの `Post` オブジェクトのリストに変換するコードです。<br><pre><code>final jsonList = response.data as List&lt;dynamic&gt;;\nreturn jsonList\n    .map((jsonItem) => Post.___(jsonItem as Map&lt;String, dynamic&gt;))\n    .toList();</code></pre>",
+      "question": "JSONリストデータをDartの `Post` オブジェクトのリストに変換するコードです。<br><pre><code>final jsonList = response.data as List<dynamic>;\nreturn jsonList\n    .map((jsonItem) => Post.___(jsonItem as Map<String, dynamic>))\n    .toList();</code></pre>",
       "options": [
         "fromJson",
         "toJson",

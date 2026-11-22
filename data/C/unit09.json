@@ -308,7 +308,7 @@
     {
       "id": 39,
       "type": "コード穴埋め",
-      "question": "Form の状態をリセットしたりバリデーションを実行したりするために使う「キー」の型は何ですか？<pre><code>final _formKey = ___&lt;FormState&gt;();</code></pre>",
+      "question": "Form の状態をリセットしたりバリデーションを実行したりするために使う「キー」の型は何ですか？<pre><code>final _formKey = ___<FormState>();</code></pre>",
       "options": ["StateKey", "FormKey", "GlobalKey", "UniqueKey"],
       "answer": 2,
       "commentary": "GlobalKey<FormState> を使うことで、離れた場所からでも Form の状態を操作できます。"

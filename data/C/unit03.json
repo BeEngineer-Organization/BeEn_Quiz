@@ -306,7 +306,7 @@
     {
       "id": 35,
       "type": "コード穴埋め",
-      "question": "特定の ID に基づいて 1 件のデータを取得する際、URL パターンでよく使われる記述は何ですか？<pre><code>path('categories/&lt;int:___&gt;/', ...)</code></pre>",
+      "question": "特定の ID に基づいて 1 件のデータを取得する際、URL パターンでよく使われる記述は何ですか？<pre><code>path('categories/<int:___>/', ...)</code></pre>",
       "options": ["id", "pk", "num", "key"],
       "answer": 1,
       "commentary": "Primary Key（主キー）の略である pk が一般的に使用されます。"

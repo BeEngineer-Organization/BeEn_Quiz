@@ -147,7 +147,7 @@
     {
       "id": 12,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、ユーザーのアイコン画像が存在する場合はそのURLを表示し、存在しない場合はデフォルト画像を表示する条件分岐コードです。<br><pre><code>&lt;img src=\"{% if friend.icon %}{{ friend.icon.___ }}{% else %}{% static 'main/img/default-icon.png' %}{% endif %}\"&gt;</code></pre>",
+      "question": "テンプレート内で、ユーザーのアイコン画像が存在する場合はそのURLを表示し、存在しない場合はデフォルト画像を表示する条件分岐コードです。<br><pre><code><img src=\"{% if friend.icon %}{{ friend.icon.___ }}{% else %}{% static 'main/img/default-icon.png' %}{% endif %}\"></code></pre>",
       "options": [
         "url",
         "path",
@@ -290,7 +290,7 @@
     {
       "id": 23,
       "type": "コード穴埋め",
-      "question": "HTMLフォームで画像などのファイルデータを送信するために、`<form>` タグに必ず指定しなければならないエンコード属性は何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\" class=\"settings\" ___=\"multipart/form-data\"&gt;</code></pre>",
+      "question": "HTMLフォームで画像などのファイルデータを送信するために、`<form>` タグに必ず指定しなければならないエンコード属性は何ですか？<br><pre><code><form action=\"...\" method=\"POST\" class=\"settings\" ___=\"multipart/form-data\"></code></pre>",
       "options": [
         "enctype",
         "type",
@@ -342,7 +342,7 @@
     {
       "id": 27,
       "type": "コード穴埋め",
-      "question": "設定画面（`settings.html`）から「アイコン変更」ページへのリンクを作成するテンプレートタグ記述です。<br><pre><code>&lt;a href=\"{% ___ 'icon_change' %}\" class=\"button\"&gt;アイコン変更&lt;/a&gt;</code></pre>",
+      "question": "設定画面（`settings.html`）から「アイコン変更」ページへのリンクを作成するテンプレートタグ記述です。<br><pre><code><a href=\"{% ___ 'icon_change' %}\" class=\"button\">アイコン変更</a></code></pre>",
       "options": [
         "url",
         "path",

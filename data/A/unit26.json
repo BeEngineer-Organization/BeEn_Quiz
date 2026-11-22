@@ -4,7 +4,7 @@
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "投稿削除用のURLパターンを定義するコードです。空欄に入る正しいパラメータの型指定は何ですか？<br><pre><code>path(\"&lt;___:topic_id&gt;/message/&lt;___:message_id&gt;/delete/\", views.delete_message, name=\"delete_message\"),</code></pre>",
+      "question": "投稿削除用のURLパターンを定義するコードです。空欄に入る正しいパラメータの型指定は何ですか？<br><pre><code>path(\"<___:topic_id>/message/<___:message_id>/delete/\", views.delete_message, name=\"delete_message\"),</code></pre>",
       "options": [
         "int",
         "str",
@@ -69,7 +69,7 @@
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、2つの引数（`topic.id` と `message.id`）をとる削除用URLパターンを動的に呼び出す正しい記述はどれですか？<br><pre><code>&lt;form action=\"{% url 'delete_message' ___ ___ %}\" method=\"POST\"&gt;</code></pre>",
+      "question": "テンプレート内で、2つの引数（`topic.id` と `message.id`）をとる削除用URLパターンを動的に呼び出す正しい記述はどれですか？<br><pre><code><form action=\"{% url 'delete_message' ___ ___ %}\" method=\"POST\"></code></pre>",
       "options": [
         "topic.id message.id",
         "topic.id, message.id",
@@ -82,7 +82,7 @@
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "削除用のフォーム送信を行う際、CSRF攻撃を防止するためにフォーム内に必ず記述するテンプレートタグは何ですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\"&gt;\n    ___\n    &lt;input type=\"submit\" value=\"削除\"&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "削除用のフォーム送信を行う際、CSRF攻撃を防止するためにフォーム内に必ず記述するテンプレートタグは何ですか？<br><pre><code><form action=\"...\" method=\"POST\">\n    ___\n    <input type=\"submit\" value=\"削除\">\n</form></code></pre>",
       "options": [
         "{% csrf_token %}",
         "{{ csrf_token }}",
@@ -225,7 +225,7 @@
     {
       "id": 18,
       "type": "コード穴埋め",
-      "question": "削除ボタンを作成するための `<input>` タグの記述です。空欄に入る適切な属性値を選んでください。<br><pre><code>&lt;input type=\"___\" value=\"削除\"&gt;</code></pre>",
+      "question": "削除ボタンを作成するための `<input>` タグの記述です。空欄に入る適切な属性値を選んでください。<br><pre><code><input type=\"___\" value=\"削除\"></code></pre>",
       "options": [
         "submit",
         "button",
@@ -342,7 +342,7 @@
     {
       "id": 27,
       "type": "コード穴埋め",
-      "question": "投稿一覧ループの中で、各メッセージの横に削除ボタンを配置するためのテンプレート記述の一部です。<br><pre><code>{% for message in messages %}\n  &lt;tr&gt;\n    &lt;td&gt;{{ message.content }}&lt;/td&gt;\n    &lt;td&gt;\n      &lt;form action=\"{% url 'delete_message' topic.id message.id %}\" method=\"___\"&gt;\n        {% csrf_token %}\n        &lt;input type=\"submit\" value=\"削除\"&gt;\n      &lt;/form&gt;\n    &lt;/td&gt;\n  &lt;/tr&gt;\n{% endfor %}</code></pre>",
+      "question": "投稿一覧ループの中で、各メッセージの横に削除ボタンを配置するためのテンプレート記述の一部です。<br><pre><code>{% for message in messages %}\n  <tr>\n    <td>{{ message.content }}</td>\n    <td>\n      <form action=\"{% url 'delete_message' topic.id message.id %}\" method=\"___\">\n        {% csrf_token %}\n        <input type=\"submit\" value=\"削除\">\n      </form>\n    </td>\n  </tr>\n{% endfor %}</code></pre>",
       "options": [
         "POST",
         "GET",
@@ -407,7 +407,7 @@
     {
       "id": 32,
       "type": "コード穴埋め",
-      "question": "HTMLの表（table）に見出し列「操作」を追加する正しい要素タグはどれですか？<br><pre><code>&lt;tr class=\"message-title\"&gt;\n    &lt;th&gt;投稿内容&lt;/th&gt;\n    &lt;th&gt;投稿日時&lt;/th&gt;\n    &lt;___&gt;操作&lt;/___&gt;\n&lt;/tr&gt;</code></pre>",
+      "question": "HTMLの表（table）に見出し列「操作」を追加する正しい要素タグはどれですか？<br><pre><code><tr class=\"message-title\">\n    <th>投稿内容</th>\n    <th>投稿日時</th>\n    <___>操作</___>\n</tr></code></pre>",
       "options": [
         "th",
         "td",
@@ -420,7 +420,7 @@
     {
       "id": 33,
       "type": "実行結果予測",
-      "question": "次のHTMLコードが表示された画面でユーザーが「削除」ボタンをクリックした時、ブラウザが行う動作はどれですか？<br><pre><code>&lt;form action=\"{% url 'delete_message' topic.id message.id %}\" method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;input type=\"submit\" value=\"削除\"&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "次のHTMLコードが表示された画面でユーザーが「削除」ボタンをクリックした時、ブラウザが行う動作はどれですか？<br><pre><code><form action=\"{% url 'delete_message' topic.id message.id %}\" method=\"POST\">\n    {% csrf_token %}\n    <input type=\"submit\" value=\"削除\">\n</form></code></pre>",
       "options": [
         "指定された削除用URLへPOSTリクエストを送信する",
         "画面の入力内容をリセットする",

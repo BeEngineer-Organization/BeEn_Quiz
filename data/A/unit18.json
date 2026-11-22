@@ -13,14 +13,14 @@
       "id": 2,
       "type": "コード穴埋め",
       "question": "urls.pyで、整数型のパスパラメータ「question_id」を受け取る正しい書き方はどれですか？<pre><code>path(\"___/\", views.detail, name=\"detail\")</code></pre>",
-      "options": ["&lt;question_id&gt;", "&lt;int:question_id&gt;", "&lt;str:question_id&gt;", "(question_id)"],
+      "options": ["<question_id>", "<int:question_id>", "<str:question_id>", "(question_id)"],
       "answer": 1,
-      "commentary": "&lt;型:変数名&gt; の形式で記述します。整数を受け取る場合は int を指定します。"
+      "commentary": "<型:変数名> の形式で記述します。整数を受け取る場合は int を指定します。"
     },
     {
       "id": 3,
       "type": "実行結果予測",
-      "question": "path('&lt;int:num&gt;/', views.test) という設定で /123/ にアクセスしたとき、ビュー関数には何が渡されますか？",
+      "question": "path('<int:num>/', views.test) という設定で /123/ にアクセスしたとき、ビュー関数には何が渡されますか？",
       "options": ["文字列の '123'", "整数の 123", "パス全体 '/123/'", "何も渡されない"],
       "answer": 1,
       "commentary": "intコンバータを指定しているため、Pythonの整数型（int）としてビューに渡されます。"
@@ -36,7 +36,7 @@
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、名前付きURL 'detail' にIDを渡してリンクを作る正しい記法はどれですか？<pre><code>&lt;a href=\"{% url 'detail' ___ %}\"&gt;リンク&lt;/a&gt;</code></pre>",
+      "question": "テンプレート内で、名前付きURL 'detail' にIDを渡してリンクを作る正しい記法はどれですか？<pre><code><a href=\"{% url 'detail' ___ %}\">リンク</a></code></pre>",
       "options": ["question.id", "id=question.id", "pk:question.id", "id"],
       "answer": 0,
       "commentary": "urlタグの後にスペースを空けて、渡したい値を記述します。"
@@ -156,7 +156,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "テンプレートからトップページに戻るリンクを生成してください。<pre><code>&lt;a href=\"___ 'index' ___\"&gt;戻る&lt;/a&gt;</code></pre>",
+      "question": "テンプレートからトップページに戻るリンクを生成してください。<pre><code><a href=\"___ 'index' ___\">戻る</a></code></pre>",
       "options": ["{{ url }}", "{% url %}", "{% link %}", "{{ link }}"],
       "answer": 1,
       "commentary": "名前付きURLの展開には「{% url ... %}」を使います。"
@@ -196,7 +196,7 @@
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "テンプレートのfor文で、個別のデータのテキストを表示する正しい書き方は？<pre><code>{% for choice in choices %}\n  &lt;li&gt;___&lt;/li&gt;\n{% endfor %}</code></pre>",
+      "question": "テンプレートのfor文で、個別のデータのテキストを表示する正しい書き方は？<pre><code>{% for choice in choices %}\n  <li>___</li>\n{% endfor %}</code></pre>",
       "options": ["{{ choice.choice_text }}", "{% choice.choice_text %}", "{{ choice_text }}", "{{ choice }}"],
       "answer": 0,
       "commentary": "変数の中身を表示するには「{{ }}」を使い、属性（フィールド）にアクセスします。"

@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "Dartの `File` オブジェクトと JSON（文字列パス）相互変換を定義するため、`JsonConverter` を継承するクラスのコードです。<br><pre><code>class FileConverter implements JsonConverter&lt;___, String?&gt; {\n  const FileConverter();\n  ...\n}</code></pre>",
+      "question": "Dartの `File` オブジェクトと JSON（文字列パス）相互変換を定義するため、`JsonConverter` を継承するクラスのコードです。<br><pre><code>class FileConverter implements JsonConverter<___, String?> {\n  const FileConverter();\n  ...\n}</code></pre>",
       "options": [
         "File?",
         "String",
@@ -121,7 +121,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "`AccountService` に定義する `updateProfile` メソッドで、認証付きDioを使ってプロフィール更新API（PATCH）を呼ぶコードです。<br><pre><code>Future&lt;void&gt; updateProfile(ProfileForm profile) async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/';\n  final formData = await profile.toFormData();\n  await dioClient.authDio.___(url, data: formData);\n}</code></pre>",
+      "question": "`AccountService` に定義する `updateProfile` メソッドで、認証付きDioを使ってプロフィール更新API（PATCH）を呼ぶコードです。<br><pre><code>Future<void> updateProfile(ProfileForm profile) async {\n  final dioClient = DioClient();\n  final url = '$baseUrl/accounts/me/';\n  final formData = await profile.toFormData();\n  await dioClient.authDio.___(url, data: formData);\n}</code></pre>",
       "options": [
         "patch",
         "put",
@@ -264,7 +264,7 @@
     {
       "id": 21,
       "type": "コード穴埋め",
-      "question": "プロフィール送信処理中に通信中フラグを立てて二重送信を防止するコードです。<br><pre><code>Future&lt;void&gt; _handleSubmit(BuildContext context, ProfileForm profile) async {\n  setState(() {\n    _isLoading = ___;\n  });\n  try { ... }\n}</code></pre>",
+      "question": "プロフィール送信処理中に通信中フラグを立てて二重送信を防止するコードです。<br><pre><code>Future<void> _handleSubmit(BuildContext context, ProfileForm profile) async {\n  setState(() {\n    _isLoading = ___;\n  });\n  try { ... }\n}</code></pre>",
       "options": [
         "true",
         "false",

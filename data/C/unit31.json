@@ -134,7 +134,7 @@
     {
       "id": 11,
       "type": "コード穴埋め",
-      "question": "`PostsService` に投稿を「いいね」するPOST通信メソッドを定義するコードです。<br><pre><code>Future&lt;void&gt; likePost(int postId) async {\n  final url = '$baseUrl/posts/$postId/likes/';\n  final response = await dioClient.___(url);\n  if (response.statusCode != 201) {\n    throw Exception('いいねに失敗しました');\n  }\n}</code></pre>",
+      "question": "`PostsService` に投稿を「いいね」するPOST通信メソッドを定義するコードです。<br><pre><code>Future<void> likePost(int postId) async {\n  final url = '$baseUrl/posts/$postId/likes/';\n  final response = await dioClient.___(url);\n  if (response.statusCode != 201) {\n    throw Exception('いいねに失敗しました');\n  }\n}</code></pre>",
       "options": [
         "post",
         "get",
@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "`PostsService` に「いいね」を取り消すDELETE通信メソッドを定義するコードです。<br><pre><code>Future&lt;void&gt; unlikePost(int postId) async {\n  final url = '$baseUrl/posts/$postId/likes/';\n  final response = await dioClient.___(url);\n  if (response.statusCode != 200) {\n    throw Exception('いいねの取り消しに失敗しました');\n  }\n}</code></pre>",
+      "question": "`PostsService` に「いいね」を取り消すDELETE通信メソッドを定義するコードです。<br><pre><code>Future<void> unlikePost(int postId) async {\n  final url = '$baseUrl/posts/$postId/likes/';\n  final response = await dioClient.___(url);\n  if (response.statusCode != 200) {\n    throw Exception('いいねの取り消しに失敗しました');\n  }\n}</code></pre>",
       "options": [
         "delete",
         "remove",

@@ -173,7 +173,7 @@
     {
       "id": 14,
       "type": "実行結果予測",
-      "question": "ログインフォームの送信内容に誤り（ユーザー名やパスワードの不一致）があった場合、次のテンプレート文の判定はどうなりますか？<br><pre><code>{% if form.errors %}\n    &lt;div class=\"login-form__error\"&gt;ユーザー名とパスワードが一致しません。&lt;/div&gt;\n{% endif %}</code></pre>",
+      "question": "ログインフォームの送信内容に誤り（ユーザー名やパスワードの不一致）があった場合、次のテンプレート文の判定はどうなりますか？<br><pre><code>{% if form.errors %}\n    <div class=\"login-form__error\">ユーザー名とパスワードが一致しません。</div>\n{% endif %}</code></pre>",
       "options": [
         "True（真）となり、エラーメッセージの div 要素が画面に描画される",
         "False（偽）となり、エラーメッセージは非表示になる",
@@ -186,7 +186,7 @@
     {
       "id": 15,
       "type": "コード穴埋め",
-      "question": "HTMLの `<label>` タグの `for` 属性に、対応する入力欄のHTML用IDを出力するDjangoフォームのプロパティ指定はどれですか？<br><pre><code>&lt;label for=\"{{ form.username.___ }}\"&gt;ユーザー名:&lt;/label&gt;</code></pre>",
+      "question": "HTMLの `<label>` タグの `for` 属性に、対応する入力欄のHTML用IDを出力するDjangoフォームのプロパティ指定はどれですか？<br><pre><code><label for=\"{{ form.username.___ }}\">ユーザー名:</label></code></pre>",
       "options": [
         "id_for_label",
         "label_id",
@@ -199,7 +199,7 @@
     {
       "id": 16,
       "type": "コード穴埋め",
-      "question": "テンプレート内でログインフォームの「ユーザー名入力欄（`<input>`）」を描画する正しい変数はどれですか？<br><pre><code>&lt;div class=\"login-form__field\"&gt;\n    {{ ___ }}\n&lt;/div&gt;</code></pre>",
+      "question": "テンプレート内でログインフォームの「ユーザー名入力欄（`<input>`）」を描画する正しい変数はどれですか？<br><pre><code><div class=\"login-form__field\">\n    {{ ___ }}\n</div></code></pre>",
       "options": [
         "form.username",
         "form.user",
@@ -212,7 +212,7 @@
     {
       "id": 17,
       "type": "コード穴埋め",
-      "question": "テンプレート内でログインフォームの「パスワード入力欄（`<input>`）」を描画する正しい変数はどれですか？<br><pre><code>&lt;div class=\"login-form__field\"&gt;\n    {{ ___ }}\n&lt;/div&gt;</code></pre>",
+      "question": "テンプレート内でログインフォームの「パスワード入力欄（`<input>`）」を描画する正しい変数はどれですか？<br><pre><code><div class=\"login-form__field\">\n    {{ ___ }}\n</div></code></pre>",
       "options": [
         "form.password",
         "form.pass",
@@ -303,7 +303,7 @@
     {
       "id": 24,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、名前付きURL `'login'` をターゲットにしてフォームデータを送信（POST）する記述です。<br><pre><code>&lt;form action=\"{% ___ 'login' %}\" method=\"POST\" class=\"login-form\"&gt;</code></pre>",
+      "question": "テンプレート内で、名前付きURL `'login'` をターゲットにしてフォームデータを送信（POST）する記述です。<br><pre><code><form action=\"{% ___ 'login' %}\" method=\"POST\" class=\"login-form\"></code></pre>",
       "options": [
         "url",
         "path",
@@ -342,7 +342,7 @@
     {
       "id": 27,
       "type": "コード穴埋め",
-      "question": "`login.css` の静的ファイルパスを指定して読み込む `<link>` タグの記述です。<br><pre><code>&lt;link rel=\"stylesheet\" href=\"{% static '___' %}\"&gt;</code></pre>",
+      "question": "`login.css` の静的ファイルパスを指定して読み込む `<link>` タグの記述です。<br><pre><code><link rel=\"stylesheet\" href=\"{% static '___' %}\"></code></pre>",
       "options": [
         "main/css/login.css",
         "css/login.css",
@@ -381,7 +381,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "ログインフォームの送信ボタンをクリックしたときにフォーム内容を送信させるHTML属性はどれですか？<br><pre><code>&lt;button type=\"___\" class=\"login-form__submit\"&gt;送信&lt;/button&gt;</code></pre>",
+      "question": "ログインフォームの送信ボタンをクリックしたときにフォーム内容を送信させるHTML属性はどれですか？<br><pre><code><button type=\"___\" class=\"login-form__submit\">送信</button></code></pre>",
       "options": [
         "submit",
         "button",
@@ -511,7 +511,7 @@
     {
       "id": 40,
       "type": "コード穴埋め",
-      "question": "ログインフォームのエラーメッセージ領域を装飾するためにHTMLの `class` 属性に指定されているクラス名を選んでください。<br><pre><code>&lt;div class=\"___\"&gt;ユーザー名とパスワードが一致しません。&lt;/div&gt;</code></pre>",
+      "question": "ログインフォームのエラーメッセージ領域を装飾するためにHTMLの `class` 属性に指定されているクラス名を選んでください。<br><pre><code><div class=\"___\">ユーザー名とパスワードが一致しません。</div></code></pre>",
       "options": [
         "login-form__error",
         "error_message",

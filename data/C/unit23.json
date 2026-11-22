@@ -147,7 +147,7 @@
     {
       "id": 12,
       "type": "コード穴埋め",
-      "question": "Dioで通信エラーが起きたときに自動的に呼び出されるインターセプターのメソッドは何ですか？<br><pre><code>@override\nFuture&lt;void&gt; ___(\n  DioException err,\n  ErrorInterceptorHandler handler,\n) async</code></pre>",
+      "question": "Dioで通信エラーが起きたときに自動的に呼び出されるインターセプターのメソッドは何ですか？<br><pre><code>@override\nFuture<void> ___(\n  DioException err,\n  ErrorInterceptorHandler handler,\n) async</code></pre>",
       "options": [
         "onError",
         "catchError",

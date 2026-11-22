@@ -140,7 +140,7 @@
     {
       "id": 18,
       "type": "文法チェック",
-      "question": "HTMLのフォームタグ <code>&lt;form&gt;</code> 内で、CSRF攻撃を防ぐためにDjangoで必須の記述はどれですか？",
+      "question": "HTMLのフォームタグ <code><form></code> 内で、CSRF攻撃を防ぐためにDjangoで必須の記述はどれですか？",
       "options": ["{{ token }}", "{% csrf_token %}", "{% protect %}", "[csrf]"],
       "answer": 1,
       "commentary": "POSTリクエストを送るフォームには必ずこのタグが必要です。"
@@ -231,7 +231,7 @@
       "question": "アイコンフォント「Font Awesome」を読み込む link タグは、HTMLのどの要素の中に書きますか？",
       "options": ["<header>", "<body>", "<head>", "<footer>"],
       "answer": 2,
-      "commentary": "外部リソースの読み込みは &lt;head&gt; 内で行います。"
+      "commentary": "外部リソースの読み込みは <head> 内で行います。"
     },
     {
       "id": 30,

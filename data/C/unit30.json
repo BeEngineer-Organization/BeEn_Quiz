@@ -147,7 +147,7 @@
     {
       "id": 12,
       "type": "コード穴埋め",
-      "question": "特定の投稿（ID: pk）に対して「いいね」を登録・削除するためのルーティング設定です。空欄に入るパスコンバータを選んでください。<br><pre><code>urlpatterns = [\n    # ...\n    path(\"posts/&lt;___:pk&gt;/likes/\", views.PostLikeView.as_view(), name=\"post-like\"),\n]</code></pre>",
+      "question": "特定の投稿（ID: pk）に対して「いいね」を登録・削除するためのルーティング設定です。空欄に入るパスコンバータを選んでください。<br><pre><code>urlpatterns = [\n    # ...\n    path(\"posts/<___:pk>/likes/\", views.PostLikeView.as_view(), name=\"post-like\"),\n]</code></pre>",
       "options": [
         "int",
         "str",
@@ -160,7 +160,7 @@
     {
       "id": 13,
       "type": "コード穴埋め",
-      "question": "クラスベースビュー `PostLikeView` を `urls.py` でURLパターンに対応させる際に呼び出すメソッドは何ですか？<br><pre><code>path(\"posts/&lt;int:pk&gt;/likes/\", views.PostLikeView.___(), name=\"post-like\")</code></pre>",
+      "question": "クラスベースビュー `PostLikeView` を `urls.py` でURLパターンに対応させる際に呼び出すメソッドは何ですか？<br><pre><code>path(\"posts/<int:pk>/likes/\", views.PostLikeView.___(), name=\"post-like\")</code></pre>",
       "options": [
         "as_view",
         "to_view",

@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "FormウィジェットのStateにアクセスし、バリデーションや保存を行うためにキーを設定します。空欄に入る適切なコードはどれですか？<br><pre><code>final _formKey = ___&lt;FormState&gt;();</code></pre>",
+      "question": "FormウィジェットのStateにアクセスし、バリデーションや保存を行うためにキーを設定します。空欄に入る適切なコードはどれですか？<br><pre><code>final _formKey = ___<FormState>();</code></pre>",
       "options": [
         "UniqueKey",
         "GlobalKey",

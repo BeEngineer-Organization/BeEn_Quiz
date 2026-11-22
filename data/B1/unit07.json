@@ -44,7 +44,7 @@
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "検索結果を維持したまま2ページ目に遷移するためのリンクを作成してください。<pre><code>&lt;a href=\"{% url 'forum' topic.id %}?___={{ keyword }}&page=2\"&gt;次へ&lt;/a&gt;</code></pre>",
+      "question": "検索結果を維持したまま2ページ目に遷移するためのリンクを作成してください。<pre><code><a href=\"{% url 'forum' topic.id %}?___={{ keyword }}&page=2\">次へ</a></code></pre>",
       "options": ["word", "search", "keyword", "input"],
       "answer": 2,
       "commentary": "URLのクエリパラメータ名（keyword）を、ビューで取得する際の名前と一致させる必要があります。"
@@ -60,7 +60,7 @@
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "検索フォームのHTMLにおいて、URLにパラメータを表示させるために指定するメソッドは何ですか？<pre><code>&lt;form method=\"___\" class=\"search-form\"&gt;</code></pre>",
+      "question": "検索フォームのHTMLにおいて、URLにパラメータを表示させるために指定するメソッドは何ですか？<pre><code><form method=\"___\" class=\"search-form\"></code></pre>",
       "options": ["POST", "GET", "SEND", "SEARCH"],
       "answer": 1,
       "commentary": "検索などのデータを取得する操作は、URLに情報を載せる GET メソッドで行うのが一般的です。"
@@ -213,7 +213,7 @@
       "id": 27,
       "type": "コード穴埋め",
       "question": "テンプレートで検索フォームを <code>{{ search_form.keyword }}</code> で表示したとき、HTML上ではどのようなタグになりますか？",
-      "options": ["&lt;search&gt;", "&lt;textarea&gt;", "&lt;input type=\"text\"&gt;", "&lt;form&gt;"],
+      "options": ["<search>", "<textarea>", "<input type=\"text\">", "<form>"],
       "answer": 2,
       "commentary": "Djangoの CharField と TextInput ウィジェットの組み合わせにより、標準的な input タグが生成されます。"
     },
@@ -236,10 +236,10 @@
     {
       "id": 30,
       "type": "用語理解",
-      "question": "ページネーションのリンクを「&laquo; 先頭へ」と記述した際、「&laquo;」はどう表示されますか？",
-      "options": ["数字の1", "二重の左矢印（≪）", "疑問符", "エラー文字"],
-      "answer": 1,
-      "commentary": "これはHTML特殊文字で、デザイン上の矢印記号などを表示するために使われます。"
+      "question": "テンプレートで、次のページがあるときだけリンクを表示する条件です。空欄に入る属性を選んでください。<pre><code>{% if page_obj.___ %}</code></pre>",
+      "options": ["has_next", "has_previous", "number", "paginator"],
+      "answer": 0,
+      "commentary": "次のページがあるかは `page_obj.has_next` で判定します。前のページは `has_previous` です。"
     },
     {
       "id": 31,
@@ -268,7 +268,7 @@
     {
       "id": 34,
       "type": "コード穴埋め",
-      "question": "フォームを送信するためのボタン（HTMLタグ）は何ですか？<pre><code>&lt;___ type=\"submit\"&gt;検索&lt;/___&gt;</code></pre>",
+      "question": "フォームを送信するためのボタン（HTMLタグ）は何ですか？<pre><code><___ type=\"submit\">検索</___></code></pre>",
       "options": ["input", "button", "send", "click"],
       "answer": 1,
       "commentary": "buttonタグに type=\"submit\" を付けることで、フォームデータを送信する役割を持たせることができます。"

@@ -4,7 +4,7 @@
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "DjangoテンプレートでCSSや画像などの静的ファイルを読み込むために、ファイルの先頭付近で呼び出す必須のタグはどれですか？<br><pre><code>&lt;!DOCTYPE html&gt;\n{% ___ static %}\n&lt;html lang=\"ja\"&gt;</code></pre>",
+      "question": "DjangoテンプレートでCSSや画像などの静的ファイルを読み込むために、ファイルの先頭付近で呼び出す必須のタグはどれですか？<br><pre><code><!DOCTYPE html>\n{% ___ static %}\n<html lang=\"ja\"></code></pre>",
       "options": [
         "load",
         "import",
@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "Djangoの静的ファイル（CSS）をテンプレートに正しいパスで読み込ませるためのタグの書き方はどれですか？<br><pre><code>&lt;link rel=\"stylesheet\" href=\"{% ___ 'main/css/index.css' %}\"&gt;</code></pre>",
+      "question": "Djangoの静的ファイル（CSS）をテンプレートに正しいパスで読み込ませるためのタグの書き方はどれですか？<br><pre><code><link rel=\"stylesheet\" href=\"{% ___ 'main/css/index.css' %}\"></code></pre>",
       "options": [
         "static",
         "url",
@@ -121,7 +121,7 @@
     {
       "id": 10,
       "type": "実行結果予測",
-      "question": "以下のHTMLに対してCSS `.message-data:nth-child(odd)` を適用した場合、どの要素にスタイルが適用されますか？（ヘッダー行が1番目の子要素だとします）<br><pre><code>&lt;table class=\"message-list\"&gt;\n  &lt;tr class=\"message-header\"&gt;...&lt;/tr&gt; &lt;!-- 1番目 --&gt;\n  &lt;tr class=\"message-data\"&gt;...&lt;/tr&gt;   &lt;!-- 2番目 --&gt;\n  &lt;tr class=\"message-data\"&gt;...&lt;/tr&gt;   &lt;!-- 3番目 --&gt;\n&lt;/table&gt;</code></pre>",
+      "question": "以下のHTMLに対してCSS `.message-data:nth-child(odd)` を適用した場合、どの要素にスタイルが適用されますか？（ヘッダー行が1番目の子要素だとします）<br><pre><code><table class=\"message-list\">\n  <tr class=\"message-header\">...</tr> <!-- 1番目 -->\n  <tr class=\"message-data\">...</tr>   <!-- 2番目 -->\n  <tr class=\"message-data\">...</tr>   <!-- 3番目 -->\n</table></code></pre>",
       "options": [
         "3番目の `tr`（親要素から見て奇数番目の `.message-data`）",
         "2番目の `tr`（データ行の中での奇数番目）",
@@ -394,7 +394,7 @@
     {
       "id": 31,
       "type": "実行結果予測",
-      "question": "次のHTMLコードに `border-collapse: collapse;` が設定されていない場合、表の見映えはどうなりますか？<br><pre><code>&lt;table class=\"message-list\"&gt;\n  &lt;tr&gt;&lt;td&gt;データ1&lt;/td&gt;&lt;td&gt;データ2&lt;/td&gt;&lt;/tr&gt;\n&lt;/table&gt;</code></pre>",
+      "question": "次のHTMLコードに `border-collapse: collapse;` が設定されていない場合、表の見映えはどうなりますか？<br><pre><code><table class=\"message-list\">\n  <tr><td>データ1</td><td>データ2</td></tr>\n</table></code></pre>",
       "options": [
         "各セルの境界線（枠線）が二重線のように分離して表示される",
         "セル同士の境界線が完全に消去される",
@@ -472,7 +472,7 @@
     {
       "id": 37,
       "type": "実行結果予測",
-      "question": "以下のフォーム内で `placeholder=\"メッセージを入力\"` を指定した場合、画面上の入力欄はどう表示されますか？<br><pre><code>&lt;input type=\"text\" class=\"message-input\" placeholder=\"メッセージを入力\"&gt;</code></pre>",
+      "question": "以下のフォーム内で `placeholder=\"メッセージを入力\"` を指定した場合、画面上の入力欄はどう表示されますか？<br><pre><code><input type=\"text\" class=\"message-input\" placeholder=\"メッセージを入力\"></code></pre>",
       "options": [
         "入力欄が空のときに薄いグレーの文字で「メッセージを入力」と表示され、入力し始めると消える",
         "入力欄に消せない固定文字列として「メッセージを入力」が残る",

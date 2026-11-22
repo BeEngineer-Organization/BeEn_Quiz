@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "Djangoのフォームでクロスサイトリクエストフォージェリ（CSRF）対策を行うために含める必須のテンプレートタグは何ですか？<br><pre><code>&lt;form action=\"{% url 'forum' topic.id %}\" method=\"POST\"&gt;\n    ___\n    &lt;input type=\"text\" name=\"message\"&gt;\n    &lt;input type=\"submit\" value=\"投稿\"&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "Djangoのフォームでクロスサイトリクエストフォージェリ（CSRF）対策を行うために含める必須のテンプレートタグは何ですか？<br><pre><code><form action=\"{% url 'forum' topic.id %}\" method=\"POST\">\n    ___\n    <input type=\"text\" name=\"message\">\n    <input type=\"submit\" value=\"投稿\">\n</form></code></pre>",
       "options": [
         "{% csrf_token %}",
         "{{ csrf_token }}",
@@ -30,7 +30,7 @@
     {
       "id": 3,
       "type": "コード穴埋め",
-      "question": "フォームデータを送信する際のHTTPメソッドとして、データベースへの登録処理等に適しているものはどれですか？<br><pre><code>&lt;form action=\"{% url 'forum' topic.id %}\" method=\"___\"&gt;</code></pre>",
+      "question": "フォームデータを送信する際のHTTPメソッドとして、データベースへの登録処理等に適しているものはどれですか？<br><pre><code><form action=\"{% url 'forum' topic.id %}\" method=\"___\"></code></pre>",
       "options": [
         "POST",
         "GET",
@@ -56,7 +56,7 @@
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "フォームの送信ボタンを作成するための `<input>` タグの `type` 属性は何ですか？<br><pre><code>&lt;input type=\"___\" value=\"投稿\"&gt;</code></pre>",
+      "question": "フォームの送信ボタンを作成するための `<input>` タグの `type` 属性は何ですか？<br><pre><code><input type=\"___\" value=\"投稿\"></code></pre>",
       "options": [
         "submit",
         "button",
@@ -95,7 +95,7 @@
     {
       "id": 8,
       "type": "実行結果予測",
-      "question": "フォームタグで `name=\"message\"` と指定した場合、ビュー関数で送信内容を取得する正しい記法はどれですか？<br><pre><code>&lt;input type=\"text\" name=\"message\"&gt;</code></pre>",
+      "question": "フォームタグで `name=\"message\"` と指定した場合、ビュー関数で送信内容を取得する正しい記法はどれですか？<br><pre><code><input type=\"text\" name=\"message\"></code></pre>",
       "options": [
         "request.POST[\"message\"]",
         "request.POST[\"text\"]",
@@ -134,7 +134,7 @@
     {
       "id": 11,
       "type": "コード穴埋め",
-      "question": "フォームの送信先（アクションURL）を名前付きURLパターン `forum`（引数 `topic.id`）で動的に指定する記述です。空欄に入るタグは何ですか？<br><pre><code>&lt;form action=\"___\" method=\"POST\"&gt;</code></pre>",
+      "question": "フォームの送信先（アクションURL）を名前付きURLパターン `forum`（引数 `topic.id`）で動的に指定する記述です。空欄に入るタグは何ですか？<br><pre><code><form action=\"___\" method=\"POST\"></code></pre>",
       "options": [
         "{% url 'forum' topic.id %}",
         "{{ url 'forum' topic.id }}",
@@ -199,7 +199,7 @@
     {
       "id": 16,
       "type": "実行結果予測",
-      "question": "ユーザーがテキストボックスに「こんにちは」と入力して送信ボタンを押した時、`request.POST[\"message\"]` に取得される文字列は何ですか？<br><pre><code>&lt;input type=\"text\" name=\"message\"&gt;</code></pre>",
+      "question": "ユーザーがテキストボックスに「こんにちは」と入力して送信ボタンを押した時、`request.POST[\"message\"]` に取得される文字列は何ですか？<br><pre><code><input type=\"text\" name=\"message\"></code></pre>",
       "options": [
         "\"こんにちは\"",
         "\"message\"",
@@ -225,7 +225,7 @@
     {
       "id": 18,
       "type": "コード穴埋め",
-      "question": "送信ボタンの表示テキストを「送信」から「投稿」に変更するために指定する属性は何ですか？<br><pre><code>&lt;input type=\"submit\" ___=\"投稿\"&gt;</code></pre>",
+      "question": "送信ボタンの表示テキストを「送信」から「投稿」に変更するために指定する属性は何ですか？<br><pre><code><input type=\"submit\" ___=\"投稿\"></code></pre>",
       "options": [
         "value",
         "text",
@@ -316,7 +316,7 @@
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "HTMLのフォームタグの開始タグと終了タグの構成として正しいものはどれですか？<br><pre><code>&lt;___ action=\"...\" method=\"POST\"&gt;\n    &lt;input type=\"text\" name=\"message\"&gt;\n&lt;/___&gt;</code></pre>",
+      "question": "HTMLのフォームタグの開始タグと終了タグの構成として正しいものはどれですか？<br><pre><code><___ action=\"...\" method=\"POST\">\n    <input type=\"text\" name=\"message\">\n</___></code></pre>",
       "options": [
         "form",
         "input",
@@ -381,7 +381,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "メッセージ入力用のテキストボックスに設定する `name` 属性の役割は何ですか？<br><pre><code>&lt;input type=\"text\" name=\"message\"&gt;</code></pre>",
+      "question": "メッセージ入力用のテキストボックスに設定する `name` 属性の役割は何ですか？<br><pre><code><input type=\"text\" name=\"message\"></code></pre>",
       "options": [
         "POST送信時にサーバー側で値を取り出すためのキー（識別名）となる",
         "テキストボックスに初期値として表示される文字",
@@ -407,7 +407,7 @@
     {
       "id": 32,
       "type": "実行結果予測",
-      "question": "次のHTMLコードが表示された画面で、「投稿」ボタンをクリックしたときに実行される処理はどれですか？<br><pre><code>&lt;form action=\"{% url 'forum' topic.id %}\" method=\"POST\"&gt;\n    {% csrf_token %}\n    &lt;input type=\"text\" name=\"message\"&gt;\n    &lt;input type=\"submit\" value=\"投稿\"&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "次のHTMLコードが表示された画面で、「投稿」ボタンをクリックしたときに実行される処理はどれですか？<br><pre><code><form action=\"{% url 'forum' topic.id %}\" method=\"POST\">\n    {% csrf_token %}\n    <input type=\"text\" name=\"message\">\n    <input type=\"submit\" value=\"投稿\">\n</form></code></pre>",
       "options": [
         "フォームに入力されたデータを `forum` のURLへPOSTリクエストとして送信する",
         "入力されたテキストを消去する（リセットする）",
@@ -446,7 +446,7 @@
     {
       "id": 35,
       "type": "コード穴埋め",
-      "question": "テンプレートファイル `forum.html` 内でホームへ戻るリンクを作成する記述です。空欄に入るタグを選んでください。<br><pre><code>&lt;a href=\"___\"&gt;ホームへ&lt;/a&gt;</code></pre>",
+      "question": "テンプレートファイル `forum.html` 内でホームへ戻るリンクを作成する記述です。空欄に入るタグを選んでください。<br><pre><code><a href=\"___\">ホームへ</a></code></pre>",
       "options": [
         "{% url 'index' %}",
         "{{ url 'index' }}",
@@ -472,7 +472,7 @@
     {
       "id": 37,
       "type": "コード穴埋め",
-      "question": "フォーム要素を囲むHTMLの終了タグはどれですか？<br><pre><code>&lt;form action=\"...\" method=\"POST\"&gt;\n    ...\n&lt;/___&gt;</code></pre>",
+      "question": "フォーム要素を囲むHTMLの終了タグはどれですか？<br><pre><code><form action=\"...\" method=\"POST\">\n    ...\n</___></code></pre>",
       "options": [
         "form",
         "input",

@@ -92,10 +92,10 @@
     {
       "id": 12,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、JavaScriptコードを記述するために使用するタグは何ですか？<pre><code>&lt;___&gt;\n    const stripe = Stripe(...);\n&lt;/___&gt;</code></pre>",
+      "question": "テンプレート内で、JavaScriptコードを記述するために使用するタグは何ですか？<pre><code><___>\n    const stripe = Stripe(...);\n</___></code></pre>",
       "options": ["js", "style", "script", "code"],
       "answer": 2,
-      "commentary": "JavaScriptは &lt;script&gt; タグの中に記述します。"
+      "commentary": "JavaScriptは <script> タグの中に記述します。"
     },
     {
       "id": 13,

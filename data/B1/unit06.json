@@ -36,7 +36,7 @@
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "ファイルを送信するフォームを作成する際、&lt;form&gt;タグに必ず記述しなければならない属性は何ですか？<pre><code>&lt;form method=\"POST\" ___=\"multipart/form-data\"&gt;</code></pre>",
+      "question": "ファイルを送信するフォームを作成する際、<form>タグに必ず記述しなければならない属性は何ですか？<pre><code><form method=\"POST\" ___=\"multipart/form-data\"></code></pre>",
       "options": ["type", "enctype", "action", "encoding"],
       "answer": 1,
       "commentary": "画像やファイルなどのバイナリデータを送信する場合、enctype=\"multipart/form-data\" の指定が必須です。"
@@ -76,7 +76,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "画像のファイル選択ボタン（&lt;input type=\"file\"&gt;）をデザインするために、CSSで元のボタンを消す際に使う指定はどれですか？<pre><code>input[type=\"file\"] {\n  ___: none;\n}</code></pre>",
+      "question": "画像のファイル選択ボタン（<input type=\"file\">）をデザインするために、CSSで元のボタンを消す際に使う指定はどれですか？<pre><code>input[type=\"file\"] {\n  ___: none;\n}</code></pre>",
       "options": ["visibility", "opacity", "display", "clear"],
       "answer": 2,
       "commentary": "display: none; を使うと、要素を画面から消しつつ、機能（ラベルからの呼び出しなど）を維持できます。"
@@ -212,7 +212,7 @@
     {
       "id": 27,
       "type": "コード穴埋め",
-      "question": "掲示板の一覧表示において、画像がある場合のimgタグのsrc属性には何を指定しますか？<pre><code>&lt;img src=\"___\" &gt;</code></pre>",
+      "question": "掲示板の一覧表示において、画像がある場合のimgタグのsrc属性には何を指定しますか？<pre><code><img src=\"___\" ></code></pre>",
       "options": ["{{ message.image }}", "{{ message.image.url }}", "{% static message.image %}", "/media/image.jpg"],
       "answer": 1,
       "commentary": "ImageFieldオブジェクトの .url 属性を渡すことで、適切なURLが出力されます。"
@@ -300,10 +300,10 @@
     {
       "id": 38,
       "type": "コード穴埋め",
-      "question": "HTMLテーブルで「見出し」を表すタグは何ですか？<pre><code>&lt;tr&gt;&lt;___&gt;投稿者&lt;/___&gt;&lt;/tr&gt;</code></pre>",
+      "question": "HTMLテーブルで「見出し」を表すタグは何ですか？<pre><code><tr><___>投稿者</___></tr></code></pre>",
       "options": ["td", "th", "tr", "table"],
       "answer": 1,
-      "commentary": "見出しセルには &lt;th&gt; (table header) タグを使用します。"
+      "commentary": "見出しセルには <th> (table header) タグを使用します。"
     },
     {
       "id": 39,

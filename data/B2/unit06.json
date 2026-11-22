@@ -12,7 +12,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "ターミナルからエミュレーターを起動するためのコマンドを完成させてください。<pre><code>flutter emulators ___ &lt;エミュレーター名&gt;</code></pre>",
+      "question": "ターミナルからエミュレーターを起動するためのコマンドを完成させてください。<pre><code>flutter emulators ___ <エミュレーター名></code></pre>",
       "options": ["--start", "--run", "--launch", "--open"],
       "answer": 2,
       "commentary": "--launch オプションに続けてエミュレーター名を指定することで起動が可能です。"

@@ -212,7 +212,7 @@
     {
       "id": 17,
       "type": "コード穴埋め",
-      "question": "テンプレート内で名前付きURL（例: 'login'）を呼び出し、動的にリンク先のURLアドレスを作るテンプレートタグはどれですか？<br><pre><code>&lt;a href=\"{% ___ 'login' %}\" class=\"button\"&gt;ログイン&lt;/a&gt;</code></pre>",
+      "question": "テンプレート内で名前付きURL（例: 'login'）を呼び出し、動的にリンク先のURLアドレスを作るテンプレートタグはどれですか？<br><pre><code><a href=\"{% ___ 'login' %}\" class=\"button\">ログイン</a></code></pre>",
       "options": [
         "url",
         "path",

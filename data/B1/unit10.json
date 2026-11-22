@@ -68,7 +68,7 @@
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、商品の詳細ページへpk（ID）を渡して移動するリンクを完成させてください。<pre><code>&lt;a href=\"{% url 'product_detail' ___ %}\"&gt;</code></pre>",
+      "question": "テンプレート内で、商品の詳細ページへpk（ID）を渡して移動するリンクを完成させてください。<pre><code><a href=\"{% url 'product_detail' ___ %}\"></code></pre>",
       "options": ["product.pk", "id=product.pk", "product.key", "product.number"],
       "answer": 0,
       "commentary": "urlタグの後にスペースを空けて、pk（プライマリキー）を渡します。ここでは product.pk と書きます。"
@@ -212,7 +212,7 @@
     {
       "id": 27,
       "type": "コード穴埋め",
-      "question": "商品一覧画面に「検索アイコン」を表示するために使われているライブラリのクラスは何ですか？<pre><code>&lt;i class=\"___ fa-search\"&gt;&lt;/i&gt;</code></pre>",
+      "question": "商品一覧画面に「検索アイコン」を表示するために使われているライブラリのクラスは何ですか？<pre><code><i class=\"___ fa-search\"></i></code></pre>",
       "options": ["far", "fas", "fab", "fai"],
       "answer": 1,
       "commentary": "Font Awesome の Solid スタイル（塗りつぶしアイコン）を使う際は fas を指定します。"
@@ -316,7 +316,7 @@
     {
       "id": 40,
       "type": "実行結果予測",
-      "question": "商品名を表示する <code>&lt;p&gt;￥{{ product.price }}&lt;/p&gt;</code> で、priceが1000の場合、画面にはどう出ますか？",
+      "question": "商品名を表示する <code><p>￥{{ product.price }}</p></code> で、priceが1000の場合、画面にはどう出ますか？",
       "options": ["￥{{ product.price }}", "1000", "￥1000", "price: 1000"],
       "answer": 2,
       "commentary": "テンプレート変数の前に書いた「￥」はそのまま表示され、その後に1000が代入されます。"

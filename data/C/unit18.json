@@ -82,7 +82,7 @@
     {
       "id": 7,
       "type": "コード穴埋め",
-      "question": "入力フォームや伏せ字のオン/オフなど、変化する UI（状態）を扱うために `SignupPage` が継承するクラスは何ですか？<br><pre><code>class SignupPage extends ___ {\n  const SignupPage({super.key});\n\n  @override\n  State&lt;SignupPage&gt; createState() =&gt; _SignupPageState();\n}</code></pre>",
+      "question": "入力フォームや伏せ字のオン/オフなど、変化する UI（状態）を扱うために `SignupPage` が継承するクラスは何ですか？<br><pre><code>class SignupPage extends ___ {\n  const SignupPage({super.key});\n\n  @override\n  State<SignupPage> createState() => _SignupPageState();\n}</code></pre>",
       "options": [
         "StatefulWidget",
         "StatelessWidget",
@@ -95,7 +95,7 @@
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "フォーム全体のバリデーションを管理するためのキーを定義する記述です。空欄に入る型名は何ですか？<br><pre><code>final _formKey = GlobalKey&lt;___&gt;();</code></pre>",
+      "question": "フォーム全体のバリデーションを管理するためのキーを定義する記述です。空欄に入る型名は何ですか？<br><pre><code>final _formKey = GlobalKey<___>();</code></pre>",
       "options": [
         "FormState",
         "FormFieldState",
@@ -108,7 +108,7 @@
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "ユーザー名入力フィールド個別のキーを定義する記述です。空欄に入る型名は何ですか？<br><pre><code>final _usernameKey = GlobalKey&lt;___&gt;();</code></pre>",
+      "question": "ユーザー名入力フィールド個別のキーを定義する記述です。空欄に入る型名は何ですか？<br><pre><code>final _usernameKey = GlobalKey<___>();</code></pre>",
       "options": [
         "FormFieldState",
         "FormState",

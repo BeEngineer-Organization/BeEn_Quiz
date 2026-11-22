@@ -276,7 +276,7 @@
     {
       "id": 35,
       "type": "文法チェック",
-      "question": "HTMLタグ <code>&lt;form&gt;</code> 内の <code>{% csrf_token %}</code> を書き忘れると、どのメソッドの送信が失敗しますか？",
+      "question": "HTMLタグ <code><form></code> 内の <code>{% csrf_token %}</code> を書き忘れると、どのメソッドの送信が失敗しますか？",
       "options": ["GET", "POST", "両方", "どちらも失敗しない"],
       "answer": 1,
       "commentary": "セキュリティ上の理由から、DjangoではPOSTリクエスト送信時にこのトークンが必須となっています。"
@@ -292,7 +292,7 @@
     {
       "id": 37,
       "type": "コード穴埋め",
-      "question": "テンプレートの <code>&lt;img src=\"{% static '...' %}\"&gt;</code> で、デフォルト画像を表示するために指定した正しいパスはどれですか？",
+      "question": "テンプレートの <code><img src=\"{% static '...' %}\"></code> で、デフォルト画像を表示するために指定した正しいパスはどれですか？",
       "options": ["main/img/default-image.png", "img/default.png", "static/default.png", "media/default.png"],
       "answer": 0,
       "commentary": "staticディレクトリ内の構成（アプリ名/img/...）に合わせて指定します。"

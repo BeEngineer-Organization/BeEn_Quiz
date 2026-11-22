@@ -4,7 +4,7 @@
     {
       "id": 1,
       "type": "コード穴埋め",
-      "question": "クエリパラメータ `feedType` を使って投稿一覧を取得するURLを生成するコードです。空欄に入る記述を選んでください。<br><pre><code>Future&lt;List&lt;Post&gt;&gt; fetchPosts({required String feedType}) async {\n  final url = '$baseUrl/posts/?feed=___';\n  final response = await dioClient.get(url);\n  ...\n}</code></pre>",
+      "question": "クエリパラメータ `feedType` を使って投稿一覧を取得するURLを生成するコードです。空欄に入る記述を選んでください。<br><pre><code>Future<List<Post>> fetchPosts({required String feedType}) async {\n  final url = '$baseUrl/posts/?feed=___';\n  final response = await dioClient.get(url);\n  ...\n}</code></pre>",
       "options": [
         "$feedType",
         "feedType",
@@ -56,7 +56,7 @@
     {
       "id": 5,
       "type": "コード穴埋め",
-      "question": "プロバイダーが引数（`feedType`）を受け取れるように `build` メソッドを書き換えるコードです。<br><pre><code>@riverpod\nclass PostList extends _$PostList {\n  @override\n  Future&lt;List&lt;Post&gt;&gt; build(___ feedType) async {\n    return await postServices.fetchPosts(feedType: feedType);\n  }\n}</code></pre>",
+      "question": "プロバイダーが引数（`feedType`）を受け取れるように `build` メソッドを書き換えるコードです。<br><pre><code>@riverpod\nclass PostList extends _$PostList {\n  @override\n  Future<List<Post>> build(___ feedType) async {\n    return await postServices.fetchPosts(feedType: feedType);\n  }\n}</code></pre>",
       "options": [
         "String",
         "int",

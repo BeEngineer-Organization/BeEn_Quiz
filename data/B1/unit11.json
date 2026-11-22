@@ -60,7 +60,7 @@
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、商品の説明文を表示するための正しい記述はどれですか？<pre><code>&lt;p&gt;___&lt;/p&gt;</code></pre>",
+      "question": "テンプレート内で、商品の説明文を表示するための正しい記述はどれですか？<pre><code><p>___</p></code></pre>",
       "options": ["{{ object.text }}", "{% object.explanation %}", "{{ object.explanation }}", "{{ object.desc }}"],
       "answer": 2,
       "commentary": "DetailViewが渡した「object」の「explanation」フィールドを表示します。"
@@ -76,7 +76,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "「カートに入れる」ボタンを押した際、現在の商品のIDを送信先URLに含めるための記述を完成させてください。<pre><code>&lt;form method=\"POST\" action=\"{% url 'product_detail' ___ %}\"&gt;</code></pre>",
+      "question": "「カートに入れる」ボタンを押した際、現在の商品のIDを送信先URLに含めるための記述を完成させてください。<pre><code><form method=\"POST\" action=\"{% url 'product_detail' ___ %}\"></code></pre>",
       "options": ["object.key", "object.pk", "pk=object.pk", "object.number"],
       "answer": 1,
       "commentary": "pk（プライマリキー）を渡すことで、どの商品に対するアクションかをサーバーに伝えます。"
@@ -132,7 +132,7 @@
     {
       "id": 17,
       "type": "コード穴埋め",
-      "question": "テンプレートのimgタグで、画像がない場合にデフォルト画像を表示する条件分岐を完成させてください。<pre><code>{% if object.image %}\n    &lt;img src=\"{{ object.image.url }}\"/&gt;\n{% ___ %}\n    &lt;img src=\"{% static 'main/img/default-image.png' %}\"/&gt;\n{% endif %}</code></pre>",
+      "question": "テンプレートのimgタグで、画像がない場合にデフォルト画像を表示する条件分岐を完成させてください。<pre><code>{% if object.image %}\n    <img src=\"{{ object.image.url }}\"/>\n{% ___ %}\n    <img src=\"{% static 'main/img/default-image.png' %}\"/>\n{% endif %}</code></pre>",
       "options": ["elif", "else", "not", "when"],
       "answer": 1,
       "commentary": "条件が満たされない場合の処理には「else」を使用します。"
@@ -156,7 +156,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "テンプレート内で、ビューから渡されたフォームを自動的に表示するための記述はどれですか？<pre><code>&lt;form&gt;\n    ___ \n    &lt;button&gt;送信&lt;/button&gt;\n&lt;/form&gt;</code></pre>",
+      "question": "テンプレート内で、ビューから渡されたフォームを自動的に表示するための記述はどれですか？<pre><code><form>\n    ___ \n    <button>送信</button>\n</form></code></pre>",
       "options": ["{{ object.form }}", "{{ form }}", "{% form %}", "[[ form ]]"],
       "answer": 1,
       "commentary": "ビューの get_context_data で context[\"form\"] に入れた値は、テンプレートで {{ form }} として呼び出せます。"
@@ -180,7 +180,7 @@
     {
       "id": 23,
       "type": "コード穴埋め",
-      "question": "フォームを送信するためのボタン（HTMLタグ）は何ですか？<pre><code>&lt;___ type=\"submit\"&gt;カートに入れる&lt;/___&gt;</code></pre>",
+      "question": "フォームを送信するためのボタン（HTMLタグ）は何ですか？<pre><code><___ type=\"submit\">カートに入れる</___></code></pre>",
       "options": ["input", "button", "send", "click"],
       "answer": 1,
       "commentary": "buttonタグに type=\"submit\" を指定することでフォームが送信されます。"
@@ -204,7 +204,7 @@
     {
       "id": 26,
       "type": "コード穴埋め",
-      "question": "価格を表示する際に「￥」マークを付ける正しいテンプレートの書き方は？<pre><code>&lt;p&gt;___ {{ object.price }}&lt;/p&gt;</code></pre>",
+      "question": "価格を表示する際に「￥」マークを付ける正しいテンプレートの書き方は？<pre><code><p>___ {{ object.price }}</p></code></pre>",
       "options": ["$", "\\", "￥", "円"],
       "answer": 2,
       "commentary": "テンプレート変数の前に普通の文字として書くことで、金額の前に円記号が付きます。"
@@ -247,7 +247,7 @@
       "question": "DetailViewにおける「pk」がURLからビューに渡されるまでの交通整理をしているファイルは何ですか？",
       "options": ["models.py", "views.py", "urls.py", "admin.py"],
       "answer": 2,
-      "commentary": "URLのパスパターン（&lt;int:pk&gt;など）を定義しているのは urls.py です。"
+      "commentary": "URLのパスパターン（<int:pk>など）を定義しているのは urls.py です。"
     },
     {
       "id": 32,

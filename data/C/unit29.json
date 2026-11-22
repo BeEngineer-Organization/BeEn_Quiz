@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "ボトムシートを表示するために呼び出すFlutter標準の関数は何ですか？<br><pre><code>void onMoreVertPressed(BuildContext context) {\n  ___&lt;void&gt;(\n    context: context,\n    useRootNavigator: true,\n    showDragHandle: true,\n    builder: (context) => ActionSheet(...),\n  );\n}</code></pre>",
+      "question": "ボトムシートを表示するために呼び出すFlutter標準の関数は何ですか？<br><pre><code>void onMoreVertPressed(BuildContext context) {\n  ___<void>(\n    context: context,\n    useRootNavigator: true,\n    showDragHandle: true,\n    builder: (context) => ActionSheet(...),\n  );\n}</code></pre>",
       "options": [
         "showModalBottomSheet",
         "showBottomSheet",

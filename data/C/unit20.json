@@ -459,7 +459,7 @@
     {
       "id": 36,
       "type": "コード穴埋め",
-      "question": "curlコマンドでアクセストークンをヘッダーに載せてGETリクエストを送るコードです。空欄に入る標準の通信ヘッダー名は何ですか？<br><pre><code>curl -X GET http://127.0.0.1:8000/api/posts/ \\\n  -H \"___: Bearer &lt;アクセストークン&gt;\"</code></pre>",
+      "question": "curlコマンドでアクセストークンをヘッダーに載せてGETリクエストを送るコードです。空欄に入る標準の通信ヘッダー名は何ですか？<br><pre><code>curl -X GET http://127.0.0.1:8000/api/posts/ \\\n  -H \"___: Bearer <アクセストークン>\"</code></pre>",
       "options": [
         "Authorization",
         "Authentication",
@@ -472,7 +472,7 @@
     {
       "id": 37,
       "type": "コード穴埋め",
-      "question": "`Authorization` ヘッダーでJWT形式のトークンを送る際に、トークン文字列の直前に置く標準キーワードは何ですか？<br><pre><code>-H \"Authorization: ___ &lt;アクセストークン&gt;\"</code></pre>",
+      "question": "`Authorization` ヘッダーでJWT形式のトークンを送る際に、トークン文字列の直前に置く標準キーワードは何ですか？<br><pre><code>-H \"Authorization: ___ <アクセストークン>\"</code></pre>",
       "options": [
         "Bearer",
         "Token",

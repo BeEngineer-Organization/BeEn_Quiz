@@ -316,7 +316,7 @@
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "curlコマンドでログイン中の自分のアカウント情報を取得するAPI（GET）を呼ぶコードです。空欄に入るURLパスを選んでください。<br><pre><code>curl -X GET http://127.0.0.1:8000/api/auth/___/ \\\n  -H \"Authorization: Bearer &lt;アクセストークン&gt;\"</code></pre>",
+      "question": "curlコマンドでログイン中の自分のアカウント情報を取得するAPI（GET）を呼ぶコードです。空欄に入るURLパスを選んでください。<br><pre><code>curl -X GET http://127.0.0.1:8000/api/auth/___/ \\\n  -H \"Authorization: Bearer <アクセストークン>\"</code></pre>",
       "options": [
         "accounts/me",
         "accounts/profile",
@@ -329,7 +329,7 @@
     {
       "id": 26,
       "type": "コード穴埋め",
-      "question": "curlコマンドでアカウントのステータスメッセージのみを部分更新するコードです。空欄に入るHTTPメソッドフラグを選んでください。<br><pre><code>curl ___ PATCH http://127.0.0.1:8000/api/auth/accounts/me/ \\\n  -H \"Authorization: Bearer &lt;トークン&gt;\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"status_message\":\"新しいメッセージ\"}'</code></pre>",
+      "question": "curlコマンドでアカウントのステータスメッセージのみを部分更新するコードです。空欄に入るHTTPメソッドフラグを選んでください。<br><pre><code>curl ___ PATCH http://127.0.0.1:8000/api/auth/accounts/me/ \\\n  -H \"Authorization: Bearer <トークン>\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"status_message\":\"新しいメッセージ\"}'</code></pre>",
       "options": [
         "-X",
         "-M",

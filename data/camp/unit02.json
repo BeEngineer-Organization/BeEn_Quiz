@@ -69,7 +69,7 @@
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "得点がマイナスのときに、一番小さいカード（先頭の要素）を出す処理です。空欄に入るインデックスを選んでください。<pre><code>elif current_score &lt; 0:\n    return sorted_hand[___]</code></pre>",
+      "question": "得点がマイナスのときに、一番小さいカード（先頭の要素）を出す処理です。空欄に入るインデックスを選んでください。<pre><code>elif current_score < 0:\n    return sorted_hand[___]</code></pre>",
       "options": [
         "-1",
         "0",
@@ -134,7 +134,7 @@
     {
       "id": 11,
       "type": "実行結果予測",
-      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>current_score = -50\nif current_score &lt;= -50:\n    print(\"最小を出す\")\nelse:\n    print(\"その他\")</code></pre>",
+      "question": "次のコードを実行したときの出力結果を選んでください。<pre><code>current_score = -50\nif current_score <= -50:\n    print(\"最小を出す\")\nelse:\n    print(\"その他\")</code></pre>",
       "options": [
         "何も表示されない",
         "その他",
@@ -381,7 +381,7 @@
     {
       "id": 30,
       "type": "コード穴埋め",
-      "question": "得点が 50 点以上のマイナス（-50以下）のときに、一番小さなカードを出す条件式です。空欄に入る記号を選んでください。<pre><code>elif current_score &lt; 0:\n    if current_score ___ -50:\n        return sorted_hand[0]</code></pre>",
+      "question": "得点が 50 点以上のマイナス（-50以下）のときに、一番小さなカードを出す条件式です。空欄に入る記号を選んでください。<pre><code>elif current_score < 0:\n    if current_score ___ -50:\n        return sorted_hand[0]</code></pre>",
       "options": [
         "<=",
         ">=",
@@ -601,7 +601,7 @@
     },
     {
       "type": "実行結果予測",
-      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>def check(score):\n    if score &gt; 0:\n        return \"A\"\n    if score &gt;= 100:\n        return \"B\"\n    return \"C\"\n\nprint(check(120))</code></pre>",
+      "question": "次のコードを実行したときの表示結果を選んでください。<pre><code>def check(score):\n    if score > 0:\n        return \"A\"\n    if score >= 100:\n        return \"B\"\n    return \"C\"\n\nprint(check(120))</code></pre>",
       "options": [
         "B",
         "A",

@@ -17,7 +17,7 @@
     {
       "id": 2,
       "type": "コード穴埋め",
-      "question": "テンプレート内で名前付きURLに引数（IDなど）を渡す正しい記法はどれですか？<br><pre><code>&lt;a href=\"{% url 'forum' ___ %}\"&gt;{{ topic.name }}の掲示板へ&lt;/a&gt;</code></pre>",
+      "question": "テンプレート内で名前付きURLに引数（IDなど）を渡す正しい記法はどれですか？<br><pre><code><a href=\"{% url 'forum' ___ %}\">{{ topic.name }}の掲示板へ</a></code></pre>",
       "options": [
         "topic.id",
         "id=topic.id",
@@ -121,7 +121,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "テンプレート内で各メッセージの内容と投稿日時をテーブルに表示する処理です。空欄に入るタグは何ですか？<br><pre><code>{% for message in messages %}\n  &lt;tr&gt;\n    &lt;td&gt;{{ message.content }}&lt;/td&gt;\n    &lt;td&gt;{{ message.___ }}&lt;/td&gt;\n  &lt;/tr&gt;\n{% endfor %}</code></pre>",
+      "question": "テンプレート内で各メッセージの内容と投稿日時をテーブルに表示する処理です。空欄に入るタグは何ですか？<br><pre><code>{% for message in messages %}\n  <tr>\n    <td>{{ message.content }}</td>\n    <td>{{ message.___ }}</td>\n  </tr>\n{% endfor %}</code></pre>",
       "options": [
         "created_at",
         "post_date",
@@ -173,7 +173,7 @@
     {
       "id": 14,
       "type": "実行結果予測",
-      "question": "次のテンプレートタグを実行した際、`topic.id` が `3` の場合に出力されるHTML属性はどれですか？<br><pre><code>&lt;a href=\"{% url 'forum' topic.id %}\"&gt;掲示板へ&lt;/a&gt;</code></pre>",
+      "question": "次のテンプレートタグを実行した際、`topic.id` が `3` の場合に出力されるHTML属性はどれですか？<br><pre><code><a href=\"{% url 'forum' topic.id %}\">掲示板へ</a></code></pre>",
       "options": [
         "href=\"/forum/3/\"（設定されたパスに変換される）",
         "href=\"{% url 'forum' 3 %}\"",
@@ -251,7 +251,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "ビュー関数で `topic` オブジェクトをテンプレートへ渡し、その名前を表示させるテンプレート記述はどれですか？<br><pre><code>&lt;h2&gt;{{ ___ }}&lt;/h2&gt;</code></pre>",
+      "question": "ビュー関数で `topic` オブジェクトをテンプレートへ渡し、その名前を表示させるテンプレート記述はどれですか？<br><pre><code><h2>{{ ___ }}</h2></code></pre>",
       "options": [
         "topic.name",
         "topic_id",
@@ -277,7 +277,7 @@
     {
       "id": 22,
       "type": "コード穴埋め",
-      "question": "以下の `urls.py` の定義に対応する、URLパターンの例として正しいものはどれですか？<br><pre><code>path('&lt;int:topic_id&gt;/', views.forum, name='forum')</code></pre>",
+      "question": "以下の `urls.py` の定義に対応する、URLパターンの例として正しいものはどれですか？<br><pre><code>path('<int:topic_id>/', views.forum, name='forum')</code></pre>",
       "options": [
         "/1/",
         "/topic_id/",
@@ -303,7 +303,7 @@
     {
       "id": 24,
       "type": "コード穴埋め",
-      "question": "HTMLのテーブル（表）の行を定義するタグは何ですか？<br><pre><code>&lt;table&gt;\n  &lt;___&gt;\n    &lt;th&gt;投稿内容&lt;/th&gt;\n    &lt;th&gt;投稿日時&lt;/th&gt;\n  &lt;/___&gt;\n&lt;/table&gt;</code></pre>",
+      "question": "HTMLのテーブル（表）の行を定義するタグは何ですか？<br><pre><code><table>\n  <___>\n    <th>投稿内容</th>\n    <th>投稿日時</th>\n  </___>\n</table></code></pre>",
       "options": [
         "tr",
         "td",
@@ -316,7 +316,7 @@
     {
       "id": 25,
       "type": "コード穴埋め",
-      "question": "HTMLのテーブル（表）のデータセルを定義するタグは何ですか？<br><pre><code>&lt;tr&gt;\n  &lt;___&gt;{{ message.content }}&lt;/___&gt;\n  &lt;___&gt;{{ message.created_at }}&lt;/___&gt;\n&lt;/tr&gt;</code></pre>",
+      "question": "HTMLのテーブル（表）のデータセルを定義するタグは何ですか？<br><pre><code><tr>\n  <___>{{ message.content }}</___>\n  <___>{{ message.created_at }}</___>\n</tr></code></pre>",
       "options": [
         "td",
         "th",
@@ -329,7 +329,7 @@
     {
       "id": 26,
       "type": "コード穴埋め",
-      "question": "HTMLのテーブル（表）の見出しセルを定義するタグは何ですか？<br><pre><code>&lt;tr&gt;\n  &lt;___&gt;投稿内容&lt;/___&gt;\n  &lt;___&gt;投稿日時&lt;/___&gt;\n&lt;/tr&gt;</code></pre>",
+      "question": "HTMLのテーブル（表）の見出しセルを定義するタグは何ですか？<br><pre><code><tr>\n  <___>投稿内容</___>\n  <___>投稿日時</___>\n</tr></code></pre>",
       "options": [
         "th",
         "td",
@@ -394,7 +394,7 @@
     {
       "id": 31,
       "type": "コード穴埋め",
-      "question": "テンプレート内でトップページ（'index'）へ戻るハイパーリンクの記述です。空欄に入る適切なタグを選んでください。<br><pre><code>&lt;a href=\"___\"&gt;ホームへ&lt;/a&gt;</code></pre>",
+      "question": "テンプレート内でトップページ（'index'）へ戻るハイパーリンクの記述です。空欄に入る適切なタグを選んでください。<br><pre><code><a href=\"___\">ホームへ</a></code></pre>",
       "options": [
         "{% url 'index' %}",
         "{{ url 'index' }}",
@@ -407,7 +407,7 @@
     {
       "id": 32,
       "type": "実行結果予測",
-      "question": "次のコードで `context` 内に `messages` が正しく設定されているとき、メッセージが1件も存在しない場合、テンプレートの `for` ループはどう処理されますか？<br><pre><code>{% for message in messages %}\n  &lt;tr&gt;&lt;td&gt;{{ message.content }}&lt;/td&gt;&lt;/tr&gt;\n{% endfor %}</code></pre>",
+      "question": "次のコードで `context` 内に `messages` が正しく設定されているとき、メッセージが1件も存在しない場合、テンプレートの `for` ループはどう処理されますか？<br><pre><code>{% for message in messages %}\n  <tr><td>{{ message.content }}</td></tr>\n{% endfor %}</code></pre>",
       "options": [
         "ループ内のHTMLは描画されず、エラーも起きずにスキップされる",
         "エラーが発生する",
@@ -433,7 +433,7 @@
     {
       "id": 34,
       "type": "コード穴埋め",
-      "question": "URLパターン名 `forum` に対して、`topic.id` の値が `5` のときにテンプレートタグ `{% url 'forum' topic.id %}` が出力する結果はどれですか？<br><pre><code># urls.py\npath('&lt;int:topic_id&gt;/', views.forum, name='forum')</code></pre>",
+      "question": "URLパターン名 `forum` に対して、`topic.id` の値が `5` のときにテンプレートタグ `{% url 'forum' topic.id %}` が出力する結果はどれですか？<br><pre><code># urls.py\npath('<int:topic_id>/', views.forum, name='forum')</code></pre>",
       "options": [
         "/5/",
         "forum/5",
@@ -511,7 +511,7 @@
     {
       "id": 40,
       "type": "コード穴埋め",
-      "question": "テンプレート内でメッセージオブジェクトの本文を表示する属性アクセスとして適切なものはどれですか？<br><pre><code>&lt;td&gt;{{ message.___ }}&lt;/td&gt;</code></pre>",
+      "question": "テンプレート内でメッセージオブジェクトの本文を表示する属性アクセスとして適切なものはどれですか？<br><pre><code><td>{{ message.___ }}</td></code></pre>",
       "options": [
         "content",
         "text",

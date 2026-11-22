@@ -369,8 +369,8 @@ function escapeHtml(text) {
 function escapeAnglesInsidePre(block) {
   return block.replace(/(<pre\b[^>]*>)([\s\S]*?)(<\/pre>)/i, (_, open, inner, close) => {
     const escaped = inner.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    const restored = escaped.replace(/&lt;(\/?)(code|br)(\s[^&]*?)?&gt;/gi, (__, slash, tag) => {
-      if (tag.toLowerCase() === "br") return "<br>";
+    // <code> だけタグに戻す。<br> はコード例の文字として残す。
+    const restored = escaped.replace(/&lt;(\/?)(code)(\s[^&]*?)?&gt;/gi, (__, slash, tag) => {
       return `<${slash}${tag.toLowerCase()}>`;
     });
     return open + restored + close;
@@ -385,9 +385,10 @@ function escapeLiteralHtmlTagsOutsidePre(html) {
     preBlocks.push(escapeAnglesInsidePre(block));
     return token;
   });
-  // <pre> 外の HTML 風タグは文字として表示（例: <a>, <span>）。ただし <br> は改行として活かす。
+  // <pre> 外では、装飾用のタグだけ残す。それ以外（<a> や <form> など）は文字として表示する。
   const escaped = withPlaceholders.replace(/<[^>]+>/g, (tag) => {
     if (/^<br\s*\/?>$/i.test(tag)) return "<br>";
+    if (/^<\/?(code|strong|em|b|i|span|p)\b[^>]*>$/i.test(tag)) return tag;
     return tag.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   });
   // `コード` 記法をインラインコード表示に変換（この時点でタグ記号は既にエスケープ済み）。

@@ -95,7 +95,7 @@
     {
       "id": 8,
       "type": "コード穴埋め",
-      "question": "`FlutterSecureStorage` を使って、指定したキーでトークン文字列を暗号化保存するメソッドです。<br><pre><code>Future&lt;void&gt; saveToken(String key, String token) async {\n  await _secureStorage.___(key: key, value: token);\n}</code></pre>",
+      "question": "`FlutterSecureStorage` を使って、指定したキーでトークン文字列を暗号化保存するメソッドです。<br><pre><code>Future<void> saveToken(String key, String token) async {\n  await _secureStorage.___(key: key, value: token);\n}</code></pre>",
       "options": [
         "write",
         "save",
@@ -108,7 +108,7 @@
     {
       "id": 9,
       "type": "コード穴埋め",
-      "question": "`FlutterSecureStorage` から指定したキーの保存トークンを読み出すメソッドです。<br><pre><code>Future&lt;String?&gt; getToken(String key) async {\n  return _secureStorage.___(key: key);\n}</code></pre>",
+      "question": "`FlutterSecureStorage` から指定したキーの保存トークンを読み出すメソッドです。<br><pre><code>Future<String?> getToken(String key) async {\n  return _secureStorage.___(key: key);\n}</code></pre>",
       "options": [
         "read",
         "get",
@@ -121,7 +121,7 @@
     {
       "id": 10,
       "type": "コード穴埋め",
-      "question": "`FlutterSecureStorage` に保存されている全データを削除するメソッドです。<br><pre><code>Future&lt;void&gt; deleteAllToken() async {\n  return _secureStorage.___();\n}</code></pre>",
+      "question": "`FlutterSecureStorage` に保存されている全データを削除するメソッドです。<br><pre><code>Future<void> deleteAllToken() async {\n  return _secureStorage.___();\n}</code></pre>",
       "options": [
         "deleteAll",
         "clear",
@@ -212,7 +212,7 @@
     {
       "id": 17,
       "type": "コード穴埋め",
-      "question": "DioがHTTPリクエストを実際に送信する「直前」に自動呼び出しされるインターセプターメソッドです。<br><pre><code>@override\nFuture&lt;void&gt; ____(\n  RequestOptions options,\n  RequestInterceptorHandler handler,\n) async</code></pre>",
+      "question": "DioがHTTPリクエストを実際に送信する「直前」に自動呼び出しされるインターセプターメソッドです。<br><pre><code>@override\nFuture<void> ____(\n  RequestOptions options,\n  RequestInterceptorHandler handler,\n) async</code></pre>",
       "options": [
         "onRequest",
         "beforeRequest",
@@ -225,7 +225,7 @@
     {
       "id": 18,
       "type": "コード穴埋め",
-      "question": "送信予定のリクエスト情報（URLやヘッダーなど）を保持しているオブジェクトの型は何ですか？<br><pre><code>Future&lt;void&gt; onRequest(\n  ___ options,\n  RequestInterceptorHandler handler,\n) async</code></pre>",
+      "question": "送信予定のリクエスト情報（URLやヘッダーなど）を保持しているオブジェクトの型は何ですか？<br><pre><code>Future<void> onRequest(\n  ___ options,\n  RequestInterceptorHandler handler,\n) async</code></pre>",
       "options": [
         "RequestOptions",
         "DioOptions",
@@ -329,7 +329,7 @@
     {
       "id": 26,
       "type": "コード穴埋め",
-      "question": "`PostsService` で投稿一覧を取得するため、GETリクエストを送信するコードです。<br><pre><code>Future&lt;Response&gt; fetchPosts() async {\n  final url = '$baseUrl/posts/';\n  final response = await dioClient.___(url);\n  return response;\n}</code></pre>",
+      "question": "`PostsService` で投稿一覧を取得するため、GETリクエストを送信するコードです。<br><pre><code>Future<Response> fetchPosts() async {\n  final url = '$baseUrl/posts/';\n  final response = await dioClient.___(url);\n  return response;\n}</code></pre>",
       "options": [
         "get",
         "post",
@@ -368,7 +368,7 @@
     {
       "id": 29,
       "type": "コード穴埋め",
-      "question": "`HomePage` の状態管理クラスの定義部分です。空欄に入る親クラスの型指定を選んでください。<br><pre><code>class HomePage extends StatefulWidget {\n  const HomePage({super.key});\n\n  @override\n  State&lt;HomePage&gt; createState() =&gt; _PostsTestPageState();\n}\n\nclass _PostsTestPageState extends State&lt;___&gt;</code></pre>",
+      "question": "`HomePage` の状態管理クラスの定義部分です。空欄に入る親クラスの型指定を選んでください。<br><pre><code>class HomePage extends StatefulWidget {\n  const HomePage({super.key});\n\n  @override\n  State<HomePage> createState() => _PostsTestPageState();\n}\n\nclass _PostsTestPageState extends State<___></code></pre>",
       "options": [
         "HomePage",
         "StatefulWidget",

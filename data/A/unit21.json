@@ -44,7 +44,7 @@
     {
       "id": 6,
       "type": "コード穴埋め",
-      "question": "結果画面で、全ての選択肢を繰り返して表示するためのタグは何ですか？<pre><code>___ choice in question.choices.all ___\n    &lt;li&gt;{{ choice.choice_text }}&lt;/li&gt;\n___ endfor ___</code></pre>",
+      "question": "結果画面で、全ての選択肢を繰り返して表示するためのタグは何ですか？<pre><code>___ choice in question.choices.all ___\n    <li>{{ choice.choice_text }}</li>\n___ endfor ___</code></pre>",
       "options": ["{{ for }} / {{ }}", "{% for %} / {% %}", "{% if %} / {% %}", "[[ for ]] / [[ ]]"],
       "answer": 1,
       "commentary": "繰り返し処理には {% for %} タグを使用し、最後は {% endfor %} で閉じます。"
@@ -116,10 +116,10 @@
     {
       "id": 15,
       "type": "コード穴埋め",
-      "question": "特定の文字（票数など）の色だけを変えたいときに、その部分だけを囲むのによく使われるタグは何ですか？<pre><code>&lt;___ class=\"vote-count\"&gt;{{ choice.votes }}&lt;/___&gt; 票</code></pre>",
+      "question": "特定の文字（票数など）の色だけを変えたいときに、その部分だけを囲むのによく使われるタグは何ですか？<pre><code><___ class=\"vote-count\">{{ choice.votes }}</___> 票</code></pre>",
       "options": ["div", "span", "p", "section"],
       "answer": 1,
-      "commentary": "文章の一部だけにスタイルを当てたいときは、インライン要素である &lt;span&gt; を使います。"
+      "commentary": "文章の一部だけにスタイルを当てたいときは、インライン要素である <span> を使います。"
     },
     {
       "id": 16,
@@ -148,7 +148,7 @@
     {
       "id": 19,
       "type": "コード穴埋め",
-      "question": "静的ファイル（CSS）を読み込むlinkタグの「rel」属性には何と書きますか？<pre><code>&lt;link ___=\"stylesheet\" href=\"...\"&gt;</code></pre>",
+      "question": "静的ファイル（CSS）を読み込むlinkタグの「rel」属性には何と書きますか？<pre><code><link ___=\"stylesheet\" href=\"...\"></code></pre>",
       "options": ["type", "rel", "class", "role"],
       "answer": 1,
       "commentary": "rel=\"stylesheet\" と書くことで、CSSファイルであることをブラウザに伝えます。"
@@ -156,7 +156,7 @@
     {
       "id": 20,
       "type": "実行結果予測",
-      "question": "「list-style: none;」を指定した &lt;ul&gt; タグの表示はどうなりますか？",
+      "question": "「list-style: none;」を指定した <ul> タグの表示はどうなりますか？",
       "options": ["横並びになる", "箇条書きの「●」が消える", "文字が消える", "背景が黒くなる"],
       "answer": 1,
       "commentary": "リスト特有のマーカーを消して、自由なデザインを作れるようにします。"
@@ -207,7 +207,7 @@
       "question": "urls.pyで results ページのURLパターンを定義する際、idを受け取る正しい書き方はどれですか？",
       "options": ["path('<id>/results/')", "path('<int:question_id>/results/')", "path('results/<id>/')", "path('question_id/results/')"],
       "answer": 1,
-      "commentary": "&lt;型:変数名&gt; の形式で、ビューの引数名と合わせます。"
+      "commentary": "<型:変数名> の形式で、ビューの引数名と合わせます。"
     },
     {
       "id": 27,
@@ -221,7 +221,7 @@
       "id": 28,
       "type": "用語理解",
       "question": "Djangoテンプレート内で {% load static %} を記述する、最も適切な場所はどこですか？",
-      "options": ["&lt;head&gt; の中", "&lt;body&gt; の一番下", "ファイルの先頭（一番上）", "CSSファイルを読み込む直前"],
+      "options": ["<head> の中", "<body> の一番下", "ファイルの先頭（一番上）", "CSSファイルを読み込む直前"],
       "answer": 2,
       "commentary": "慣習として、またエラーを防ぐために、ファイルの冒頭に記述します。"
     },
@@ -231,7 +231,7 @@
       "question": "テンプレートの href=\"{% url 'detail' question.id %}\" で、question.id が 5 の場合、どのようなURLが生成されますか？",
       "options": ["/polls/results/5/", "/polls/5/", "/detail/5/", "/5/detail/"],
       "answer": 1,
-      "commentary": "detailという名前で登録されたURL（/polls/&lt;int:question_id&gt;/）に基づいて生成されます。"
+      "commentary": "detailという名前で登録されたURL（/polls/<int:question_id>/）に基づいて生成されます。"
     },
     {
       "id": 30,
@@ -303,7 +303,7 @@
       "question": "複数のCSSファイルを読み込みたい場合、どのように記述しますか？",
       "options": ["1つのlinkタグの中にまとめて書く", "必要な数だけlinkタグを並べて書く", "読み込めない（1つ限定）", "HTMLではなくPythonで指定する"],
       "answer": 1,
-      "commentary": "各ファイルごとに &lt;link&gt; タグを記述して読み込みます。"
+      "commentary": "各ファイルごとに <link> タグを記述して読み込みます。"
     },
     {
       "id": 39,

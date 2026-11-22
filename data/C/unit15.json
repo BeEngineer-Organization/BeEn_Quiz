@@ -251,7 +251,7 @@
     {
       "id": 20,
       "type": "コード穴埋め",
-      "question": "クライアントがAPIリクエストを送る際、HTTPヘッダーにアクセストークンを添付する標準的な記述です。空欄に入るキーワードを選んでください。<br><pre><code>Authorization: ___ &lt;access-token&gt;</code></pre>",
+      "question": "クライアントがAPIリクエストを送る際、HTTPヘッダーにアクセストークンを添付する標準的な記述です。空欄に入るキーワードを選んでください。<br><pre><code>Authorization: ___ <access-token></code></pre>",
       "options": [
         "Bearer",
         "Token",
